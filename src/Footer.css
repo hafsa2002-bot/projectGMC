@@ -1,0 +1,30 @@
+footer{
+    margin-top:600px;
+    background-color: rgb(27, 27, 27);
+    color:white;
+}
+footer > div{
+    display:flex;
+    justify-content: center;
+    gap:100px
+}
+.footerList{
+    list-style: none;
+    padding-left:12px;
+}
+.footerList a{
+    text-decoration: none;
+    color:rgb(105, 105, 105);
+    font-weight: 500;
+}
+.socialMediaList{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:8px;
+}
+.socialMediaList a{
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
