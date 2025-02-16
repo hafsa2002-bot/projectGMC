@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* .bg-design {
+  background-image: url('/design.jpg');
+  background-size: cover;
+  background-position: center;
+} */
+
 body {
+  /* background-image: url('https://brandio.io/envato/iofrm/html/images/graphic8.svg'); */
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

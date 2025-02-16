@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom'
 function SignUp() {
   return (
     <>
-        <div className='flex flex-col items-center justify-center h-screen gap-10'>
+    <div className="flex flex-col items-center justify-center h-screen gap-20 bg-[url('https://brandio.io/envato/iofrm/html/images/graphic8.svg')] bg-[500px_auto] bg-no-repeat bg-center">
         <div className='flex gap-4 mb-8'>
             <Ratio size = {40} className='text-blue-600 '/> 
             <h2 className='font-bold text-3xl text-blue-600'>WebSite Name</h2>
         </div>
-        <div className='w-1/3 rounded-xl  bg-white flex flex-col items-center pb-5'>
+        <div className='w-96 rounded-xl  bg-white flex flex-col items-center pb-5 relative bottom-9'>
             <div className='bg-blue-600 w-16 h-16 rounded-full flex justify-center items-center relative bottom-6'>
                 <UserRoundPlus color='white' size = {38} />
             </div>
