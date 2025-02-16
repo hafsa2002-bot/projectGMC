@@ -1,16 +1,16 @@
 import React from 'react'
 import {Search, UserRound, CircleUserRound, House, Ratio, ScanBarcode, ShoppingBag, ShoppingBasket, ChartNoAxesCombined } from 'lucide-react'
-
+import { Link } from 'react-router-dom'
 
 function Nav() {
     return (
         <div>
             <nav className='flex justify-between items-center bg-white text-blue-600 py-4 px-6 border-b border-gray-300'>
                 <div className='div1_nav flex justify-center gap-6 items-center'>
-                    <div className='logoNav gap-1.5 flex justify-center items-center'>
+                    <Link to="/" className='logoNav gap-1.5 flex justify-center items-center'>
                         <Ratio size = {30}/> 
                         <h2 className='font-bold text-2xl'>Novexa</h2>
-                    </div>
+                    </Link>
                     <div className='flex  gap-1.5  justify-center'>
                         <select className='selectNav border-none bg-transparent text-blue-600 text-lg'>
                             <option value="" disabled selected className=''>Select a category</option>
@@ -23,7 +23,7 @@ function Nav() {
                 </div>
                 <div className='logInNav flex justify-center w-32 gap-2.5 py-2 px-2 border border-blue-600 rounded-xl items-center overflow-hidden '>{/* items-center  gap-0 */}
                     <div className='profile-img'><UserRound /></div>
-                    <a href='' className='no-underline  text-xl font-medium'><p className='text-blue-600'>Log in</p></a>
+                    <Link to='/login' className='no-underline  text-xl font-medium'><p className='text-blue-600'>Log in</p></Link>
                 </div>
             </nav>
 
