@@ -32,9 +32,9 @@ function Nav(props) {
                     <Link to={"/ContactUs"} >Contact Us</Link>
                 </div>
                 <div className=' w-1/3 flex justify-end items-center' >
-                    <div className='text-lg font-semibold border-2 px-4 py-1 rounded-full'>
-                        <Link to={"/login"}>LogIn</Link>
-                    </div>
+                    <Link to={"/login"} className='text-lg font-semibold border-2 px-4 py-1 rounded-full hover:bg-white hover:text-black hover:px-8 hover:mr-0 mr-2'>
+                        <p>LogIn</p>
+                    </Link>
                     {
                         props.details && (
                             <div className=''>

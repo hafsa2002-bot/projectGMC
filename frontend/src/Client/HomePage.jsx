@@ -49,7 +49,7 @@ function HomePage() {
         <main className="mt-28">
             {/* Hero Section */}
             <section className="h-[80vh] rounded-xl m-auto w-10/12 flex p-9">
-                <div className="w-1/2 flex flex-col justify-center">
+                <div className="w-1/2 flex flex-col gap-2 justify-center">
                     <h1 className="text-5xl font-extrabold uppercase tracking-wide">
                         Shop Smart.<br /> Shop Stylish.
                     </h1>
@@ -65,7 +65,7 @@ function HomePage() {
                         Start Shopping
                     </Link>
                 </div>
-                <div className="ml-32 rounded-xl overflow-hidden w-96 h-96">
+                <div className="ml-32 rounded-xl overflow-hidden w-[420px] h-[420px]">
                     <img className="w-full h-full" src="/photoAI1.jpg" alt="Hero" />
                 </div>
             </section>
