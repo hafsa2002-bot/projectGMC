@@ -46,9 +46,10 @@ function HomePage() {
   return (
     <>
         <Nav details={false} />
-        <main className="mt-28">
+        <main className="lg:mt-28 mt-20">
             {/* Hero Section */}
-            <section className="h-[80vh] rounded-xl m-auto w-10/12 flex p-9">
+            {/* laptop version  */}
+            <section className="lg:flex hidden h-[80vh] rounded-xl m-auto w-10/12  p-9">
                 <div className="w-1/2 flex flex-col gap-2 justify-center">
                     <h1 className="text-5xl font-extrabold uppercase tracking-wide">
                         Shop Smart.<br /> Shop Stylish.
@@ -68,6 +69,29 @@ function HomePage() {
                 <div className="ml-32 rounded-xl overflow-hidden w-[420px] h-[420px]">
                     <img className="w-full h-full" src="/photoAI1.jpg" alt="Hero" />
                 </div>
+            </section>
+            {/* phone version  */}
+            <section className="relative display lg:hidden m-auto w-full h-[487px]  bg-contain bg-[url('/photoAI1.jpg')]">
+                <div className='absolute bg-black h-[487px] opacity-20 w-full h-'></div>
+                <div className=" absolute h-full text-white flex  flex-col gap-2 justify-center items-center">
+                    <h1 className="text-5xl font-extrabold text-center uppercase tracking-wide">
+                        Shop Smart.<br /> Shop Stylish.
+                    </h1>
+                    <p className="text-xl w-10/12 mt-4 text-center">
+                        Discover a world of fashion, electronics, home essentials, and
+                        more – all in one place.<br /> Shop quality, shop convenience.
+                    </p>
+                    {/* bg-[#B88C4A] */}
+                    <Link
+                        to={"/products"}
+                        className="text-center  bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-yellow-600  px-4 py-3 rounded-full text-xl font-semibold mt-5"
+                    >
+                        Start Shopping
+                    </Link>
+                </div>
+                {/* <div className="ml-32 rounded-xl overflow-hidden w-[420px] h-[420px]">
+                    <img className="w-full h-full" src="/photoAI1.jpg" alt="Hero" />
+                </div> */}
             </section>
 
             {/* Product Carousel Section */}

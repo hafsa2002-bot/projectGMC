@@ -67,7 +67,9 @@ function Nav(props) {
                 </div>
             </div>  
         </nav>
-        <Outlet/>
+        <div className=''>
+            <Outlet/>
+        </div>
     </div>
   )
 }

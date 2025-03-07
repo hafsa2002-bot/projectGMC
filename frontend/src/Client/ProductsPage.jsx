@@ -56,7 +56,7 @@ function ProductsPage() {
                     categories.slice(0,4).map((category, index) => (
                         <div className='mt-32 m-auto' >
                             <h1 className=' text-5xl font-semibold text-center py-7 mb-5'> {category.name} </h1>
-                            <div className=' flex flex-wrap gap-2 justify-between items-baseline px-10 '>
+                            <div className=' flex flex-wrap gap-2 justify-between items-baseline lg:px-10 px-6 '>
                                 {productsByCategory[category.slug]?.slice(0,4).map((product, index) => (
                                 <ProductItem val = {product} />
                                 ))}
