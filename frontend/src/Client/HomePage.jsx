@@ -72,8 +72,8 @@ function HomePage() {
             </section>
             {/* phone version  */}
             <section className="relative display lg:hidden m-auto w-full h-[487px]  bg-contain bg-[url('/photoAI1.jpg')]">
-                <div className='absolute bg-black h-[487px] opacity-20 w-full h-'></div>
-                <div className=" absolute h-full text-white flex  flex-col gap-2 justify-center items-center">
+                <div className='absolute bg-black h-[487px] opacity-40 w-full h-'></div>
+                <div className=" absolute h-full  flex text-white pt-16 flex-col gap-2 justify-center items-center">
                     <h1 className="text-5xl font-extrabold text-center uppercase tracking-wide">
                         Shop Smart.<br /> Shop Stylish.
                     </h1>
@@ -141,6 +141,17 @@ function HomePage() {
             </section>
             <section>
                 <p className="text-4xl text-center">About US</p>
+                <p>Welcome to <strong>Novexa</strong>, your one-stop online store dedicated
+                    to offering high-quality products that meet your everyday 
+                    needs. We are committed to providing a seamless shopping 
+                    experience with a diverse range of items, ensuring you find 
+                    exactly what you're looking for.
+                    At <strong>Novexa</strong>, we believe in innovation, convenience, and customer
+                    satisfaction. Whether you're searching for the latest trends, 
+                    essential items, or unique finds, our platform is designed to 
+                    make online shopping effortless and enjoyable.
+                </p>
+                <i className='font-semibold'>Join Novexa today and discover a world of possibilities at your fingertips!</i>
             </section>
         </main>
     </>

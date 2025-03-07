@@ -41,7 +41,6 @@ function App() {
 
 function Loc() {
   const location = useLocation();
-
   return (
     <>
       {(location.pathname !== '/login' && location.pathname !== '/signUp' && location.pathname !== '/admin')  && <Footer />}
