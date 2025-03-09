@@ -60,13 +60,19 @@ initializeStoreStock();
 // add new item
 app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res) => {
     try{
-        const {productName, barcode, qty, minLevel, price} = req.body;
+        const {productName, barcode, qty, minLevel, price, expirationDate} = req.body;
         const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
     
-        console.log({productName, price, qty, barcode, minLevel, productPhoto})
-        const newItem = new Product({productName, price, barcode, qty, minLevel, productPhoto})
+        console.log({productName, price, qty, barcode, minLevel, productPhoto, expirationDate})
+        const newItem = new Product({productName, price, barcode, qty, minLevel, productPhoto, expirationDate})
         await newItem.save();
 
+        // update Stock Status
+        await newItem.updateStockStatus();
+        
+        // check expiration
+        await newItem.checkExpiration()
+        
         // update Store Stock
         await StoreStock.updateStoreStock();
 
@@ -84,9 +90,52 @@ app.get("/admin/items/list", async(req, res) => {
         res.json(listProducts)
     }catch(error){
         console.log("Error: ", error)
-        res.status(500).json({error: "Internal server error"})
+        res.status(500).json({error: "Internal server error: get list of products"})
     }
 })
 
+// stock Info
+app.get("/admin/stock", async(req, res) => {
+    try{
+        const stock = await StoreStock.findOne()
+        res.json(stock)
+    }catch(error){
+        console.log("error: ", error);
+        res.status(500).json({error: "Internal server error: get stock info"})
+    }
+})
+
+// get products outOfStock
+app.get("/admin/items/outOfStock", async(req, res) => {
+    try{
+        const outOfStock = await Product.find({outOfStock: true})
+        res.send(outOfStock)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Iternal server Error: get outOfStock products"})
+    }
+})
+
+// get products lowInStock
+app.get("/admin/items/lowInStock", async(req, res) => {
+    try{
+        const  lowInStock = await Product.find({lowInStock: true})
+        res.send(lowInStock)
+    } catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server Error: get lowInStock products"})
+    }
+})
+
+// get products expired
+app.get("/admin/items/expiredItems", async (req, res) => {
+    try{
+        const expired = await Product.find({isExpired: true})
+        res.send(expired)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error: get expired Items"})
+    }
+})
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

@@ -1,6 +1,8 @@
-import { ArrowLeft, Barcode, ChevronDown, CirclePlus, ImageUp, ScanBarcode } from 'lucide-react'
+import { ArrowLeft, Barcode, CalendarDays, ChevronDown, CirclePlus, ImageUp, ScanBarcode } from 'lucide-react'
 import React, { useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 function AddItem() {
     const [productName, setProductName] = useState("")
@@ -10,6 +12,7 @@ function AddItem() {
     const [price, setPrice] = useState(0)
     const [currency, setCurrency] =  useState('MAD')
     const [category, setCategory] = useState("")
+    const [expirationDate, setExpirationDate] = useState("")
     const [productPhoto, setProductPhoto] = useState("")
     const [showCategories, setShowCategories] = useState(false)
     const navigate = useNavigate()
@@ -32,6 +35,7 @@ function AddItem() {
         formData.append("minLevel", minLevel)
         formData.append("price", price)
         formData.append("productPhoto", productPhoto)
+        formData.append("expirationDate", expirationDate)
 
         try{
             const response = await fetch("http://localhost:3003/admin/items/add-item", {
@@ -51,7 +55,7 @@ function AddItem() {
     }
 
   return (
-    <div className='mt-3'>
+    <div className='my-3'>
         <div className=''>
             <Link to="/admin/items" className='flex gap-2 items-center w-40'>
                 <div><ArrowLeft/></div>
@@ -189,6 +193,7 @@ function AddItem() {
                     </div>
                 </div>
                 <div className=' w-9/12 flex gap-8'>
+                    {/* Category */}
                     {/* <div >
                         select Category 
                         <p  className="block mb-2 text-sm font-medium text-gray-900">Category</p>
@@ -202,9 +207,9 @@ function AddItem() {
                         </select>
                     </div> */}
                     <div className='relative w-1/2'>
-                        <p className="block mb-2 text-sm font-medium text-gray-900">Category</p>
+                        <p className="block mb-2 font-medium text-gray-900">Category</p>
                         <div className="flex justify-between h-11 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
-                            <p>Choose category</p>
+                            <p className='text-gray-500'>Choose category</p>
                             {   
                                 showCategories 
                                 ? (<ChevronDown className='rotate-180' onClick={() => setShowCategories(false)} />)
@@ -215,7 +220,7 @@ function AddItem() {
                         {
                             showCategories && 
                             (
-                                <div className='absolute bg-white border border-gray-300 w-full rounded-lg mt-3 overflow-hidden'>
+                                <div className='absolute z-20 bg-white border border-gray-300 w-full rounded-lg mt-3 overflow-hidden'>
                                     <ul>
                                         <li className='hover:bg-gray-100 py-2.5 px-2 border-b border-gray-300'>No category found</li>
                                     </ul>
@@ -226,6 +231,38 @@ function AddItem() {
                             )
                         }
                     </div>
+                    <div className='w-1/2'></div>
+                </div>
+                <div className=' w-9/12 flex gap-8'>
+                    {/* Expire date */}
+                    {/* <div className=' w-1/2 '>
+                        <p className="block mb-2 text-sm font-medium text-gray-900">Expiry date</p>
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                    </svg>
+                                </div>
+                                <input id="datepicker-orientation" datepicker datepicker-orientation="bottom right" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
+                            </div>  
+                    </div> */}
+                    <div className='w-1/2 '>
+                        <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
+                        <div className='relative w-full'>
+                            <div className="absolute z-10 right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                <CalendarDays className='text-gray-500' />
+                            </div>
+                            <DatePicker
+                                selected={expirationDate}
+                                onChange={(date) => setExpirationDate(date)}
+                                dateFormat="yyyy-MM-dd"
+                                className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[400px] p-2.5 '
+                                placeholderText='Select Date'
+                            />
+
+                        </div>
+                    </div>
+                    
                     <div className='w-1/2'></div>
                 </div>
                 <div>

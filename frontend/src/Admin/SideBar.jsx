@@ -21,8 +21,8 @@ function SideBar() {
             </div>
             <div className='flex flex-col gap-9'>
                 <NavLink 
-                    to="/admin/dashboard" 
-                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative  px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
+                    to="/admin" 
+                    className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative  px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
                     onMouseEnter={() => setShowDashboard(true)}
                     onMouseLeave={() => setShowDashboard(false)}
                 >

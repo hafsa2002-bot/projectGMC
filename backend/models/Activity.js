@@ -6,7 +6,8 @@ const activitySchema = new mongoose.Schema({
         required: true,
         enum:['create', 'update', 'delete']
     },
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
+    // userID => required: false, for the moment
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},
     createdAt: {type: Date, default: Date.now}
 })
 

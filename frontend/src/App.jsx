@@ -19,6 +19,9 @@ import Reports from "./Admin/Reports"
 import ActivityLog from "./Admin/ActivityLog"
 import AddItem from "./Admin/AddItem"
 import AddCategory from "./Admin/AddCategory"
+import OutOfStock from "./Admin/OutOfStock"
+import ExpiredItems from "./Admin/ExpiredItems"
+import LowInStock from "./Admin/LowInStock"
 
 function App() {
 
@@ -38,10 +41,13 @@ function App() {
           <Route path='/contactUs' element={<ContactUs/>} />
           {/* Admin pages */}
           <Route path="/admin" element={<SideBar/>}>
-            <Route path="dashboard" element={<AdminHomePage/>} />
+            <Route index element={<AdminHomePage/>} />
             <Route path="items" element={<Items/>} />
             <Route path="items/add-item" element={<AddItem/>}/>
             <Route path="items/add-category" element={<AddCategory/>}/>
+            <Route path="items/out-of-stock" element={<OutOfStock/>}/>
+            <Route path="items/low-in-stock" element={<LowInStock/>}/>
+            <Route path="items/expired-items" element={<ExpiredItems/>}/>
             <Route path="search" element={<Search/>} />
             <Route path="reports" element={<Reports/>} />
             <Route path="purshase-order" element={<PurshaseOrder/>} />

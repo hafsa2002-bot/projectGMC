@@ -6,17 +6,39 @@ const productSchema = new mongoose.Schema({
     qty: {type:Number, required: true, min: 0},
     barcode: {type: String, required: true, unique: true},
     minLevel: {type:Number, required: true}, 
-    // required : false, just for the moment 
+
+    // required : true
     productPhoto: {type: String, required: true},
     createdAt: {type: Date, default: Date.now},
+
+    //required: true
     userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},
-    // required : false for the moment 
-    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: false }
+    outOfStock : {type: Boolean, default: false},
+    lowInStock : {type: Boolean, default: false}, 
+    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: false },
+    expirationDate: {type: Date, required: false},
+    isExpired: {type: Boolean, default: false}
 })
 
 productSchema.methods.calculateTotalStockValue = async function(){
     const totalStockValue = this.price * this.stockQty;
     return totalStockValue;
+}
+
+productSchema.methods.updateStockStatus = async function(){
+    this.outOfStock = this.qty === 0
+    this.lowInStock = this.qty < this.minLevel
+    await this.save();
+}
+
+productSchema.methods.checkExpiration = async function(){
+    if(this.expirationDate){
+        this.isExpired = this.expirationDate < new Date()
+    }
+    else{
+        this.isExpired = false
+    }
+    await this.save();
 }
 
 module.exports = mongoose.model("Product", productSchema)
