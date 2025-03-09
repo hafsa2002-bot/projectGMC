@@ -7,6 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import "swiper/css/bundle";
 import "swiper/css";
 import "swiper/css/pagination";
+import Footer from './Footer';
 
 
 function HomePage() {
@@ -154,6 +155,7 @@ function HomePage() {
                 <i className='font-semibold'>Join Novexa today and discover a world of possibilities at your fingertips!</i>
             </section>
         </main>
+        <Footer/>
     </>
   )
 }

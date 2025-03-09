@@ -2,12 +2,16 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
     productName: {type: String, required: true},
-    productPrice: {type: Number, required: true, min: 0},
-    stockQty: {type:Number, required: true, min: 0},
+    price: {type: Number, required: true, min: 0},
+    qty: {type:Number, required: true, min: 0},
     barcode: {type: String, required: true, unique: true},
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
-    productImage: {type: String, required: true},
-    createdAt: {type: Date, default: Date.now}
+    minLevel: {type:Number, required: true}, 
+    // required : false, just for the moment 
+    productPhoto: {type: String, required: true},
+    createdAt: {type: Date, default: Date.now},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},
+    // required : false for the moment 
+    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: false }
 })
 
 productSchema.methods.calculateTotalStockValue = async function(){

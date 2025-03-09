@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import axios from 'axios'
 import SpinnerLoader from '../SpinnerLoader';
+import Footer from './Footer';
 
 function CategoryPage() {
     const {category} = useParams();
@@ -47,6 +48,7 @@ function CategoryPage() {
 
             )
         }
+        <Footer/>
     </div>
   )
 }

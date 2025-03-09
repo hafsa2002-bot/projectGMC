@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import SpinnerLoader from '../SpinnerLoader'
+import Footer from './Footer'
 
 function ProductsPage() {
     const [categories, setCategories] = useState([])
@@ -73,6 +74,7 @@ function ProductsPage() {
                 
         }
         </div>
+        <Footer/>
     </div>
   )
 }

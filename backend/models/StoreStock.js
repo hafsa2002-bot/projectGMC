@@ -14,8 +14,8 @@ storeStockSchema.statics.updateStoreStock = async function(){
     let totalValue = 0;
 
     products.forEach(product => {
-        totalItems += product.stockQty;
-        totalValue += product.price * product.stockQty;
+        totalItems += product.qty;
+        totalValue += product.price * product.qty;
     })
 
     // update or create the stock data

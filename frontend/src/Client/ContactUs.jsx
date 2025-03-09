@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import Footer from './Footer'
 
 function ContactUs() {
   return (
@@ -43,6 +44,7 @@ function ContactUs() {
                 </form>
             </div>
         </div>
+        <Footer/>
     </div>
   )
 }
