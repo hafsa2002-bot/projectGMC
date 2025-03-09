@@ -18,6 +18,7 @@ import Category from './models/Category.js'
 
 app.use(cors())
 app.use(express.json())
+app.use("/uploads", express.static("uploads"))
 
 // connect to MongoDB
 mongoose.connect(uri)
@@ -68,7 +69,7 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
 
         // update Store Stock
         await StoreStock.updateStoreStock();
-        
+
         res.json({message: "Product added successfully", productPhoto})
     } catch(error){
         console.log("error: ", error);
@@ -76,6 +77,7 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
     }
 })
 
+// list of products
 app.get("/admin/items/list", async(req, res) => {
     try{
         const listProducts = await Product.find()
