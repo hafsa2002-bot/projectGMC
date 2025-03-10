@@ -138,4 +138,15 @@ app.get("/admin/items/expiredItems", async (req, res) => {
     }
 })
 
+// get Product By Id
+app.get("/admin/items/view/:product_id", async(req, res) => {
+    try{
+        const productById = await Product.find({_id: req.params.product_id}).populate('categoryId', 'categoryName')
+        res.send(productById[0])
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

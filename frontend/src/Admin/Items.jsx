@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import { EllipsisVertical, PackageX, TrendingDown, TriangleAlert } from 'lucide-react'
+import { EllipsisVertical, Eye, Image, PackageX, PenLine, Trash2, TrendingDown, TriangleAlert } from 'lucide-react'
 import SpinnerLoader from '../SpinnerLoader'
 
 function Items() {
     const [items, setItems] = useState([])
     const [stock, setStock] = useState({})
+    const [showOptions, setShowOptions] = useState(false);
 
     const getItems = () => {
         axios.get("http://localhost:3003/admin/items/list")
@@ -70,7 +71,7 @@ function Items() {
                 </div>
             </Link>
         </div>
-        <div class=" bg-white border border-gray-300 mt-8  overflow-x-auto shadow-md sm:rounded-lg">
+        <div class=" bg-white border border-gray-300 mt-8   shadow-md sm:rounded-lg">
             <div className='mx-6 mt-3 mb-7 border-b border-gray-300'>
                 <div className='border-b-2 text-sm w-20 pb-1 border-blue-600 flex items-center justify-center gap-3'>
                     <p className='font-semibold text-blue-600'>All</p>
@@ -107,8 +108,13 @@ function Items() {
                         items.map((item, index) => (
                             <tr key={index} class=" bg-white border-b border-gray-200">
                                 <td scope="row" class="px-6 py-4 flex items-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <div className='w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
-                                        <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
+                                    <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
+                                        {
+                                            item.productPhoto 
+                                            ? <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
+                                            :   
+                                                    <div className= 'relative w-full  h-full flex justify-center items-center bg-gray-200 '><Image className='absolute text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
+                                        }
                                     </div>
                                     <div>
                                         <p className='text-base'>{item.productName}</p>
@@ -130,9 +136,27 @@ function Items() {
                                     : (<p>-</p>)
                                     }
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="relative px-6 py-4">
                                     {/* <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
-                                    <EllipsisVertical />
+                                    <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
+                                    {
+                                        showOptions === index && (
+                                            <div className=' absolute right-12 top-16 bg-white z-1 shadow-md border border-gray-200 rounded-lg text-black w-32'>
+                                                <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                    <div><Eye /></div>
+                                                    <p>View</p>
+                                                </Link>
+                                                <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                    <div><PenLine /></div>
+                                                    <p>Update</p>
+                                                </Link>
+                                                <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
+                                                    <div><Trash2 /></div>
+                                                    <p>Delete</p>
+                                                </Link>
+                                            </div>
+                                        )
+                                    }
                                 </td>
                             </tr>
                             // <div key={index}>

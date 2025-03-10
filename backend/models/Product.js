@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema({
     minLevel: {type:Number, required: true}, 
 
     // required : true
-    productPhoto: {type: String, required: true},
+    productPhoto: {type: String, required: false},
     createdAt: {type: Date, default: Date.now},
 
     //required: true
