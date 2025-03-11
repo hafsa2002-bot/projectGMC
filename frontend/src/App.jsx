@@ -24,6 +24,8 @@ import ExpiredItems from "./Admin/ExpiredItems"
 import LowInStock from "./Admin/LowInStock"
 import ViewProduct from "./Admin/ViewProduct"
 import ItemsRoute from "./Admin/ItemsRoute"
+import AllItems from "./Admin/AllItems"
+import CategoryItems from "./Admin/CategoryItems"
 
 function App() {
 
@@ -46,7 +48,11 @@ function App() {
           <Route path="/admin" element={<SideBar/>}>
             <Route index element={<AdminHomePage/>} />
             <Route path="items" element={<ItemsRoute/>}>
-              <Route index element={<Items/>} />
+              {/* <Route index element={<Items/>} /> */}
+              <Route path="" element={<Items/>}>
+                <Route index element={<AllItems/>}/>
+                <Route path="category/:categoryName" element={<CategoryItems/>} />
+              </Route>
               <Route path="add-item" element={<AddItem/>}/>
               <Route path="add-category" element={<AddCategory/>}/>
               <Route path="out-of-stock" element={<OutOfStock/>}/>

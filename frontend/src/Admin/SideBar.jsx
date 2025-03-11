@@ -17,7 +17,7 @@ function SideBar() {
     <div className='flex bg-gray-100 min-h-screen'>
         <nav className='fixed  text-neutral-500 left-0 flex flex-col justify-between items-center bg-white w-20 h-screen border-r border-gray-300 shadow-lg'>
             <div className=' flex justify-center items-center text-2xl w-10 h-10 rounded-full bg-blue-200 text-blue-600 font-semibold mt-3'>
-                <Link to={"/admin"}>N</Link>
+                <Link to={"/admin"} className='outline-none'>N</Link>
             </div>
             <div className='flex flex-col gap-9'>
                 <NavLink 

@@ -15,6 +15,7 @@ function AddItem() {
     const [expirationDate, setExpirationDate] = useState("")
     const [productPhoto, setProductPhoto] = useState("")
     const [showCategories, setShowCategories] = useState(false)
+    // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
 
     let totalValue = () => {

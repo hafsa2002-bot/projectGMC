@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, NavLink, Outlet} from 'react-router-dom'
 import axios from 'axios'
 import { EllipsisVertical, Eye, Image, PackageX, PenLine, Trash2, TrendingDown, TriangleAlert } from 'lucide-react'
 import SpinnerLoader from '../SpinnerLoader'
@@ -7,26 +7,28 @@ import SpinnerLoader from '../SpinnerLoader'
 function Items() {
     const [items, setItems] = useState([])
     const [stock, setStock] = useState({})
-    const [showOptions, setShowOptions] = useState(false);
-
+    const [bgColor, setBgColor] = useState('bg-gray-100')
+    // const [showOptions, setShowOptions] = useState(false);
+    
     const getItems = () => {
         axios.get("http://localhost:3003/admin/items/list")
         .then(response => setItems(response.data))
         .catch(error => console.log("Error: ", error))
     }
+    
     const stockInfo = () => {
         axios.get("http://localhost:3003/admin/stock")
         .then(response => {
             setStock(response.data)
-            console.log("stock: ", response.data)
+            //console.log("stock: ", response.data)
         })
         .catch(error => console.log("Error: ", error))
     }
     useEffect(() => {
         getItems()
         stockInfo()
-    }, [])
-    if(!items) return <SpinnerLoader/>
+    }, [items])
+    // if(!items) return <SpinnerLoader/>
   return (
     <div className='mb-32'>
         <div className='border-b border-gray-400 flex justify-between items-center py-5'>
@@ -34,12 +36,12 @@ function Items() {
                 <p>All Items</p>
             </div>
             <div className='flex text-white gap-4'>
-                <div className='bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
-                    <Link to="/admin/items/add-item">Add Item</Link>
-                </div>
-                <div className='bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
-                    <Link to="/admin/items/add-category">Add Category</Link>
-                </div>
+                <Link to="/admin/items/add-item" className='bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
+                    <p>Add Item</p>
+                </Link>
+                <Link to="/admin/items/add-category" className='bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
+                    <p>Add Category</p>
+                </Link>
             </div>
         </div>
         <div className='flex gap-10 mt-5'>
@@ -71,108 +73,26 @@ function Items() {
                 </div>
             </Link>
         </div>
-        <div class=" bg-white border border-gray-300 mt-8   shadow-md sm:rounded-lg">
-            <div className='mx-6 mt-3 mb-7 border-b border-gray-300'>
-                <div className='border-b-2 text-sm w-20 pb-1 border-blue-600 flex items-center justify-center gap-3'>
-                    <p className='font-semibold text-blue-600'>All</p>
-                    <div className='px-2 py-0.5 flex justify-center items-center rounded-2xl bg-blue-100 text-blue-600'>{items.length}</div>
-                </div>
+        <div class=" bg-white pt-3 border border-gray-300 mt-8   shadow-md sm:rounded-lg">
+            <div className='flex gap-3 mx-6 mt-3 mb-7 border-b border-gray-300'>
+                <NavLink 
+                    to="/admin/items"
+                    className={({isActive}) => isActive && window.location.pathname === "/admin/items"  ?  'text-blue-600 border-b-2 text-sm  pb-1 border-blue-600 flex items-center justify-center gap-3 px-3': ' text-sm px-3 pb-1 text-gray-600  flex items-center justify-center gap-3'} >
+                    <p className='font-semibold '>All</p>
+                    <NavLink to="/admin/items" className={({isActive}) => isActive && window.location.pathname === "/admin/items" ? 'bg-blue-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' : 'bg-gray-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' }>
+                        {items.length}
+                    </NavLink>
+                </NavLink>
+                {/* category.map(v => (<NavLink to="/admin/items/category/${v.categoryName}"> {v.categoryName} </NavLink>) ) */}
+                <NavLink
+                    to="/admin/items/category/:categoryName" 
+                    className={({isActive}) => isActive  ? 'text-blue-600 border-b-2 text-sm  pb-1 border-blue-600 flex items-center justify-center px-3 gap-3': ' text-sm  pb-1 text-gray-600 px-3 flex items-center justify-center gap-3'} >
+                    <p className='font-semibold '>CategoryName</p>
+                    <NavLink to="/admin/items/category/:categoryName"  className={({isActive}) => isActive ? 'bg-blue-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' : 'bg-gray-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' }>0</NavLink>
+                </NavLink>
             </div>
-            <table class=" w-full text-sm text-left rtl:text-right text-gray-500 ">
-                <thead class=" text-gray-700  bg-gray-50 ">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Product
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Qty available
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Items sold
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Unit price
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Expiry Date
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                {
-                    items
-                    ?(
-                        items.map((item, index) => (
-                            <tr key={index} class=" bg-white border-b border-gray-200">
-                                <td scope="row" class="px-6 py-4 flex items-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
-                                        {
-                                            item.productPhoto 
-                                            ? <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
-                                            :   
-                                                    <div className= 'relative w-full  h-full flex justify-center items-center bg-gray-200 '><Image className='absolute text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
-                                        }
-                                    </div>
-                                    <div>
-                                        <p className='text-base'>{item.productName}</p>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    {item.qty}
-                                </td>
-                                <td class="px-6 py-4 text-2xl text-red-600">
-                                    !!!
-                                </td>
-                                <td class="px-6 py-4">
-                                    {item.price} <span className='text-black'>MAD</span>
-                                </td>
-                                <td class="px-6 py-4 text-base ">
-                                    {
-                                    item.expirationDate  
-                                    ? (item.expirationDate.slice(0,10))
-                                    : (<p>-</p>)
-                                    }
-                                </td>
-                                <td class="relative px-6 py-4">
-                                    {/* <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
-                                    <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
-                                    {
-                                        showOptions === index && (
-                                            <div className=' absolute right-12 top-16 bg-white z-1 shadow-md border border-gray-200 rounded-lg text-black w-32'>
-                                                <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
-                                                    <div><Eye /></div>
-                                                    <p>View</p>
-                                                </Link>
-                                                <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
-                                                    <div><PenLine /></div>
-                                                    <p>Update</p>
-                                                </Link>
-                                                <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
-                                                    <div><Trash2 /></div>
-                                                    <p>Delete</p>
-                                                </Link>
-                                            </div>
-                                        )
-                                    }
-                                </td>
-                            </tr>
-                            // <div key={index}>
-                            //     <p>{item.productName}</p>
-                            // </div>
-                        ))
-                    )
-                    : (
-                        <SpinnerLoader/>
-                    )
-                }
-                    
-                </tbody>
-            </table>
-        </div>
-
+            <Outlet/>
+        </div> 
         
     </div>
   )

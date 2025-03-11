@@ -36,6 +36,14 @@ await newUser.save()
 console.log("User saved: ", newUser)
 */
 
+/*
+const newCategory = new Category({
+    categoryName: "watches 0"
+})
+await newCategory.save()
+console.log("Category save : ", newCategory)
+*/
+
 //configure multer for files uploads 
 const storage = multer.diskStorage({
     destination: "uploads",
@@ -91,6 +99,21 @@ app.get("/admin/items/list", async(req, res) => {
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server error: get list of products"})
+    }
+})
+
+// delete item by Id
+app.delete("/admin/item/:id", async(req, res) => {
+    try{
+        const deletedProduct = await Product.findByIdAndDelete({_id : req.params.id})
+        if(!deletedProduct){
+            return res.status(404).json({error: "Product not found"})
+        }
+        console.log("deleted product: ", deletedProduct)
+        res.status(200).json({message: "Product deleted successfully", deletedProduct})
+    }catch(error){
+        console.log("error: ", error)
+        res.status(500).json({error: "Internal server error: delete item by Id"})
     }
 })
 
