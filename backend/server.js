@@ -121,6 +121,7 @@ app.delete("/admin/item/:id", async(req, res) => {
 app.get("/admin/stock", async(req, res) => {
     try{
         const stock = await StoreStock.findOne()
+        await StoreStock.updateStoreStock();
         res.json(stock)
     }catch(error){
         console.log("error: ", error);
