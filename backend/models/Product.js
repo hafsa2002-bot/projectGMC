@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
     productName: {type: String, required: true},
-    price: {type: Number, required: true, min: 0},
-    qty: {type:Number, required: true, min: 0},
+    price: {type: Number, required: true, min: 1},
+    qty: {type:Number, required: true, min: 1},
 
     // required:true, unique: true
     barcode: {type: String, required: false, unique: false},
-    minLevel: {type:Number, required: true}, 
+    minLevel: {type:Number, required: true, min: 1}, 
 
     // required : true
     productPhoto: {type: String, required: false},

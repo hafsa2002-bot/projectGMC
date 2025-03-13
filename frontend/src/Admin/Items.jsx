@@ -31,7 +31,7 @@ function Items() {
     // if(!items) return <SpinnerLoader/>
   return (
     <div className='mb-32'>
-        <div className='border-b border-gray-400 flex justify-between items-center py-5'>
+        <div className=' bg-gray-100 border-b border-gray-400 flex justify-between items-center py-5'>
             <div className='text-3xl text-gray-700 font-semibold'>
                 <p>All Items</p>
             </div>
@@ -39,7 +39,7 @@ function Items() {
                 <Link to="/admin/items/add-item" className='bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
                     <p>Add Item</p>
                 </Link>
-                <Link to="/admin/items/add-category" className='bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
+                <Link to="/admin/items/add-category" className='bg-blue-600 px-3 py-2 rounded-xl font-semibold '>
                     <p>Add Category</p>
                 </Link>
             </div>

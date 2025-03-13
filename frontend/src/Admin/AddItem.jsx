@@ -1,5 +1,5 @@
-import { ArrowLeft, Barcode, CalendarDays, ChevronDown, CirclePlus, ImageUp, ScanBarcode } from 'lucide-react'
-import React, { useState } from 'react'
+import { ArrowLeft, Barcode, CalendarDays, ChevronDown, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css"
 function AddItem() {
     const [productName, setProductName] = useState("")
     const [barcode, setBarcode] = useState("")
-    const [qty, setQty] = useState(1)
+    const [qty, setQty] = useState(0)
     const [minLevel, setMinLevel] = useState(0)
     const [price, setPrice] = useState(0)
     const [currency, setCurrency] =  useState('MAD')
@@ -15,6 +15,7 @@ function AddItem() {
     const [expirationDate, setExpirationDate] = useState("")
     const [productPhoto, setProductPhoto] = useState("")
     const [showCategories, setShowCategories] = useState(false)
+    const [submitted, setSubmitted] = useState(false);
     // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
 
@@ -28,6 +29,9 @@ function AddItem() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
+
+
 
         const formData = new FormData();
         formData.append("productName", productName)
@@ -55,6 +59,12 @@ function AddItem() {
         
     }
 
+    useEffect(() => {
+        if(submitted && (productName == "" || !qty || qty === 0  )){
+            window.scrollTo(0,0)
+        }
+    }, [submitted, productName, qty])
+
   return (
     <div className='my-3'>
         <div className=''>
@@ -68,20 +78,24 @@ function AddItem() {
                 <p className='text-xl font-semibold'>Product Details</p>
                 <p className='text-gray-500'>Add your product to make invoicing and cost management easier (* for required fields)</p>
             </div>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-6 mt-8 px-3'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
                 <div className='flex gap-8 w-9/12'>
                     {/* product Name */}
                     <div className='w-1/2'>
                         <label htmlFor="productName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
                         <input 
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" 
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${(productName === "" && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                             type="text" 
                             name="productName" 
                             id="productName"
                             value={productName} 
                             onChange={(e) => setProductName(e.target.value)} 
                             placeholder='Product name'
+                            // required
                         />
+                        {(productName === "" && submitted ) && (
+                            <div className='absolute text-red-600 text-sm'>Required</div>
+                        )}
                     </div>
                     {/* Barcode Number */}
                     <div className='w-1/2'>
@@ -105,32 +119,45 @@ function AddItem() {
                 </div>
                 <div className='flex gap-8  w-9/12'>
                     {/* Quantity */}
-                    <div className='w-1/2'>
+                    <div className='relative w-1/2'>
                         <label htmlFor="qty" className="block mb-2 font-medium text-gray-900">Quantity <span className='text-red-500'>*</span></label>
                         <input 
                             type="number" 
-                            min="0"
+                            // min="1"
                             name="qty" 
                             id="qty"
                             value={qty}
                             onChange={(e) => setQty(e.target.value) }
                             placeholder="1" 
-                            className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none" 
-                            required 
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((qty==="" || qty == 0) && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            // required 
                         />
+                        {(qty === "" && submitted) && (
+                            <div className='absolute text-red-600 text-sm'>Required</div>
+                        )}
+                        {((Number(qty) === 0 && qty!== "") && submitted) && (
+                            <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
+                        )}
                     </div>
                     {/* Min level */}
                     <div className='w-1/2'>
                         <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Min Level <span className='text-red-500'>*</span></label>
                         <input 
-                            type="text" 
+                            type="number"
+                            //min="1" 
                             name="minLevel" 
                             id="minLevel" 
                             value={minLevel}
                             onChange={(e) => setMinLevel(e.target.value)}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   outline-none" 
-                            required
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            // required
                         />
+                        {((minLevel === "") && submitted) && (
+                            <div className='absolute text-red-600 text-sm'>Required</div>
+                        )}
+                        {((Number(minLevel) === 0 && minLevel!== "") && submitted) && (
+                            <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
+                        )}
                     </div>
                 </div>
                 <div className='flex gap-8  w-11/12 items-center'>
@@ -141,15 +168,21 @@ function AddItem() {
                         <div className='relative'>
                             <input 
                                 type="number"
-                                min="0" 
+                                // min="1" 
                                 name="price" 
                                 id="price"
                                 placeholder='100'
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" 
-                                required                                                            
+                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((price==="" || price == 0) && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                                // required                                                            
                             />
+                            {(price === "" && submitted) && (
+                                <div className='absolute text-red-600 text-sm'>Required</div>
+                            )}
+                            {(Number(price) === 0  && submitted) && (
+                                <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
+                            )}
                             <div className=' absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 '>
                                 <p className='font-medium'>{currency}</p>
                             </div>
@@ -173,8 +206,9 @@ function AddItem() {
                             </div>
                         </div>
                     </div>
+                    {/* Currency */}
                     <div >
-                        {/* select units of price DH, Dolar , Euro */}
+                        {/* select units of price MAD, $, Euro */}
                         <p  className="block mb-2 text-sm font-medium text-gray-900">Currency</p>
                         <select 
                             className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
@@ -195,18 +229,6 @@ function AddItem() {
                 </div>
                 <div className=' w-9/12 flex gap-8'>
                     {/* Category */}
-                    {/* <div >
-                        select Category 
-                        <p  className="block mb-2 text-sm font-medium text-gray-900">Category</p>
-                        <select 
-                            className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                            value={category}
-                            onChange={handleCategoryChange}
-                        >
-                            <option value="">No category found</option>
-                            <option value="add" className='hover:bg-white text-blue-600'>Add New Category</option>
-                        </select>
-                    </div> */}
                     <div className='relative w-1/2'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
                         <div className="flex justify-between h-11 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
@@ -218,8 +240,7 @@ function AddItem() {
                             }
                             
                         </div>
-                        {
-                            showCategories && 
+                        {showCategories && 
                             (
                                 <div className='absolute z-20 bg-white border border-gray-300 w-full rounded-lg mt-3 overflow-hidden'>
                                     <ul>
@@ -229,24 +250,12 @@ function AddItem() {
                                         <Link to="/admin/items/add-category" className='text-blue-600 flex gap-3 py-2.5 px-2 items-center'><CirclePlus size={20} /><p>Add new category</p> </Link>
                                     </div>
                                 </div>
-                            )
-                        }
+                            )}
                     </div>
                     <div className='w-1/2'></div>
                 </div>
                 <div className=' w-9/12 flex gap-8'>
                     {/* Expire date */}
-                    {/* <div className=' w-1/2 '>
-                        <p className="block mb-2 text-sm font-medium text-gray-900">Expiry date</p>
-                            <div class="relative w-full">
-                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                    </svg>
-                                </div>
-                                <input id="datepicker-orientation" datepicker datepicker-orientation="bottom right" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
-                            </div>  
-                    </div> */}
                     <div className='w-1/2 '>
                         <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
                         <div className='relative w-full'>
@@ -260,10 +269,8 @@ function AddItem() {
                                 className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[400px] p-2.5 '
                                 placeholderText='Select Date'
                             />
-
                         </div>
                     </div>
-                    
                     <div className='w-1/2'></div>
                 </div>
                 <div>
@@ -275,8 +282,20 @@ function AddItem() {
                                 <div className="mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 16">
                                     <ImageUp size={30} className='text-blue-600'/>                               
                                 </div>
-                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                {(productPhoto === "")
+                                ?(
+                                    <>
+                                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                    </>
+                                )
+                                :(
+                                    <>
+                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{productPhoto.name}</p>
+                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{(productPhoto.size / 1024).toFixed(2)} KB</p>
+                                        <button onClick={() => setProductPhoto("")}>Delete Photo</button>
+                                    </>
+                                )}
                             </div>
                             <input 
                                 id="productPhoto"
@@ -290,9 +309,25 @@ function AddItem() {
                     </div> 
                 </div>
                 <div className='flex items-center gap-6'>
-                    <div className="w-32 text-center cursor-pointer font-semibold bg-blue-500 border border-gray-300 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none" >
-                        <button className='cursor-pointer'>Save Product</button>
+                    <div 
+                        className="w-32 text-center cursor-pointer font-semibold bg-blue-500 border border-gray-300 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none" 
+                        onClick={() => setSubmitted(true)}>
+                        <button className='cursor-pointer' >Save Product</button>
                     </div>
+                    {(submitted &&  (!qty || qty === 0 || !productName || productName == "" || !price || price == 0 || !minLevel ) ) && (
+                        <>
+                            <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-red-800 text-center rounded-lg bg-red-100 '>
+                                <p>Please fill in all required fields</p> 
+                            </div>
+                            {/* {setSubmitted(false)} */}
+                        </>
+                    )}
+                    {(submitted && ((qty != 0) && (productName != "") && (price != 0 ) && (minLevel != 0))  ) && (
+                        
+                        <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-green-800 text-center rounded-lg bg-green-100 '>
+                            <p>Item added successfully</p> 
+                        </div>
+                    )}
                     <div className='cursor-pointer text-red-500 font-medium'>
                         <div onClick={() => navigate(-1)}>Cancel</div>
                     </div>

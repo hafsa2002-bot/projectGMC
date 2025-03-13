@@ -8,7 +8,6 @@ function PopUp({setPopUp, name, id}) {
             .then( (response) => {
                 console.log(`the product: ${name} deleted`)
                 setPopUp(false);
-                // getItems();
             }
             )
             .catch(error => console.log(error))
@@ -26,9 +25,11 @@ function PopUp({setPopUp, name, id}) {
                 <p className='text-gray-400'>Are you sure you want to delete <span className='text-gray-600'>{name}</span>?</p>
             </div>
             <div className='flex gap-4'>
+                {/* confirm the delete */}
                 <button 
                     onClick={() => deleteItem()}
                     className=' cursor-pointer px-5 py-3 text-red-600 text-base'>Delete</button>
+                {/* cancel the delete */}
                 <button
                     onClick={() => setPopUp(false)}
                     className='cursor-pointer bg-blue-600 text-white  px-5 py-3 text-base rounded-lg'>Cancel</button>
