@@ -13,9 +13,11 @@ function AddItem() {
     const [currency, setCurrency] =  useState('MAD')
     const [category, setCategory] = useState("")
     const [expirationDate, setExpirationDate] = useState("")
-    const [productPhoto, setProductPhoto] = useState("")
+    const [productPhoto, setProductPhoto] = useState(null)
     const [showCategories, setShowCategories] = useState(false)
     const [submitted, setSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(false)
+    const [showRequired, setShowRequired] = useState(false)
     // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
 
@@ -24,11 +26,15 @@ function AddItem() {
         else return `0`
     }
     const handleFileChange = (event) => {
-        setProductPhoto(event.target.files[0])
+        if(event.target.files.length > 0)
+            setProductPhoto(event.target.files[0])
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
+        setSubmitted(true)
+
         
 
 
@@ -60,10 +66,20 @@ function AddItem() {
     }
 
     useEffect(() => {
-        if(submitted && (productName == "" || !qty || qty === 0  )){
-            window.scrollTo(0,0)
+        if(submitted  && (!qty || qty < 1 || price < 1 || !price || productName == "" || minLevel < 1)){
+            setErrorMessage(true)
+            setTimeout(() => setErrorMessage(false), 10000)
+            setShowRequired(true)
+            setSubmitted(false)
         }
-    }, [submitted, productName, qty])
+        else if(submitted && qty > 1 && price > 1 && productName !== "" && minLevel > 1 ) {
+            setErrorMessage(false)
+            setShowRequired(false)
+        }
+        if(showRequired){
+            scrollTo(0, 0)
+        }
+    }, [submitted, productName, qty, price, minLevel])
 
   return (
     <div className='my-3'>
@@ -84,7 +100,7 @@ function AddItem() {
                     <div className='w-1/2'>
                         <label htmlFor="productName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
                         <input 
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${(productName === "" && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${(productName === "" && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                             type="text" 
                             name="productName" 
                             id="productName"
@@ -93,7 +109,7 @@ function AddItem() {
                             placeholder='Product name'
                             // required
                         />
-                        {(productName === "" && submitted ) && (
+                        {(productName === "" && showRequired ) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>
                         )}
                     </div>
@@ -129,13 +145,13 @@ function AddItem() {
                             value={qty}
                             onChange={(e) => setQty(e.target.value) }
                             placeholder="1" 
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((qty==="" || qty == 0) && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((qty==="" || qty == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                             // required 
                         />
-                        {(qty === "" && submitted) && (
+                        {(qty === "" && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>
                         )}
-                        {((Number(qty) === 0 && qty!== "") && submitted) && (
+                        {((Number(qty) < 1 && qty !== "") && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
                         )}
                     </div>
@@ -149,13 +165,13 @@ function AddItem() {
                             id="minLevel" 
                             value={minLevel}
                             onChange={(e) => setMinLevel(e.target.value)}
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                             // required
                         />
-                        {((minLevel === "") && submitted) && (
+                        {((minLevel === "") && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>
                         )}
-                        {((Number(minLevel) === 0 && minLevel!== "") && submitted) && (
+                        {((Number(minLevel) < 1 && minLevel !== "") && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
                         )}
                     </div>
@@ -174,13 +190,13 @@ function AddItem() {
                                 placeholder='100'
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
-                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((price==="" || price == 0) && submitted) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((price==="" || price == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                                 // required                                                            
                             />
-                            {(price === "" && submitted) && (
+                            {(price === "" && showRequired) && (
                                 <div className='absolute text-red-600 text-sm'>Required</div>
                             )}
-                            {(Number(price) === 0  && submitted) && (
+                            {(Number(price) < 1  && showRequired && price !== "") && (
                                 <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
                             )}
                             <div className=' absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 '>
@@ -282,7 +298,7 @@ function AddItem() {
                                 <div className="mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 16">
                                     <ImageUp size={30} className='text-blue-600'/>                               
                                 </div>
-                                {(productPhoto === "")
+                                {(!productPhoto)
                                 ?(
                                     <>
                                         <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
@@ -291,9 +307,8 @@ function AddItem() {
                                 )
                                 :(
                                     <>
-                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{productPhoto.name}</p>
-                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{(productPhoto.size / 1024).toFixed(2)} KB</p>
-                                        <button onClick={() => setProductPhoto("")}>Delete Photo</button>
+                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{productPhoto.name && productPhoto.name}</p>
+                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{productPhoto.size && ((productPhoto.size / 1024).toFixed(2))} KB</p>
                                     </>
                                 )}
                             </div>
@@ -310,19 +325,28 @@ function AddItem() {
                 </div>
                 <div className='flex items-center gap-6'>
                     <div 
-                        className="w-32 text-center cursor-pointer font-semibold bg-blue-500 border border-gray-300 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none" 
-                        onClick={() => setSubmitted(true)}>
-                        <button className='cursor-pointer' >Save Product</button>
+                        className="w-32 text-center cursor-pointer font-semibold bg-blue-500 border border-gray-300 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  outline-none" 
+                        // onClick={() => setSubmitted(true)}
+                        >
+                        <button className='cursor-pointer h-full p-2.5 w-full' >Save Product</button>
                     </div>
-                    {(submitted &&  (!qty || qty === 0 || !productName || productName == "" || !price || price == 0 || !minLevel ) ) && (
+                    {/* {(submitted &&  (!qty || qty === 0 || !productName || productName == "" || !price || price == 0 || !minLevel ) ) && (
                         <>
                             <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-red-800 text-center rounded-lg bg-red-100 '>
                                 <p>Please fill in all required fields</p> 
                             </div>
-                            {/* {setSubmitted(false)} */}
+                            
                         </>
+                    )} */}
+                    {errorMessage && (
+                        <>
+                        <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-red-800 text-center rounded-lg bg-red-100 '>
+                            <p>Please fill in all required fields</p> 
+                        </div>
+                        
+                    </>
                     )}
-                    {(submitted && ((qty != 0) && (productName != "") && (price != 0 ) && (minLevel != 0))  ) && (
+                    {(submitted && ((qty > 1) && (productName != "") && (price > 1 ) && (minLevel > 1))  ) && (
                         
                         <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-green-800 text-center rounded-lg bg-green-100 '>
                             <p>Item added successfully</p> 
