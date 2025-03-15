@@ -29,7 +29,7 @@ function RecentItems() {
                                 {item.productPhoto 
                                     ? (
                                         <img 
-                                            className='w-full h-full '
+                                            className='w-full h-full'
                                             src={`http://localhost:3003${item.productPhoto}`}
                                         />
                                     ):(

@@ -15,6 +15,7 @@ import Order from './models/Order.js'
 import Activity from './models/Activity.js'
 import StoreStock from './models/StoreStock.js'
 import Category from './models/Category.js'
+import RequestedProduct from './models/RequestedProduct.js'
 
 app.use(cors())
 app.use(express.json())
@@ -211,6 +212,45 @@ app.get("/admin/items/categories", async(req, res) => {
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server Error, failed to get categories"})
+    }
+})
+
+// add new Requested product
+app.post("/admin/dashboard/add-requested-product", async(req, res) => {
+    try{
+        const {reqProductName} = req.body
+        const newProduct = new RequestedProduct({reqProductName})
+        await newProduct.save()
+        res.json({message: "Requested product added successfully", reqProductName})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, failed to add requested product"})
+    }
+})
+
+// get Requested products
+app.get("/admin/dashbord/requested-products", async(req, res) => {
+    try{
+        const requestedProducts = await RequestedProduct.find()
+        res.send(requestedProducts)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server Error, failed to get requested products"})
+    }
+})
+
+// delete requested product by ID
+app.delete("/admin/dashboard/delete-requested-product/:id", async(req, res) => {
+    try{
+        const deletedProduct = await RequestedProduct.findByIdAndDelete({_id: req.params.id})
+        if(!deletedProduct){
+            return res.status(404).json({error: "product not found"})
+        }
+        console.log("deleted product: ", deletedProduct)
+        res.json({message: "product deleted successfully", deletedProduct})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, failed to delete requested product"})
     }
 })
 

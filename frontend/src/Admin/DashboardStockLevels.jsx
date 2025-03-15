@@ -1,19 +1,22 @@
-import { ArrowRight, Boxes } from 'lucide-react'
+import { ArrowRight, Boxes, EllipsisVertical, PackageX, PenLine, Trash2 } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import PopUp from './PopUp'
 
 function DashboardStockLevels() {
     const [dashboardProducts, setDashboardProducts] = useState([])
+    const [showOptions, setShowOptions] = useState(false)
+    const [popUp, setPopUp] = useState(false)
     useEffect(() => {
         axios.get("http://localhost:3003/admin/dashboard/stockLevels")
             .then(response => setDashboardProducts(response.data))
             .catch(error => console.log("Error: ", error))
-    }, [])
+    }, [dashboardProducts])
   return (
-    <div>
-        <div className='bg-gray-50 px-4 pb-2'>
-            <div className='pt-2 flex justify-between items-center'>
+    <div className=''>
+        <div className='sticky top-0 z-10 bg-gray-50 px-4 pb-2'>
+            <div className=' pt-2 flex justify-between items-center'>
                 <div className='flex  justify-center items-center gap-3'>
                     <p className='text-xl font-semibold text-gray-700'>Stock Levels</p>
                     <div className='bg-red-400 rounded-full px-3 text-white font-semibold'>
@@ -26,39 +29,68 @@ function DashboardStockLevels() {
                 </Link>
             </div>
         </div>
-        <div>
+        <div className=' overflow-y-scroll h-64'>
             {
-                dashboardProducts 
+                (dashboardProducts.length >= 1) 
                 ?(
                     dashboardProducts.map((product, index)=> (
-                        <div>
-                            <div>
-                                <p>{product.productName} </p>
-                                <p>#{index+1}</p>
+                        <div className="flex justify-between items-center border-b border-gray-300 px-4 py-2.5">
+                            <div className='w-3/5 flex items-baseline gap-2'>
+                                <p className='text-lg font-semibold'>{product.productName} </p>
+                                <p className='text-gray-400 text-sm'>#{index+1}</p>
                             </div>
-                            <div>
+                            <div className='flex flex-col w-1/4 gap-1'>
                                 <div>
                                     {
                                         product.outOfStock && (
-                                            <div className='bg-red-400 text-white rounded-lg'><p>Out of Stock</p></div>
+                                            <div className='bg-red-300 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Out of Stock</p></div>
                                         )
                                     }
                                     {       
                                         product.lowInStock && (
-                                            <div><p>Low in Stock</p></div>
+                                            <div className='bg-orange-300 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Low in Stock</p></div>
                                         )
                                     }
                                 </div>
-                                <div>
-                                    <div><Boxes /></div>
-                                    <div><p>{product.qty}</p></div>
-                                    <div><p>Available</p></div>
+                                <div className='flex gap-1  text-sm text-gray-500 items-center justify-center'>
+                                    <div><Boxes size={18} /></div>
+                                    <div className=''><p>{product.qty} Available</p></div>
                                 </div>
+                            </div>
+                            <div class="relative p-1.5 bg-gray-50 hover:bg-gray-200 rounded-full">
+                                <EllipsisVertical size={20} onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
+                                {
+                                    showOptions === index && (
+                                        <div className=' z-30 absolute right-7 top-7 bg-white shadow-md border border-gray-200 rounded-lg text-black w-28'>
+                                            {/* view product details  */}
+                                            {/* <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                <div><Eye /></div>
+                                                <p>View</p>
+                                            </Link> */}
+                                            {/* update a product */}
+                                            <Link className='hover:bg-gray-100 px-2 py-2 gap-1 text-base font-semibold flex items-center justify-center border-b border-gray-200'>
+                                                <div><PenLine size={20} /></div>
+                                                <p>Update</p>
+                                            </Link>
+                                            {/* delete  a product */}
+                                            <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-2 py-2 gap-1 text-base font-semibold flex justify-center items-center text-red-600'>
+                                                <div><Trash2 size={20} /></div>
+                                                <p>Delete</p>
+                                            </Link>
+                                            {/* a Component <PopUp/> to confirm the delete or cancel */}
+                                            {popUp && <PopUp setPopUp={setPopUp} name={product.productName} id={product._id} setShowOptions={setShowOptions} />
+                                        }
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                     ))
                 ):(
-                    <p>No items Found.</p>
+                    <div className='text-gray-500 text-xl  font-bold h-full w-full flex flex-col justify-center items-center '>
+                        <PackageX size={40} className="text-gray-500" />
+                        <p>No items Found.</p>
+                    </div>
                 )
             }
         </div>

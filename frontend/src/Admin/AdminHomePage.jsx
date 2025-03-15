@@ -6,6 +6,7 @@ import RecentItems from './RecentItems'
 import RecentCategories from './RecentCategories'
 import RecentActivities from './RecentActivities'
 import DashboardStockLevels from './DashboardStockLevels'
+import RequestedProducts from './RequestedProducts'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
@@ -57,7 +58,7 @@ function AdminHomePage() {
   }
   useEffect(() => {
     getStockInfo();
-  }, [])
+  }, [stockInfo])
   
   useEffect(() => {
     calculateNumberOfNotifications()
@@ -74,7 +75,7 @@ function AdminHomePage() {
   }, [stockInfo])
   return (
     <div className='px-3'>
-      <div className=' sticky top-0 w-full pr-10 bg-gray-100  border-gray-400 flex justify-between items-center py-5'>
+      <div className=' pr-10 bg-gray-100  border-gray-400 flex justify-between items-center py-5'>
         <div className='text-3xl text-gray-700 font-semibold'>
             <p>Dashboard</p>
         </div>
@@ -87,7 +88,7 @@ function AdminHomePage() {
               onClick={() => setShowNotifications(!showNotifications)} 
               />
               {showNotificationTitle && (
-                <div className='absolute top-12 right-0 text-sm px-3 py-1 text-white bg-gray-600 rounded-lg'>
+                <div className='absolute  top-12 right-0 text-sm px-3 py-1 text-white bg-gray-600 rounded-lg'>
                   <p>Notifications</p>
                 </div>
               )}
@@ -96,7 +97,7 @@ function AdminHomePage() {
               )}
           </div>
             {showNotifications && (
-              <div className=' absolute bg-white w-96 h-[85vh] right-10 top-0 rounded-xl shadow-2xl'>
+              <div className=' absolute z-20 bg-white w-96 h-[85vh] right-10 top-0 rounded-xl shadow-2xl'>
                 <div className=' border-gray-400 shadow-lg text-gray-600 px-3 py-3 text-lg'>Notifications</div>
                   {(showNotificationExpired || showNotificationLowInStock || showNotificationOutOfStock) ? (
                     <div className='flex flex-col gap-[0.1px] mt-3'>
@@ -147,9 +148,10 @@ function AdminHomePage() {
             )}
         </div>
       </div>
-        <hr className='w-full mb-5 text-gray-400'/>
-      {/* Inventory Summary */}
-      <div className=''>
+      <hr className='w-full mb-5 text-gray-400'/>
+      
+      {/*Inventory Summary */}
+      <section className=''>
         <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4'>Inventory Summary</p>
         <div className='flex justify-between'>
           {/* Number of Items */}
@@ -185,25 +187,29 @@ function AdminHomePage() {
             </div>
           </div>
         </div>
-      </div>
-      <div className='flex mt-7 gap-5'>
+      </section>
+      <section className='flex mt-14 gap-6'>
         {/* Recent Activity */}
-        <div className='w-1/2 bg-white rounded-lg overflow-hidden'>
+        <div className='w-2/5 bg-white rounded-lg overflow-hidden'>
             <RecentActivities/>
         </div>
         {/* Low In Stock Products */}
-        <div className='w-1/2 bg-white rounded-lg overflow-hidden'>
+        <div className='w-2/5 bg-white rounded-lg overflow-hidden'>
           <DashboardStockLevels/>
         </div>
-      </div>
+        {/* Requested Products */}
+        <div className='w-1/5 bg-white rounded-lg overflow-hidden'>
+            <RequestedProducts/>
+        </div>
+      </section>
       {/* recent Items added */}
-      <div>
+      <section>
         <RecentItems/>
-      </div>
+      </section>
       {/* Recent categories */}
-      <div>
+      <section>
         <RecentCategories/>
-      </div>
+      </section>
     </div>
   )
 }
