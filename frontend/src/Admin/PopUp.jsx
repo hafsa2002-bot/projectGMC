@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Info } from 'lucide-react'
 import React from 'react'
 
-function PopUp({setPopUp, name, id}) {
+function PopUp({setPopUp, name, id, setShowOptions}) {
     const deleteItem = () => {
         axios.delete(`http://localhost:3003/admin/item/${id}`)
             .then( (response) => {
@@ -27,11 +27,15 @@ function PopUp({setPopUp, name, id}) {
             <div className='flex gap-4'>
                 {/* confirm the delete */}
                 <button 
-                    onClick={() => deleteItem()}
+                    onClick={() => {
+                        deleteItem()
+                        setShowOptions(false)}}
                     className=' cursor-pointer px-5 py-3 text-red-600 text-base'>Delete</button>
                 {/* cancel the delete */}
                 <button
-                    onClick={() => setPopUp(false)}
+                    onClick={() => {
+                        setPopUp(false)
+                        setShowOptions(false)}}
                     className='cursor-pointer bg-blue-600 text-white  px-5 py-3 text-base rounded-lg'>Cancel</button>
             </div>
         </div>

@@ -68,11 +68,13 @@ initializeStoreStock();
 // add new item
 app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res) => {
     try{
-        const {productName, barcode, qty, minLevel, price, expirationDate} = req.body;
+        let {productName, barcode, qty, minLevel, price, expirationDate, categoryId} = req.body;
         const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
-    
-        console.log({productName, price, qty, barcode, minLevel, productPhoto, expirationDate})
-        const newItem = new Product({productName, price, barcode, qty, minLevel, productPhoto, expirationDate})
+
+        if(!categoryId || categoryId === "") categoryId = null;
+
+        console.log({productName, price, qty, barcode, minLevel, productPhoto, expirationDate, categoryId})
+        const newItem = new Product({productName, price, barcode, qty, minLevel, productPhoto, expirationDate, categoryId})
         await newItem.save();
 
         // update Stock Status
@@ -87,7 +89,7 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
         res.json({message: "Product added successfully", productPhoto})
     } catch(error){
         console.log("error: ", error);
-        res.status(500).json({message: "Error adding product"})
+        res.status(500).json({message: "Error when adding product"})
     }
 })
 
@@ -117,7 +119,7 @@ app.delete("/admin/item/:id", async(req, res) => {
     }
 })
 
-// stock Info
+// get stock Info
 app.get("/admin/stock", async(req, res) => {
     try{
         const stock = await StoreStock.findOne()
@@ -151,6 +153,17 @@ app.get("/admin/items/lowInStock", async(req, res) => {
     }
 })
 
+// get products low In Stock Or Out Of stock
+app.get("/admin/dashboard/stockLevels", async(req, res) => {
+    try{
+        const products = await Product.find({$or:[{lowInStock:true}, {outOfStock:true}]})
+        res.send(products)
+    }catch(error){
+        console.log("Error: ", error);
+        res.status(500).json({error: "Internal server error: get stock levels"})
+    }
+})
+
 // get products expired
 app.get("/admin/items/expiredItems", async (req, res) => {
     try{
@@ -162,7 +175,7 @@ app.get("/admin/items/expiredItems", async (req, res) => {
     }
 })
 
-// get Product By Id
+// get Product By Id => for product details 
 app.get("/admin/items/view/:product_id", async(req, res) => {
     try{
         const productById = await Product.find({_id: req.params.product_id}).populate('categoryId', 'categoryName')
@@ -172,5 +185,35 @@ app.get("/admin/items/view/:product_id", async(req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
 })
+
+// add category
+app.post("/admin/items/addCategory", async(req, res) => {
+    try{
+        const {categoryName} = req.body;
+        const newCategory = new Category({categoryName})
+        await newCategory.save()
+        await StoreStock.updateStoreStock()
+        res.json({message: "category added successfully", categoryName})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, Failed to add category"})
+    }
+
+
+})
+
+// get all categories
+app.get("/admin/items/categories", async(req, res) => {
+    try{
+        const categories = await Category.find()
+        // console.log("categories: ", categories)
+        res.send(categories)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server Error, failed to get categories"})
+    }
+})
+
+
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

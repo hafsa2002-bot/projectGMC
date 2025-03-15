@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import AddCategory from './AddCategory'
+import ListOfCategories from './ListOfCategories'
 
 function AddItem() {
     const [productName, setProductName] = useState("")
@@ -11,15 +13,18 @@ function AddItem() {
     const [minLevel, setMinLevel] = useState(0)
     const [price, setPrice] = useState(0)
     const [currency, setCurrency] =  useState('MAD')
-    const [category, setCategory] = useState("")
+    const [showCategories, setShowCategories] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState({id: "", name: ""})
+    const [addCategory, setAddCategory] = useState(false)
     const [expirationDate, setExpirationDate] = useState("")
     const [productPhoto, setProductPhoto] = useState(null)
-    const [showCategories, setShowCategories] = useState(false)
     const [submitted, setSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false)
     const [showRequired, setShowRequired] = useState(false)
     // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
+
+    console.log("category selected: ", selectedCategory)
 
     let totalValue = () => {
         if (price || qty) return `${price * qty} `;
@@ -35,10 +40,6 @@ function AddItem() {
         
         setSubmitted(true)
 
-        
-
-
-
         const formData = new FormData();
         formData.append("productName", productName)
         formData.append("barcode", barcode)
@@ -47,6 +48,7 @@ function AddItem() {
         formData.append("price", price)
         formData.append("productPhoto", productPhoto)
         formData.append("expirationDate", expirationDate)
+        formData.append("categoryId", selectedCategory.id)
 
         try{
             const response = await fetch("http://localhost:3003/admin/items/add-item", {
@@ -157,7 +159,7 @@ function AddItem() {
                     </div>
                     {/* Min level */}
                     <div className='w-1/2'>
-                        <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Min Level <span className='text-red-500'>*</span></label>
+                        <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
                         <input 
                             type="number"
                             //min="1" 
@@ -168,6 +170,7 @@ function AddItem() {
                             className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                             // required
                         />
+                        <p className='text-green-600'>The min. number of quantity before a low stock alert</p>
                         {((minLevel === "") && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>
                         )}
@@ -204,7 +207,6 @@ function AddItem() {
                             </div>
                         </div>
                     </div>
-
                     {/* Total Value */}
                     <div className='w-1/2'>
                         <label htmlFor="total" className="block mb-2  font-medium text-gray-900 ">Total Value(hidden)</label>
@@ -247,8 +249,8 @@ function AddItem() {
                     {/* Category */}
                     <div className='relative w-1/2'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
-                        <div className="flex justify-between h-11 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
-                            <p className='text-gray-500'>Choose category</p>
+                        <div className= "flex justify-between h-11 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
+                            <p className={selectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{selectedCategory.name || "Choose category"}</p>
                             {   
                                 showCategories 
                                 ? (<ChevronDown className='rotate-180' onClick={() => setShowCategories(false)} />)
@@ -259,11 +261,21 @@ function AddItem() {
                         {showCategories && 
                             (
                                 <div className='absolute z-20 bg-white border border-gray-300 w-full rounded-lg mt-3 overflow-hidden'>
-                                    <ul>
-                                        <li className='hover:bg-gray-100 py-2.5 px-2 border-b border-gray-300'>No category found</li>
-                                    </ul>
+                                    {/* list of categories */}
                                     <div>
-                                        <Link to="/admin/items/add-category" className='text-blue-600 flex gap-3 py-2.5 px-2 items-center'><CirclePlus size={20} /><p>Add new category</p> </Link>
+                                        <ListOfCategories setSelectedCategory={setSelectedCategory} setShowCategories={setShowCategories} />
+                                    </div>
+                                    {/* add new category */}
+                                    <div>
+                                        <div 
+                                            onClick={() => setAddCategory(true)}
+                                            className='text-blue-600 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
+                                            <CirclePlus size={20} />
+                                            <p>Add new category</p> 
+                                        </div>
+                                        {addCategory && (
+                                            <AddCategory setAddCategory={setAddCategory}/>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -324,30 +336,15 @@ function AddItem() {
                     </div> 
                 </div>
                 <div className='flex items-center gap-6'>
-                    <div 
-                        className="w-32 text-center cursor-pointer font-semibold bg-blue-500 border border-gray-300 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  outline-none" 
-                        // onClick={() => setSubmitted(true)}
-                        >
+                    <div className="w-32 text-center cursor-pointer font-semibold bg-blue-500 border border-gray-300 text-white rounded-lg focus:ring-blue-500 focus:border-blue-500 block  outline-none" >
                         <button className='cursor-pointer h-full p-2.5 w-full' >Save Product</button>
                     </div>
-                    {/* {(submitted &&  (!qty || qty === 0 || !productName || productName == "" || !price || price == 0 || !minLevel ) ) && (
-                        <>
-                            <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-red-800 text-center rounded-lg bg-red-100 '>
-                                <p>Please fill in all required fields</p> 
-                            </div>
-                            
-                        </>
-                    )} */}
                     {errorMessage && (
-                        <>
                         <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-red-800 text-center rounded-lg bg-red-100 '>
                             <p>Please fill in all required fields</p> 
                         </div>
-                        
-                    </>
                     )}
                     {(submitted && ((qty > 1) && (productName != "") && (price > 1 ) && (minLevel > 1))  ) && (
-                        
                         <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-green-800 text-center rounded-lg bg-green-100 '>
                             <p>Item added successfully</p> 
                         </div>

@@ -17,7 +17,11 @@ const productSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},
     outOfStock : {type: Boolean, default: false},
     lowInStock : {type: Boolean, default: false}, 
-    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: false },
+    categoryId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Category", 
+        required: false, 
+        default: null },
     expirationDate: {type: Date, required: false},
     isExpired: {type: Boolean, default: false}
 })
