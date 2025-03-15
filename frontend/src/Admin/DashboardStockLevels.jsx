@@ -43,12 +43,12 @@ function DashboardStockLevels() {
                                 <div>
                                     {
                                         product.outOfStock && (
-                                            <div className='bg-red-300 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Out of Stock</p></div>
+                                            <div className='bg-red-400 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Out of Stock</p></div>
                                         )
                                     }
                                     {       
                                         product.lowInStock && (
-                                            <div className='bg-orange-300 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Low in Stock</p></div>
+                                            <div className='bg-orange-400 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Low in Stock</p></div>
                                         )
                                     }
                                 </div>

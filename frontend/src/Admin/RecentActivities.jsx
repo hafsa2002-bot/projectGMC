@@ -13,7 +13,7 @@ function RecentActivities() {
             </Link>
         </div>
         <div className='overflow-y-scroll h-64'>
-
+            
         </div>
     </div>
   )

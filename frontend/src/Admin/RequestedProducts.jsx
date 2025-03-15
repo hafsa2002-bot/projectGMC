@@ -56,20 +56,20 @@ function RequestedProducts() {
                 </div>
             </div>
             {showFormToAddProduct && (
-                <div className="fixed z-50 w-screen h-screen top-0 right-0 flex justify-end items-center pr-8" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
+                <div className="fixed z-50 w-screen h-screen top-0 right-0 flex justify-center items-center" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
                     <div className='w-96 h-72 bg-white rounded-lg p-4'>
                         <div
                             onClick={() => setShowFormToAddProduct(false)}
                             className='flex justify-end text-end w-full'>
                             <div className='w-8 h-8 hover:bg-gray-200 cursor-pointer rounded-full flex justify-center items-center'><X /></div>
                         </div>
-                        <div className='px-2 flex flex-col gap-8'>
-                            <div className="text-xl font-semibold text-gray-700">
+                        <div className='px-2 flex flex-col gap-5'>
+                            <div className="text-2xl font-semibold text-gray-700">
                                 <p>Add New Requested Product</p>
                             </div>
                             <div className='flex flex-col gap-4 '>
-                                <div>
-                                    <label htmlFor="ReqProductName" className='mb-2  font-medium text-gray-900'>Product Name</label>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="ReqProductName" className='  font-medium text-gray-500'>Product Name</label>
                                     <input
                                         className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${(reqProductName === "" && submitProduct) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  ` }
                                         type="text" 
@@ -99,7 +99,7 @@ function RequestedProducts() {
                 {(requestedProducts.length > 0 )
                 ?(
                     requestedProducts.map((product, index) => (
-                        <div className='p-2 border rounded-lg border-gray-400 flex justify-between'>
+                        <div className='p-2 border rounded-lg border-gray-400 flex justify-between gap-4 items-center'>
                             <div className=''>
                                 <div className='font-semibold text-gray-700'>
                                     <p>{product.reqProductName}</p>
