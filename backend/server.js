@@ -228,7 +228,18 @@ app.get("/admin/items/categories-with-Products", async (req, res) => {
                 }
             }
         ]);
-        res.send(categories)
+        
+        const categoriesWithTotalValue = categories.map(category => {
+            const totalValue = category.products.reduce((acc, product) => acc + product.price*product.qty, 0)
+            const totalQty = category.products.reduce((acc, product) => acc + product.qty, 0)
+            return {...category, totalValue, totalQty}
+        })
+        const categorieWithTotalQty = categories.map(category => {
+
+        })
+        
+        res.json(categoriesWithTotalValue);
+        // res.send(categories)
     }catch(error){
         console.log("Error fetching categories with products: ", error)
         res.status(500).json({error: "Internal server error"})

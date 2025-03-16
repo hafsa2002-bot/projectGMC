@@ -27,6 +27,7 @@ import ItemsRoute from "./Admin/ItemsRoute"
 import AllItems from "./Admin/AllItems"
 import CategoryItems from "./Admin/CategoryItems"
 import AllCategories from "./Admin/AllCategories"
+import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 
 function App() {
 
@@ -56,7 +57,7 @@ function App() {
               </Route>
               <Route path="categories" element={<AllCategories/>}/>
               <Route path="add-item" element={<AddItem/>}/>
-              {/* <Route path="add-category" element={<AddCategory/>}/> */}
+              {/* <Route path="add-category" element={<AddCategoryPage/>}/> */}
               <Route path="out-of-stock" element={<OutOfStock/>}/>
               <Route path="low-in-stock" element={<LowInStock/>}/>
               <Route path="expired-items" element={<ExpiredItems/>}/>
