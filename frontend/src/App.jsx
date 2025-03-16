@@ -26,6 +26,7 @@ import ViewProduct from "./Admin/ViewProduct"
 import ItemsRoute from "./Admin/ItemsRoute"
 import AllItems from "./Admin/AllItems"
 import CategoryItems from "./Admin/CategoryItems"
+import AllCategories from "./Admin/AllCategories"
 
 function App() {
 
@@ -53,8 +54,9 @@ function App() {
                 <Route index element={<AllItems/>}/>
                 <Route path="category/:categoryName" element={<CategoryItems/>} />
               </Route>
+              <Route path="categories" element={<AllCategories/>}/>
               <Route path="add-item" element={<AddItem/>}/>
-              <Route path="add-category" element={<AddCategory/>}/>
+              {/* <Route path="add-category" element={<AddCategory/>}/> */}
               <Route path="out-of-stock" element={<OutOfStock/>}/>
               <Route path="low-in-stock" element={<LowInStock/>}/>
               <Route path="expired-items" element={<ExpiredItems/>}/>

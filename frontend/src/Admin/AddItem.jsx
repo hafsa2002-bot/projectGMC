@@ -1,4 +1,4 @@
-import { ArrowLeft, Barcode, CalendarDays, ChevronDown, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode } from 'lucide-react'
+import { ArrowLeft, Barcode, CalendarDays, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import DatePicker from "react-datepicker"
@@ -24,7 +24,7 @@ function AddItem() {
     // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
 
-    console.log("category selected: ", selectedCategory)
+    // console.log("category selected: ", selectedCategory)
 
     let totalValue = () => {
         if (price || qty) return `${price * qty} `;
@@ -64,7 +64,6 @@ function AddItem() {
         }catch(error){
             console.log("Error: ", error)
         }
-        
     }
 
     useEffect(() => {
@@ -86,10 +85,10 @@ function AddItem() {
   return (
     <div className='my-3'>
         <div className=''>
-            <Link to="/admin/items" className='flex gap-2 items-center w-40'>
+            {/* <Link to="/admin/items" className='flex gap-2 items-center w-40'>
                 <div><ArrowLeft/></div>
-                <div className='text-2xl'><p>All Items</p></div>
-            </Link>
+            </Link> */}
+            <div className='text-2xl text-gray-600 pl-2 font-semibold'><p>Add New Item</p></div>
         </div>
         <div className='bg-white p-5 mt-5  rounded-lg mb-24'>
             <div className='mb-3'>
@@ -160,16 +159,20 @@ function AddItem() {
                     {/* Min level */}
                     <div className='w-1/2'>
                         <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
-                        <input 
-                            type="number"
-                            //min="1" 
-                            name="minLevel" 
-                            id="minLevel" 
-                            value={minLevel}
-                            onChange={(e) => setMinLevel(e.target.value)}
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
-                            // required
-                        />
+                        <div>
+                            <input 
+                                type="number"
+                                //min="1" 
+                                name="minLevel" 
+                                id="minLevel" 
+                                value={minLevel}
+                                onChange={(e) => setMinLevel(e.target.value)}
+                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                                // required
+                            />
+                            <CircleHelp />
+
+                        </div>
                         <p className='text-green-600'>The min. number of quantity before a low stock alert</p>
                         {((minLevel === "") && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>

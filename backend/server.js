@@ -204,6 +204,7 @@ app.post("/admin/items/addCategory", async(req, res) => {
 })
 
 // get all categories
+
 app.get("/admin/items/categories", async(req, res) => {
     try{
         const categories = await Category.find()
@@ -212,6 +213,25 @@ app.get("/admin/items/categories", async(req, res) => {
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server Error, failed to get categories"})
+    }
+})
+
+app.get("/admin/items/categories-with-Products", async (req, res) => {
+    try{
+        const categories = await Category.aggregate([
+            {
+                $lookup:{
+                    from: "products",
+                    localField: "_id",
+                    foreignField: "categoryId",
+                    as: "products"
+                }
+            }
+        ]);
+        res.send(categories)
+    }catch(error){
+        console.log("Error fetching categories with products: ", error)
+        res.status(500).json({error: "Internal server error"})
     }
 })
 
