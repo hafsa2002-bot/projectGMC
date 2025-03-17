@@ -29,8 +29,8 @@ function ItemsRoute() {
         <div className='flex  gap-4 pb-3'>
             {location.pathname === "/admin/items" && (
               <Link to="/admin/items/add-item" className='text-white bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
-                    <p>Add Item</p>
-                </Link>
+                <p>Add Item</p>
+              </Link>
               )}
             {location.pathname === "/admin/items/categories" && (
               <Link 

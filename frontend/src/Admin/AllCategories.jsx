@@ -3,6 +3,8 @@ import axios from 'axios'
 import { EllipsisVertical, Eye, FolderOpen, Layers, Trash2 } from 'lucide-react'
 import {Link, Navigate, useNavigate} from 'react-router-dom'
 import AddCategory from './AddCategory'
+import SpinnerLoader from '../SpinnerLoader'
+import SpinnerBlue from './SpinnerBlue'
 function AllCategories() {
     const [categories, setCategories] = useState([])
     const [showOptions, setShowOptions] = useState(false)
@@ -128,9 +130,9 @@ function AllCategories() {
                     </div>
                 </div>
             ))
-       ):(
-        <p>No category Found</p>
-       )}
+        ):(
+            <SpinnerBlue/>
+        )}
     </div>
     </>
   )

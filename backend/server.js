@@ -279,6 +279,8 @@ app.get("/admin/items/category/:categoryId", async (req, res) => {
     }
 })
 
+// delete category
+
 // add new Requested product
 app.post("/admin/dashboard/add-requested-product", async(req, res) => {
     try{

@@ -21,6 +21,7 @@ function AddItem() {
     const [submitted, setSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false)
     const [showRequired, setShowRequired] = useState(false)
+    const [showMinLevelDetails, setShowMinLevelDetails ] = useState(false)
     // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
 
@@ -96,7 +97,7 @@ function AddItem() {
                 <p className='text-gray-500'>Add your product to make invoicing and cost management easier (* for required fields)</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
-                <div className='flex gap-8 w-9/12'>
+                <div className='flex gap-8 w-full'>
                     {/* product Name */}
                     <div className='w-1/2'>
                         <label htmlFor="productName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
@@ -133,8 +134,9 @@ function AddItem() {
                             </Link>
                         </div>
                     </div>
+                    <div className='w-2/12'></div>
                 </div>
-                <div className='flex gap-8  w-9/12'>
+                <div className='flex gap-8  w-full items-center'>
                     {/* Quantity */}
                     <div className='relative w-1/2'>
                         <label htmlFor="qty" className="block mb-2 font-medium text-gray-900">Quantity <span className='text-red-500'>*</span></label>
@@ -159,7 +161,7 @@ function AddItem() {
                     {/* Min level */}
                     <div className='w-1/2'>
                         <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
-                        <div>
+                        <div className='flex '>
                             <input 
                                 type="number"
                                 //min="1" 
@@ -170,10 +172,7 @@ function AddItem() {
                                 className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((minLevel ==="" || minLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
                                 // required
                             />
-                            <CircleHelp />
-
                         </div>
-                        <p className='text-green-600'>The min. number of quantity before a low stock alert</p>
                         {((minLevel === "") && showRequired) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>
                         )}
@@ -181,8 +180,26 @@ function AddItem() {
                             <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
                         )}
                     </div>
+                    <div className=' w-2/12 relative pt-7 right-5'>
+                        <div>
+                            <CircleHelp
+                                color='gray'
+                                className='relative'
+                                onMouseEnter={() => setShowMinLevelDetails(true)} 
+                                onMouseLeave={() => setShowMinLevelDetails(false)}
+                            />
+                            {
+                                showMinLevelDetails && (
+                                    <div className='absolute bg-gray-400 text-white p-2.5 rounded-md bottom-7 left-0'>
+                                        <p className=''>The min. number of quantity before a low stock alert</p>
+                                    </div>
+                                )
+                            }
+                        </div>
+                        
+                    </div>
                 </div>
-                <div className='flex gap-8  w-11/12 items-center'>
+                <div className='flex gap-8  w-full items-center'>
 
                     {/* Price */}
                     <div className='w-1/2'>
@@ -228,7 +245,7 @@ function AddItem() {
                         </div>
                     </div>
                     {/* Currency */}
-                    <div >
+                    <div className='w-2/12'>
                         {/* select units of price MAD, $, Euro */}
                         <p  className="block mb-2 text-sm font-medium text-gray-900">Currency</p>
                         <select 
@@ -248,8 +265,8 @@ function AddItem() {
                         </select>
                     </div>
                 </div>
-                <div className=' w-9/12 flex gap-8'>
-                    {/* Category */}
+                {/* Category */}
+                <div className=' w-full flex gap-8'>
                     <div className='relative w-1/2'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
                         <div className= "flex justify-between h-11 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
@@ -284,9 +301,10 @@ function AddItem() {
                             )}
                     </div>
                     <div className='w-1/2'></div>
+                    <div className='w-2/12'></div>
                 </div>
-                <div className=' w-9/12 flex gap-8'>
-                    {/* Expire date */}
+                {/* Expire date */}
+                <div className=' w-full flex gap-8'>
                     <div className='w-1/2 '>
                         <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
                         <div className='relative w-full'>
@@ -297,18 +315,19 @@ function AddItem() {
                                 selected={expirationDate}
                                 onChange={(date) => setExpirationDate(date)}
                                 dateFormat="yyyy-MM-dd"
-                                className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[400px] p-2.5 '
+                                className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[450px] p-2.5 '
                                 placeholderText='Select Date'
                             />
                         </div>
                     </div>
                     <div className='w-1/2'></div>
+                    <div className='w-2/12'></div>
                 </div>
                 <div>
                     {/* image input */}
                     <p className="block mb-2  font-medium text-gray-900 ">Product Image</p>
-                    <div className="flex items-center justify-center w-11/12">
-                        <label htmlFor="productPhoto" className="flex flex-col items-center justify-center w-full h-32 border-1 border-gray-300  rounded-lg cursor-pointer bg-gray-50  dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div className="flex items-center  w-full">
+                        <label htmlFor="productPhoto" className="flex w-10/12 flex-col items-center  h-32 border-1 border-gray-300  rounded-lg cursor-pointer bg-gray-50   hover:bg-gray-100   ">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                 <div className="mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 16">
                                     <ImageUp size={30} className='text-blue-600'/>                               
