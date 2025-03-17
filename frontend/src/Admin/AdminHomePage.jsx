@@ -203,7 +203,7 @@ function AdminHomePage() {
         </div>
       </section>
       {/* recent Items added */}
-      <section className='mb-32'>
+      <section className='mb-32 lg:flex hidden'>
         <RecentItems/>
       </section>
       {/* Recent categories */}

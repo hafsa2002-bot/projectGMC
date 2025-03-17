@@ -63,9 +63,9 @@ function ProductsPage() {
                                 ))}
                             </div>
                             <div className=' flex justify-center '>
-                                <button onClick={() => navigate(`/products/${category.slug}`)}  class="px-9 py-2 text-xl mt-8   btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-50 rounded hover:bg-black group" >
-                                    <span class="w-56 h-48 rounded bg-black absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                                    <span class="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Show More</span>
+                                <button onClick={() => navigate(`/products/${category.slug}`)}  className="px-9 py-2 text-xl mt-8   btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-50 rounded hover:bg-black group" >
+                                    <span className="w-56 h-48 rounded bg-black absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                                    <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">Show More</span>
                                 </button>
                             </div>
                         </div>

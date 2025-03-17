@@ -87,7 +87,7 @@ function Items() {
                         </div>
                     </Link>
                 </div>
-                <div class=" bg-white pt-3 border border-gray-300 mt-8   shadow-md sm:rounded-lg">
+                <div className=" bg-white pt-3 border border-gray-300 mt-8   shadow-md sm:rounded-lg">
                     <div className='flex gap-3 mx-6 mt-3 mb-7 border-b border-gray-300'>
                         <NavLink 
                             to="/admin/items"

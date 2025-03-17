@@ -27,25 +27,25 @@ function OutOfStock() {
                 <p className='text-xl font-semibold'>Out of Stock Products</p>
                 <p className='text-gray-500'>This page lists items that are currently unavailable</p>
             </div>
-            <table class=" w-full text-sm text-left rtl:text-right text-gray-500 ">
-                <thead class=" text-gray-700  bg-gray-50 ">
+            <table className=" w-full text-sm text-left rtl:text-right text-gray-500 ">
+                <thead className=" text-gray-700  bg-gray-50 ">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                             Product
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                             Minimum Stock
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                             Available Stock
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                             Quantity Sold
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                             Unit price
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" className="px-6 py-3">
                             
                         </th>
                     </tr>
@@ -55,8 +55,8 @@ function OutOfStock() {
                         outOfStockProducts
                         ?(
                             outOfStockProducts.map((item, index) => (
-                                <tr key={index} class=" bg-white border-b border-gray-200">
-                                    <td scope="row" class="px-6 py-4 flex items-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <tr key={index} className=" bg-white border-b border-gray-200">
+                                    <td scope="row" className="px-6 py-4 flex items-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div className='w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
                                             <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
                                         </div>
@@ -64,20 +64,20 @@ function OutOfStock() {
                                             <p className='text-sm'>{item.productName}</p>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td className="px-6 py-4">
                                         {item.minLevel}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td className="px-6 py-4">
                                         {item.qty}
                                     </td>
-                                    <td class="px-6 py-4 text-red-600 text-2xl">
+                                    <td className="px-6 py-4 text-red-600 text-2xl">
                                         <p>!!!</p>
                                     </td>
-                                    <td class="px-6 py-4 text-base ">
+                                    <td className="px-6 py-4 text-base ">
                                         {item.price  } <span className='text-black'>MAD</span>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        {/* <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
+                                    <td className="px-6 py-4">
+                                        {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
                                         <EllipsisVertical />
                                     </td>
                                 </tr>

@@ -57,7 +57,7 @@ function DashboardStockLevels() {
                                     <div className=''><p>{product.qty} Available</p></div>
                                 </div>
                             </div>
-                            <div class="relative p-1.5 bg-gray-50 hover:bg-gray-200 rounded-full">
+                            <div className="relative p-1.5 bg-gray-50 hover:bg-gray-200 rounded-full">
                                 <EllipsisVertical size={20} onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                 {
                                     showOptions === index && (

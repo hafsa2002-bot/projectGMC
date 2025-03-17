@@ -279,7 +279,20 @@ app.get("/admin/items/category/:categoryId", async (req, res) => {
     }
 })
 
-// delete category
+// delete category by Id
+app.delete("/admin/items/delete-category/:id", async(req, res) => {
+    try{
+        const deletedCategory = await Category.findByIdAndDelete({_id: req.params.id})
+        if(!deletedCategory){
+            return res.status(404).json({error: "Category not found"})
+        }
+        console.log("deleted category: ", deletedCategory)
+        res.json({message: "category deleted successfully", deletedCategory})
+    }catch(error){
+        console.log("Error: ",error)
+        res.status(500).json({error: "Internal server error, failed to delete category"})
+    }
+})
 
 // add new Requested product
 app.post("/admin/dashboard/add-requested-product", async(req, res) => {

@@ -20,7 +20,7 @@ function RecentItems() {
                 <div><ArrowRight size={20} /></div>
             </Link>
         </div>
-        <div className='flex gap-3  py-3 '>
+        <div className='flex  gap-3  py-3 lg:flex-nowrap flex-wrap '>
             {recentItems
                 ?(
                     recentItems.slice(0, 6).map((item, index) => (

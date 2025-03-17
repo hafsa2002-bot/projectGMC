@@ -187,7 +187,7 @@ function SideBar() {
                 >
                 <Menu size={37} color="white" />
                 {showMenu && (
-                    <div className='absolute  bg-white border border-gray-200 shadow-lg top-[53px] left-0  w-64 h-[91vh] text-gray-600 text-xl font-semibold px-4  flex flex-col justify-between '>
+                    <div className='absolute  bg-white border border-gray-200 shadow-lg top-[53px] left-0  w-64 h-[91vh] text-gray-600 text-xl font-semibold px-4  flex flex-col justify-between'>
                         <div className='flex flex-col  gap-3 py-3'>
                             <NavLink 
                                 to="/admin"
