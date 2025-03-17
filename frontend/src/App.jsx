@@ -27,7 +27,8 @@ import ItemsRoute from "./Admin/ItemsRoute"
 import AllItems from "./Admin/AllItems"
 import CategoryItems from "./Admin/CategoryItems"
 import AllCategories from "./Admin/AllCategories"
-import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
+import CategoryInfo from "./Admin/CategoryInfo"
+// import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 
 function App() {
 
@@ -53,10 +54,14 @@ function App() {
               {/* <Route index element={<Items/>} /> */}
               <Route path="" element={<Items/>}>
                 <Route index element={<AllItems/>}/>
-                <Route path="category/:categoryName" element={<CategoryItems/>} />
+                {/* <Route path="category/:categoryName" element={<CategoryItems/>} /> */}
               </Route>
-              <Route path="categories" element={<AllCategories/>}/>
               <Route path="add-item" element={<AddItem/>}/>
+              <Route path="categories">
+
+                <Route index element={<AllCategories/>}/>
+                <Route path=":categoryId" element={<CategoryInfo/>}/>
+              </Route>
               {/* <Route path="add-category" element={<AddCategoryPage/>}/> */}
               <Route path="out-of-stock" element={<OutOfStock/>}/>
               <Route path="low-in-stock" element={<LowInStock/>}/>

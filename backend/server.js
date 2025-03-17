@@ -216,6 +216,7 @@ app.get("/admin/items/categories", async(req, res) => {
     }
 })
 
+// get categories with products 
 app.get("/admin/items/categories-with-Products", async (req, res) => {
     try{
         const categories = await Category.aggregate([
@@ -234,15 +235,47 @@ app.get("/admin/items/categories-with-Products", async (req, res) => {
             const totalQty = category.products.reduce((acc, product) => acc + product.qty, 0)
             return {...category, totalValue, totalQty}
         })
-        const categorieWithTotalQty = categories.map(category => {
 
-        })
-        
         res.json(categoriesWithTotalValue);
-        // res.send(categories)
     }catch(error){
         console.log("Error fetching categories with products: ", error)
         res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// get category By Id
+app.get("/admin/items/category/:categoryId", async (req, res) => {
+    try{
+        const categoryId = new mongoose.Types.ObjectId(req.params.categoryId)
+        console.log("Received category id: ", categoryId)
+        const category = await Category.aggregate([
+            {
+                $match: {
+                    _id: categoryId
+                }
+            },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "_id",
+                    foreignField: "categoryId",
+                    as: "products"
+                }
+            }
+        ])
+        if(category.length === 0){
+            console.log("Category not found")
+            return res.status(404).json({message: "Category not found"})
+        }
+        // const categoryWithTotals = category[0]
+        
+        // const categories = await Category.find({_id: req.params.categoryId})
+        console.log("Category found: ", category[0]);
+
+        res.json(category[0])
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server Error"})
     }
 })
 

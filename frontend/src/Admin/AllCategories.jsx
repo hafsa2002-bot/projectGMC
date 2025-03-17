@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { EllipsisVertical, Eye, FolderOpen, Layers, Trash2 } from 'lucide-react'
+import {Link, Navigate, useNavigate} from 'react-router-dom'
 import AddCategory from './AddCategory'
 function AllCategories() {
     const [categories, setCategories] = useState([])
     const [showOptions, setShowOptions] = useState(false)
+    const navigate = useNavigate()
     // const [addCategory, setAddCategory] = useState(false)
     
     const categoriesWithProducts = () => {
@@ -35,7 +37,7 @@ function AllCategories() {
             categories.map((category, index) => (
                 <div className='border-3 border-white  rounded-lg hover:shadow-xl cursor-pointer'>
                     {/* <p>{category.categoryName}</p> */}
-                    <div>
+                    <div onClick={() => navigate(`/admin/items/categories/${category._id}`)} className=''>
                         <div className=''>
                             {(category.products && category.products.length > 0)
                             ?(
@@ -75,15 +77,15 @@ function AllCategories() {
                             </div>
                             ):
                             (
-                                <>
-                                    <div className='w-60 h-32 bg-gray-300 text-gray-800 rounded-md flex justify-center items-center'>
-                                        <FolderOpen size={50} />
-                                    </div>
-                                    
-                                    {/* <div className='w-60 h-32  bg-neutral-400 text-neutral-200 flex justify-center items-center'>
-                                        <FolderOpen size={50} />
-                                    </div> */}
-                                </>
+                            <>
+                                <div className='w-60 h-32 bg-gray-300 text-gray-800 rounded-md flex justify-center items-center'>
+                                    <FolderOpen size={50} />
+                                </div>
+                                
+                                {/* <div className='w-60 h-32  bg-neutral-400 text-neutral-200 flex justify-center items-center'>
+                                    <FolderOpen size={50} />
+                                </div> */}
+                            </>
                             )}
                             
                         </div>

@@ -203,13 +203,13 @@ function AdminHomePage() {
         </div>
       </section>
       {/* recent Items added */}
-      <section>
+      <section className='mb-32'>
         <RecentItems/>
       </section>
       {/* Recent categories */}
-      <section>
+      {/* <section>
         <RecentCategories/>
-      </section>
+      </section> */}
     </div>
   )
 }

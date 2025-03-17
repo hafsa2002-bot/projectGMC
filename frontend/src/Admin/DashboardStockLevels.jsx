@@ -23,7 +23,7 @@ function DashboardStockLevels() {
                         <p>{dashboardProducts.length}</p>
                     </div>
                 </div>
-                <Link className=' text-blue-600  font-semibold flex justify-center items-center gap-3'>
+                <Link to="/admin/items/low-in-stock" className=' text-blue-600  font-semibold flex justify-center items-center gap-3'>
                     <p>View All</p>
                     <div><ArrowRight size={20} /></div>
                 </Link>

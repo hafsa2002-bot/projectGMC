@@ -57,7 +57,7 @@ function AddCategory({setAddCategory}) {
   // console.log("setAddCategory: ", setAddCategory)
 
   return (
-    <div className='bg-black  w-screen h-screen fixed top-0 right-0 flex justify-center items-center' style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
+    <div className='bg-black  w-screen h-screen fixed z-50 top-0 right-0 flex justify-center items-center' style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
         <div className='bg-white flex flex-col rounded-lg p-6 gap-4 w-4/12'>
           <div className=''>
             <div className='w-full flex justify-end'>
