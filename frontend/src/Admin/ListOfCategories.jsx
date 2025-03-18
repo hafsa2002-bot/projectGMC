@@ -18,7 +18,7 @@ function ListOfCategories({setSelectedCategory, setShowCategories}) {
         {
             listOfCategories.length > 0 
             ? (
-                listOfCategories.map((category, index) => (
+                [...listOfCategories].reverse().map((category, index) => (
                     <li 
                         onClick={() => {
                             setSelectedCategory({id: category._id, name: category.categoryName})
