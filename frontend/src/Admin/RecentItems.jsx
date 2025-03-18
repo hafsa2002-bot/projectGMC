@@ -12,7 +12,7 @@ function RecentItems() {
     }, [recentItems])
   return (
     <div className=''>
-        <div className='flex justify-between items-center mt-9 mb-4'>
+        <div className='flex justify-between items-center mt-9 mb-4 lg:px0 px-3'>
             <p className='text-2xl  font-semibold text-gray-700  '>Recent Items</p>
             {/* <Link to="/admin/items" className=' bg-blue-600  py-2 rounded-xl font-semibold text-white '>All Items</Link> */}
             <Link to="/admin/items" className=' text-blue-600   py-2 font-semibold flex justify-center items-center gap-3'>
@@ -20,12 +20,45 @@ function RecentItems() {
                 <div><ArrowRight size={20} /></div>
             </Link>
         </div>
-        <div className='flex  gap-3  py-3 lg:flex-nowrap flex-wrap '>
+        {/* laptop version */}
+        <div className='lg:flex hidden  lg:gap-3 gap-6 lg:m-0 justify-center lg:px-0 px-3  py-3 lg:flex-nowrap flex-wrap '>
             {recentItems
                 ?(
                     recentItems.slice(0, 6).map((item, index) => (
-                        <div key={index} className=' w-1/6 shadow-xl  bg-white rounded-lg px-2 py-2'>
-                            <div className='w-40 h-40  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
+                        <div key={index} className=' lg:w-1/6 w-5/12 shadow-xl  bg-white rounded-lg lg:px-2 py-2 '>
+                            <div className='lg:w-40 w-28 lg:h-40 h-28  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
+                                {item.productPhoto 
+                                    ? (
+                                        <img 
+                                            className='w-full h-full'
+                                            src={`http://localhost:3003${item.productPhoto}`}
+                                        />
+                                    ):(
+                                        <div></div>
+                                    )
+                                }
+                            </div>
+                            <div className='px-3 flex flex-col mt-2'>
+                                <p className='font-semibold'>{item.productName}</p>
+                                <p className='text-gray-500 font-bold'>{item.qty} Qty</p>
+                            </div>
+                        </div>
+                    ))
+                )
+                : (
+                    <div>
+                        <p>No Items</p>
+                    </div>
+                )
+            }
+        </div>
+        {/* phone version */}
+        <div className='flex  lg:hidden gap-6  justify-center  px-3  py-3  flex-wrap '>
+            {recentItems
+                ?(
+                    recentItems.slice(0, 4).map((item, index) => (
+                        <div key={index} className=' lg:w-1/6 w-5/12 shadow-xl  bg-white rounded-lg lg:px-2 py-2 '>
+                            <div className=' w-28  h-28  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
                                 {item.productPhoto 
                                     ? (
                                         <img 

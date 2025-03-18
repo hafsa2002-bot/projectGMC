@@ -16,6 +16,30 @@ function HomePage() {
     const navigate = useNavigate();
 
     // Fetch Categories and Random Products
+    /*
+    const fetchData = async () => {
+        try {
+            // Fetch categories
+            const categoriesResponse = await axios.get(
+                "https://dummyjson.com/products/categories"
+            );
+            const categorieList = categoriesResponse.data;
+            setCategories(categorieList);
+        
+            console.log("Categories:", categoriesResponse.data);
+        
+            // Fetch products from the 'mobile-accessories' category
+            const productsResponse = await axios.get(
+                "https://dummyjson.com/products/category/mobile-accessories?limit=10&select=title,price,images"
+            );
+            setProducts(productsResponse.data.products);
+        
+            console.log("Mobile Accessories Products:", productsResponse.data.products);
+        } catch (error) {
+            console.log("Error fetching data: ", error);
+        }
+    };
+    */
     const fetchData = async () => {
         try {
             // Fetch categories
@@ -96,6 +120,50 @@ function HomePage() {
             </section>
 
             {/* Product Carousel Section */}
+            {/* <section className="w-10/12 m-auto my-12 flex flex-col justify-center">
+                <h2 className="text-3xl font-bold text-center  mb-6">
+                    Featured Products
+                </h2>
+
+                {products.length > 4 ? (
+                <Swiper
+                    slidesPerView={2}
+                    spaceBetween={20}
+                    loop={true}
+                    autoplay={{
+                    delay: 2000,
+                    disableOnInteraction: false,
+                    }}
+                    modules={[Autoplay, Pagination]}
+                    pagination={{ clickable: true }}
+                    breakpoints={{
+                    640: { slidesPerView: 2 },
+                    768: { slidesPerView: 3 },
+                    1024: { slidesPerView: 4 },
+                    }}
+                    className="w-full"
+                    onSwiper={(swiper) => swiper.autoplay.start()}
+                >
+                    {products.map((product) => (
+                    <SwiperSlide key={product.id} className="text-center flex flex-col items-center py-6 pb-8">
+                        <div className="border border-stone-300 bg-white p-4 shadow-lg rounded-lg flex flex-col justify-between h-full">
+                            <img
+                                src={product.images[0]}
+                                alt={product.title}
+                                className="w-full h-60 object-cover rounded-lg mb-4"
+                            />
+                            <h3 className="text-lg font-semibold h-12">{product.title}</h3>
+                        </div>
+                    </SwiperSlide>
+                    ))}
+                </Swiper>
+                ) : (
+                    <p className="text-center text-3xl font-semibold text-gray-500">Loading ...</p>
+                )}
+                <button onClick={() => navigate('/products')} className="bg-black text-white text-lg px-6 py-2 rounded-lg mb-6 mt-3 w-52 m-auto   transition">
+                    View All Products
+                </button>
+            </section> */}
             <section className="w-10/12 m-auto my-12 flex flex-col justify-center">
                 <h2 className="text-3xl font-bold text-center  mb-6">
                     Featured Products
@@ -140,6 +208,7 @@ function HomePage() {
                     View All Products
                 </button>
             </section>
+            
             <section>
                 <p className="text-4xl text-center">About US</p>
                 <p>Welcome to <strong>Novexa</strong>, your one-stop online store dedicated

@@ -34,25 +34,25 @@ function DashboardStockLevels() {
                 (dashboardProducts.length >= 1) 
                 ?(
                     dashboardProducts.map((product, index)=> (
-                        <div className="flex justify-between items-center border-b border-gray-300 px-4 py-2.5">
-                            <div className='w-3/5 flex items-baseline gap-2'>
-                                <p className='text-lg font-semibold'>{product.productName} </p>
+                        <div className="flex justify-between items-center border-b border-gray-300 lg:px-4 px-2 py-2.5">
+                            <div className='lg:w-3/5 w-2/5 flex items-baseline gap-2'>
+                                <p className='lg:text-lg font-semibold'>{product.productName} </p>
                                 <p className='text-gray-400 text-sm'>#{index+1}</p>
                             </div>
-                            <div className='flex flex-col w-1/4 gap-1'>
+                            <div className='flex flex-col lg:w-1/4 w-1/2 gap-1 '>
                                 <div>
                                     {
                                         product.outOfStock && (
-                                            <div className='bg-red-400 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Out of Stock</p></div>
+                                            <div className='bg-red-400 lg:w-11/12 w-8/12  m-auto text-white rounded-md text-center font-semibold text-sm'><p>Out of Stock</p></div>
                                         )
                                     }
                                     {       
                                         product.lowInStock && (
-                                            <div className='bg-orange-400 w-10/12 m-auto text-white rounded-md text-center font-semibold text-sm'><p>Low in Stock</p></div>
+                                            <div className='bg-orange-400 lg:w-11/12 w-8/12  m-auto text-white rounded-md text-center font-semibold text-sm'><p>Low in Stock</p></div>
                                         )
                                     }
                                 </div>
-                                <div className='flex gap-1  text-sm text-gray-500 items-center justify-center'>
+                                <div className='flex gap-1 text-sm text-gray-500 items-center justify-center'>
                                     <div><Boxes size={18} /></div>
                                     <div className=''><p>{product.qty} Available</p></div>
                                 </div>

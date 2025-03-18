@@ -74,8 +74,8 @@ function AdminHomePage() {
     }
   }, [stockInfo])
   return (
-    <div className='px-3'>
-      <div className=' pr-10 bg-gray-100  border-gray-400 flex justify-between items-center py-5'>
+    <div className='lg:px-3 px-0'>
+      <div className='lg:pl-0 pl-3 pr-10 bg-gray-100  border-gray-400 flex justify-between items-center py-5'>
         <div className='text-3xl text-gray-700 font-semibold'>
             <p>Dashboard</p>
         </div>
@@ -148,14 +148,14 @@ function AdminHomePage() {
             )}
         </div>
       </div>
-      <hr className='w-full mb-5 text-gray-400'/>
+      <hr className='lg:w-full w-11/12 lg:m-0 m-auto mb-5 lg:pl-0 text-gray-400'/>
       
       {/*Inventory Summary */}
       <section className=''>
-        <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4'>Inventory Summary</p>
-        <div className='flex justify-between'>
+        <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4 lg:pl-0 pl-3'>Inventory Summary</p>
+        <div className='flex lg:flex-nowrap flex-wrap lg:gap-0 gap-8 lg:justify-between justify-center '>
           {/* Number of Items */}
-          <div className='w-1/5 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center'>
+          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center lg:px-0 px-9 '>
             <div className='w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center'><FileText /></div>
             <div className='text-center text-gray-500'>
               <p className='font-semibold text-xl'>{stockInfo.totalProducts ? stockInfo.totalProducts :<p className='text-lg font-semibold'>N/A</p> }</p>
@@ -163,7 +163,7 @@ function AdminHomePage() {
             </div>
           </div>
           {/* Number of categories */}
-          <div className='w-1/5 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center'>
+          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center lg:px-0 px-9'>
             <div className='w-10 h-10 rounded-full bg-yellow-100 text-yellow-400 flex justify-center items-center'><Folder fill='rgb(250, 204, 21)' /></div>
             <div className='text-center text-gray-500'>
               <p className='font-semibold text-xl'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</p>
@@ -171,7 +171,7 @@ function AdminHomePage() {
             </div>
           </div>
           {/* Total Quantity */}
-          <div className='w-1/5 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center'>
+          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center lg:px-0 px-9'>
             <div className='w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex justify-center items-center'><Layers /></div>
             <div className='text-center text-gray-500'>
               <p className='font-semibold text-xl'>{stockInfo.totalItems ? stockInfo.totalItems : <p className='text-lg font-semibold'>N/A</p>}</p>
@@ -179,7 +179,7 @@ function AdminHomePage() {
             </div>
           </div>
           {/* Total Value */}
-          <div className='w-1/5 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center'>
+          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center lg:px-0 px-9'>
             <div className='w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex justify-center items-center'><Wallet /></div>
             <div className='text-center text-gray-500'>
               <p className='font-semibold text-xl'>{stockInfo.totalValue ? stockInfo.totalValue :<p className='text-lg font-semibold'>N/A</p>} DH</p>
@@ -188,22 +188,22 @@ function AdminHomePage() {
           </div>
         </div>
       </section>
-      <section className='flex mt-14 gap-6'>
+      <section className='lg:flex lg:mt-14 mt-9 gap-6'>
         {/* Recent Activity */}
-        <div className='w-2/5 bg-white rounded-lg overflow-hidden'>
+        <div className='lg:w-2/5 w-11/12 m-auto  bg-white rounded-lg overflow-hidden'>
             <RecentActivities/>
         </div>
         {/* Low In Stock Products */}
-        <div className='w-2/5 bg-white rounded-lg overflow-hidden'>
+        <div className='lg:w-2/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white rounded-lg overflow-hidden'>
           <DashboardStockLevels/>
         </div>
         {/* Requested Products */}
-        <div className='w-1/5 bg-white rounded-lg overflow-hidden'>
+        <div className='lg:w-1/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white rounded-lg overflow-hidden'>
             <RequestedProducts/>
         </div>
       </section>
       {/* recent Items added */}
-      <section className='mb-32 lg:flex hidden'>
+      <section className='mb-32 '>
         <RecentItems/>
       </section>
       {/* Recent categories */}

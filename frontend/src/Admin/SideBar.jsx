@@ -1,4 +1,4 @@
-import { CircleUserRound, FileClock, House, LayoutDashboard, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UsersRound } from 'lucide-react'
+import { ChevronDown, CircleUserRound, FileClock, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UsersRound } from 'lucide-react'
 import React, {useState} from 'react'
 import { Outlet, Link, NavLink } from 'react-router-dom'
 
@@ -12,6 +12,7 @@ function SideBar() {
     const [showActivities, setShowActivities] = useState(false)
     const [showMembers, setShowMembers] = useState(false)
     const [showSettingsName, setShowSettingsName] = useState(false)
+    const [showSignOut, setShowSignOut] = useState(false)
 
     const [showMenu, setShowMenu] = useState(false)
     
@@ -179,15 +180,18 @@ function SideBar() {
                 )}
             </div>
         </nav>
+
         {/* navbar for mobile phone */}
-        <nav className='lg:hidden z-50  flex justify-between items-center bg-blue-600 w-full fixed top-0 py-4'>
+        <nav className='lg:hidden z-50   flex justify-between items-center bg-blue-600 w-full fixed top-0 py-4'>
             <div
                 onClick={() => setShowMenu(!showMenu)}
                 className="relative px-4"
-                >
+            >
                 <Menu size={37} color="white" />
                 {showMenu && (
-                    <div className='absolute  bg-white border border-gray-200 shadow-lg top-[53px] left-0  w-64 h-[91vh] text-gray-600 text-xl font-semibold px-4  flex flex-col justify-between'>
+                    <div
+                        onClick={(e) => e.stopPropagation()}
+                        className='absolute overflow-y-scroll   bg-white border border-gray-200 shadow-lg top-[53px] left-0  w-64 h-[91vh] text-gray-600 text-xl font-semibold px-4  flex flex-col justify-between'>
                         <div className='flex flex-col  gap-3 py-3'>
                             <NavLink 
                                 to="/admin"
@@ -254,17 +258,36 @@ function SideBar() {
                             
                         </div>
                         <div>
-                            <div className='flex items-center border-t border-gray-400 px-3 py-4'>
+                            <div className='flex flex-col  justify-center border-t border-gray-400 px-3 py-4'>
                                 {/* first letter of userName */}
-                                <div className='flex gap-3'>
-                                    <div className='bg-gray-200 w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>
-                                        <p className='text-lg font-semibold text-gray-600'>HB</p> 
+                                <div className='flex justify-between items-center'>
+                                    <div  className='flex gap-3 items-center'>
+                                        <div className='bg-gray-200 w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>
+                                            <p className='text-lg font-semibold text-gray-600'>HB</p> 
+                                        </div>
+                                        <div className='text-base flex items-center font-medium text-gray-600'>
+                                            <p>Hafsa Barhoud</p>
+                                        </div>
                                     </div>
-                                    <div className='font-medium text-gray-600'>
-                                        <p>Hafsa Barhoud</p>
+                                    <div
+                                        onClick={() => setShowSignOut(!showSignOut)}
+                                        className=''
+                                    >
+                                        <ChevronDown size={28} />
                                     </div>
-                                </div>
-                                <div></div>
+                                </div> 
+                                    {showSignOut && (
+                                        <div
+                                            onClick={(e) => e.stopPropagation()}
+                                            className='text-red-600 text-base  flex items-center justify-center gap-3 py-3 '>
+                                            <div>
+                                                <LogOut  size={23} />
+                                            </div>
+                                            <div>
+                                                <p>Sign Out</p>
+                                            </div>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     </div>
@@ -277,7 +300,7 @@ function SideBar() {
                 <CircleUserRound size={35} color='white' />
             </Link>
         </nav>
-        <div className='lg:ml-32 mx-0 lg:w-11/12 w-full lg:px-0 px-5 lg:mr-8 lg:mt-3 mt-20'>
+        <div className='lg:ml-32 mx-0 lg:w-11/12 w-full lg:px-0 px-2 lg:mr-8 lg:mt-3 mt-20'>
             <Outlet/>
         </div>
         

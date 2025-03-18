@@ -62,12 +62,12 @@ function AllCategories() {
                                     <div className=''>
                                         {(category.products && category.products.length > 0)
                                         ?(
-                                        <div className='flex w-60 h-32 '>
-                                            <div className='w-1/2 border-r-3 border-b-3 border-white'>
+                                        <div className='flex w-60 h-40 '>
+                                            <div className='w-1/2 border-r-3 border-b-3 border-white flex justify-center items-center'>
                                                 {
                                                     (category.products.length > 0 && category.products[0].productPhoto)
                                                     ? (
-                                                        <img src={`http://localhost:3003${category.products[0].productPhoto}`} alt="" />
+                                                        <img className='' src={`http://localhost:3003${category.products[0].productPhoto}`} alt="" />
                                                     ):(
                                                         <div className="bg-gray-500"></div>
                                                     )
@@ -78,7 +78,7 @@ function AllCategories() {
                                                     {
                                                         (category.products.length > 1 && category.products[1].productPhoto)
                                                         ? (
-                                                            <img src={`http://localhost:3003${category.products[1].productPhoto}`} alt="" />
+                                                            <img className='w-20 h-20 m-auto' src={`http://localhost:3003${category.products[1].productPhoto}`} alt="" />
                                                         ):(
                                                             <div className="bg-gray-500"></div>
                                                         )
@@ -88,7 +88,7 @@ function AllCategories() {
                                                     {
                                                         (category.products.length > 2 && category.products[2].productPhoto)
                                                         ? (
-                                                            <img src={`http://localhost:3003${category.products[2].productPhoto}`} alt="" />
+                                                            <img className='w-20 h-20 m-auto' src={`http://localhost:3003${category.products[2].productPhoto}`} alt="" />
                                                         ):(
                                                             <div className="bg-gray-500"></div>
                                                         )

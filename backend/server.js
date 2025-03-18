@@ -204,7 +204,6 @@ app.post("/admin/items/addCategory", async(req, res) => {
 })
 
 // get all categories
-
 app.get("/admin/items/categories", async(req, res) => {
     try{
         const categories = await Category.find()
