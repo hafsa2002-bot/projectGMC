@@ -293,6 +293,26 @@ app.delete("/admin/items/delete-category/:id", async(req, res) => {
     }
 })
 
+//get products by categoryName
+app.get("/category/:categoryName", async(req, res) => {
+    try{
+        const category = await Category.findOne({categoryName: req.params.categoryName})
+        if(!category){
+            res.status(404).json({error: "Category not found"})
+        }
+        // console.log("category id: ", category._id)
+        const productsByCategory = await Product.find({categoryId: category._id})
+        // console.log("Products by category name:", productsByCategory)
+        res.json({
+            categoryName: category.categoryName,
+            products: productsByCategory
+            })
+    }catch(error){
+        console.log("Error: ", error);
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
 // add new Requested product
 app.post("/admin/dashboard/add-requested-product", async(req, res) => {
     try{

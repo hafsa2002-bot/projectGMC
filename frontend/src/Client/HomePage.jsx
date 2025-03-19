@@ -8,12 +8,14 @@ import "swiper/css/bundle";
 import "swiper/css";
 import "swiper/css/pagination";
 import Footer from './Footer';
+import SpinnerLoader from '../SpinnerLoader';
 
 
 function HomePage() {
     const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true)
 
     // Fetch Categories and Random Products
     /*
@@ -40,27 +42,18 @@ function HomePage() {
         }
     };
     */
-    const fetchData = async () => {
-        try {
-            // Fetch categories
-            const categoriesResponse = await axios.get(
-                "https://dummyjson.com/products/categories"
-            );
-            const categorieList = categoriesResponse.data;
-            setCategories(categorieList);
+    const fetchData = () => {
+        const categoryName = "Mobile Accessories"
         
-            console.log("Categories:", categoriesResponse.data);
-        
-            // Fetch products from the 'mobile-accessories' category
-            const productsResponse = await axios.get(
-                "https://dummyjson.com/products/category/mobile-accessories?limit=10&select=title,price,images"
-            );
-            setProducts(productsResponse.data.products);
-        
-            console.log("Mobile Accessories Products:", productsResponse.data.products);
-        } catch (error) {
-            console.log("Error fetching data: ", error);
-        }
+        axios.get(`http://localhost:3003/category/${encodeURIComponent(categoryName)}`)
+            .then(response => {
+                setCategory(response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log("Error: ", error)
+                setLoading(false)
+            })
     };
     
 
@@ -169,7 +162,7 @@ function HomePage() {
                     Featured Products
                 </h2>
 
-                {products.length > 4 ? (
+                {category.products && category.products.length > 4 ? (
                 <Swiper
                     slidesPerView={2}
                     spaceBetween={20}
@@ -188,21 +181,22 @@ function HomePage() {
                     className="w-full"
                     onSwiper={(swiper) => swiper.autoplay.start()}
                 >
-                    {products.map((product) => (
-                    <SwiperSlide key={product.id} className="text-center flex flex-col items-center py-6 pb-8">
+                    {category.products.map((product) => (
+                    <SwiperSlide key={product._id} className="text-center flex flex-col items-center py-6 pb-8">
                         <div className="border border-stone-300 bg-white p-4 shadow-lg rounded-lg flex flex-col justify-between h-full">
                             <img
-                                src={product.images[0]}
-                                alt={product.title}
+                                src={`http://localhost:3003${product.productPhoto}`}
+                                alt={product.productName}
                                 className="w-full h-60 object-cover rounded-lg mb-4"
                             />
-                            <h3 className="text-lg font-semibold h-12">{product.title}</h3>
+                            <h3 className="text-lg font-semibold h-12">{product.productName}</h3>
                         </div>
                     </SwiperSlide>
                     ))}
                 </Swiper>
                 ) : (
-                    <p className="text-center text-3xl font-semibold text-gray-500">Loading ...</p>
+                    // <p className="text-center text-3xl font-semibold text-gray-500">Loading ...</p>
+                    <SpinnerLoader/>
                 )}
                 <button onClick={() => navigate('/products')} className="bg-black text-white text-lg px-6 py-2 rounded-lg mb-6 mt-3 w-52 m-auto   transition">
                     View All Products

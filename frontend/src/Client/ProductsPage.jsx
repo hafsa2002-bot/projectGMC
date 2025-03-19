@@ -9,6 +9,7 @@ function ProductsPage() {
     // const [categories, setCategories] = useState([])
     const [productsByCategory, setProductsByCategory] = useState({})
     const [loading, setLoading] = useState(true)
+    const [cart, setCart] = useState([])
     const navigate = useNavigate()
     /*
     const fetchData = async () => {
@@ -71,7 +72,7 @@ function ProductsPage() {
                             <h1 className=' text-5xl font-semibold text-center py-7 mb-5'> {category.categoryName} </h1>
                             <div className=' flex flex-wrap gap-2 justify-between items-baseline lg:px-10 px-6 '>
                                 {category.products?.slice(0,4).map((product, index) => (
-                                <ProductItem product = {product} key={index} />
+                                <ProductItem product = {product} key={index} cart={cart} setCart={setCart} />
                                 ))}
                             </div>
                             <div className=' flex justify-center '>
@@ -85,6 +86,9 @@ function ProductsPage() {
                 )
                 
         }
+        {cart.map(v => (
+            <div>{v}</div>
+        ))}
         </div>
         <Footer/>
     </div>
