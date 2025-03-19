@@ -14,9 +14,12 @@ function AllItems() {
     const [loading, setLoading] = useState(true)
 
     const getItems = () => {
+
         axios.get("http://localhost:3003/admin/items/list")
         .then(response => {
-            setItems(response.data)
+            if (JSON.stringify(response.data) !== JSON.stringify(items)) {
+                setItems(response.data);
+            }
             setLoading(false)
         })
         .catch(error => {
@@ -27,7 +30,8 @@ function AllItems() {
 
     useEffect(() => {
         getItems()
-    }, [items])
+        console.log("hello")
+    }, [])
 
     if(!items) return <SpinnerLoader/>
 

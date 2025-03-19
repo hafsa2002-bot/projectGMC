@@ -3,6 +3,7 @@ import { CircleUserRound, Heart, Menu, Search, ShoppingCart } from 'lucide-react
 import { Link, useNavigate, Outlet, NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Cart from './Cart'
+import {useCart} from '../CartContext'
 
 function Nav(props) {
     const [categories, setCategories] = useState([])
@@ -10,14 +11,25 @@ function Nav(props) {
     const [showMenu, setShowMenu] = useState(false)
     const [showCart, setShowCart] = useState(false)
     const [showFavorite, setShowFavorite] = useState(false)
+    const {cart} = useCart()
     const navigate = useNavigate()
-
-    useEffect(() => {
+    /*
+    const [cart, setCart] = useState(() => {
+        // load car from local storage on first render
+        const savedCart = localStorage.getItem("cart")
+        return savedCart ? JSON.parse(savedCart) : []
+    })
+        */
+    const fetchData = () => {
         // fetch categories
         axios.get("http://localhost:3003/admin/items/categories")
             .then(response => setCategories(response.data))
             .catch(error => console.log("Error: ", error))
-    }, [showMenu, showFavorite, showCart]);
+    }
+    useEffect(() => {
+        fetchData()
+        // localStorage.setItem("cart", JSON.stringify(cart))
+    }, []);
 
   return (
     <div>
@@ -90,7 +102,7 @@ function Nav(props) {
                                                 <ul className='flex flex-col'>
                                                 {
                                                     categories.map((category, index) => (
-                                                        <Link onClick={() => setShowMenu(false)} to={`/products/${category.categoryName}`} key={index} className='text-lg font-medium text-black pl-4 border-b border-stone-400 py-3 hover:bg-black hover:text-white' role='menuitem ' tabindex="-1">
+                                                        <Link onClick={() => setShowMenu(false)} to={`/products/${category.categoryName}`} key={index} className='text-lg font-medium text-black pl-4 border-b border-stone-400 py-3 hover:bg-black hover:text-white' role='menuitem ' >
                                                             <p >{category.categoryName} </p>
                                                         </Link>
                                                     ))
@@ -107,9 +119,9 @@ function Nav(props) {
                 </div>  
             </nav>
             {/* serach, favorite, cart */}
-            <div>
+            <div className='w-full'>
                 {props.details && (
-                    <div className='bg-white text-black flex justify-between py-2 mx-5'>
+                    <div className='bg-white w-full text-black flex justify-between py-2 px-5'>
                         <div className='w-1/3'></div>
                         {/* search */}
                         <div className='w-1/3 border rounded-full flex justify-between items-center pl-3 pr-[1px] py-[1px]'>
@@ -134,12 +146,12 @@ function Nav(props) {
                             >
                                 <ShoppingCart size={28} />
                                 <div className='absolute bottom-4 left-4 bg-black text-white rounded-full flex justify-center items-center h-4 px-2'>
-                                    <p>0</p>
+                                    <p >{cart.length}</p>
                                 </div>
                             </div>
                             {
                                 showCart && (
-                                <Cart/>
+                                <Cart setShowCart={setShowCart} />
                             )
                             }
                         </div>

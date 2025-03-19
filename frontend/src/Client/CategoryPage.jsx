@@ -7,15 +7,15 @@ import Footer from './Footer';
 
 function CategoryPage() {
     const {category} = useParams();
-    const [listOfProducts, setListOfProducts] = useState([])
+    const [listOfProducts, setListOfProducts] = useState({})
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setListOfProducts([]);
         setIsLoading(true)
-        axios.get(`https://dummyjson.com/products/category/${category}`)
+        axios.get(`http://localhost:3003/category/${category}`)
             .then(response => {
-                setListOfProducts(response.data.products)
+                setListOfProducts(response.data)
                 setIsLoading(false)
             })
             .catch(error => {
@@ -23,14 +23,15 @@ function CategoryPage() {
                 setIsLoading(false)
             })
     }, [category])
-
+    
     const firstLetterToUpperCase = (str) => {
         const result =   str[0].toUpperCase() + str.slice(1,str.length)
         return result;
     }
+    
 
   return (
-    <div className='mt-32'>
+    <div className='mt-36'>
         <h1 className='text-4xl text-center font-semibold mb-10'> {firstLetterToUpperCase(category)} </h1>
         {
             isLoading 
@@ -40,8 +41,8 @@ function CategoryPage() {
             :(
                 <div className=' flex flex-wrap gap-14 items-baseline w-11/12 m-auto px-4'>
                     {
-                        listOfProducts?.map((product, index) => (
-                            <ProductItem val = {product} key={index} />
+                        listOfProducts.products?.map((product, index) => (
+                            <ProductItem product = {product} key={index} />
                         ))
                     }
                 </div>

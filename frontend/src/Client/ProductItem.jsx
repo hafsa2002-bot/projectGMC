@@ -1,24 +1,25 @@
 import { Heart, ShoppingCart } from 'lucide-react'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
+import {useCart} from '../CartContext'
 
-function ProductItem({product, cart, setCart}) {
+function ProductItem({product}) {
     const [favorite, setFavorite] = useState(false)
-    const [addToCart, setAddToCart] = useState(false)
-    const navigaete = useNavigate()
+    // const [addToCart, setAddToCart] = useState(false)
+    const navigate = useNavigate()
     const [heartHover, setHeartHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
-    // const [cart, setCart] = useState([])
+    const {cart, setCart, addToCart} = useCart()
+    
+    /*
     const handleCart = (productId) => {
         if(!cart.includes(productId)) {
-            setCart([...cart, productId])
+            const updatedCart = ([...cart, productId])
+            setCart(updatedCart)
+            //save to local storage
+            // localStorage.setItem("cart", JSON.stringify(updatedCart))
         }
-        // cart.push(productId)
-        
-    }
-    useEffect(() => {
-        console.log("cart: ",cart)
-    }, [cart])
+    }*/
   return (
     <>
         <div className='lg:w-64 w-52  overflow-hidden shadow-lg shadow-gray-400 rounded-md pb-3 group'>
@@ -51,7 +52,7 @@ function ProductItem({product, cart, setCart}) {
                         <Heart fill={(favorite || heartHover) ? 'red' : '#f3f4f6'} strokeWidth={(favorite || heartHover) ? '0' : '2'} size={21}  /> 
                     </div>
                     <div
-                        onClick={() => handleCart(product._id)}
+                        onClick={() => addToCart(product)}
                         onMouseEnter={() => setCartHover(true)}
                         onMouseLeave={() => setCartHover(false)} 
                         className='cursor-pointer w-10 h-10 bg-gray-100  rounded-full flex justify-center items-center '  > 

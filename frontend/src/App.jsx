@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom"
 import HomePage from "./Client/HomePage"
-
 import Login from "./Login"
 import SignUp from "./SignUp"
 import CategoryPage from "./Client/CategoryPage"
@@ -29,7 +28,6 @@ import CategoryItems from "./Admin/CategoryItems"
 import AllCategories from "./Admin/AllCategories"
 import CategoryInfo from "./Admin/CategoryInfo"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
-
 function App() {
 
   return (

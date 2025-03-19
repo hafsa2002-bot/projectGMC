@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import SpinnerLoader from '../SpinnerLoader'
 import Footer from './Footer'
@@ -9,44 +9,15 @@ function ProductsPage() {
     // const [categories, setCategories] = useState([])
     const [productsByCategory, setProductsByCategory] = useState({})
     const [loading, setLoading] = useState(true)
-    const [cart, setCart] = useState([])
+    // const [cart, setCart] = useState([])
     const navigate = useNavigate()
-    /*
-    const fetchData = async () => {
-        try {
-            setLoading(true)
-            // fetch categories
-            const categoriesResponse = await axios.get("https://dummyjson.com/products/categories")
-            const categorieList = categoriesResponse.data
-            setCategories(categorieList)
-            console.log("Categories:", categoriesResponse.data)
-
-            // fetch products for each category
-            const productsData = {}
-            for(const category of categorieList){
-                try{
-                    const response = await axios.get(`https://dummyjson.com/products/category/${category.slug}?select=title,price,images,category,description`)
-                    productsData[category.slug] = response.data.products
-                    console.log(`Products for ${category.slug}:`, response.data.products)
-                }catch(error) {
-                    console.log(`Error fetch products for ${category.slug}: `, error)
-                }
-            }
-            setProductsByCategory(productsData)
-            
-        // console.log("productsByCategory: ", productsByCategory)
-        }catch(error){
-            console.log("Error fetching categories: ", error)
-        }finally{
-            setLoading(false)
-        }
-    }
-    */
+    // const {cart, setCart} = useCart()
+    
     const fetchData = () => {
             axios.get("http://localhost:3003/admin/items/categories-with-Products")
                 .then(response => {
                     setProductsByCategory(response.data)
-                    console.log("data: ", response.data)
+                    // console.log("data: ", response.data)
                     setLoading(false)
                 })
                 .catch(error => {
@@ -72,7 +43,7 @@ function ProductsPage() {
                             <h1 className=' text-5xl font-semibold text-center py-7 mb-5'> {category.categoryName} </h1>
                             <div className=' flex flex-wrap gap-2 justify-between items-baseline lg:px-10 px-6 '>
                                 {category.products?.slice(0,4).map((product, index) => (
-                                <ProductItem product = {product} key={index} cart={cart} setCart={setCart} />
+                                <ProductItem product = {product} key={index}  />
                                 ))}
                             </div>
                             <div className=' flex justify-center '>
@@ -86,9 +57,9 @@ function ProductsPage() {
                 )
                 
         }
-        {cart.map(v => (
+        {/* {cart.map(v => (
             <div>{v}</div>
-        ))}
+        ))} */}
         </div>
         <Footer/>
     </div>

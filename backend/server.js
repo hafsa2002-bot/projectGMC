@@ -176,7 +176,7 @@ app.get("/admin/items/expiredItems", async (req, res) => {
     }
 })
 
-// get Product By Id => for product details 
+// get Product By Id 
 app.get("/admin/items/view/:product_id", async(req, res) => {
     try{
         const productById = await Product.find({_id: req.params.product_id}).populate('categoryId', 'categoryName')
