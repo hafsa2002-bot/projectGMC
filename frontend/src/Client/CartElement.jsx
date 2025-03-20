@@ -1,21 +1,41 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
+import {useCart} from '../CartContext'
 
-function CartElement({productId}) {
-    const [product, setProduct] = useState()
-    const [qty, setQty] = useState(1)
-    const [subTotal, setSubTotal] = useState(1)
+function CartElement({product}) {
+    const {cart, setCart} = useCart()
     
-    useEffect(() => {
-        if(product){
-            setSubTotal(product.price * qty)
-        }
-    }, [qty, product])
+    const deleteFromLocalStorage = (productId) => {
+        const updatedCart = cart.filter((product) => product._id !== productId)
+        localStorage.setItem('cart', JSON.stringify(updatedCart))
+        setCart(updatedCart)
+    }
+
+    const updateQty = (productId, action)  => {
+        let updatedCart = cart.map(product => {
+            if(product._id === productId){
+                if(action == "plus"){
+                    return {...product, quantity: product.quantity + 1}
+                }else if (action == "minus" && product.quantity > 0){
+                    return {...product, quantity: product.quantity - 1}
+                    
+                }
+            }
+            return product
+        })
+        
+        updatedCart = updatedCart.filter(product => product.quantity > 0)
+        localStorage.setItem('cart', JSON.stringify(updatedCart))
+        setCart(updatedCart)
+    }
+    /*
     useEffect(() => {
         axios.get(`http://localhost:3003/admin/items/view/${productId}`)
         .then(response => setProduct(response.data))
         .catch(error => console.log("error: ", error))
     }, [])
+    */
+    
   return (
     <div>
         {
@@ -34,13 +54,13 @@ function CartElement({productId}) {
                         </div>
                         <div className='bg-white text-black rounded-lg flex justify-between shadow border border-gray-300 w-32 text-lg font-semibold'>
                             <div
-                                onClick={() => {qty > 0 && setQty(qty-1)}}
+                                onClick={() => updateQty(product._id, "minus")}
                                 className='cursor-pointer w-1/3 text-center text-xl'>
                                 -
                             </div>
-                            <div className='border-l border-r border-gray-300 w-1/3 text-center'>{qty}</div>
+                            <div className='border-l border-r border-gray-300 w-1/3 text-center'>{product.quantity}</div>
                             <div
-                                onClick={() => setQty(qty+1)}
+                                onClick={() => updateQty(product._id, "plus")}
                                 className='cursor-pointer w-1/3 text-center text-xl'
                             >
                                 +
@@ -49,8 +69,10 @@ function CartElement({productId}) {
                     </div>
                 </div>
                 <div className='flex flex-col justify-between'>
-                    <div className='font-mono font-semibold'>{subTotal} MAD</div>
-                    <div className='text-red-500 text-lg'>Remove</div>
+                    <div className='font-mono font-semibold'>{product.quantity * product.price} MAD</div>
+                    <div
+                        onClick={() => deleteFromLocalStorage(product._id)}
+                        className='cursor-pointer text-red-500 text-lg'>Remove</div>
                 </div>
             </div>
             )

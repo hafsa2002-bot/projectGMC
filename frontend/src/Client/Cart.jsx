@@ -1,10 +1,18 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import CartElement from './CartElement'
 import { X } from 'lucide-react'
 import {useCart} from '../CartContext'
 
 function Cart({setShowCart}) {
   const {cart, setCart} = useCart()
+  const [total, setTotal] = useState(0)
+  const calculateTotal = () => {
+    const res = cart.reduce((total, currentValue) => total +(currentValue.price * currentValue.quantity), 0)
+    setTotal(res)
+  }
+  useEffect(() => {
+    calculateTotal()
+  }, [cart])
   return (
     <div className='bg-white w-[450px] absolute top-32 right-0 border-l border-gray-300 shadow-2xl h-[80vh] pl-5 pr-2 pt-3 pb-10 overflow-y-scroll'>
       <div className='flex justify-between items-center pt-2 pb-4'>
@@ -17,12 +25,12 @@ function Cart({setShowCart}) {
         </div>
       </div> 
       {cart.map((product, index) => (
-        <CartElement productId={product._id} setShowCart={setShowCart} key={index} />
+        <CartElement product={product} setShowCart={setShowCart} key={index} />
       ))}
       <div className='pt-5'>
         <div className='flex justify-between items-center text-lg font-mono font-semibold'>
           <p className=''>Total</p>
-          <p>$999999</p>
+          <p>${total}</p>
         </div>
         <div className="text-center text-white bg-gradient-to-r  from-gray-700 via-gray-800  to-gray-900  px-4 py-2 rounded-lg text-lg font-semibold mt-5">
           <p>Checkout</p>
