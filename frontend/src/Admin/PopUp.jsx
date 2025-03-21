@@ -6,8 +6,9 @@ function PopUp({setPopUp, name, id, setShowOptions}) {
     const deleteItem = () => {
         axios.delete(`http://localhost:3003/admin/item/${id}`)
             .then( (response) => {
-                console.log(`the product: ${name} deleted`)
+                console.log(`the product: ${response.data} deleted`)
                 setPopUp(false);
+                window.location.reload()
             }
             )
             .catch(error => console.log(error))

@@ -54,6 +54,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage})
 
+/********* Products and stock ***********/
 async function initializeStoreStock() {
     const existingStock = await StoreStock.findOne({});
     if (!existingStock) {
@@ -135,6 +136,11 @@ app.get("/admin/stock", async(req, res) => {
 // get products outOfStock
 app.get("/admin/items/outOfStock", async(req, res) => {
     try{
+        await Product.updateMany(
+            {qty:0, $or:[{outOfStock: false}, {lowInStock: true}]},
+            {$set:{outOfStock: true, lowInStock: false}}
+        )
+
         const outOfStock = await Product.find({outOfStock: true})
         res.send(outOfStock)
     }catch(error){
@@ -187,6 +193,7 @@ app.get("/admin/items/view/:product_id", async(req, res) => {
     }
 })
 
+/********* Categories ***********/
 // add category
 app.post("/admin/items/addCategory", async(req, res) => {
     try{
@@ -313,6 +320,8 @@ app.get("/category/:categoryName", async(req, res) => {
     }
 })
 
+
+/***** Requested Products *****/
 // add new Requested product
 app.post("/admin/dashboard/add-requested-product", async(req, res) => {
     try{
@@ -352,6 +361,59 @@ app.delete("/admin/dashboard/delete-requested-product/:id", async(req, res) => {
     }
 })
 
+/********* Order ***********/
+// add new order: client
+app.post("/orders/addOnlineOrder", async(req, res) => {
+    try{
+        const {products, totalAmount, amountPaid} = req.body
+
+        if(!products || products.length == 0){
+            return res.status(400).json({error: "Order must contain at least one product"})
+        }
+        
+        const rest = totalAmount - amountPaid;
+        let paymentStatus = "pending"
+        if(amountPaid >= totalAmount){
+            paymentStatus = "paid"
+        }else if(amountPaid > 0){
+            paymentStatus = "partially_paid"
+        }
+
+        for(const item of products){
+            const product = await Product.findById({_id: item.productId})
+            if(!product){
+                return res.status(400).json({error: "Product not found"})
+            }
+            if (item.quantity > product.qty){
+                return res.status(400).json({error: `Not enough stock for product: ${item.productId}`})
+            }
+            await Product.updateOne(
+                {_id: item.productId},
+                {$inc: {qty: -item.quantity}}
+            )
+            await product.save()
+
+            console.log("product quantity equal:", product.qty)
+            console.log("order equal:", item.quantity)
+
+            if(product.qty == 0){
+                console.log("sold out ")
+
+                await Product.updateOne(
+                    {_id: item.productId},
+                    {$set: {outOfStock: true}}
+                )
+            }
+        }
+
+        const newOrder = new Order ({products, totalAmount, amountPaid, rest, paymentStatus})
+        await newOrder.save()
+        res.json({message: "order successfully added", newOrder})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({errro: "Internal server error"})
+    }
+})
 
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

@@ -1,7 +1,8 @@
 let mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
+    // required: true
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},
     products: [
         {
             productId:{type: mongoose.Schema.Types.ObjectId, ref:"Product", required: true},
@@ -9,18 +10,21 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     totalAmount: {type: Number, required: true},
-    amountPaid: {type: Number,required: true, default: 0},
+    // required: true
+    amountPaid: {type: Number, required: false, default: 0},
     rest: {type: Number},
 
     paymentStatus: {
         type: String,
         enum: ["partially_paid", "paid", "pending", "cancelled"],
+        // required: true
         required: true,
         default: "pending"
     },
     createdAt: {type: Date, default: Date.now}
 })
 
+/*
 orderSchema.pre("save", function (next) {
     this.rest = this.totalAmount - this.amountPaid;
 
@@ -34,5 +38,6 @@ orderSchema.pre("save", function (next) {
 
     next();
 })
+*/
 
 module.exports = mongoose.model('Order', orderSchema)
