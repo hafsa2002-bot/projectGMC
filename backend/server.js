@@ -99,7 +99,7 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
 app.get("/admin/items/list", async(req, res) => {
     try{
         const listProducts = await Product.find()
-        res.json(listProducts)
+        res.send(listProducts)
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server error: get list of products"})
@@ -396,7 +396,7 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
             console.log("product quantity equal:", product.qty)
             console.log("order equal:", item.quantity)
 
-            if(product.qty == 0){
+            if(product.qty == item.quantity){
                 console.log("sold out ")
 
                 await Product.updateOne(

@@ -1,7 +1,7 @@
-import { Heart, ShoppingCart } from 'lucide-react'
+import { Heart, ImageOff, ShoppingCart } from 'lucide-react'
 import React, {useEffect, useState, useContext} from 'react'
 import { useNavigate } from 'react-router-dom'
-import {useCart} from '../CartContext'
+import {useCart} from '../../CartContext'
 
 function ProductItem({product}) {
     const [favorite, setFavorite] = useState(false)
@@ -23,8 +23,20 @@ function ProductItem({product}) {
   return (
     <>
         <div className='lg:w-64 w-52  overflow-hidden shadow-lg shadow-gray-400 rounded-md pb-3 group'>
-            <div className='relative'>
-                <img className='lg:h-72 h-56 w-full ' src={`http://localhost:3003${product.productPhoto}`} />
+            <div className='relative '>
+                {
+                    product.productPhoto 
+                        ?(
+                            <img className='lg:h-72 h-56 w-full ' src={`http://localhost:3003${product.productPhoto}`} />
+                        )
+                        :(
+                            <div className='lg:h-72 w-full bg-gray-50 h-full relative'>
+                                <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                                    <ImageOff size={60} color='rgb(156, 163, 175)' />
+                                </div>
+                            </div>
+                        )
+                }
                 {/* just a comment */}
                 <div>
                 {/* <div className='absolute lg:flex hidden gap-2 bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
@@ -63,7 +75,7 @@ function ProductItem({product}) {
             </div>
             <div className='text-center'>
                 <h2 className=' pt-2  h-9 overflow-hidden'>{product.productName}</h2>
-                <h2 className='font-semibold px-2'><span className='text-xl '>{product.price} DH</span> </h2>
+                <h2 className='font-semibold px-2'><span className='text-xl '>{product.price} <span className='text-sm'>MAD</span></span> </h2>
             </div>
         </div>    
     </>

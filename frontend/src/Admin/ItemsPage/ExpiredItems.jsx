@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ArrowLeft, EllipsisVertical } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
-import SpinnerLoader from '../SpinnerLoader'
+import SpinnerLoader from '../../SpinnerLoader'
 
 function ExpiredItems() {
     const [expiredProducts, setExpiredProducts] = useState([])

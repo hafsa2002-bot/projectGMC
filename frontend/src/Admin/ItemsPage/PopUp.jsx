@@ -8,7 +8,7 @@ function PopUp({setPopUp, name, id, setShowOptions}) {
             .then( (response) => {
                 console.log(`the product: ${response.data} deleted`)
                 setPopUp(false);
-                window.location.reload()
+                // window.location.reload()
             }
             )
             .catch(error => console.log(error))

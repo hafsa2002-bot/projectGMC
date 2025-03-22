@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import CartElement from './CartElement'
-import { X } from 'lucide-react'
-import {useCart} from '../CartContext'
+import { ShoppingCart, X } from 'lucide-react'
+import {useCart} from '../../CartContext'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Cart({setShowCart}) {
   const {cart, setCart} = useCart()
   const [total, setTotal] = useState(0)
+  const navigate = useNavigate()
 
   const calculateTotal = () => {
     const res = cart.reduce((total, currentValue) => total +(currentValue.price * currentValue.quantity), 0)
@@ -42,19 +44,31 @@ function Cart({setShowCart}) {
               <p>{total} MAD</p>
             </div>
             <div
-              onClick={() => submitOrder()}
-              className="text-center text-white bg-gradient-to-r  from-gray-700 via-gray-800  to-gray-900  px-4 py-2 rounded-lg text-lg font-semibold mt-5"
+              onClick={() => navigate("/checkout")}
+              className="cursor-pointer text-center text-white bg-gradient-to-r  from-gray-700 via-gray-800  to-gray-900  px-4 py-2 rounded-lg text-lg font-semibold mt-5"
             >
               <p>Checkout</p>
             </div>
           </div>
         ):(
-          <div>
-            <p></p>
+          <div className=' flex flex-col justify-center items-center gap-6 h-[60vh]'>
+            <div className='flex flex-col justify-center items-center text-gray-300'>
+              <ShoppingCart size={80} fill="rgb(203, 213, 225)"/>
+              <p className='text-gray-500 font-semibold'>Your cart is empty</p>
+            </div>
+            <div 
+              onClick={() => {
+                navigate("/products")
+                setShowCart(false)
+              }}
+              className=' cursor-pointer border w-8/12 text-white bg-gradient-to-tr from-gray-500 via-gray-600 to bg-gray-900 font-semibold text-center text-lg py-1.5 rounded-full'
+            >
+              <div>Explore items</div>
+            </div>
           </div>
         )
       }
-      <div></div>                
+                    
     </div>
   )
 }

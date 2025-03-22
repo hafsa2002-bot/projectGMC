@@ -2,7 +2,7 @@ import { ArrowRight, Boxes, EllipsisVertical, PackageX, PenLine, Trash2 } from '
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import PopUp from './PopUp'
+import PopUp from '../ItemsPage/PopUp'
 
 function DashboardStockLevels() {
     const [dashboardProducts, setDashboardProducts] = useState([])

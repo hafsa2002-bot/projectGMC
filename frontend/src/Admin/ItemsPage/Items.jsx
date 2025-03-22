@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {Link, NavLink, Outlet} from 'react-router-dom'
 import axios from 'axios'
 import { EllipsisVertical, Eye, Image, PackageX, PenLine, Trash2, TrendingDown, TriangleAlert } from 'lucide-react'
-import SpinnerLoader from '../SpinnerLoader'
-import SpinnerBlue from './SpinnerBlue'
+import SpinnerLoader from '../../SpinnerLoader'
+import SpinnerBlue from '../SpinnerBlue'
 
 function Items() {
     const [items, setItems] = useState([])

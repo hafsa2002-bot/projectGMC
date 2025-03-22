@@ -3,8 +3,8 @@ import axios from 'axios'
 import { EllipsisVertical, Eye, FolderOpen, Layers, Trash2 } from 'lucide-react'
 import {Link, Navigate, useNavigate} from 'react-router-dom'
 import AddCategory from './AddCategory'
-import SpinnerLoader from '../SpinnerLoader'
-import SpinnerBlue from './SpinnerBlue'
+import SpinnerLoader from '../../SpinnerLoader'
+import SpinnerBlue from '../SpinnerBlue'
 function AllCategories() {
     const [categories, setCategories] = useState([])
     const [showOptions, setShowOptions] = useState(false)
@@ -39,25 +39,14 @@ function AllCategories() {
             <SpinnerBlue/>
         ):(
             <>
-                <div className='flex justify-between px-5 pb-10'>
-                    <p className=' '></p>
-                    {/* <div 
-                        onClick={() => setAddCategory(true)}
-                        className='cursor-pointer bg-blue-600 px-3 py-2 rounded-xl font-semibold '
-                    > */}
-                    {/* {addCategory && 
-                        <AddCategory setAddCategory={setAddCategory}/>
-                    } 
-                        <p className='text-white'>Add Category</p>
-                    </div> */}
-                </div>
-                <div className='flex flex-wrap ml-8 mb-10 gap-10'>
-
-                { (categories.length > 0)
-                ?(
+                {/* <div className='flex justify-between px-5 pb-5'>
+                    <p className='text-2xl pl-3'>All Categories</p>
+                </div> */}
+                <div className='flex flex-wrap ml-8 mb-10 gap-10 mt-10'>
+                    { (categories.length > 0)
+                    ?(
                         categories.map((category, index) => (
                             <div className='border-3 border-white  rounded-lg hover:shadow-xl cursor-pointer'>
-                                {/* <p>{category.categoryName}</p> */}
                                 <div onClick={() => navigate(`/admin/items/categories/${category._id}`)} className=''>
                                     <div className=''>
                                         {(category.products && category.products.length > 0)
@@ -98,15 +87,9 @@ function AllCategories() {
                                         </div>
                                         ):
                                         (
-                                        <>
-                                            <div className='w-60 h-32 bg-gray-300 text-gray-800 rounded-md flex justify-center items-center'>
+                                            <div className='w-60 h-40 bg-gray-300 text-gray-800 rounded-md flex justify-center items-center'>
                                                 <FolderOpen size={50} />
                                             </div>
-                                            
-                                            {/* <div className='w-60 h-32  bg-neutral-400 text-neutral-200 flex justify-center items-center'>
-                                                <FolderOpen size={50} />
-                                            </div> */}
-                                        </>
                                         )}
                                         
                                     </div>

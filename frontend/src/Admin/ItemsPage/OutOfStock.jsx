@@ -1,16 +1,16 @@
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { ArrowLeft, EllipsisVertical } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
-import SpinnerLoader from '../SpinnerLoader'
+import { Link } from 'react-router-dom'
+import SpinnerLoader from '../../SpinnerLoader'
 
-function LowInStock() {
-    const [lowInStock, setLowInStock] = useState([])
+function OutOfStock() {
+    const [outOfStockProducts, setOutOfStockProducts] = useState([])
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/items/lowInStock")
+        axios.get("http://localhost:3003/admin/items/outOfStock")
             .then(response => {
-                setLowInStock(response.data)
-                console.log("low in stock products: ", response.data)
+                setOutOfStockProducts(response.data)
+                console.log("list of products outOfStock: ", response.data)
             })
             .catch(error => console.log("Error: ", error))
     }, [])
@@ -24,8 +24,8 @@ function LowInStock() {
         </div>
         <div className='bg-white pb-5 mt-10  rounded-lg mb-24'>
             <div className='p-7 pb-10'>
-                <p className='text-xl font-semibold'>Low Stock Products</p>
-                <p className='text-gray-500'>This page displays items with low stock levels</p>
+                <p className='text-xl font-semibold'>Out of Stock Products</p>
+                <p className='text-gray-500'>This page lists items that are currently unavailable</p>
             </div>
             <table className=" w-full text-sm text-left rtl:text-right text-gray-500 ">
                 <thead className=" text-gray-700  bg-gray-50 ">
@@ -52,9 +52,9 @@ function LowInStock() {
                 </thead>
                 <tbody>
                     {
-                        lowInStock
+                        outOfStockProducts
                         ?(
-                            lowInStock.map((item, index) => (
+                            outOfStockProducts.map((item, index) => (
                                 <tr key={index} className=" bg-white border-b border-gray-200">
                                     <td scope="row" className="px-6 py-4 flex items-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div className='w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
@@ -94,4 +94,4 @@ function LowInStock() {
   )
 }
 
-export default LowInStock
+export default OutOfStock

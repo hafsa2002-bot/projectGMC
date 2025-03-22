@@ -1,46 +1,46 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { EllipsisVertical, Eye, Image, Info, PenLine, Trash2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
-import SpinnerLoader from '../SpinnerLoader'
+import { ArrowLeft, EllipsisVertical, Eye, Image, PenLine, Trash2 } from 'lucide-react'
 import PopUp from './PopUp'
-import SpinnerBlue from './SpinnerBlue'
+import SpinnerBlue from '../SpinnerBlue'
 
-
-function AllItems() {
-    const [items, setItems] = useState([])
-    const [showOptions, setShowOptions] = useState(false);
+function CategoryInfo() {
+    const {categoryId} = useParams()
+    const [categoryInfo, setCategoryInfo] = useState({})
+    const [showOptions, setShowOptions] = useState(false)
     const [popUp, setPopUp] = useState(false)
     const [loading, setLoading] = useState(true)
-
-    const getItems = () => {
-        axios.get("http://localhost:3003/admin/items/list")
-        .then(response => {
-            // if (JSON.stringify(response.data) !== JSON.stringify(items)) {
-                setItems(response.data);
-            // }
-            setLoading(false)
-        })
-        .catch(error => {
-            console.log("Error: ", error)
-            setLoading(false)
-        })
-    }
+    const navigate = useNavigate()
 
     useEffect(() => {
-        getItems()
-        console.log("hello")
+        axios.get(`http://localhost:3003/admin/items/category/${categoryId}`)
+            .then(response => {
+                setCategoryInfo(response.data)
+                console.log("Category by Id: ", response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log("Error: ", error)
+                setLoading(false)
+            })
     }, [])
 
   return (
-    <div className=" bg-white border border-gray-300 mt-8    shadow-md sm:rounded-lg">
+    <div>
+        <div onClick={() => navigate(-1)}  className='flex gap-2 items-center cursor-pointer'>
+            <div><ArrowLeft/></div>
+            <div className='text-xl'><p>{categoryInfo.categoryName}</p></div>
+        </div>
+        {/* <p className='text-xl font-semibold'>{categoryInfo.categoryName}</p> */}
         {
             loading 
-            ?(
-                <SpinnerLoader/>
+            ? (
+                <SpinnerBlue/>
             ):(
-                <>
-                { items.length > 0 
+            <div className=" bg-white border border-gray-300 mt-8 overflow-hidden   shadow-md sm:rounded-lg">
+                {
+                    (categoryInfo.products && categoryInfo.products.length > 0 )
                     ?(
                         <table className=" w-full text-sm text-left rtl:text-right text-gray-500 mb-20">
                             <thead className=" text-gray-700  bg-gray-50 ">
@@ -66,18 +66,25 @@ function AllItems() {
                                 </tr>
                             </thead>
                             <tbody>
+                            {/* { (Array.isArray(categoryInfo.products) && categoryInfo.products.length > 0)  &&
+                                (categoryInfo.products.map((product, index) => (
+                                    <p>Produit {index}: {product.productName}</p>
+                                )))
+                            } */}
                             {
-                                items
+                                (Array.isArray(categoryInfo.products) && categoryInfo.products.length > 0)
                                 ?(
-                                    items.map((item, index) => (
+                                    categoryInfo.products.map((item, index) => (
                                         <tr key={index} className=" bg-white border-b border-gray-200">
-                                            <td scope="row" className=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <Link to={`/admin/items/view/${item._id}`} className='flex items-center gap-4 '>
                                                     <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
                                                         {
                                                             item.productPhoto 
                                                             ?   <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
-                                                            :   <div className= 'relative w-full  h-full flex justify-center items-center bg-gray-200 '><Image className='absolute text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
+                                                            :   <div className= 'relative w-full  h-full flex justify-center items-center bg-gray-200 '>
+                                                                    <Image className='absolute text-gray-600 w-6 h-6 ' strokeWidth='1'  />
+                                                                </div>
                                                         }
                                                     </div>
                                                     <div>
@@ -101,15 +108,15 @@ function AllItems() {
                                                 : (<p>-</p>)
                                                 }
                                             </td>
-                                            <td className="relative px-6 py-4">
+                                            <td className="relative px-6 py-4 ">
                                                 <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                                 {
                                                     showOptions === index && (
-                                                        <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
+                                                        <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg  w-32'>
                                                             {/* view product details  */}
                                                             <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
-                                                                <div><Eye /></div>
-                                                                <p>View</p>
+                                                                <div><Eye/></div>
+                                                                <p className=''>View</p>
                                                             </Link>
                                                             {/* update a product */}
                                                             <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
@@ -117,13 +124,14 @@ function AllItems() {
                                                                 <p>Update</p>
                                                             </Link>
                                                             {/* delete  a product */}
-                                                            <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
+                                                            <Link onClick={() => setPopUp(true)}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
                                                                 <div><Trash2 /></div>
                                                                 <p>Delete</p>
                                                             </Link>
                                                             {/* a Component <PopUp/> to confirm the delete or cancel */}
-                                                            {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />
-                                                        }
+                                                            {   
+                                                                popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />
+                                                            }
                                                         </div>
                                                     )
                                                 }
@@ -141,9 +149,7 @@ function AllItems() {
                                     
                             </tbody>
                         </table>
-        
-                    )
-                    :(
+                    ):(
                         <div className='flex flex-col gap-3  justify-center items-center py-14'>
                             <img src="/images/sticker.svg" className='w-32 ' alt="" />
                             <div className='flex flex-col items-center'>
@@ -156,12 +162,13 @@ function AllItems() {
                         </div>
                     )
                 }
-                </>
+            </div>
 
             )
         }
+        
     </div>
   )
 }
 
-export default AllItems
+export default CategoryInfo

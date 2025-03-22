@@ -1,15 +1,18 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import {useCart} from '../CartContext'
+import {useCart} from '../../CartContext'
+import DeletePopUp from './DeletePopUp'
 
 function CartElement({product}) {
     const {cart, setCart} = useCart()
-    
+    const [showDeletePopUp, setShowDeletePopUp] = useState(false)
+    /*
     const deleteFromLocalStorage = (productId) => {
         const updatedCart = cart.filter((product) => product._id !== productId)
         localStorage.setItem('cart', JSON.stringify(updatedCart))
         setCart(updatedCart)
     }
+    */
 
     const updateQty = (productId, action)  => {
         let updatedCart = cart.map(product => {
@@ -71,8 +74,12 @@ function CartElement({product}) {
                 <div className='flex flex-col justify-between'>
                     <div className='font-mono font-semibold'>{product.quantity * product.price} MAD</div>
                     <div
-                        onClick={() => deleteFromLocalStorage(product._id)}
-                        className='cursor-pointer text-red-500 text-lg'>Remove</div>
+                        onClick={() => setShowDeletePopUp(true)}
+                        className='cursor-pointer text-red-500 text-lg'
+                    >
+                        Remove
+                    </div>
+                    {showDeletePopUp && (<DeletePopUp productId={product._id} setShowDeletePopUp={setShowDeletePopUp} />)}
                 </div>
             </div>
             )

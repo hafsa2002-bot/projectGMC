@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ArrowLeft, Image } from 'lucide-react'
-import SpinnerBlue from './SpinnerBlue'
+import SpinnerBlue from '../SpinnerBlue'
 
 function ViewProduct() {
     const {product_id} = useParams()
@@ -56,7 +56,7 @@ function ViewProduct() {
                             <div className='flex flex-col gap-3 '>
                                 <div className='flex items-center gap-4'>
                                     <p className=' text-lg font-semibold'>{product.productName}</p>
-                                    <div className='text-blue-600 bg-blue-100 rounded-3xl px-4 py-1 font-semibold'><p>Qty: {product.qty} </p></div>
+                                    <div className={`rounded-3xl px-4 py-1 font-semibold ${product.qty === 0 ? 'text-red-600 bg-red-100' : 'text-blue-600 bg-blue-100 '}`}><div>Quantity: {product.qty} </div></div>
                                 </div>
                                 <div className='flex'>
                                     <p className='w-1/2 text-gray-500'>Item ID</p>

@@ -3,23 +3,19 @@ import { CircleUserRound, Heart, Menu, Search, ShoppingCart } from 'lucide-react
 import { Link, useNavigate, Outlet, NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Cart from './Cart'
-import {useCart} from '../CartContext'
+import {useCart} from '../../CartContext'
+import CategoriesMenu from './CategoriesMenu'
+import Favorites from './Favorites'
 
 function Nav(props) {
     const [categories, setCategories] = useState([])
-    const [login, setLogin] = useState(false)
+    const [showLogin, setShowLogin] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [showCart, setShowCart] = useState(false)
     const [showFavorite, setShowFavorite] = useState(false)
     const {cart} = useCart()
     const navigate = useNavigate()
-    /*
-    const [cart, setCart] = useState(() => {
-        // load car from local storage on first render
-        const savedCart = localStorage.getItem("cart")
-        return savedCart ? JSON.parse(savedCart) : []
-    })
-        */
+
     const fetchData = () => {
         // fetch categories
         axios.get("http://localhost:3003/admin/items/categories")
@@ -28,7 +24,6 @@ function Nav(props) {
     }
     useEffect(() => {
         fetchData()
-        // localStorage.setItem("cart", JSON.stringify(cart))
     }, []);
 
   return (
@@ -69,16 +64,15 @@ function Nav(props) {
                         <Link to={"/ContactUs"} >Contact Us</Link>
                     </div>
                     <div className='relative lg:w-1/3 flex justify-end items-center ' >
-                        {/* <Link to={"/login"} className='lg:flex hidden text-lg font-semibold border-2 px-4 py-1 rounded-full hover:bg-white hover:text-black hover:px-8 hover:mr-0 mr-2'>
-                            <p>LogIn</p>
-                        </Link> */}
                         {/* login link for laptop version */}
-                        <div
-                            onClick={() => setLogin(!login)}
-                            // to={"/login"} 
-                            className=''>
+                        <div onClick = {() => {
+                                setShowLogin(!showLogin)
+                                setShowFavorite(false)
+                                setShowCart(false)
+                                setShowMenu(false)
+                            }}>
                             <CircleUserRound size={35} />
-                            {login && (
+                            {showLogin && (
                                 <div className='border border-gray-300 cursor-pointer shadow-lg absolute z-50 top-10 right-0 rounded-2xl bg-white text-black w-64 px-3 py-3 flex flex-col'>
                                     <Link to="/login" className='bg-black text-white font-semibold text-lg rounded-full  text-center py-1.5'>Sign in</Link>
                                     <Link to="/signUp" className='text-gray-500 text-center mt-1 text-base'>Register</Link>
@@ -93,22 +87,20 @@ function Nav(props) {
                             props.details && (
                                 <div className=''>
                                     <div className='relative flex items-center pl-5' >
-                                        <button className='cursor-pointer' type='button' onClick={() => setShowMenu(!showMenu)}>
+                                        <button 
+                                            className='cursor-pointer' 
+                                            type='button' 
+                                            onClick={() => {
+                                                setShowMenu(!showMenu)
+                                                setShowLogin(false)
+                                                setShowFavorite(false)
+                                                setShowCart(false)
+                                            }}>
                                             <Menu size={35} className='' aria-hidden="true" />
                                         </button>
                                         {/* Comment *** Dropdown menu */}
                                         {showMenu && (
-                                            <div className='absolute right-0 top-9 z-50 mt-2 w-60 py-4 rounded-md bg-white border border-gray-400 overflow-y-scroll max-h-[80vh]' >
-                                                <ul className='flex flex-col'>
-                                                {
-                                                    categories.map((category, index) => (
-                                                        <Link onClick={() => setShowMenu(false)} to={`/products/${category.categoryName}`} key={index} className='text-lg font-medium text-black pl-4 border-b border-stone-400 py-3 hover:bg-black hover:text-white' role='menuitem ' >
-                                                            <p >{category.categoryName} </p>
-                                                        </Link>
-                                                    ))
-                                                }
-                                                </ul>
-                                            </div>
+                                            <CategoriesMenu categories={categories} setShowMenu={setShowMenu} />
                                             )
                                         }
                                     </div>
@@ -118,7 +110,7 @@ function Nav(props) {
                     </div>
                 </div>  
             </nav>
-            {/* serach, favorite, cart */}
+            {/* search, favorite, cart */}
             <div className='w-full'>
                 {props.details && (
                     <div className='bg-white w-full text-black flex justify-between py-2 px-5'>
@@ -137,11 +129,27 @@ function Nav(props) {
                             </button>
                         </div>
                         <div className='w-1/3 flex justify-end items-center'>
-                            <div className=' cursor-pointer mr-4'>
-                                <Heart  size={28}/>
+                            {/* Favorites */}
+                            <div onClick={() => {
+                                    setShowFavorite(!showFavorite)
+                                    setShowLogin(false)
+                                    setShowCart(false)
+                                    setShowMenu(false)
+                                }} 
+                                className='relative cursor-pointer mr-4'>
+                                <Heart 
+                                    // fill='red'   
+                                    size={28}/>
                             </div>
+                            {showFavorite && (<Favorites/>)}
+                            {/* Cart */}
                             <div
-                                onClick={() => setShowCart(!showCart)}
+                                onClick={() => {
+                                    setShowCart(!showCart)
+                                    setShowMenu(false)
+                                    setShowLogin(false)
+                                    setShowFavorite(false)
+                                }}
                                 className='cursor-pointer relative flex justify-center items-center gap-1.5 text-sm'
                             >
                                 <ShoppingCart size={28} />
@@ -157,7 +165,6 @@ function Nav(props) {
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
         <div className=''>

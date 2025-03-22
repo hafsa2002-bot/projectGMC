@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import Nav from './Nav';
+import Nav from '../NavBar/Nav';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import "swiper/css/bundle";
 import "swiper/css";
 import "swiper/css/pagination";
-import Footer from './Footer';
-import SpinnerLoader from '../SpinnerLoader';
+import Footer from '../Footer';
+import SpinnerLoader from '../../SpinnerLoader';
 
 
 function HomePage() {

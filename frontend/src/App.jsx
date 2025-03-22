@@ -1,32 +1,33 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom"
-import HomePage from "./Client/HomePage"
+import HomePage from "./Client/HomePage/HomePage"
 import Login from "./Login"
 import SignUp from "./SignUp"
-import CategoryPage from "./Client/CategoryPage"
-import Nav from "./Client/Nav"
+import CategoryPage from "./Client/ProductsPages/CategoryPage"
+import Nav from "./Client/NavBar/Nav"
 import Footer from "./Client/Footer"
-import AboutUs from "./Client/AboutUs"
+import AboutUs from "./Client/HomePage/AboutUs"
 import ContactUs from "./Client/ContactUs"
-import ProductsPage from "./Client/ProductsPage"
+import ProductsPage from "./Client/ProductsPages/ProductsPage"
 import SideBar from "./Admin/SideBar"
-import AdminHomePage from "./Admin/AdminHomePage"
-import Items from "./Admin/Items"
+import AdminHomePage from "./Admin/Dashboard/AdminHomePage"
+import Items from "./Admin/ItemsPage/Items"
 import Search from "./Admin/Search"
 import PurshaseOrder from "./Admin/PurshaseOrder"
 import Members from "./Admin/Members"
 import Reports from "./Admin/Reports"
 import ActivityLog from "./Admin/ActivityLog"
-import AddItem from "./Admin/AddItem"
-import AddCategory from "./Admin/AddCategory"
-import OutOfStock from "./Admin/OutOfStock"
-import ExpiredItems from "./Admin/ExpiredItems"
-import LowInStock from "./Admin/LowInStock"
-import ViewProduct from "./Admin/ViewProduct"
-import ItemsRoute from "./Admin/ItemsRoute"
-import AllItems from "./Admin/AllItems"
-import CategoryItems from "./Admin/CategoryItems"
-import AllCategories from "./Admin/AllCategories"
-import CategoryInfo from "./Admin/CategoryInfo"
+import AddItem from "./Admin/ItemsPage/AddItem"
+import AddCategory from "./Admin/ItemsPage/AddCategory"
+import OutOfStock from "./Admin/ItemsPage/OutOfStock"
+import ExpiredItems from "./Admin/ItemsPage/ExpiredItems"
+import LowInStock from "./Admin/ItemsPage/LowInStock"
+import ViewProduct from "./Admin/ItemsPage/ViewProduct"
+import ItemsRoute from "./Admin/ItemsPage/ItemsRoute"
+import AllItems from "./Admin/ItemsPage/AllItems"
+import CategoryItems from "./Admin/ItemsPage/CategoryItems"
+import AllCategories from "./Admin/ItemsPage/AllCategories"
+import CategoryInfo from "./Admin/ItemsPage/CategoryInfo"
+import Checkout from "./Client/Checkout"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
             <Route index element ={<ProductsPage/>} />
             <Route path = ":category" element={<CategoryPage/>} />
           </Route>
+          <Route path="checkout" element={<Checkout/>}/>
           <Route path = "/login" element={<Login/>} />
           <Route path = "/signUp" element={<SignUp/>} />
           {/* <Route path='/aboutUs' element={<AboutUs/>} /> */}
@@ -52,11 +54,9 @@ function App() {
               {/* <Route index element={<Items/>} /> */}
               <Route path="" element={<Items/>}>
                 <Route index element={<AllItems/>}/>
-                {/* <Route path="category/:categoryName" element={<CategoryItems/>} /> */}
               </Route>
               <Route path="add-item" element={<AddItem/>}/>
               <Route path="categories">
-
                 <Route index element={<AllCategories/>}/>
                 <Route path=":categoryId" element={<CategoryInfo/>}/>
               </Route>
@@ -73,7 +73,6 @@ function App() {
             <Route path="members" element={<Members/>} />
           </Route>
         </Routes>
-        {/* <Loc/> */}
       </Router>
     </>
   )
