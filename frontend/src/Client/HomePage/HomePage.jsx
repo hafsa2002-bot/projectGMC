@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Footer from '../Footer';
 import SpinnerLoader from '../../SpinnerLoader';
+import AboutUs from './AboutUs';
 
 
 function HomePage() {
@@ -203,20 +204,7 @@ function HomePage() {
                 </button>
             </section>
             
-            <section>
-                <p className="text-4xl text-center">About US</p>
-                <p>Welcome to <strong>Novexa</strong>, your one-stop online store dedicated
-                    to offering high-quality products that meet your everyday 
-                    needs. We are committed to providing a seamless shopping 
-                    experience with a diverse range of items, ensuring you find 
-                    exactly what you're looking for.
-                    At <strong>Novexa</strong>, we believe in innovation, convenience, and customer
-                    satisfaction. Whether you're searching for the latest trends, 
-                    essential items, or unique finds, our platform is designed to 
-                    make online shopping effortless and enjoyable.
-                </p>
-                <i className='font-semibold'>Join Novexa today and discover a world of possibilities at your fingertips!</i>
-            </section>
+            <AboutUs/>
         </main>
         <Footer/>
     </>

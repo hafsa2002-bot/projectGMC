@@ -41,7 +41,7 @@ function Cart({setShowCart}) {
           <div className='pt-5'>
             <div className='flex justify-between items-center text-lg font-mono font-semibold'>
               <p className=''>Total</p>
-              <p>{total} MAD</p>
+              <p>{total.toFixed(2)} MAD</p>
             </div>
             <div
               onClick={() => navigate("/checkout")}
