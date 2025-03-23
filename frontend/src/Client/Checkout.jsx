@@ -1,12 +1,16 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {useCart} from '../CartContext'
+import { CircleHelp, ShoppingCart } from 'lucide-react'
+import CheckOutNav from './CheckOutNav'
+import ChecOutCart from './ChecOutCart'
 
 function Checkout() {
     const {cart, setCart} = useCart()
     const [total, setTotal] = useState(0)
     const [totalQty, setTotalQty] = useState(0)
-    const [shipping, setShipping] = useState(0)
+    const [shipping, setShipping] = useState(40)
+    const [showPhoneInfo, setShowPhoneInfo] = useState(false)
 
     const calculateTotal = () => {
         const res = cart.reduce((total, currentValue) => total +(currentValue.price * currentValue.quantity), 0)
@@ -24,62 +28,142 @@ function Checkout() {
 
   return (
     <div className=''>
-        <div className='flex justify-between py-2 border-b border-gray-300 shadow'>
-            <div className='w-1/3 '></div>
-            <div className='w-1/3'>
-                <Link to="/" className=' gap-1.5 flex justify-center  items-center outline-none '>
-                    <h2 className='text-4xl lg:text-5xl font-mono '>Novexa</h2>
-                </Link>
-            </div>
-            <div className='w-1/3'></div>
-        </div>
+        {/* NavBar */}
+        <CheckOutNav/>
         <div className='flex '>
-            <div className='w-7/12 border-r border-gray-300'>
-                <div className='bg-red border h-96'>hello</div>
-                <div className='bg-red border h-96'>hello</div>
-                <div className='bg-red border h-96'>hello</div>
-                <div className='bg-red border h-96'>hello</div>
-            </div>
-            <div className='w-5/12 bg-gray-50 sticky top-0 right-0 h-screen pt-20 '>
-                <div className='w-10/12 m-auto  border-b border-gray-300 max-h-72 flex flex-col gap-3 p-3 overflow-y-scroll'>
-                    {
-                        cart.map((product, index) => (
-                            <div className='flex items-center justify-between'>
-                                <div className='flex items-center gap-2'>
-                                    <div className='relative w-16 h-16 border border-gray-300 rounded-lg'>
-                                        <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} alt="" />
-                                        <div className='absolute -top-1 -right-1 w-5 h-5 bg-gray-700 flex justify-center items-center rounded-full text-white'>{product.quantity}</div>
-                                    </div>
-                                    <div>
-                                        <p>{product.productName}</p>
-                                    </div>
+            {/* Client Info */}
+            <div className='w-7/12 border-r border-gray-300 pb-20'>
+                <form className='w-9/12 m-auto mt-10 flex flex-col gap-4'>
+                    {/* Contact */}
+                    <div>
+                        <h2 className='mb-2 text-2xl font-medium text-gray-900'>Contact</h2>
+                        <input
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-700 focus:border-gray-700 `   }
+                            type="email" 
+                            name="CustomerMail" 
+                            id="CustomerMail"
+                            placeholder='name@example.com'
+                            required
+                        />
+                    </div>
+                    {/* Shipping */}
+                    <div>
+                        <div className='pb-4 pt-6'>
+                            <h2 className='mb-2 text-2xl font-medium text-gray-900'>Shipping</h2>
+                            <p>This address will be used as the payment address for this order.</p>
+                        </div>
+                        <div className='flex flex-col gap-6'>
+                            <div className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-700 focus:border-gray-700 `   } >
+                                <select
+                                    className='w-full outline-none'
+                                    name="" id="">
+                                    <option>Maroc</option>
+                                </select>
+                            </div>
+                            <div className='flex gap-6'>
+                                {/* Prenom */}
+                                <div className='w-1/2'>
+                                    <input
+                                        className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-500 focus:border-gray-500 `   }
+                                        type="text" 
+                                        name="firstName" 
+                                        id="firstName"
+                                        placeholder='First name'
+                                        required 
+                                    />
                                 </div>
-                                <div className=' font-mono  '>
-                                    <span>{product.price}</span> MAD
+                                {/* Nom */}
+                                <div className='w-1/2'>
+                                    <input
+                                        className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-500 focus:border-gray-500 `   }
+                                        type="text" 
+                                        name="lastName" 
+                                        id="lastName"
+                                        placeholder='Last name'
+                                        required 
+                                    />
                                 </div>
                             </div>
-                        ))
-                    }
-                </div>
-                <div className='w-10/12 m-auto mt-9 '>
-                    <div className='flex justify-between'>
-                        <div className='flex items-center gap-1'>
-                            <p>Subtotal </p>
-                            <p className='border flex justify-cener items-center'></p>
-                            <p>{totalQty} Articles</p> 
+                            {/* Address */}
+                            <div>
+                                <input
+                                    className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-500 focus:border-gray-500 `   }
+                                    type="text" 
+                                    name="customerAddress" 
+                                    id="customerAddress"
+                                    placeholder='Address'
+                                    required 
+                                />
+                            </div>
+                            <div className='flex gap-6'>
+                                {/* postal code */}
+                                <div className='w-1/2'>
+                                    <input
+                                        className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-500 focus:border-gray-500 `   } 
+                                        type="text" 
+                                        name="postalCode" 
+                                        id="postalCode"
+                                        placeholder='Postal code (optional)' 
+                                    />
+                                </div>
+                                {/* city */}
+                                <div  className='w-1/2'>
+                                    <input
+                                        className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-500 focus:border-gray-500 `   } 
+                                        type="text" 
+                                        name="city" 
+                                        id="city"
+                                        placeholder='City'
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            {/* phone number */}
+                            <div className={`flex justify-between items-center pr-3 bg-gray-50 border  text-gray-900 text-sm rounded-lg  w-full  border-gray-300 focus:ring-gray-500 focus:border-gray-500 `   }>
+                                <input
+                                    className='h-full w-full px-2.5 py-3 outline-none'
+                                    type="tel" 
+                                    name="PhoneNumber" 
+                                    id="PhoneNumber"
+                                    pattern="^0[67][0-9]{8}$"
+                                    placeholder='Phone number'
+                                    required 
+                                />
+                                <div
+                                    className='relative'
+                                    onMouseEnter={() => setShowPhoneInfo(true)}
+                                    onMouseLeave={() => setShowPhoneInfo(false)}
+                                >
+                                    <CircleHelp className='text-gray-600' />
+                                    {
+                                        showPhoneInfo && (
+                                            <div className='absolute bg-gray-800 text-white w-32 bottom-7  p-2 rounded-lg'>In case we need to contact you about your order</div>
+                                        )
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div className=''>{total} MAD</div> 
                     </div>
-                    <div className='flex justify-between mt-2'>
-                        <div>Shipping</div>
-                        <div>{shipping == 0 ? (<p>FREE</p>) : (<p>{shipping} MAD</p>)}</div>
+                    <div>
+                        <h2 className='mb-2 text-lg font-medium text-gray-900'>Shipping method</h2>
+                        <p>Our delivery person will contact you within the next 48 hours to schedule the delivery at a time that suits you.</p>
+                        <div className='bg-red-50 border-black px-2.5 py-3 flex justify-between items-center  border mt-3  text-gray-900 text-sm rounded-lg  w-full '>
+                            <div>Packaging + shipping fees</div>
+                            <div className='font-semibold'>{shipping} MAD</div>
+                        </div>
                     </div>
-                    <div className=' font-semibold text-xl flex justify-between items-center mt-8'>
-                        <div>Total</div>
-                        <div className='font-mono'>{total + shipping} MAD</div> 
+                    <div>
+                        <h2 className='mb-2 text-2xl font-medium text-gray-900'>Payment</h2>
+                        <p>The billing address of your payment method must match the shipping address. All transactions are secure and encrypted.</p>
+                        <div className='bg-red-50 border-black px-2.5 py-3 flex justify-between items-center  border mt-3  text-gray-900 text-sm rounded-lg  w-full '>Cash on delivery</div>
                     </div>
-                </div>
+                    <button  className='bg-black font-semibold px-2.5 py-3 flex justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
+                        <p className=' w-full'>Confirm the order</p> 
+                    </button>
+                </form>
             </div>
+            {/* Cart Info */}
+            <ChecOutCart cart={cart} total={total} totalQty={totalQty}  />
         </div>
     </div>
   )
