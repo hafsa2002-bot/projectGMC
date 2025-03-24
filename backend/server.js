@@ -140,7 +140,6 @@ app.get("/admin/items/outOfStock", async(req, res) => {
             {qty:0, $or:[{outOfStock: false}, {lowInStock: true}]},
             {$set:{outOfStock: true, lowInStock: false}}
         )
-
         const outOfStock = await Product.find({outOfStock: true})
         res.send(outOfStock)
     }catch(error){
@@ -152,6 +151,10 @@ app.get("/admin/items/outOfStock", async(req, res) => {
 // get products lowInStock
 app.get("/admin/items/lowInStock", async(req, res) => {
     try{
+        await Product.updateMany(
+            {qty:0, $or:[{outOfStock: false}, {lowInStock: true}]},
+            {$set:{outOfStock: true, lowInStock: false}}
+        )
         const  lowInStock = await Product.find({lowInStock: true})
         res.send(lowInStock)
     } catch(error){

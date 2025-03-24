@@ -10,10 +10,10 @@ function LowInStock() {
         axios.get("http://localhost:3003/admin/items/lowInStock")
             .then(response => {
                 setLowInStock(response.data)
-                console.log("low in stock products: ", response.data)
+                // console.log("low in stock products: ", response.data)
             })
             .catch(error => console.log("Error: ", error))
-    }, [])
+    }, [lowInStock])
   return (
     <div className='my-3'>
         <div className=''>
