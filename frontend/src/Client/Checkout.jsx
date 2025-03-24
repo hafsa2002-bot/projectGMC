@@ -5,6 +5,7 @@ import { CircleHelp, ShoppingCart } from 'lucide-react'
 import CheckOutNav from './CheckOutNav'
 import ChecOutCart from './ChecOutCart'
 import axios from 'axios'
+import CheckOutInfo from './CheckOutInfo'
 
 function Checkout() {
     const {cart, setCart} = useCart()
@@ -27,7 +28,9 @@ function Checkout() {
     const navigate = useNavigate()
 
 
-    const handleSubmit = async() => {
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+
         const outOfStockItems = cart.filter(item => item.qty == 0)
         if(outOfStockItems.length > 0){
             setOutOfStockMessage(true)
@@ -49,23 +52,40 @@ function Checkout() {
             status: "pending"
         }
         try{
-            const response = await axios.post("http://localhost:3003/orders/addOnlineOrder",
-                orderData
-            )
-            console.log("order added: ", response.data)
-            setShowMessage(true)
-            localStorage.removeItem("cart")
-            // setCart([])
-            navigate("/products")
+            console.log("Submitting order data:", orderData)  // Debug: Log the order data
+            console.log("Before making the request")  // Debugging
+            const response = await fetch("http://localhost:3003/orders/addOnlineOrder", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Specify the content type
+                },
+                body: JSON.stringify(orderData),
+            })
+            if(response.status === 200){
+                console.log("order added: ", response.data)
+                setShowMessage(true)
+                localStorage.removeItem("cart")
+                setCart([])
+                navigate("/products")
+            }else{
+                console.log("failed")
+            }
+        
+            const data = await response.json()
+            console.log("Response received: ", data)
         }catch(error){
             console.log("Error: ", error)
         }
+        
+        
     }
 
     useEffect(() => {
         setContact({customerMail: customerMail})
         setShipping({firstName: firstName, lastName: lastName, address: address, postalCode: postalCode, city: city, phoneNumber: phoneNumber})
-    }, [customerMail, firstName, lastName, address, postalCode, city, phoneNumber])
+        calculateTotal()
+        CalculateTotalQuantity()
+    }, [cart, customerMail, firstName, lastName, address, postalCode, city, phoneNumber])
 
     const calculateTotal = () => {
         const res = cart.reduce((totalAmount, currentValue) => totalAmount +(currentValue.price * currentValue.quantity), 0)
@@ -76,10 +96,10 @@ function Checkout() {
         const Qty = cart.reduce((totalQty, currentValue) => totalQty + (currentValue.quantity), 0)
         setTotalQty(Qty)
     }
-    useEffect(() => {
-        calculateTotal()
-        CalculateTotalQuantity()
-    }, [cart])
+    // useEffect(() => {
+    //     calculateTotal()
+    //     CalculateTotalQuantity()
+    // }, [cart])
 
   return (
     <div className=''>
@@ -88,7 +108,7 @@ function Checkout() {
         <div className='flex '>
             {/* Client Info */}
             <div className='w-7/12 border-r border-gray-300 pb-20'>
-                <form onSubmit={handleSubmit} className='w-9/12 m-auto mt-10 flex flex-col gap-4'>
+                <form onSubmit={handleSubmit}  className='w-9/12 m-auto mt-10 flex flex-col gap-4'>
                     {/* Contact */}
                     <div>
                         <h2 className='mb-2 text-2xl font-medium text-gray-900'>Contact</h2>
@@ -180,34 +200,16 @@ function Checkout() {
                                     pattern="^0[67][0-9]{8}$"
                                     placeholder='Phone number: +212xxxxxxxxx' required 
                                 />
-                                <div
-                                    className='relative'
-                                    onMouseEnter={() => setShowPhoneInfo(true)}
-                                    onMouseLeave={() => setShowPhoneInfo(false)}
-                                >
+                                <div className='relative' onMouseEnter={() => setShowPhoneInfo(true)} onMouseLeave={() => setShowPhoneInfo(false)}>
                                     <CircleHelp className='text-gray-600' />
-                                    {
-                                        showPhoneInfo && (
+                                    {showPhoneInfo && (
                                             <div className='absolute bg-gray-800 text-white w-32 bottom-7  p-2 rounded-lg'>In case we need to contact you about your order</div>
-                                        )
-                                    }
+                                        )}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h2 className='mb-2 text-lg font-medium text-gray-900'>Shipping method</h2>
-                        <p>Our delivery person will contact you within the next 48 hours to schedule the delivery at a time that suits you.</p>
-                        <div className='bg-red-50 border-black px-2.5 py-3 flex justify-between items-center  border mt-3  text-gray-900 text-sm rounded-lg  w-full '>
-                            <div>Packaging + shipping fees</div>
-                            <div className='font-semibold'>{shippingPrice} MAD</div>
-                        </div>
-                    </div>
-                    <div>
-                        <h2 className='mb-2 text-2xl font-medium text-gray-900'>Payment</h2>
-                        <p>The billing address of your payment method must match the shipping address. All transactions are secure and encrypted.</p>
-                        <div className='bg-red-50 border-black px-2.5 py-3 flex justify-between items-center  border mt-3  text-gray-900 text-sm rounded-lg  w-full '>Cash on delivery</div>
-                    </div>
+                    <CheckOutInfo shippingPrice={shippingPrice}/>
                     <button  className='bg-black font-semibold px-2.5 py-3 flex justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
                         <p className=' w-full'>Confirm the order</p> 
                     </button>

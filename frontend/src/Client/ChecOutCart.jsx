@@ -1,9 +1,24 @@
 import { ImageOff } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 
 function ChecOutCart({cart, totalAmount, totalQty}) {
     const [shipping, setShipping] = useState(40)
-    const [isOutOfStock, setIsOutOfStock] = useState(false)
+    const [outOfStockProducts, setOutOfStockProducts] = useState([])
+    const [productById, setProductById] = useState({})
+    const chechIfOutOfStock = (productId) => {
+        axios.get(`http://localhost:3003/admin/items/view/${productId}`)
+            .then(response => {
+                setProductById(response.data)
+                if(response.data.qty === 0){
+                    setOutOfStockProducts(prevState => [...prevState, productId])
+                }
+            })
+            .catch(error => console.log("error: ", error))
+    }
+    useEffect(() => {
+        cart.forEach(item => chechIfOutOfStock(item._id))
+    }, [productById])
   return (
     <div className='w-5/12 bg-gray-50 sticky top-0 right-0 h-screen pt-20 '>
         <div className='w-10/12 m-auto  border-b border-gray-300 max-h-72 flex flex-col gap-3 p-3 overflow-y-scroll'>
@@ -24,7 +39,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                             </div>
                             <div>
                                 <p>{product.productName}</p>
-                            </div>
+                                {outOfStockProducts.includes(product._id) && (<p className='text-white bg-gradient-to-r from-red-700  to-red-800 rounded-full text-sm w-24 text-center mt-1'>Out of stock!</p>)}                            </div>
                         </div>
                         <div className=' font-mono  '>
                             <span>{product.price}</span> MAD

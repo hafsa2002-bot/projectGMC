@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function CheckOutNav() {
     const navigate = useNavigate()
-    
+
     return (
     <div className='flex justify-between items-center py-3 border-b border-gray-300 shadow'>
         <div className='w-1/3 '></div>
@@ -14,12 +14,12 @@ function CheckOutNav() {
             </Link>
         </div>
         <div className='w-1/3 flex justify-end pr-6'>
-            <div 
+            <Link to="/products" 
                 className='cursor-pointer'
-                onClick={() => navigate(-1)} 
+                // onClick={() => navigate("/products")} 
             >
                 <ShoppingCart size={30} />
-            </div>
+            </Link>
         </div>
     </div>
   )
