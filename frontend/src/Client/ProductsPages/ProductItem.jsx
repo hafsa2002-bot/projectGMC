@@ -23,15 +23,15 @@ function ProductItem({product}) {
     }
 
     useEffect(() => {
-            fetchData(product._id)
-    }, [])
+        fetchData(product._id)
+    }, [productById])
 
     const addToCartFunction = () => {
         if(productById.qty > 0){
             addToCart(product)
             setSuccessMessage(true);
             setTimeout(() => setSuccessMessage(false), 3000)
-        }else if(productById.qty == 0){
+        }else if(productById.qty === 0){
             setShowMessage(true)
             setTimeout(() => setShowMessage(false), 3000)
         }

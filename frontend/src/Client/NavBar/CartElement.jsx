@@ -32,6 +32,16 @@ function CartElement({product}) {
         setCart(updatedCart)
     }
     
+    /*
+    useEffect(() => {
+        fetchData(product._id)
+        const updatedCart = cart.filter(product =>{
+            return !(product._id === productById._id && productById.qty === 0)
+        })
+        localStorage.setItem('cart', JSON.stringify(updatedCart))
+        setCart(updatedCart)
+    }, [cart, productById])
+    */
     useEffect(() => {
         fetchData(product._id)
     }, [])

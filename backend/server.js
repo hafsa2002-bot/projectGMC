@@ -365,7 +365,7 @@ app.delete("/admin/dashboard/delete-requested-product/:id", async(req, res) => {
 // add new order: client
 app.post("/orders/addOnlineOrder", async(req, res) => {
     try{
-        const {products, totalAmount, amountPaid} = req.body
+        const {contact,  shipping, products, totalAmount, amountPaid, status} = req.body
 
         if(!products || products.length == 0){
             return res.status(400).json({error: "Order must contain at least one product"})
@@ -375,8 +375,10 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
         let paymentStatus = "pending"
         if(amountPaid >= totalAmount){
             paymentStatus = "paid"
-        }else if(amountPaid > 0){
-            paymentStatus = "partially_paid"
+        }else if(amountPaid > 0 && rest > 0){
+            paymentStatus = "pending"
+        }else{
+            paymentStatus  = "pending"
         }
 
         for(const item of products){
@@ -406,14 +408,26 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
             }
         }
 
-        const newOrder = new Order ({products, totalAmount, amountPaid, rest, paymentStatus})
+        const newOrder = new Order ({contact, shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
         await newOrder.save()
+        console.log("new order: ", newOrder)
         res.json({message: "order successfully added", newOrder})
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({errro: "Internal server error"})
     }
 })
+
+// get the online orders
+app.get("/orders/getOnlineOrders", async (req, res) => {
+    try{
+        const orders = await Order.find()
+        res.send(orders)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+}) 
 
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))
