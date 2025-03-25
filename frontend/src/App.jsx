@@ -12,7 +12,6 @@ import SideBar from "./Admin/SideBar"
 import AdminHomePage from "./Admin/Dashboard/AdminHomePage"
 import Items from "./Admin/ItemsPage/Items"
 import Search from "./Admin/Search"
-import PurshaseOrder from "./Admin/PurshaseOrder"
 import Members from "./Admin/Members"
 import Reports from "./Admin/Reports"
 import ActivityLog from "./Admin/ActivityLog"
@@ -28,6 +27,8 @@ import CategoryItems from "./Admin/ItemsPage/CategoryItems"
 import AllCategories from "./Admin/ItemsPage/AllCategories"
 import CategoryInfo from "./Admin/ItemsPage/CategoryInfo"
 import Checkout from "./Client/Checkout"
+import Order from "./Admin/OrderPage/Order"
+import ViewOrder from "./Admin/OrderPage/ViewOrder"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 function App() {
 
@@ -68,7 +69,8 @@ function App() {
             </Route>
             <Route path="search" element={<Search/>} />
             <Route path="reports" element={<Reports/>} />
-            <Route path="purshase-order" element={<PurshaseOrder/>} />
+            <Route path="orders" element={<Order/>} />
+            <Route path="view_order/:id" element={<ViewOrder/>}/>
             <Route path="activities" element={<ActivityLog/>} />
             <Route path="members" element={<Members/>} />
           </Route>

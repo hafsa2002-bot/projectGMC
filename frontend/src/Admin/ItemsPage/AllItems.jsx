@@ -86,10 +86,10 @@ function AllItems() {
                                                 </Link>
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item.qty}
+                                                {item.qty} items
                                             </td>
-                                            <td className="px-6 py-4 text-2xl text-red-600">
-                                                !!!
+                                            <td className="px-6 py-4">
+                                                {item.itemsSold && (<p>{item.itemsSold} items</p>)}
                                             </td>
                                             <td className="px-6 py-4">
                                                 {item.price} <span className='text-black'>MAD</span>

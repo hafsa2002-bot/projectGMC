@@ -2,11 +2,13 @@ import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 import {useCart} from '../../CartContext'
 import DeletePopUp from './DeletePopUp'
+import { X } from 'lucide-react'
 
 function CartElement({product}) {
     const {cart, setCart} = useCart()
     const [showDeletePopUp, setShowDeletePopUp] = useState(false)
     const [productById, setProductById] = useState({})
+    const [message, setMessage] = useState(false)
 
     const fetchData = (productId) => {
         axios.get(`http://localhost:3003/admin/items/view/${productId}`)
@@ -18,7 +20,13 @@ function CartElement({product}) {
         let updatedCart = cart.map(product => {
             if(product._id === productId){
                 if(action == "plus"){
-                    return {...product, quantity: product.quantity + 1}
+                    if(productById.qty > product.quantity){
+                        return {...product, quantity: product.quantity + 1}
+                    }
+                    else{
+                        setMessage(true)
+                        setTimeout(() => setMessage(false), 3000)
+                    }
                 }else if (action == "minus" && product.quantity > 0){
                     return {...product, quantity: product.quantity - 1}
                     
@@ -32,16 +40,7 @@ function CartElement({product}) {
         setCart(updatedCart)
     }
     
-    /*
-    useEffect(() => {
-        fetchData(product._id)
-        const updatedCart = cart.filter(product =>{
-            return !(product._id === productById._id && productById.qty === 0)
-        })
-        localStorage.setItem('cart', JSON.stringify(updatedCart))
-        setCart(updatedCart)
-    }, [cart, productById])
-    */
+    
     useEffect(() => {
         fetchData(product._id)
     }, [])
@@ -95,6 +94,12 @@ function CartElement({product}) {
             )
         }
         <hr className='text-gray-300 w-11/12 m-auto'/>
+        {message && (
+            <div className='px-3 py-2 fixed top-36 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center gap-3 border border-gray-300 '>
+                <div className='w-4 h-4 bg-red-700 rounded-full flex justify-center items-center'><X className='text-white' size={12}/></div>
+                <p>The maximum available quantity is {productById.qty}</p> 
+            </div>
+        )}
     </div>
   )
 }

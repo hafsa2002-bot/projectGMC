@@ -45,6 +45,7 @@ function AddItem() {
         formData.append("productName", productName)
         formData.append("barcode", barcode)
         formData.append("qty", qty)
+        formData.append("itemsSold", 0)
         formData.append("minLevel", minLevel)
         formData.append("price", price)
         formData.append("productPhoto", productPhoto)

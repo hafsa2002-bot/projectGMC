@@ -1,13 +1,13 @@
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import SpinnerLoader from '../../SpinnerLoader'
 import Footer from '../Footer'
 import { ChevronDown } from 'lucide-react'
 
 function ProductsPage() {
-    const [productsByCategory, setProductsByCategory] = useState({})
+    const [categories, setCategories] = useState({})
     const [products, setProducts] = useState([])
     const [displayedProducts, setDisplayedProducts] = useState([])
     const [itemsToShow, setItemsToShow] = useState(12)
@@ -41,9 +41,14 @@ function ProductsPage() {
                 setLoading(false)
             })
     }
+    const getCategories = () => {
+        axios.get("http://localhost:3003/admin/items/categories-with-Products")
+            .then(response => setCategories(response.data))
+            .catch(error => console.log("Error: ", error))
+    }
     useEffect(() => {
         fetchData()
-        console.log("productsByCategory: ", productsByCategory)
+        getCategories()
     }, [])
 
     const loadMoreProducts = () => {
@@ -52,6 +57,10 @@ function ProductsPage() {
             setDisplayedProducts(products.slice(0, newItemsToShow))
             return newItemsToShow;
         })
+    }
+    const firstLetterToUpperCase = (str) => {
+        const result =   str[0].toUpperCase() + str.slice(1,str.length)
+        return result;
     }
   return (
     <div className='mt-40'>
@@ -63,6 +72,23 @@ function ProductsPage() {
                 )
                 : (
                     <>
+                        <div className='flex justify-center gap-24 mb-20'>
+                            {categories.length > 0 && (
+                                categories.slice(0, 5).map((category, index) => (
+                                    <Link to={`/products/${category.categoryName}`}  key={index} className="flex flex-col justify-center items-center">
+                                        <div className='w-30 h-30 rounded-full border border-gray-400'>
+                                            {(category.products.length>0 && category.products[1].productPhoto) && (
+                                                <img 
+                                                    src={`http://localhost:3003${category.products[1].productPhoto}`}
+                                                    className="w-full h-full"
+                                                />
+                                            )}
+                                        </div>
+                                        <p className='font-roboto text-xl pt-2'>{firstLetterToUpperCase(category.categoryName)}</p>
+                                    </Link>
+                                ))
+                            )}
+                        </div>
                         <div className=' flex flex-wrap gap-9 justify-between items-baseline lg:px-10 px-6 '>
                             {
                                 displayedProducts.map((product, index) => (

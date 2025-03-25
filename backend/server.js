@@ -26,24 +26,6 @@ mongoose.connect(uri)
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log("ERROR: ", err))
 
-/*
-const newUser = new User({
-    userName: "hafsa Barhoud",
-    userPassword: "hafsa123",
-    role: "admin"
-})
-
-await newUser.save()
-console.log("User saved: ", newUser)
-*/
-
-/*
-const newCategory = new Category({
-    categoryName: "watches 0"
-})
-await newCategory.save()
-console.log("Category save : ", newCategory)
-*/
 
 //configure multer for files uploads 
 const storage = multer.diskStorage({
@@ -53,6 +35,7 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({storage})
+
 
 /********* Products and stock ***********/
 async function initializeStoreStock() {
@@ -70,13 +53,13 @@ initializeStoreStock();
 // add new item
 app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res) => {
     try{
-        let {productName, barcode, qty, minLevel, price, expirationDate, categoryId} = req.body;
+        let {productName, barcode, qty, itemsSold, minLevel, price, expirationDate, categoryId} = req.body;
         const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
 
         if(!categoryId || categoryId === "") categoryId = null;
 
-        console.log({productName, price, qty, barcode, minLevel, productPhoto, expirationDate, categoryId})
-        const newItem = new Product({productName, price, barcode, qty, minLevel, productPhoto, expirationDate, categoryId})
+        console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
+        const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId})
         await newItem.save();
 
         // update Stock Status
@@ -396,6 +379,10 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
                 {_id: item.productId},
                 {$inc: {qty: -item.quantity}}
             )
+            await Product.updateOne(
+                {_id: item.productId},
+                {$inc: {itemsSold: item.quantity}}
+            )
             await product.save()
 
             console.log("product quantity equal:", product.qty)
@@ -431,6 +418,18 @@ app.get("/orders/getOnlineOrders", async (req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
 }) 
+
+//get order by Id
+app.get("/orders/:id", async (req, res) => {
+    try{
+        const orderById = await Order.find({_id: req.params.id})
+        res.send(orderById[0])
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error:"Internal server error"})
+    }
+})
+
 
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

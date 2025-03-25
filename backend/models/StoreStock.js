@@ -29,7 +29,7 @@ storeStockSchema.statics.updateStoreStock = async function(){
         if (product.lowInStock) totalLowInStock += 1;
         if (product.isExpired) totalExpiredProducts += 1;
     })
-
+    // let totalIncome
     let totalProducts = products.length;
     let totalCategories = categories.length;
 

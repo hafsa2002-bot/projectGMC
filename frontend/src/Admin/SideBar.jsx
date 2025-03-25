@@ -73,7 +73,7 @@ function SideBar() {
                     }
                 </NavLink>
                 <NavLink 
-                    to="/admin/purshase-order" 
+                    to="/admin/orders" 
                     className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
                     onMouseEnter={() => setShowOrder(true)}
                     onMouseLeave={() => setShowOrder(false)}
@@ -217,7 +217,7 @@ function SideBar() {
                                 <div>Search</div>
                             </NavLink>
                             <NavLink
-                                to="/admin/purshase-order" 
+                                to="/admin/orders" 
                                 className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                                 // className='flex items-center gap-3 px-4 py-3'
                             >
