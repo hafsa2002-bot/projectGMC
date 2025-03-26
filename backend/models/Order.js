@@ -12,7 +12,8 @@ const orderSchema = new mongoose.Schema({
         address: {type: String, required: true},
         postalCode: {type: String, required: false},
         city: {type: String, required: true},
-        phoneNumber: {type: String, required: true}
+        phoneNumber: {type: String, required: true},
+        shippingPrice: {type: Number, default: 0, rquired: true}
     },
     products: [
         {
@@ -40,21 +41,5 @@ const orderSchema = new mongoose.Schema({
     },
     createdAt: {type: Date, default: Date.now}
 })
-
-/*
-orderSchema.pre("save", function (next) {
-    this.rest = this.totalAmount - this.amountPaid;
-
-    if(this.amountPaid === 0){
-        this.paymentStatus = "pending";
-    } else if(this.amountPaid < this.totalAmount){
-        this.paymentStatus = "partially_paid";
-    } else if(this.amountPaid >= this.totalAmount){
-        this.paymentStatus = "paid"
-    }
-
-    next();
-})
-*/
 
 module.exports = mongoose.model('Order', orderSchema)

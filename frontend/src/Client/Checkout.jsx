@@ -82,10 +82,10 @@ function Checkout() {
 
     useEffect(() => {
         setContact({customerMail: customerMail})
-        setShipping({firstName: firstName, lastName: lastName, address: address, postalCode: postalCode, city: city, phoneNumber: phoneNumber})
+        setShipping({firstName: firstName, lastName: lastName, address: address, postalCode: postalCode, city: city, phoneNumber: phoneNumber, shippingPrice: shippingPrice})
         calculateTotal()
         CalculateTotalQuantity()
-    }, [cart, customerMail, firstName, lastName, address, postalCode, city, phoneNumber])
+    }, [cart, customerMail, firstName, lastName, address, postalCode, city, phoneNumber, shippingPrice])
 
     const calculateTotal = () => {
         const res = cart.reduce((totalAmount, currentValue) => totalAmount +(currentValue.price * currentValue.quantity), 0)

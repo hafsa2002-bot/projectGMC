@@ -351,7 +351,7 @@ app.delete("/admin/dashboard/delete-requested-product/:id", async(req, res) => {
 // add new order: client
 app.post("/orders/addOnlineOrder", async(req, res) => {
     try{
-        const {contact,  shipping, products, totalAmount, amountPaid, status} = req.body
+        const {contact, shipping, products, totalAmount, amountPaid, status} = req.body
 
         if(!products || products.length == 0){
             return res.status(400).json({error: "Order must contain at least one product"})

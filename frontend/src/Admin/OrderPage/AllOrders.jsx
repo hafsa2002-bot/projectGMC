@@ -92,12 +92,10 @@ function AllOrders({setNumberOfOrders}) {
                                     <td className="px-4 py-4 text-base ">
                                         {order.paymentStatus && (
                                             order.paymentStatus === 'pending' ? (
-                                                <div className='bg-yellow-400 text-white py-[2px] font-semibold text-[13px]  text-center  rounded-full'>Pending</div>
+                                                <div className='bg-yellow-400 text-white py-[2px] font-semibold text-[13px] w-20 text-center  rounded-full'>Pending</div>
                                             ) : order.paymentStatus === 'paid' ? (
-                                                <div className='bg-green-800 text-white py-[2px] font-semibold text-[13px]  text-center rounded-full'>Paid</div>
-                                            ) : order.paymentStatus === 'refunded' ? (
-                                                <div className="bg-red-500 text-white py-[2px] font-semibold text-[13px] text-center rounded-full">Refunded</div>
-                                            ) : null
+                                                <div className='bg-green-800 text-white py-[2px] font-semibold text-[13px] w-20  text-center rounded-full'>Paid</div>
+                                            ): null
                                         )}
                                     </td>
                                     <td className="px-4 py-4 text-base ">
@@ -109,11 +107,11 @@ function AllOrders({setNumberOfOrders}) {
                                             order.status === 'pending' ? (
                                                 <div className='bg-blue-50 bg- text-blue-500 py-[2px] font-semibold text-[13px]  text-center  rounded-full'>Order processing</div>
                                             ) : order.status === 'packed' ? (
-                                                <div className='bg-purple-50 text-prurple-500 text-[13px] py-[2px] font-semibold  text-center rounded-full'>Packed</div>
+                                                <div className='bg-purple-50 text-prurple-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full'>Packed</div>
                                             ) : order.status === 'done' ? (
-                                                <div className="bg-green-50 text-green-500 text-[13px] py-[2px] font-semibold text-center rounded-full">Done</div>
+                                                <div className="bg-green-50 text-green-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full">Done</div>
                                             ) : order.status === 'canceled' ? (
-                                                <div className="bg-red-50 text-red-500 text-[13px] py-[2px] font-semibold text-center rounded-full">Canceled</div>
+                                                <div className="bg-red-50 text-red-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full">Canceled</div>
                                             ) : null
                                         )}
                                     </td>

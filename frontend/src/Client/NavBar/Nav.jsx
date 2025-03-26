@@ -29,11 +29,16 @@ function Nav(props) {
   return (
     <div>
         <div className='z-50 border-b border-gray-300  w-full shadow-md fixed top-0'>
-            <nav  className='  bg-black text-white   py-3'>
+            <nav  className='bg-black text-white   py-3'>
                 <div className='flex justify-between items-center px-5'>
                     <div className='lg:w-1/3 flex justify-start'>
-                        <Link to="/" className=' gap-1.5 flex justify-center  items-center outline-none'>
-                            <h2 className='text-4xl lg:text-5xl font-mono '>Novexa</h2>
+                        <Link to="/" className=' gap-2 flex justify-center  items-center outline-none'>
+                            {/* <div className='h-16 overflow-hidden'><img src="/images/logo7.png" className='w-full h-full' alt="Logo" /></div> */}
+                            <div className='w-14 h-14   overflow-hidden'><img src="/images/logo8.png" className='w-full h-full' alt="Logo" /></div><p className="hidden">2</p>
+                            {/* <div className='w-20 h-20   overflow-hidden'><img src="/images/logo10.png" className='w-full h-full' alt="Logo" /></div><p className="hidden">1</p> */}
+                            {/* <div className='w-10 h-11  overflow-hidden'><img src="/images/logo11.png" className='w-full h-full' alt="Logo" /></div> */}
+                            {/* <div className='w-10 h-11  overflow-hidden'><img src="/images/logo9.png" className='w-full h-full' alt="Logo" /></div> */}
+                            <h2 className='text-4xl lg:text-4xl font-poppins'>Novexa</h2>
                         </Link>
                     </div>
                     {/* links in laptop version */}

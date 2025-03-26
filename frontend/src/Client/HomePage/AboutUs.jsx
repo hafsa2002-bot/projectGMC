@@ -13,7 +13,7 @@ function AboutUs() {
   }, [])
   return (
     <section>
-      <h1 className='text-8xl text-center font-bold relative top-5' data-aos="fade-up">ABOUT US</h1>
+      <h1 className='text-6xl text-center font-bold relative top-5' data-aos="fade-up">ABOUT US</h1>
         <div className='w-full  h-[90vh] px-26 py-20 flex gap-5 text-stone-400 font-semibold'>
           <div className='w-1/3 flex flex-col gap-4'>
             <div className='h-1/3 bg-black border border-stone-500 rounded-lg p-4'>

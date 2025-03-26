@@ -80,7 +80,8 @@ function HomePage() {
                     {/* bg-[#B88C4A] */}
                     <Link
                         to={"/products"}
-                        className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-yellow-600  px-4 py-2 rounded-full text-lg font-semibold mt-5"
+                        //className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-yellow-600  px-4 py-2 rounded-full text-lg font-semibold mt-5" 
+                        className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-orange-400  px-4 py-2 rounded-full text-lg font-semibold mt-5"
                     >
                         Start Shopping
                     </Link>
