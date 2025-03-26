@@ -1,8 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
+import html2pdf from "html2pdf.js";
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import SpinnerBlue from '../SpinnerBlue'
 import { ArrowLeft, Download } from 'lucide-react'
+import TestPDF from './TestPDF';
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import "../../index.css"
+
 
 function ViewOrder() {
     const {id} = useParams()
@@ -10,6 +16,41 @@ function ViewOrder() {
     const [loading, setLoading] = useState(true)
     const [productName, setProductName] = useState("")
     const navigate = useNavigate()
+    const pdfRef = useRef()
+
+   
+    const handleGeneratePdf = async () => {
+        const element = document.querySelector('#pdf-content')
+        html2pdf(element)
+        /*
+        if (element) {
+            try {
+                await html2pdf().from(element).set({
+                    margin: [10, 10, 10, 10], // Top, right, bottom, left margins
+                    filename: "Order.pdf",
+                    image: { type: "jpeg", quality: 0.98 }, // Better image quality
+                    html2canvas: { 
+                        scale: 3, // Higher scale for better rendering
+                        useCORS: true, // Fix potential font rendering issues
+                    },
+                    jsPDF: { 
+                        unit: "px", 
+                        format: "a4", 
+                        orientation: "portrait" // Change if necessary
+                    }
+                }).save();
+            } catch (error) {
+                console.log("Failed to generate PDF:", error);
+            }
+        } else {
+            console.log('Element not found');
+        }
+            */
+    }
+        
+    
+
+    
 
     let getProductName = async (productId) => {
         try{
@@ -43,6 +84,7 @@ function ViewOrder() {
     }, [id])
   return (
     <div>
+        
         {
             loading ? (
                 <SpinnerBlue/>
@@ -57,15 +99,43 @@ function ViewOrder() {
                             <Link className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                 <p>Edit order</p>
                             </Link>
-                            <Link className='border flex gap-2 justify-center items-center border-blue-600 text-white bg-blue-600 px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                            <button onClick={() => handleGeneratePdf()} className='border flex gap-2 justify-center items-center border-blue-600 text-white bg-blue-600 px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                 <div><Download /></div>
                                 <p>Download PDF</p>
-                            </Link>
+                            </button>
                         </div>
                     </div>
-                    <div className='bg-white w-10/12 m-auto mt-10 mb-10 pb-20  font-poppins'>
-                        <div className='border-b border-gray-300 px-8 pb-5 pt-6 flex justify-between items-end'>
-                            <div className='text-stone-500'>
+                    <div id="pdf-content"   style={{color:"red"}}>
+                        <p >Novexa</p>
+                        <p>Admin Name</p>
+                        <p>Address, num x<span>,</span></p>
+                        <p>Country</p>
+                        <p>admin@gmail.com</p>
+                        <p>0000000000</p>
+                    </div>
+                    
+                    <h1 >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat ut ipsum similique? Optio inventore, minima quas animi iusto suscipit ex blanditiis dolorum adipisci quibusdam consectetur maiores! Porro, voluptas iusto. Labore.</h1>
+                    {/* <TestPDF/>  */}
+                    <div ref={pdfRef} style={{ backgroundColor: "white", width: "90%", margin: "auto", paddingBottom: "20px", color: "#4B5563" }}>
+    <div style={{ borderBottom: "1px solid #D1D5DB", padding: "10px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+        <div style={{ color: "#57534E" }}>
+            <p style={{ color: "#2563EB", fontSize: "1.25rem", fontWeight: "600", marginBottom: "5px" }}>Novexa</p>
+            <p>Admin Name</p>
+            <p>Address, num x<span>,</span></p>
+            <p>Country</p>
+            <p>admin@gmail.com</p>
+            <p>0000000000</p>
+        </div>
+        <div>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "5px" }}><span style={{ fontWeight: "600" }}>Order number:</span> <p style={{ color: "#4B5563" }}>{order._id}</p></div>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "5px" }}><span style={{ fontWeight: "600" }}>Date issued:</span> <p style={{ color: "#4B5563" }}>{order.createdAt.slice(0, 10)}</p></div>
+        </div>
+    </div>
+</div>
+
+                    {/* <div ref ={pdfRef} id="pdf-content" className='bg-white w-10/12 mx-auto mt-10 mb-10 pb-20 font-poppins text-gray-700'>
+                        <div   className='border-b border-gray-300 px-8 pb-5 pt-6 flex justify-between items-end'>
+                            <div  className='text-stone-500'>
                                 <p className='text-blue-600 text-xl font-semibold font-poppins mb-1'>Novexa</p>
                                 <p>Admin Name</p>
                                 <p>Address, num x<span>,</span></p>
@@ -89,7 +159,7 @@ function ViewOrder() {
                                                 {order.shipping.address},<br/>
                                                 <div className='flex gap-1'> {order.shipping.city}, {order.shipping.postalCode && (<p>{order.shipping.postalCode} </p>)}</div> 
                                             </div>
-                                            <p>{order.contact.customerMail}</p>
+                                            <p>{order.contact?.customerMail}</p>
                                         </div>
                                     )
                                 }
@@ -118,7 +188,6 @@ function ViewOrder() {
                                         order.products.map((product, index) => (
                                         <tr key={index}>
                                             <td  className="px-4 py-4">
-                                                {/* {getProductName(product.productId)} */}
                                                 {product.productName}
                                             </td>
                                             <td className="px-4 py-4">
@@ -171,16 +240,14 @@ function ViewOrder() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="w-10/12 m-auto border-t-2 border-blue-600 pt-5 pb-14 flex justify-center items-center gap-4">
                         <p className='font-medium w-1/2 text-end'>Powered by </p>
                         <div className=" w-1/2 flex gap-2 justify-start items-center">
                             <div className='w-11 h-11'><img src="/images/logoOrder.png" alt='logo'/></div>
                             <div className='font-poppins text-lg'><span className='text-blue-600'>Nov</span>exa</div>
                         </div>
-                    </div>
-                    
-                    
+                    </div>    
                 </div>
             )
         }

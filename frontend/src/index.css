@@ -11,6 +11,34 @@
 }
 @import "tailwindcss";
 
+@layer base{
+  img{display:initial}
+}
+/* src/index.css */
+@page {
+  margin: 0; /* Disable margins */
+  size: A4 portrait; /* set the size */
+}
+* {
+  -webkit-print-color-adjust: exact; /* always print background colors */
+}
+
+.pdf-container {
+  @apply bg-white w-10/12 mx-auto mt-10 mb-10 pb-20 font-poppins text-gray-700;
+}
+.pdf-header {
+  @apply border-b border-gray-300 px-8 pb-5 pt-6 flex justify-between items-end;
+}
+.pdf-title {
+  @apply text-blue-600 text-xl font-semibold font-poppins mb-1;
+}
+.pdf-order {
+  @apply flex justify-end gap-2;
+}
+
+.pdf-content {
+  @apply bg-white w-10/12 mx-auto mt-10 mb-10 pb-20 font-poppins text-gray-700;
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
