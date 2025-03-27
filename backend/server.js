@@ -12,7 +12,7 @@ import mongoose from 'mongoose'
 import User from './models/User.js'
 import Product from './models/Product.js'
 import Order from './models/Order.js'
-import Activity from './models/Activity.js'
+import ActivityLog from './models/ActivityLog.js'
 import StoreStock from './models/StoreStock.js'
 import Category from './models/Category.js'
 import RequestedProduct from './models/RequestedProduct.js'
@@ -36,6 +36,26 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage})
 
+/********* Activity Log *********/
+// create new activity
+const logActivity = async(user, action, details) => {
+    try{
+        await ActivityLog.create({user, action, details})
+    } catch(error) {
+        console.log("Failed to log activity: ", error)
+    }
+}
+
+// get activities
+app.get("/activities", async (req, res) => {
+    try{
+        const logs = await ActivityLog.find()
+        res.status(200).json(logs)
+    }catch(error){
+        console.log("Error retrieving logs: ", error)
+        res.status(500).json({message: "Error retrieving logs"})
+    }
+})
 
 /********* Products and stock ***********/
 async function initializeStoreStock() {
@@ -71,6 +91,9 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
         // update Store Stock
         await StoreStock.updateStoreStock();
 
+        // log activity
+        await logActivity("User name", "Product Added", `${productName}`)
+
         res.json({message: "Product added successfully", productPhoto})
     } catch(error){
         console.log("error: ", error);
@@ -97,6 +120,9 @@ app.delete("/admin/item/:id", async(req, res) => {
             return res.status(404).json({error: "Product not found"})
         }
         console.log("deleted product: ", deletedProduct)
+        
+        // log activity
+        await logActivity("User name", "Product deleted", `${deletedProduct.productName}`)
         res.status(200).json({message: "Product deleted successfully", deletedProduct})
     }catch(error){
         console.log("error: ", error)
@@ -187,6 +213,9 @@ app.post("/admin/items/addCategory", async(req, res) => {
         const newCategory = new Category({categoryName})
         await newCategory.save()
         await StoreStock.updateStoreStock()
+
+         // log activity
+        await logActivity("User name", "Category added", `${newCategory.categoryName}`)
         res.json({message: "category added successfully", categoryName})
     }catch(error){
         console.log("Error: ", error)
@@ -279,6 +308,9 @@ app.delete("/admin/items/delete-category/:id", async(req, res) => {
             return res.status(404).json({error: "Category not found"})
         }
         console.log("deleted category: ", deletedCategory)
+
+         // log activity
+        await logActivity("User name", "Category deleted", `${deletedCategory.categoryName}`)
         res.json({message: "category deleted successfully", deletedCategory})
     }catch(error){
         console.log("Error: ",error)
@@ -314,6 +346,9 @@ app.post("/admin/dashboard/add-requested-product", async(req, res) => {
         const {reqProductName} = req.body
         const newProduct = new RequestedProduct({reqProductName})
         await newProduct.save()
+
+         // log activity
+        await logActivity("User name", "Requested Product added", `${reqProductName}`)
         res.json({message: "Requested product added successfully", reqProductName})
     }catch(error){
         console.log("Error: ", error)
@@ -340,6 +375,9 @@ app.delete("/admin/dashboard/delete-requested-product/:id", async(req, res) => {
             return res.status(404).json({error: "product not found"})
         }
         console.log("deleted product: ", deletedProduct)
+
+         // log activity
+        await logActivity("User name", "Requested Product deleted", `${deletedProduct.reqProductName}`)
         res.json({message: "product deleted successfully", deletedProduct})
     }catch(error){
         console.log("Error: ", error)

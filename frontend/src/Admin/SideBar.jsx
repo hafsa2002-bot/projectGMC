@@ -96,7 +96,7 @@ function SideBar() {
                     <SquareKanban className='rotate-180'/>
                     {
                         showReports && (
-                            <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
+                            <div className='absolute z-auto left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
                                 <p>Reports</p>
                             </div>
                         )
@@ -112,7 +112,7 @@ function SideBar() {
                     <FileClock/>
                     {
                         showActivities && (
-                            <div className='absolute w-28 text-center left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
+                            <div className='absolute z-50 w-28 text-center left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
                                 <p>Activity Log</p>
                             </div>
                         )
@@ -127,7 +127,7 @@ function SideBar() {
                     <UsersRound/>
                     {
                         showMembers && (
-                            <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
+                            <div className='absolute z-50 left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
                                 <p>Members</p>
                             </div>
                         )
@@ -144,7 +144,7 @@ function SideBar() {
                 <Settings/>
                 {
                     showSettingsName && (
-                        <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
+                        <div className='absolute z-50 left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
                             <p>Settings</p>
                         </div>
                     )

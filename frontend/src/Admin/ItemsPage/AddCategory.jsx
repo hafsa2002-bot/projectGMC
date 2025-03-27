@@ -6,6 +6,7 @@ function AddCategory({setAddCategory}) {
   const [categoryName, setCategoryName] = useState("")
   const [submitCategory, setSubmitCategory] = useState(false)
   const [categoriesFromDB, setCategoriesFromDB] = useState([])
+  const [categoryExists, setCategoryExists] = useState(false)
 
   const getCategories = () => {
     axios.get("http://localhost:3003/admin/items/categories")
@@ -20,36 +21,42 @@ function AddCategory({setAddCategory}) {
   }
 
   useEffect(() => {
+    if (submitCategory && !categoryExists) {
+      setAddCategory(false); // Close modal after successful category add
+    }
+  }, [submitCategory, categoryExists, setAddCategory]);
+
+  useEffect(() => {
     getCategories()
   }, [])
 
   const isCategoryExist = (categName) => {
-    if(categoriesFromDB.length > 0){
-      if(categoriesFromDB.includes(categName)){
-        console.log(`this category : ${categoryName} already exist`)
-        return true
-      } 
-      return false
-    }
-    return false
+    return categoriesFromDB.includes(categName)
   }
 
-  const handleAddCategory = async() => {
+  const handleAddCategory = async(event) => {
+    event.preventDefault();
+
     if(isCategoryExist(categoryName)){
       console.log(`this category ${categoryName} alreday exists`)
+      setCategoryExists(true)
       setSubmitCategory(true)
       return 
-    }
-    try{
-      console.log("Input: ", categoryName)
-      const response = await axios.post("http://localhost:3003/admin/items/addCategory", 
-        {categoryName}
-      )
-      console.log("category added: ", response.data)
-      setAddCategory(false)
-      setSubmitCategory(true)
-    }catch(error){
-      console.log("Error: ", error)
+    }else{
+      try{
+        console.log("Input: ", categoryName)
+        const response = await axios.post("http://localhost:3003/admin/items/addCategory", 
+          {categoryName}
+        )
+        console.log("category added: ", response.data)
+        setSubmitCategory(true)
+        setCategoryExists(false)
+        setAddCategory(false)
+      }catch(error){
+        console.log("Error: ", error)
+        setSubmitCategory(true)
+        setCategoryExists(false)
+      }
     }
   }
 
@@ -93,7 +100,7 @@ function AddCategory({setAddCategory}) {
               className='cursor-pointer text-white font-semibold text-center bg-blue-600 bordertext-white rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500' >
               Add category
             </div>
-            {(submitCategory && isCategoryExist(categoryName)) && (
+            {(submitCategory && categoryExists) && (
               <div className='  text-red-700 bg-red-100 rounded-lg px-3 py-1 flex gap-2 w-full border'>
                 <div className=''><Info/></div>
                 <p className=''> this category already exist</p>
