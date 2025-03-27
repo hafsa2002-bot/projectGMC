@@ -281,7 +281,7 @@ function AddItem() {
                         </div>
                         {showCategories && 
                             (
-                                <div className='absolute z-20 bg-white border border-gray-300 w-full rounded-lg mt-3 overflow-hidden'>
+                                <div className='absolute z-20 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden'>
                                     {/* list of categories */}
                                     <div>
                                         <ListOfCategories setSelectedCategory={setSelectedCategory} setShowCategories={setShowCategories} />

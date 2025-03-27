@@ -1,6 +1,8 @@
 import { ArrowLeft, ChevronDown, CirclePlus, Trash2} from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
+import ListOfProducts from './ListOfProducts'
+import axios from 'axios'
 function AddOrder() {
     // const [shipping, setShipping] = useState({})
     const navigate = useNavigate()
@@ -8,6 +10,40 @@ function AddOrder() {
     const [lastName, setLastName] = useState("")
     const [address, setAddress] = useState("")
     const [shippingPrice, setShippingPrice] = useState("")
+    const [showProducts, setShowProducts] = useState(false)
+    const [selectedProduct, setSelectedProduct] = useState()
+    const [products, setProducts] = useState()
+    const [filteredProducts, setFilteredProducts] = useState([])
+    const [productName, setProductName] = useState("")
+    const [price, setPrice] = useState(0)
+
+    const getListOfProducts = () => {
+        axios.get("http://localhost:3003/admin/items/list")
+            .then(response => {
+                setProducts(response.data)
+                setFilteredProducts(response.data)
+            })
+            .catch(error => console.log("Error: ", error))
+    }
+
+    const filterProducts = () => {
+        const result = products?.filter(product => product.productName.toLowerCase().includes(productName.toLowerCase()))
+        setFilteredProducts(result)
+    }
+
+    useEffect(() => {
+        // getListOfProducts()
+    }, [])
+
+    useEffect(() => {
+        if(productName != "") {
+            setShowProducts(true)
+            filterProducts () 
+        }
+        if(productName == ""){
+            getListOfProducts()
+        }
+    }, [productName])
 
     const submitOrder = () => {}
   return (
@@ -49,13 +85,14 @@ function AddOrder() {
                         />
                     </div>
                 </div>
+                {/* shipping fees */}
                 <div className='flex gap-10 mt-5'>
                     <div className='w-1/2 flex flex-col'>
                         <label htmlFor="shippingPrice" className='font-medium text-gray-900 mb-2' >Shipping fees</label>
                         <input 
                             className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
                             value={shippingPrice}
-                            onChange={(e) => setAddress(e.target.value)}
+                            onChange={(e) => setShippingPrice(e.target.value)}
                             type="text" 
                             name="shippingPrice" 
                             id="shippingPrice"
@@ -85,11 +122,23 @@ function AddOrder() {
                                         className={` flex justify-between  border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
                                     >
                                         <input
-                                            className='outline-none'                             
-                                            type="text" name="" id="" 
+                                            className='outline-none'                            
+                                            type="text" name="" id="" placeholder={showProducts ? 'Start typing to filter' : 'Select an item' }
+                                            value={productName}
+                                            onChange={(e) => setProductName(e.target.value)}
                                         />
-                                        <ChevronDown />
+                                        {
+                                            showProducts 
+                                            ? (<ChevronDown  className='rotate-180 cursor-pointer' onClick={() => setShowProducts(false)}/>)
+                                            : (<ChevronDown  className='cursor-pointer'  onClick={() => setShowProducts(true)}/>)
+                                        }
+                                        
                                     </div>
+                                    {showProducts && (
+                                        <div className='absolute z-20 w-56 ml-1 max-h-48 bg-white border border-gray-300 rounded-lg mt-1 overflow-y-scroll'>
+                                            <ListOfProducts products={filteredProducts} setSelectedProduct={setSelectedProduct} setProductName={setProductName} setShowProducts={setShowProducts} />
+                                        </div>
+                                    )}
                                 </td>
                                 {/* quantity */}
                                 <td className="px-6 py-3 border-r border-gray-300">
@@ -105,6 +154,8 @@ function AddOrder() {
                                     <input 
                                         className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                         type="number" name="" id=""  min="1"
+                                        placeholder={selectedProduct?.price}
+                                        disabled
                                     />
                                 </td>
                                 {/* subtotal */}
