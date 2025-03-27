@@ -154,7 +154,16 @@ function AllOrders({setNumberOfOrders}) {
                     </tbody>
                 </table>
             ):(
-                <p>Nothing</p>
+                <div className='flex flex-col gap-3  justify-center items-center py-14'>
+                    <img src="/images/sticker.svg" className='w-32 ' alt="" />
+                    <div className='flex flex-col items-center'>
+                        <p className='text-xl font-semibold'>Your orders show up here</p>
+                        <p className='text-gray-600'>Click the <span className='font-semibold'>Add Order</span> button below to add orders </p>
+                    </div>
+                    <Link to="/admin/add-order" className='text-white bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
+                        <p>Add Order</p>
+                    </Link>
+                </div>
             )
         )
     }
