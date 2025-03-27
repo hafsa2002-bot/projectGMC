@@ -1,13 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react'
-import html2pdf from "html2pdf.js";
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import SpinnerBlue from '../SpinnerBlue'
 import { ArrowLeft, Download } from 'lucide-react'
-import TestPDF from './TestPDF';
-import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
-import "../../index.css"
+import html2pdf from "html2pdf.js";
 
 
 function ViewOrder() {
@@ -18,39 +14,17 @@ function ViewOrder() {
     const navigate = useNavigate()
     const pdfRef = useRef()
 
-   
     const handleGeneratePdf = async () => {
         const element = document.querySelector('#pdf-content')
-        html2pdf(element)
-        /*
-        if (element) {
-            try {
-                await html2pdf().from(element).set({
-                    margin: [10, 10, 10, 10], // Top, right, bottom, left margins
-                    filename: "Order.pdf",
-                    image: { type: "jpeg", quality: 0.98 }, // Better image quality
-                    html2canvas: { 
-                        scale: 3, // Higher scale for better rendering
-                        useCORS: true, // Fix potential font rendering issues
-                    },
-                    jsPDF: { 
-                        unit: "px", 
-                        format: "a4", 
-                        orientation: "portrait" // Change if necessary
-                    }
-                }).save();
-            } catch (error) {
-                console.log("Failed to generate PDF:", error);
-            }
-        } else {
-            console.log('Element not found');
-        }
-            */
-    }
+        html2pdf(element, {
+            margin: 5,
+            filename: `order.pdf`,
+            image: { type: 'jpeg', quality: 1 }, // Higher quality image
+            html2canvas: { scale: 3, useCORS: true }, // Increase scale for better resolution
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        })
         
-    
-
-    
+    }
 
     let getProductName = async (productId) => {
         try{
@@ -82,6 +56,7 @@ function ViewOrder() {
                 setLoading(false)
             })
     }, [id])
+
   return (
     <div>
         
@@ -105,38 +80,11 @@ function ViewOrder() {
                             </button>
                         </div>
                     </div>
-                    <div id="pdf-content"   style={{color:"red"}}>
-                        <p >Novexa</p>
-                        <p>Admin Name</p>
-                        <p>Address, num x<span>,</span></p>
-                        <p>Country</p>
-                        <p>admin@gmail.com</p>
-                        <p>0000000000</p>
-                    </div>
-                    
-                    <h1 >Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat ut ipsum similique? Optio inventore, minima quas animi iusto suscipit ex blanditiis dolorum adipisci quibusdam consectetur maiores! Porro, voluptas iusto. Labore.</h1>
                     {/* <TestPDF/>  */}
-                    <div ref={pdfRef} style={{ backgroundColor: "white", width: "90%", margin: "auto", paddingBottom: "20px", color: "#4B5563" }}>
-    <div style={{ borderBottom: "1px solid #D1D5DB", padding: "10px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-        <div style={{ color: "#57534E" }}>
-            <p style={{ color: "#2563EB", fontSize: "1.25rem", fontWeight: "600", marginBottom: "5px" }}>Novexa</p>
-            <p>Admin Name</p>
-            <p>Address, num x<span>,</span></p>
-            <p>Country</p>
-            <p>admin@gmail.com</p>
-            <p>0000000000</p>
-        </div>
-        <div>
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: "5px" }}><span style={{ fontWeight: "600" }}>Order number:</span> <p style={{ color: "#4B5563" }}>{order._id}</p></div>
-            <div style={{ display: "flex", justifyContent: "flex-end", gap: "5px" }}><span style={{ fontWeight: "600" }}>Date issued:</span> <p style={{ color: "#4B5563" }}>{order.createdAt.slice(0, 10)}</p></div>
-        </div>
-    </div>
-</div>
-
-                    {/* <div ref ={pdfRef} id="pdf-content" className='bg-white w-10/12 mx-auto mt-10 mb-10 pb-20 font-poppins text-gray-700'>
-                        <div   className='border-b border-gray-300 px-8 pb-5 pt-6 flex justify-between items-end'>
-                            <div  className='text-stone-500'>
-                                <p className='text-blue-600 text-xl font-semibold font-poppins mb-1'>Novexa</p>
+                    <div ref={pdfRef} id="pdf-content"  style={{ backgroundColor: "white", width: "90%", margin: "auto", marginTop: "40px", marginBottom: "40px", paddingBottom: "80px", fontFamily: "poppins"}}>
+                        <div style={{ borderBottom: "1px solid #D1D5DB", paddingLeft: "32px", paddingRight: "32px", paddingBottom:"20px", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+                            <div style={{ color: "#57534E" }}>
+                                <p style={{ color: "#2563EB", fontSize: "20px", fontWeight: "600", marginBottom: "4px" }}>Novexa</p>
                                 <p>Admin Name</p>
                                 <p>Address, num x<span>,</span></p>
                                 <p>Country</p>
@@ -144,104 +92,99 @@ function ViewOrder() {
                                 <p>0000000000</p>
                             </div>
                             <div>
-                                <div className='flex justify-end gap-2'><span className='font-semibold'>Order number: </span><p className='text-gray-600'> {order._id}</p></div>
-                                <div className='flex justify-end gap-2'><span className='font-semibold'>Date issued: </span><p className='text-gray-600'> {order.createdAt.slice(0, 10)}</p></div>
+                                <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}><span style={{ fontWeight: "600" }}>Order number:</span> <p style={{ color: "#4B5563" }}>{order._id}</p></div>
+                                <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}><span style={{ fontWeight: "600" }}>Date issued:</span> <p style={{ color: "#4B5563" }}>{order.createdAt.slice(0, 10)}</p></div>
                             </div>
                         </div>
-                        <div className='px-8 flex gap-5 pt-5'>
-                            <div className=''>Vendor:</div>
+                        <div style={{display: 'flex', gap: '20px', paddingTop: '20px', paddingLeft: "32px", paddingRight: "32px" }}>
+                            <div>Vendor:</div>
                             <div>
-                                {
-                                    order.shipping && (
-                                        <div className='text-gray-600'>
-                                            <div className='flex gap-1'>{order.shipping.firstName && (<p>{order.shipping.firstName}</p>)} {order.shipping.lastName && (<p> {order.shipping.lastName} </p>)}</div>
-                                            <div>
-                                                {order.shipping.address},<br/>
-                                                <div className='flex gap-1'> {order.shipping.city}, {order.shipping.postalCode && (<p>{order.shipping.postalCode} </p>)}</div> 
-                                            </div>
-                                            <p>{order.contact?.customerMail}</p>
+                                {order.shipping && (
+                                    <div style={{ color: '#4B5563' }}> {/* text-gray-600 */}
+                                        <div style={{ display: 'flex', gap: '4px' }}>
+                                            {order.shipping.firstName && <p>{order.shipping.firstName}</p>}
+                                            {order.shipping.lastName && <p>{order.shipping.lastName}</p>}
                                         </div>
-                                    )
-                                }
+                                        <div>
+                                            {order.shipping.address},<br />
+                                            <div style={{ display: 'flex', gap: '4px' }}>
+                                                {order.shipping.city}, {order.shipping.postalCode && <p>{order.shipping.postalCode}</p>}
+                                            </div>
+                                        </div>
+                                        <p>{order.contact?.customerMail}</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div>
-                            <table className="w-full mt-10 text-left">
-                                <thead className='bg-blue-600 text-white'>
-                                    <tr >
-                                        <th scope="col" className="px-4 py-3">
-                                            Item
-                                        </th>
-                                        <th scope="col" className="px-4 py-3">
-                                            Quantity
-                                        </th>
-                                        <th scope="col" className="px-4 py-3">
-                                            Price
-                                        </th>
-                                        <th scope="col" className="px-4 py-3">
-                                            Amount
-                                        </th>
+                            <table style={{ width: '100%', marginTop: '40px', textAlign: 'left'}}>
+                                <thead style={{ backgroundColor: '#2563EB', color: 'white', paddingLeft: '32px'  }}>
+                                    <tr>
+                                        <th scope="col" style={{ padding: '12px 32px' }}>Item</th>
+                                        <th scope="col" style={{ padding: '12px 32px' }}>Quantity</th>
+                                        <th scope="col" style={{ padding: '12px 32px' }}>Price</th>
+                                        <th scope="col" style={{ padding: '12px 32px' }}>Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {order.products && (
+                                <tbody >
+                                    {order.products &&
                                         order.products.map((product, index) => (
-                                        <tr key={index}>
-                                            <td  className="px-4 py-4">
-                                                {product.productName}
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                {product.quantity}
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                {product.price} MAD
-                                            </td>
-                                            <td className="px-4 py-4">
-                                                {product.quantity * product.price} MAD
-                                            </td>
-                                        </tr>
-                                        ))
-                                    )}
+                                            <tr key={index}>
+                                                <td style={{ padding: '12px 32px' }}>{product.productName}</td>
+                                                <td style={{ padding: '12px 32px' }}>{product.quantity}</td>
+                                                <td style={{ padding: '12px 32px' }}>{product.price} MAD</td>
+                                                <td style={{ padding: '12px 32px' }}>{product.quantity * product.price} MAD</td>
+                                            </tr>
+                                        ))}
                                 </tbody>
                             </table>
-                            <div className='flex justify-between border-b border-t border-gray-400 px-12 mt-6 py-5'>
-                                <div className='w-1/2'></div>
-                                <div className='w-1/2 flex flex-col gap-3'>
-                                    <div className='flex justify-between'>
+
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                borderBottom: '1px solid #9CA3AF',
+                                borderTop: '1px solid #9CA3AF',
+                                padding: '20px 48px',
+                                marginTop: '24px'
+                            }}>
+                                <div style={{ width: '50%' }}></div>
+                                <div style={{ width: '50%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <div>
                                             <p>Total (MAD)</p>
-                                            <p className='text-xs text-gray-500'>Excl. Shipping</p>
+                                            <p style={{ fontSize: '0.75rem', color: '#6B7280' }}>Excl. Shipping</p>
                                         </div>
                                         <div>{order.totalAmount} MAD</div>
                                     </div>
-                                    <div className='flex justify-between text-gray-700 text-sm'>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#374151', fontSize: '0.875rem' }}>
                                         <div><p>Shipping Fee</p></div>
                                         <div><p>{order.shipping.shippingPrice} MAD</p></div>
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex justify-between px-12 py-5'>
-                                <div className='w-1/2'></div>
-                                <div className='w-1/2 flex flex-col gap-3 '>
-                                    <div className='flex justify-between'>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.25rem 3rem' }}>
+                                <div style={{ width: '50%' }}></div>
+                                <div style={{ width: '50%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <div>
                                             <p>Total Due (MAD)</p>
                                         </div>
                                         <div>{order.totalAmount + order.shipping.shippingPrice} MAD</div>
                                     </div>
-                                    <div className='flex justify-between text-gray-800 text-sm'>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1F2937', fontSize: '0.875rem' }}>
                                         <div><p>Paid (MAD)</p></div>
                                         <div><p>{order.amountPaid} MAD</p></div>
                                     </div>
-                                    <div className='flex justify-between'>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <div><p>Balance (MAD)</p></div>
                                         <div><p>{order.rest} MAD</p></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> */}
-                    <div className="w-10/12 m-auto border-t-2 border-blue-600 pt-5 pb-14 flex justify-center items-center gap-4">
+                    </div>
+
+                    <div className="w-10/12 m-auto border-t-2 border-blue-600 pt-5 pb-14 mt-20 flex justify-center items-center gap-4">
                         <p className='font-medium w-1/2 text-end'>Powered by </p>
                         <div className=" w-1/2 flex gap-2 justify-start items-center">
                             <div className='w-11 h-11'><img src="/images/logoOrder.png" alt='logo'/></div>
