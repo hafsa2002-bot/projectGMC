@@ -29,6 +29,7 @@ import CategoryInfo from "./Admin/ItemsPage/CategoryInfo"
 import Checkout from "./Client/Checkout"
 import Order from "./Admin/OrderPage/Order"
 import ViewOrder from "./Admin/OrderPage/ViewOrder"
+import AddOrder from "./Admin/OrderPage/AddOrder"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 function App() {
 
@@ -68,9 +69,10 @@ function App() {
               <Route path="view/:product_id" element={<ViewProduct/>}/>
             </Route>
             <Route path="search" element={<Search/>} />
-            <Route path="reports" element={<Reports/>} />
             <Route path="orders" element={<Order/>} />
             <Route path="view_order/:id" element={<ViewOrder/>}/>
+            <Route path="add-order" element={<AddOrder/>}/>
+            <Route path="reports" element={<Reports/>} />
             <Route path="activities" element={<ActivityLog/>} />
             <Route path="members" element={<Members/>} />
           </Route>

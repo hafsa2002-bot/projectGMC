@@ -70,13 +70,13 @@ function AllOrders({setNumberOfOrders}) {
                         orders
                         ?(
                             orders.map((order, index) => (
-                                <tr key={index} className=" bg-white border-b border-gray-200">
+                                <tr key={index} className=" bg-white border-b border-gray-200 hover:bg-gray-300">
                                     <td scope="row" className=" pl-4  font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <Link to={`/admin/view_order/${order._id}`} className=' h-full py-4'>
+                                        <Link to={`/admin/view_order/${order._id}`} className=' h-full py-7'>
                                             #{order._id}
                                         </Link>
                                     </td>
-                                    <td className="pr-4 py-4">
+                                    <td className="pr-4 py-7">
                                         {order.createdAt.slice(0, 10)}
                                     </td>
                                     <td className="px-4 py-4 ">
@@ -86,10 +86,10 @@ function AllOrders({setNumberOfOrders}) {
                                             <p>-</p>
                                         )}
                                     </td>
-                                    <td className="px-4 py-4 font-mono">
+                                    <td className="px-4 py-7 font-mono">
                                         {order.totalAmount} <span className='text-black '>MAD</span>
                                     </td>
-                                    <td className="px-4 py-4 text-base ">
+                                    <td className="px-4 py-7 text-base ">
                                         {order.paymentStatus && (
                                             order.paymentStatus === 'pending' ? (
                                                 <div className='bg-yellow-400 text-white py-[2px] font-semibold text-[13px] w-20 text-center  rounded-full'>Pending</div>
@@ -98,10 +98,10 @@ function AllOrders({setNumberOfOrders}) {
                                             ): null
                                         )}
                                     </td>
-                                    <td className="px-4 py-4 text-base ">
+                                    <td className="px-4 py-7 text-base ">
                                         {order.products.reduce((totalQty, currentValue) => totalQty + currentValue.quantity, 0)} items
                                     </td>
-                                    <td className="px-4 py-4 text-base ">
+                                    <td className="px-4 py-7 text-base ">
                                         {/* 'pending', 'packed', 'done', 'canceled' */}
                                         {order.status && (
                                             order.status === 'pending' ? (
@@ -115,7 +115,7 @@ function AllOrders({setNumberOfOrders}) {
                                             ) : null
                                         )}
                                     </td>
-                                    <td className="relative px-4 py-4">
+                                    <td className="relative px-4 py-7">
                                         <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                         {
                                             showOptions === index && (

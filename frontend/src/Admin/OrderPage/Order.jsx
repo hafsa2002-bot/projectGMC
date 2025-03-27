@@ -16,7 +16,7 @@ function Order() {
                 </Link>
             </div>
             <div className='flex  gap-4 pb-3'>
-                <Link className='text-white bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
+                <Link to="/admin/add-order" className='text-white bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
                     <p>Add Order</p>
                 </Link>
             </div>

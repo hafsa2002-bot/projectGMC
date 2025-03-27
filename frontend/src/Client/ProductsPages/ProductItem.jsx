@@ -41,7 +41,7 @@ function ProductItem({product}) {
   return (
     <>
         <div
-            className='lg:w-64 w-52  overflow-hidden shadow-lg shadow-gray-400 rounded-md pb-3 group'>
+            className='lg:w-64 w-52  overflow-hidden hover:shadow-lg hover:shadow-gray-400 border border-gray-300 rounded-md pb-3 group'>
             <div className='relative '>
                 {
                     product.productPhoto 

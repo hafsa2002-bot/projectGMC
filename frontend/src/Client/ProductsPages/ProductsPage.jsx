@@ -89,7 +89,8 @@ function ProductsPage() {
                                 ))
                             )}
                         </div>
-                        <div className=' flex flex-wrap gap-9 justify-between items-baseline lg:px-10 px-6 '>
+                        {/* items-baseline */}
+                        <div className=' flex flex-wrap gap-9 justify-between  lg:px-10 px-6 '>
                             {
                                 displayedProducts.map((product, index) => (
                                     <ProductItem product = {product} key={index}  />
