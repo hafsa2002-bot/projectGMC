@@ -61,7 +61,7 @@ app.get("/activities", async (req, res) => {
 async function initializeStoreStock() {
     const existingStock = await StoreStock.findOne({});
     if (!existingStock) {
-        await StoreStock.create({ totalItems: 0, totalValue: 0 });
+        await StoreStock.create({ totalItems: 0, totalValue: 0, ttalUnpaid: 0, totalIncome: 0 });
         console.log("Store stock initialized.");
     } else {
         console.log("Store stock already exists.");
@@ -439,6 +439,15 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
         const newOrder = new Order ({contact, shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
         await newOrder.save()
         console.log("new order: ", newOrder)
+
+        //log activity:
+        if(contact.customerMail == "__"){
+            logActivity("User name", "Order Added", `${newOrder._id}`)
+        }
+
+        // update store stock
+        await StoreStock.updateStoreStock();
+
         res.json({message: "order successfully added", newOrder})
     }catch(error){
         console.log("Error: ", error)

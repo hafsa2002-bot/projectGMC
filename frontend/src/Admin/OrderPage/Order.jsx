@@ -1,5 +1,5 @@
 import { CircleDollarSign, ClipboardList, Layers, Newspaper, PackageCheck, ReceiptText } from 'lucide-react'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import AllOrders from './AllOrders';
 import axios from 'axios';
@@ -7,11 +7,22 @@ import axios from 'axios';
 function Order() {
     const [totalOrders, setTotalOrders] = useState(0)
     const [numberOfOrders, setNumberOfOrders] = useState(0)
+    const [stockInfo, setStockInfo] = useState({})
+
+    const getStockInfo = () => {
+        axios.get("http://localhost:3003/admin/stock")
+            .then(response => setStockInfo(response.data))
+            .catch(error => console.log("Error: ", error))
+    }
     const calculateAllOrders = () => {
         axios.get("http://localhost:3003/orders/getOnlineOrders")
             .then(response => setTotalOrders(response.data.length))
             .catch(error => console.log("error: ", error))
     }
+
+    useEffect(() => {
+        getStockInfo()
+    }, [stockInfo])
   return (
     <div>
         <div className=' bg-gray-100 border-b border-gray-400 flex justify-between items-center my-5 '>
@@ -66,7 +77,9 @@ function Order() {
                 </div>
                 <div className='text-end'>
                     <p className='text-gray-600'>Total Income</p>
-                    <p  className='font-semibold  text-2xl'>2096 MAD</p>
+                    <div className="font-semibold text-2xl flex gap-1">
+                        {stockInfo.totalIncome ? stockInfo.totalIncome : 'N/A'} MAD
+                    </div>                
                 </div>
             </div>
         </div>

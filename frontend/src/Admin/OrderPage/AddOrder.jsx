@@ -6,7 +6,7 @@ import axios from 'axios'
 function AddOrder() {
     // const [shipping, setShipping] = useState({})
     const navigate = useNavigate()
-    const [rows, setRows] = useState([{id:1, productName: "", quantity: 0, price: 0, subtotal: 0}])
+    const [rows, setRows] = useState([{id:1, productName: "", quantity: 1, price: 0, subtotal: 0}])
     const [firstName, setFirstName] = useState("")
     const [address, setAddress] = useState("")
     const [showProducts, setShowProducts] = useState(false)
@@ -21,7 +21,7 @@ function AddOrder() {
     const [price, setPrice] = useState(0)
 
     const addNewRow = () => {
-        setRows([...rows, {id: rows.length + 1, productId: null , productName: "", quantity: 0, price: 0, subtotal: 0}])
+        setRows([...rows, {id: rows.length + 1, productId: null , productName: "", quantity: 1, price: 0, subtotal: 0}])
         setFilteredProducts(products)
         console.log("rows = ", rows)
     }
@@ -60,9 +60,9 @@ function AddOrder() {
                 customerMail : "__"
             },
             shipping: {
-                firstName: firstName,
-                lastName: "__",
-                address: address,
+                firstName: "__",
+                lastName: firstName || "__",
+                address: address || "__",
                 postalCode: "__",
                 city: "__",
                 phoneNumber: "__",
@@ -247,7 +247,8 @@ function AddOrder() {
                                         <input 
                                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                             type="number" name="" id=""
-                                            value={row.subtotal}
+                                            // value={row.subtotal}
+                                            value={row.quantity * row.price}
                                             disabled 
                                         />
                                     </td>

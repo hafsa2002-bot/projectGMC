@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import { Bell, FileText, Folder, Layers, PackageX, TrendingDown, TriangleAlert, Wallet, X} from 'lucide-react'
+import { Bell, FileText, Folder, Layers, NotebookPen, PackageX, TrendingDown, TriangleAlert, Wallet, X} from 'lucide-react'
 import RecentItems from './RecentItems'
 import RecentCategories from './RecentCategories'
 import RecentActivities from './RecentActivities'
@@ -155,35 +155,43 @@ function AdminHomePage() {
         <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4 lg:pl-0 pl-3'>Inventory Summary</p>
         <div className='flex lg:flex-nowrap flex-wrap lg:gap-0 gap-8 lg:justify-between justify-center '>
           {/* Number of Items */}
-          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center  '>
+          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center  '>
             <div className='w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center'><FileText /></div>
             <div className='text-center text-gray-500'>
-              <p className='font-semibold text-xl'>{stockInfo.totalProducts ? stockInfo.totalProducts :<p className='text-lg font-semibold'>N/A</p> }</p>
+              <div className='font-semibold text-xl'>{stockInfo.totalProducts ? stockInfo.totalProducts :<p className='text-lg font-semibold'>N/A</p> }</div>
               <p>Items</p>
             </div>
           </div>
           {/* Number of categories */}
-          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
+          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
             <div className='w-10 h-10 rounded-full bg-yellow-100 text-yellow-400 flex justify-center items-center'><Folder fill='rgb(250, 204, 21)' /></div>
             <div className='text-center text-gray-500'>
-              <p className='font-semibold text-xl'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</p>
+              <div className='font-semibold text-xl'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</div>
               <p>Categories</p>
             </div>
           </div>
           {/* Total Quantity */}
-          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
+          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
             <div className='w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex justify-center items-center'><Layers /></div>
             <div className='text-center text-gray-500'>
-              <p className='font-semibold text-xl'>{stockInfo.totalItems ? stockInfo.totalItems : <p className='text-lg font-semibold'>N/A</p>}</p>
+              <div className='font-semibold text-xl'>{stockInfo.totalItems ? stockInfo.totalItems : <p className='text-lg font-semibold'>N/A</p>}</div>
               <p>Total Quantity</p>
             </div>
           </div>
           {/* Total Value */}
-          <div className='lg:w-1/5 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
-            <div className='w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex justify-center items-center'><Wallet /></div>
+          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
+            <div className='w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center'><Wallet /></div>
             <div className='text-center text-gray-500'>
-              <p className='font-semibold text-xl'>{stockInfo.totalValue ? stockInfo.totalValue :<p className='text-lg font-semibold'>N/A</p>} DH</p>
+              <div className='font-semibold text-xl'>{stockInfo.totalValue ? stockInfo.totalValue :<p className='text-lg font-semibold'>N/A</p>} DH</div>
               <p>Total Value</p>
+            </div>
+          </div>
+          {/* awaiting payment */}
+          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
+            <div className='w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex justify-center items-center'><NotebookPen /></div>
+            <div className='text-center text-gray-500'>
+              <div className='font-semibold text-xl'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid :<p className='text-lg font-semibold'>{stockInfo.totalUnpaid}</p>} DH</div>
+              <p>Awaiting Payment</p>
             </div>
           </div>
         </div>
