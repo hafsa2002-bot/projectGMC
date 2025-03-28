@@ -2,9 +2,16 @@ import { CircleDollarSign, ClipboardList, Layers, Newspaper, PackageCheck, Recei
 import React, {useState} from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import AllOrders from './AllOrders';
+import axios from 'axios';
 
 function Order() {
+    const [totalOrders, setTotalOrders] = useState(0)
     const [numberOfOrders, setNumberOfOrders] = useState(0)
+    const calculateAllOrders = () => {
+        axios.get("http://localhost:3003/orders/getOnlineOrders")
+            .then(response => setTotalOrders(response.data.length))
+            .catch(error => console.log("error: ", error))
+    }
   return (
     <div>
         <div className=' bg-gray-100 border-b border-gray-400 flex justify-between items-center my-5 '>
@@ -22,15 +29,17 @@ function Order() {
             </div>
         </div>
         <div className='flex justify-between '>
+            {/* Total order */}
             <div className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3 justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600 rounded-lg flex justify-center items-center w-12 h-12'>
                     <ClipboardList className='text-white' size={27} />
                 </div>
                 <div className='text-end'>
                     <p className='text-gray-600'>Total order</p>
-                    <p className='font-semibold text-2xl'>120</p>
+                    <p className='font-semibold text-2xl'>{numberOfOrders}</p>
                 </div>
             </div>
+            {/* Order on process */}
             <div  className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3  justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600 rounded-lg flex justify-center items-center  w-12 h-12'>
                     <Layers  className='text-white'  size={27} />
@@ -40,6 +49,7 @@ function Order() {
                     <p className='font-semibold  text-2xl'>120</p>
                 </div>
             </div>
+            {/* Order done */}
             <div className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3 justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600  rounded-lg flex justify-center items-center w-12 h-12'>
                     <PackageCheck  className='text-white'  size={27} />
@@ -49,6 +59,7 @@ function Order() {
                     <p className='font-semibold  text-2xl'>120</p>
                 </div>
             </div>
+            {/* Total Income */}
             <div className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3  justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600 rounded-lg flex justify-center items-center  w-12 h-12'>
                     <CircleDollarSign  className='text-white'  size={27} />
