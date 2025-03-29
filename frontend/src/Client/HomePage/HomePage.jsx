@@ -68,26 +68,36 @@ function HomePage() {
         <main className="lg:mt-28 mt-20">
             {/* Hero Section */}
             {/* laptop version  */}
-            <section className="lg:flex hidden h-[80vh] rounded-xl m-auto w-10/12  p-9">
+            <section className="lg:flex hidden h-[80vh] rounded-xl m-auto w-11/12  p-9">
                 <div className="w-1/2 flex flex-col gap-2 justify-center">
-                    <h1 className="text-5xl font-extrabold uppercase tracking-wide">
-                        Shop Smart.<br /> Shop Stylish.
+                    <h1 className="text-5xl font-bold font-poppins uppercase tracking-wide">
+                        {/* Shop Smart.<br /> Shop Stylish. */}
+                        Your One-Stop Shop,<br /> Delivered to You!
                     </h1>
-                    <p className="text-lg w-9/12 mt-4">
-                        Discover a world of fashion, electronics, home essentials, and
-                        more – all in one place.<br /> Shop quality, shop convenience.
+                    <p className="text-lg w-9/12 mt-4 font-poppins">
+                        {/* Discover a world of fashion, electronics, home essentials, and
+                        more – all in one place.<br /> Shop quality, shop convenience. */}
+                        Discover your favorite snacks, drinks, and everyday essentials—all in one place, making life easier and more convenient.
                     </p>
                     {/* bg-[#B88C4A] */}
-                    <Link
+                    {/* <Link
                         to={"/products"}
                         //className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-yellow-600  px-4 py-2 rounded-full text-lg font-semibold mt-5" 
                         className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-orange-400  px-4 py-2 rounded-full text-lg font-semibold mt-5"
                     >
                         Start Shopping
+                    </Link> */}
+                    <Link
+                        to={"/products"}
+                        //className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-yellow-600  px-4 py-2 rounded-full text-lg font-semibold mt-5" 
+                        className="text-center bg-gradient-to-r w-52 from-yellow-300 via-yellow-500  to-orange-400  px-4 py-2 rounded-lg text-lg font-semibold mt-5"
+                    >
+                        Start Shopping
                     </Link>
                 </div>
-                <div className="ml-32 rounded-xl overflow-hidden w-[420px] h-[420px]">
-                    <img className="w-full h-full" src="/photoAI1.jpg" alt="Hero" />
+                <div className="ml-20 rounded-xl overflow-hidden w-[460px] h-[460px]">
+                    {/* <img className="w-full h-full" src="/photoAI1.jpg" alt="Hero" /> */}
+                    <img className="w-full h-full" src="images/fotor-ai-2025032994612.jpg" alt="Hero" />
                 </div>
             </section>
             {/* phone version  */}

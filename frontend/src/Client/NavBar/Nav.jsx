@@ -32,13 +32,11 @@ function Nav(props) {
             <nav  className='bg-black text-white   py-3'>
                 <div className='flex justify-between items-center px-5'>
                     <div className='lg:w-1/3 flex justify-start'>
-                        <Link to="/" className=' gap-2 flex justify-center  items-center outline-none'>
-                            {/* <div className='h-16 overflow-hidden'><img src="/images/logo7.png" className='w-full h-full' alt="Logo" /></div> */}
-                            <div className='w-14 h-14   overflow-hidden'><img src="/images/blackLogo.png" className='w-full h-full' alt="Logo" /></div><p className="hidden">2</p>
-                            {/* <div className='w-20 h-20   overflow-hidden'><img src="/images/logo10.png" className='w-full h-full' alt="Logo" /></div><p className="hidden">1</p> */}
-                            {/* <div className='w-10 h-11  overflow-hidden'><img src="/images/logo11.png" className='w-full h-full' alt="Logo" /></div> */}
-                            {/* <div className='w-10 h-11  overflow-hidden'><img src="/images/logo9.png" className='w-full h-full' alt="Logo" /></div> */}
-                            <h2 className='text-4xl lg:text-4xl font-poppins'>Novexa</h2>
+                        <Link to="/" className='gap-2 flex justify-center  items-center outline-none'>
+                            <div className='h-10 overflow-hidden '><img  src="/images/N1.png" className='w-full h-full' alt="Logo" /></div>
+                            {/* <div className='w-14 h-14   overflow-hidden'><img src="/images/blackLogo.png" className='w-full h-full' alt="Logo" /></div><p className="hidden">2</p> */}
+                            
+                            <h2 className='text-4xl lg:text-4xl font-poppins font-semibold flex '><span className="bg-gradient-to-r from-white via-stone-400 to-stone-500 bg-clip-text text-transparent">Novexa</span> </h2>
                         </Link>
                     </div>
                     {/* links in laptop version */}

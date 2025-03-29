@@ -1,136 +1,108 @@
-import { ChevronDown, CircleUserRound, FileClock, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UsersRound } from 'lucide-react'
+import { ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UsersRound } from 'lucide-react'
 import React, {useState} from 'react'
-import { Outlet, Link, NavLink } from 'react-router-dom'
+import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
 
 function SideBar() {
     const [showSettings, setShowSettings] = useState(false)
-    const [showDashboard, setShowDashboard] = useState(false)
-    const [showItems, setShowItems] = useState(false)
-    const [showSearch, setShowSearch] = useState(false)
-    const [showOrder, setShowOrder] = useState(false)
-    const [showReports, setShowReports] = useState(false)
-    const [showActivities, setShowActivities] = useState(false)
-    const [showMembers, setShowMembers] = useState(false)
     const [showSettingsName, setShowSettingsName] = useState(false)
     const [showSignOut, setShowSignOut] = useState(false)
-
     const [showMenu, setShowMenu] = useState(false)
+    const [showSideBar, setShowSideBar] = useState(false)
+    const location = useLocation()
     
   return (
-    <div className='flex bg-gray-100 min-h-screen'>
+    <div className='flex  bg-gray-100 min-h-screen'>
         {/* sidebar for laptop */}
-        <nav className='lg:flex hidden fixed  text-neutral-500 left-0  flex-col justify-between items-center bg-white w-20 h-screen border-r border-gray-300 shadow-lg'>
-            <div className=' flex justify-center items-center text-2xl w-10 h-10 rounded-full bg-blue-200 text-blue-600 font-semibold mt-3'>
-                <Link to={"/admin"} className='outline-none'>N</Link>
-            </div>
-            <div className='flex flex-col gap-9'>
-                <NavLink 
-                    to="/admin" 
-                    className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative  px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowDashboard(true)}
-                    onMouseLeave={() => setShowDashboard(false)}
-                >
-                    <LayoutDashboard/>
+        <nav 
+            onMouseEnter={() => setShowSideBar(true)}
+            onMouseLeave={() => setShowSideBar(false)}
+            className={`lg:flex hidden fixed  text-neutral-500 left-0 flex-col justify-between items-center bg-white h-screen border-r border-gray-300 shadow-lg ${showSideBar ? 'w-48' : 'w-20'}`}>
+            {/* <div className=' flex justify-center items-center text-2xl w-10 h-10 rounded-full bg-blue-200 text-blue-600 font-semibold mt-3'>
+                <Link to={"/admin"} className='outline-none'>N</Link> 
+            </div> */}
+            <Link  to={"/admin"}>
+                {showSideBar
+                ?(<div className='flex items-center gap-2'><img className='h-8 mt-4' src='/images/N2.png' alt='logo' /><p className='text-black font-poppins text-3xl mt-4'>Nov<span className='text-blue-600'>exa</span></p></div>)
+                :(<img className='h-10 mt-4' src='/images/N2.png' alt='logo' />)}
+            </Link>
+            <div className='flex flex-col gap-4'>
+                {/* dashboard */}
+                <NavLink to="/admin" className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative  px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+
+                {/* <NavLink to="/admin" className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-3 py-3 rounded-lg font-medium ' : 'relative  px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}> */}
                     {
-                        showDashboard && (
-                            <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Dashboard</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center'>
+                                <LayoutDashboard/>
+                                <p className=' font-poppins '>Dashboard</p>
                             </div>
-                        )
+                        ):(<LayoutDashboard className='m-auto'/>)
                     }
                 </NavLink>
-                <NavLink 
-                    to="/admin/items" 
-                    className={({ isActive }) => isActive ? 'relative  cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowItems(true)}
-                    onMouseLeave={() => setShowItems(false)}
-                    >
-                    <Package/>
+                {/* items */}
+                <NavLink to="/admin/items" className={({ isActive }) => isActive ? 'relative  cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
-                        showItems && (
-                            <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Items</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center '>
+                                <Package/>
+                                <p className=' font-poppins '>Items</p>
                             </div>
-                        )
+                        ):(<Package className='m-auto'/>)
                     }
                 </NavLink>
-                {/* <NavLink to="/admin" className={({ isActive }) => isActive ? 'cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'px-4 py-1.5 cursor-pointer text-gray-600'}>
-                    <ScanBarcode/>
-                </NavLink> */}
-                <NavLink 
-                    to="/admin/search" 
-                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowSearch(true)}
-                    onMouseLeave={() => setShowSearch(false)}
-                >
-                    <Search/>
+                {/* Search */}
+                <NavLink to="/admin/search" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
-                        showSearch && (
-                            <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Search</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center'>
+                                <Search/>
+                                <p className='font-poppins '>Search</p>
                             </div>
-                        )
+                        ):(<Search className='m-auto'/>)
                     }
                 </NavLink>
-                <NavLink 
-                    to="/admin/orders" 
-                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowOrder(true)}
-                    onMouseLeave={() => setShowOrder(false)}
-                    >
-                    <ShoppingCart/>
+                {/* Orders */}
+                <NavLink to="/admin/orders" className={({ isActive }) => isActive || location.pathname.includes("order") ? 'relative cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
-                        showOrder && (
-                            <div className='absolute left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Orders</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center '>
+                                <ShoppingCart/>
+                                <p className='font-poppins'>Orders</p>
                             </div>
-                        )
+                        ):(<ShoppingCart className='m-auto'/>)
                     }
                 </NavLink>
-                <NavLink 
-                    to="/admin/reports"  
-                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowReports(true)}
-                    onMouseLeave={() => setShowReports(false)}
-                >
-                    <SquareKanban className='rotate-180'/>
+                {/* Reports */}
+                <NavLink to="/admin/reports"  className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
-                        showReports && (
-                            <div className='absolute z-auto left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Reports</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center'>
+                                <SquareKanban className='rotate-180'/>
+                                <p className='font-poppins '>Reports</p>
                             </div>
-                        )
+                        ):(<SquareKanban className='rotate-180 m-auto'/>)
                     }
                 </NavLink>
-                <NavLink 
-                    to="/admin/activities" 
-                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5 cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowActivities(true)}
-                    onMouseLeave={() => setShowActivities(false)}
-                >
-                    {/* <History/> */}
-                    <FileClock/>
+                {/* Activity Log */}
+                <NavLink to="/admin/activities" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
-                        showActivities && (
-                            <div className='absolute z-50 w-28 text-center left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Activity Log</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center '>
+                                <History/>
+                                <p className='font-poppins '>Activity Log</p>
                             </div>
-                        )
+                        ):(<History className='m-auto'/>)
                     }
                 </NavLink>
-                <NavLink 
-                    to="/admin/members" 
-                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-blue-500 bg-gray-100 px-4 py-1.5 rounded-lg' : 'relative px-4 py-1.5  cursor-pointer text-gray-600 hover:bg-gray-100 rounded-lg'}
-                    onMouseEnter={() => setShowMembers(true)}
-                    onMouseLeave={() => setShowMembers(false)}
-                    >
-                    <UsersRound/>
+                {/* Members */}
+                <NavLink to="/admin/members" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-600 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
-                        showMembers && (
-                            <div className='absolute z-50 left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                                <p>Members</p>
+                        showSideBar ? (
+                            <div className='flex justify-start gap-3 items-center '>
+                                <UsersRound/>
+                                <p className='font-poppins '>Members</p>
                             </div>
-                        )
+                        ):(<UsersRound className='m-auto'/>)
                     }
                 </NavLink>
             </div>
@@ -144,7 +116,7 @@ function SideBar() {
                 <Settings/>
                 {
                     showSettingsName && (
-                        <div className='absolute z-50 left-20 bottom-0 text- px-3 py-1 text-white bg-gray-700 rounded-lg'>
+                        <div className='absolute z-50 left-10 bottom-0 px-3 py-1 text-white bg-gray-700 rounded-lg'>
                             <p>Settings</p>
                         </div>
                     )
@@ -162,7 +134,7 @@ function SideBar() {
                         </div>
                         <div  className='flex items-center gap-3 pt-2 px-3'>
                             <div>
-                                <Settings size={20} />
+                                <Settings size={20}  />
                             </div>
                             <div>
                                 <p>Settings</p>
@@ -300,7 +272,7 @@ function SideBar() {
                 <CircleUserRound size={35} color='white' />
             </Link>
         </nav>
-        <div className='lg:ml-32 mx-0 lg:w-11/12 w-full lg:px-0 px-2 lg:mr-8 lg:mt-3 mt-20'>
+        <div className={` mx-0 w-full lg:px-0 px-2 lg:mr-8 lg:mt-3 mt-20 ${showSideBar ? 'lg:w-10/12 lg:ml-52' : 'lg:w-11/12 lg:ml-32'}`}>
             <Outlet/>
         </div>
         
