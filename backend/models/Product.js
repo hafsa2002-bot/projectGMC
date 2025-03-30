@@ -24,9 +24,11 @@ const productSchema = new mongoose.Schema({
         required: false, 
         default: null },
     expirationDate: {type: Date, required: false},
-    isExpired: {type: Boolean, default: false}
+    isExpired: {type: Boolean, default: false},
+    lastUpdated: {type: Date, default: Date.now}  // track last status update
 })
 
+// to calculate the the total stock value in StoreStock collection
 productSchema.methods.calculateTotalStockValue = async function(){
     const totalStockValue = this.price * this.stockQty;
     return totalStockValue;
@@ -35,6 +37,7 @@ productSchema.methods.calculateTotalStockValue = async function(){
 productSchema.methods.updateStockStatus = async function(){
     this.outOfStock = this.qty === 0
     this.lowInStock = this.qty < this.minLevel
+    this.lastUpdated = new Date(); // Update timestamp
     await this.save();
 }
 

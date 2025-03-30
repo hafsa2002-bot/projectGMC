@@ -53,7 +53,6 @@ function App() {
           <Route path="/admin" element={<SideBar/>}>
             <Route index element={<AdminHomePage/>} />
             <Route path="items" element={<ItemsRoute/>}>
-              {/* <Route index element={<Items/>} /> */}
               <Route path="" element={<Items/>}>
                 <Route index element={<AllItems/>}/>
               </Route>
@@ -62,7 +61,6 @@ function App() {
                 <Route index element={<AllCategories/>}/>
                 <Route path=":categoryId" element={<CategoryInfo/>}/>
               </Route>
-              {/* <Route path="add-category" element={<AddCategoryPage/>}/> */}
               <Route path="out-of-stock" element={<OutOfStock/>}/>
               <Route path="low-in-stock" element={<LowInStock/>}/>
               <Route path="expired-items" element={<ExpiredItems/>}/>

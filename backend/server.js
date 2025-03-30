@@ -421,7 +421,7 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
                 {_id: item.productId},
                 {$inc: {itemsSold: item.quantity}}
             )
-            await product.save()
+            // await product.save()
 
             console.log("product quantity equal:", product.qty)
             console.log("order equal:", item.quantity)
@@ -434,6 +434,7 @@ app.post("/orders/addOnlineOrder", async(req, res) => {
                     {$set: {outOfStock: true}}
                 )
             }
+            await product.updateStockStatus();
         }
 
         const newOrder = new Order ({contact, shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
@@ -477,6 +478,33 @@ app.get("/orders/:id", async (req, res) => {
     }
 })
 
+/********** notifications ********/
+// fetch and sort data by lastUpdated
+app.get("/notifications", async (req, res) => {
+    try {
+        const products = await Product.find({
+            $or: [{ lowInStock: true }, { outOfStock: true }, { isExpired: true }]
+        }).sort({ lastUpdated: -1 });
+
+        // Fetch recent orders from client side 
+        const orders = await Order.find({ status: "pending" }).sort({ createdAt: -1 });
+
+        // Combine products & orders into one array
+        const notifications = [...products, ...orders];
+
+        // Sort the combined array by lastUpdated 
+        notifications.sort((a, b) => {
+            const dateA = a.lastUpdated || a.createdAt; // Use lastUpdated for products, createdAt for orders
+            const dateB = b.lastUpdated || b.createdAt;
+            return new Date(dateB) - new Date(dateA); 
+        });
+
+        res.json(notifications);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
 
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

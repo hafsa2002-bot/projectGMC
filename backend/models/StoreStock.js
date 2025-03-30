@@ -28,10 +28,12 @@ storeStockSchema.statics.updateStoreStock = async function(){
     let totalLowInStock = 0; 
     let totalExpiredProducts = 0; 
 
+    // calculate the total unpaid
     ordersPending.forEach(order => {
         totalUnpaid += order.rest 
     })
 
+    // the total income
     orders.forEach(order => {
         totalIncome += order.amountPaid
     })

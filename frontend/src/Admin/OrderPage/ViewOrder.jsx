@@ -74,7 +74,7 @@ function ViewOrder() {
                             <Link className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                 <p>Edit order</p>
                             </Link>
-                            <button onClick={() => handleGeneratePdf()} className='border flex gap-2 justify-center items-center border-blue-600 text-white bg-blue-600 px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                            <button onClick={() => handleGeneratePdf()} className='border flex cursor-pointer gap-2 justify-center items-center border-blue-600 text-white bg-blue-600 px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                 <div><Download /></div>
                                 <p>Download PDF</p>
                             </button>

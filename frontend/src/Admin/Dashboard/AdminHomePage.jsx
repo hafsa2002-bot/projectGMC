@@ -7,146 +7,38 @@ import RecentCategories from './RecentCategories'
 import RecentActivities from './RecentActivities'
 import DashboardStockLevels from './DashboardStockLevels'
 import RequestedProducts from './RequestedProducts'
+import Notifications from './Notifications'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
-  const [showNotifications, setShowNotifications] = useState(false)
-  const [showNotificationTitle, setShowNotifiactionTitle] = useState(false)
-  const [showNotificationOutOfStock, setShowNotificationOutOfStock]= useState(false)
-  const [showNotificationLowInStock, setShowNotificationLowInStock]= useState(false)
-  const [showNotificationExpired, setShowNotificationExpired]= useState(false)
-  const [numberOfNotifications, setNumberOfNotifications] = useState(0)
+  // const [showNotifications, setShowNotifications] = useState(false)
+  // const [showNotificationTitle, setShowNotifiactionTitle] = useState(false)
+  // const [showNotificationOutOfStock, setShowNotificationOutOfStock]= useState(false)
+  // const [showNotificationLowInStock, setShowNotificationLowInStock]= useState(false)
+  // const [showNotificationExpired, setShowNotificationExpired]= useState(false)
+  // const [numberOfNotifications, setNumberOfNotifications] = useState(0)
+  
   const getStockInfo = () => {
     axios.get("http://localhost:3003/admin/stock")
       .then(response => {
         setStockInfo(response.data)
-        // console.log("Stock info :", response.data)
       })
       .catch(error => console.log("error: ", error))
-  }
-
-  const showOutOfStock = () => {
-    if(stockInfo.totalOutOfStock > 0 ){
-      setShowNotificationOutOfStock(true)
-      // setNumberOfNotifications(prev => prev+1)
-    } 
-    else setShowNotificationOutOfStock(false)
-  }
-
-  const showLowInStock = () => {
-    if(stockInfo.totalLowInStock > 0 ){
-      setShowNotificationLowInStock(true)
-      // setNumberOfNotifications(prev => prev+1)
-    } 
-    else setShowNotificationLowInStock(false)
-  }
-  
-  const showExpired = () => {
-    if(stockInfo.totalExpiredProducts > 0 ){
-      setShowNotificationExpired(true)
-      // setNumberOfNotifications(prev => prev+1)
-    } 
-    else setShowNotificationExpired(false)
-  }
-
-  const calculateNumberOfNotifications = () => {
-    let count = 0;
-    if(stockInfo.totalOutOfStock > 0) count ++;
-    if(stockInfo.totalLowInStock > 0) count ++;
-    if(stockInfo.totalExpiredProducts > 0 ) count ++;
-      setNumberOfNotifications(count)
   }
   useEffect(() => {
     getStockInfo();
   }, [stockInfo])
   
-  useEffect(() => {
-    calculateNumberOfNotifications()
 
-    if(stockInfo.totalOutOfStock !== undefined){
-      showOutOfStock()
-    }
-    if(stockInfo.totalLowInStock !== undefined){
-      showLowInStock()
-    }
-    if(stockInfo.totalExpiredProducts !== undefined){
-      showExpired()
-    }
-  }, [stockInfo])
+  
+
   return (
     <div className='lg:px-3 px-0'>
       <div className='lg:pl-0 pl-3 pr-10 bg-gray-100  border-gray-400 flex justify-between items-center py-5'>
         <div className='text-3xl text-gray-700 font-semibold'>
             <p>Dashboard</p>
         </div>
-        <div className='cursor-pointer relative'>
-          <div className='relative w-9 h-9 hover:bg-gray-300 rounded-full flex justify-center items-center' onMouseEnter={() => setShowNotifiactionTitle(true)} onMouseLeave={() => setShowNotifiactionTitle(false)}>
-            <Bell 
-              size={27} 
-              fill={showNotifications ? `rgb(55, 65, 81)` : '#F3F4F6'} 
-              strokeWidth={2}  
-              onClick={() => setShowNotifications(!showNotifications)} 
-              />
-              {showNotificationTitle && (
-                <div className='absolute  top-12 right-0 text-sm px-3 py-1 text-white bg-gray-600 rounded-lg'>
-                  <p>Notifications</p>
-                </div>
-              )}
-              {(numberOfNotifications > 0) && (
-                <div className='absolute w-6 h-6 border-[#F3F4F6] border-3 text-sm bg-red-600 text-white flex justify-center items-center rounded-full bottom-4 left-4'><p>{numberOfNotifications}</p></div>
-              )}
-          </div>
-            {showNotifications && (
-              <div className=' absolute z-20 bg-white w-96 h-[85vh] right-10 top-0 rounded-xl shadow-2xl'>
-                <div className=' border-gray-400 shadow-lg text-gray-600 px-3 py-3 text-lg'>Notifications</div>
-                  {(showNotificationExpired || showNotificationLowInStock || showNotificationOutOfStock) ? (
-                    <div className='flex flex-col gap-[0.1px] mt-3'>
-                          {showNotificationOutOfStock && (
-                              <div className='bg-blue-100 px-3 text-gray-600 py-2  flex items-center justify-between border-b border-gray-400'>
-                                <Link to="/admin/items/out-of-stock" className='flex items-center   gap-4'>
-                                  <TrendingDown className=' border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'/>
-                                  <div className='flex flex-col'>
-                                    <p className='text-base'>Products Out Of Stock</p>
-                                    <div className='flex gap-2 items-center text-base font-semibold'><span className=''>(</span>{ (stockInfo.totalOutOfStock == 1) ? <p>{stockInfo.totalOutOfStock} Product</p> : <p>{stockInfo.totalOutOfStock} Products</p>} <span>)</span></div>
-                                  </div>
-                                </Link>
-                                {/* <div><X className='cursor-pointer' onClick={() => setShowNotificationOutOfStock(false)}/></div> */}
-                              </div>
-                            )}
-                          {showNotificationLowInStock && (
-                              <div className='bg-orange-100 px-3 text-gray-600 py-2  flex items-center justify-between border-b border-gray-400'>
-                                <Link to="/admin/items/low-in-stock" className='flex items-center  gap-4'>
-                                  <TrendingDown className='border-2 border-orange-300  text-orange-500 w-9 h-9 p-1 rounded-full'/>
-                                  <div className='flex flex-col'>
-                                    <p className='text-base'>Products Low In Stock</p>
-                                    <div className='flex gap-2 items-center text-base font-semibold'><span >(</span>{ (stockInfo.totalLowInStock == 1) ? <p>{stockInfo.totalLowInStock} Product</p> : <p>{stockInfo.totalLowInStock} Products</p>} <span >)</span></div>
-                                  </div>
-                                </Link>
-                                {/* <div><X className='cursor-pointer' onClick={() => setShowNotificationLowInStock(false)}/></div> */}
-                              </div>
-                            )}
-                          {showNotificationExpired && (
-                              <div className='bg-red-100 px-3 text-gray-600 py-2  flex items-center justify-between border-b border-gray-400'>
-                                <Link to="/admin/items/expired-items" className='flex items-center  gap-4'>
-                                  <TrendingDown className='border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'/>
-                                  <div className='flex flex-col'>
-                                    <p className='text-lg'>Products Expired</p>
-                                    <div className='flex gap-2 text-base items-center font-semibold'><span >(</span>{ (stockInfo.totalExpiredProducts == 1) ? <p>{stockInfo.totalExpiredProducts} Product</p> : <p>{stockInfo.totalExpiredProducts} Products</p>} <span>)</span></div>
-                                  </div>
-                                </Link>
-                                {/* <div><X className='cursor-pointer' onClick={() => setShowNotificationExpired(false)}/></div> */}
-                              </div>
-                            )}
-                    </div>
-                  ):(
-                    <div className=' flex flex-col gap-3 text-gray-500 justify-center items-center h-[75vh]'>
-                      <div><Bell size={50}/></div> 
-                      <div><p>All products are in stock and up to date!</p></div>
-                    </div>
-                  )}
-              </div>
-            )}
-        </div>
+        <Notifications/>
       </div>
       <hr className='lg:w-full w-11/12 lg:m-0 m-auto mb-5 lg:pl-0 text-gray-400'/>
       
@@ -214,10 +106,6 @@ function AdminHomePage() {
       <section className='mb-32 '>
         <RecentItems/>
       </section>
-      {/* Recent categories */}
-      {/* <section>
-        <RecentCategories/>
-      </section> */}
     </div>
   )
 }

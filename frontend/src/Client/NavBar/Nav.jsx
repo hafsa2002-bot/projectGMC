@@ -43,19 +43,19 @@ function Nav(props) {
                     <div className=' w-1/3 text-lg font-semibold lg:flex hidden justify-center  gap-9  '>
                         <NavLink 
                             to={"/"}
-                            className={({isActive}) => isActive ? 'border-b border-white  text-white' : 'text-stone-400'}
+                            className={({isActive}) => isActive ? 'border-b-2 border-[#FFEB3B]  text-white' : 'text-stone-400'}
                         >
                             Home
                         </NavLink>
                         <NavLink 
                             to={"/products"}
-                            className={({isActive}) => isActive ? 'border-b border-white  text-white' : 'text-stone-400'}
+                            className={({isActive}) => isActive ? 'border-b-2 border-[#FFEB3B]  text-white' : 'text-stone-400'}
                         >
                             Products
                         </NavLink>
                         <NavLink 
                             to={"/ContactUs"}
-                            className={({isActive}) => isActive ? 'border-b border-white  text-white' : 'text-stone-400'}
+                            className={({isActive}) => isActive ? 'border-b-2 border-[#FFEB3B]  text-white' : 'text-stone-400'}
                         >
                             Contact Us
                         </NavLink>
