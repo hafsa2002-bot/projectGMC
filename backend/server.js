@@ -49,7 +49,7 @@ const logActivity = async(user, action, details) => {
 // get activities
 app.get("/activities", async (req, res) => {
     try{
-        const logs = await ActivityLog.find()
+        const logs = await ActivityLog.find().sort({createdAt : -1})
         res.status(200).json(logs)
     }catch(error){
         console.log("Error retrieving logs: ", error)
@@ -506,5 +506,18 @@ app.get("/notifications", async (req, res) => {
     }
 });
 
+/********** stock levels ********/
+// fetch and sort data by lastUpdated
+app.get("/stockLevel", async (req, res) => {
+    try{
+        const products = await Product.find({
+            $or: [{lowInStock: true}, { outOfStock: true }]
+        }).sort({lastUpdated: -1})
+        res.json(products)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "stock level error"})
+    }
+})
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

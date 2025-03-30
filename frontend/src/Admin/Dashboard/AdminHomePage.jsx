@@ -46,41 +46,41 @@ function AdminHomePage() {
       <section className=''>
         <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4 lg:pl-0 pl-3'>Inventory Summary</p>
         <div className='flex lg:flex-nowrap flex-wrap lg:gap-0 gap-8 lg:justify-between justify-center '>
-          {/* Number of Items */}
-          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center  '>
-            <div className='w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex justify-center items-center'><FileText /></div>
+          {/* Number of Items bg-blue-100 text-blue-600 */}
+          <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg lg:flex hidden flex-col gap-3 justify-center items-center  '>
+            <div className='w-10 h-10 rounded-lg bg-blue-600 text-white flex justify-center items-center'><FileText /></div>
             <div className='text-center text-gray-500'>
               <div className='font-semibold text-xl'>{stockInfo.totalProducts ? stockInfo.totalProducts :<p className='text-lg font-semibold'>N/A</p> }</div>
               <p>Items</p>
             </div>
           </div>
-          {/* Number of categories */}
+          {/* Number of categories bg-yellow-100 text-yellow-400 */}
           <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
-            <div className='w-10 h-10 rounded-full bg-yellow-100 text-yellow-400 flex justify-center items-center'><Folder fill='rgb(250, 204, 21)' /></div>
+            <div className='w-10 h-10 rounded-lg bg-blue-600 text-white flex justify-center items-center'><Folder fill='white'/></div>
             <div className='text-center text-gray-500'>
               <div className='font-semibold text-xl'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</div>
               <p>Categories</p>
             </div>
           </div>
-          {/* Total Quantity */}
+          {/* Total Quantity bg-purple-100 text-purple-600 */}
           <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
-            <div className='w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex justify-center items-center'><Layers /></div>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-600 flex justify-center items-center'><Layers /></div>
             <div className='text-center text-gray-500'>
               <div className='font-semibold text-xl'>{stockInfo.totalItems ? stockInfo.totalItems : <p className='text-lg font-semibold'>N/A</p>}</div>
               <p>Total Quantity</p>
             </div>
           </div>
-          {/* Total Value */}
+          {/* Total Value bg-green-100 text-green-600 */}
           <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
-            <div className='w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center'><Wallet /></div>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-600 flex justify-center items-center'><Wallet /></div>
             <div className='text-center text-gray-500'>
               <div className='font-semibold text-xl'>{stockInfo.totalValue ? stockInfo.totalValue :<p className='text-lg font-semibold'>N/A</p>} DH</div>
               <p>Total Value</p>
             </div>
           </div>
-          {/* awaiting payment */}
+          {/* awaiting payment bg-orange-100 text-orange-600 */}
           <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
-            <div className='w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex justify-center items-center'><NotebookPen /></div>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-600 flex justify-center items-center'><NotebookPen /></div>
             <div className='text-center text-gray-500'>
               <div className='font-semibold text-xl'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid :<p className='text-lg font-semibold'>{stockInfo.totalUnpaid}</p>} DH</div>
               <p>Awaiting Payment</p>

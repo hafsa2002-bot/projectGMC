@@ -9,7 +9,7 @@ function DashboardStockLevels() {
     const [showOptions, setShowOptions] = useState(false)
     const [popUp, setPopUp] = useState(false)
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/dashboard/stockLevels")
+        axios.get("http://localhost:3003/stockLevel")
             .then(response => setDashboardProducts(response.data))
             .catch(error => console.log("Error: ", error))
     }, [dashboardProducts])
@@ -34,9 +34,9 @@ function DashboardStockLevels() {
                 (dashboardProducts.length >= 1) 
                 ?(
                     dashboardProducts.map((product, index)=> (
-                        <div className="flex justify-between items-center border-b border-gray-300 lg:px-4 px-2 py-2.5">
-                            <div className='lg:w-3/5 w-2/5 flex items-baseline gap-2'>
-                                <p className='lg:text-lg font-semibold'>{product.productName} </p>
+                        <Link to={`/admin/items/view/${product._id}`} className="flex justify-between items-center border-b border-gray-300 lg:px-4 px-2 py-2.5 h-14 ">
+                            <div className='lg:w-3/5 w-2/5 flex items-baseline gap-2 '>
+                                <p className='lg:text-lg font-semibold truncate whitespace overflow-hidden'>{product.productName} </p>
                                 <p className='text-gray-400 text-sm'>#{index+1}</p>
                             </div>
                             <div className='flex flex-col lg:w-1/4 w-1/2 gap-1 '>
@@ -57,34 +57,29 @@ function DashboardStockLevels() {
                                     <div className=''><p>{product.qty} Available</p></div>
                                 </div>
                             </div>
-                            <div className="relative p-1.5 bg-gray-50 hover:bg-gray-200 rounded-full">
+                            {/* <div className="relative p-1.5 bg-gray-50 hover:bg-gray-200 rounded-full">
                                 <EllipsisVertical size={20} onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                 {
                                     showOptions === index && (
                                         <div className=' z-30 absolute right-7 top-7 bg-white shadow-md border border-gray-200 rounded-lg text-black w-28'>
-                                            {/* view product details  */}
-                                            {/* <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
-                                                <div><Eye /></div>
-                                                <p>View</p>
-                                            </Link> */}
-                                            {/* update a product */}
+                                            update a product 
                                             <Link className='hover:bg-gray-100 px-2 py-2 gap-1 text-base font-semibold flex items-center justify-center border-b border-gray-200'>
                                                 <div><PenLine size={20} /></div>
                                                 <p>Update</p>
                                             </Link>
-                                            {/* delete  a product */}
+                                            delete  a product
                                             <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-2 py-2 gap-1 text-base font-semibold flex justify-center items-center text-red-600'>
                                                 <div><Trash2 size={20} /></div>
                                                 <p>Delete</p>
                                             </Link>
-                                            {/* a Component <PopUp/> to confirm the delete or cancel */}
+                                            a Component <PopUp/> to confirm the delete or cancel
                                             {popUp && <PopUp setPopUp={setPopUp} name={product.productName} id={product._id} setShowOptions={setShowOptions} />
                                         }
                                         </div>
                                     )
                                 }
-                            </div>
-                        </div>
+                            </div> */}
+                        </Link>
                     ))
                 ):(
                     <div className='text-gray-500 text-xl  font-bold h-full w-full flex flex-col justify-center items-center '>

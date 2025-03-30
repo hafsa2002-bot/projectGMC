@@ -64,15 +64,15 @@ function ViewProduct() {
                                 </div>
                                 <div className='flex'>
                                     <p className='w-1/2 text-gray-500'>Price</p>
-                                    <p className='w-1/2'>{product.price} MAD</p>
+                                    <p className='w-1/2'>{product.price} <span className='font-semibold'>MAD</span></p>
                                 </div>
                                 <div className='flex'>
                                     <p className='w-1/2 text-gray-500'>Items Sold</p>
-                                    <p className='w-1/2text-red-600 text-2xl'>!!!</p>
+                                    <p className='w-1/2'>{product.itemsSold} items</p>
                                 </div>
                                 <div className='flex'>
                                     <p className='w-1/2 text-gray-500'>Minimum qty</p>
-                                    <p className='w-1/2'>{product.minLevel ? product.minLevel : '_'}</p>
+                                    <p className='w-1/2'>{product.minLevel ? product.minLevel : '_'} items</p>
                                 </div>
                                 <div className='flex'>
                                     <p className='w-1/2 text-gray-500'>Category</p>
