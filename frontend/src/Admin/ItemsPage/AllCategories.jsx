@@ -1,14 +1,18 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import { EllipsisVertical, Eye, FolderOpen, Layers, Trash2 } from 'lucide-react'
+import { EllipsisVertical, Eye, FolderOpen, Layers, PenLine, Trash2 } from 'lucide-react'
 import {Link, Navigate, useNavigate} from 'react-router-dom'
 import AddCategory from './AddCategory'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
+import DeleteCategory from './DeleteCategory'
+import UpdateCategory from './UpdateCategory'
 function AllCategories() {
     const [categories, setCategories] = useState([])
     const [showOptions, setShowOptions] = useState(false)
+    const [showPopUp, setShowPopUp] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [updateCategory, setUpdateCategory] = useState(false)
     const navigate = useNavigate()
     // const [addCategory, setAddCategory] = useState(false)
     
@@ -23,11 +27,7 @@ function AllCategories() {
                 setLoading(false)
             })
     }
-    const deleteCategory = (id) => {
-        axios.delete(`http://localhost:3003/admin/items/delete-category/${id}`)
-            .then(response => console.log("category deleted: ", response.data))
-            .catch(error => console.log("Error: ",error))
-    }
+    
     useEffect(() => {
         categoriesWithProducts()
     }, [categories])
@@ -42,11 +42,11 @@ function AllCategories() {
                 {/* <div className='flex justify-between px-5 pb-5'>
                     <p className='text-2xl pl-3'>All Categories</p>
                 </div> */}
-                <div className='flex flex-wrap ml-8 mb-10 gap-10 mt-10'>
+                <div className='flex flex-wrap ml-8 mb-32 gap-10 mt-10'>
                     { (categories.length > 0)
                     ?(
                         categories.map((category, index) => (
-                            <div className='border-3 border-white  rounded-lg hover:shadow-xl cursor-pointer'>
+                            <div  key={category._id} className='border-3 border-white  rounded-lg hover:shadow-xl cursor-pointer'>
                                 <div onClick={() => navigate(`/admin/items/categories/${category._id}`)} className=''>
                                     <div className=''>
                                         {(category.products && category.products.length > 0)
@@ -108,23 +108,34 @@ function AllCategories() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div onClick={() => setShowOptions(index === showOptions ? null : index)} className='relative' >
-                                        <EllipsisVertical />
+                                    <div 
+                                        className='relative' 
+                                    >
+                                        <EllipsisVertical  onClick={() => setShowOptions(index === showOptions ? null : index)}  />
                                         {
                                             showOptions === index && (
                                                 <div className='absolute z-50 top-6 right-4  flex flex-col  px-1 py-1 rounded-lg bg-white border border-gray-200 text-gray-500 w-28 '>
-                                                    <div 
-                                                        // onClick={() => }
-                                                        className='flex gap-2 items-center px-3 py-2 hover:bg-gray-100 rounded-lg'>
+                                                    <Link 
+                                                        to={`/admin/items/categories/${category._id}`} 
+                                                        className='flex gap-2 items-center px-3 py-2 hover:bg-gray-100 text-black rounded-lg'>
                                                         <Eye size={19} />
                                                         <p className='text-black'>View</p>
-                                                    </div>
+                                                    </Link>
                                                     <div 
-                                                        onClick={() => deleteCategory(category._id)}
+                                                        onClick={() => setUpdateCategory(true)}
+                                                        className='flex gap-2 items-center px-3 py-2 hover:bg-gray-100 text-black rounded-lg'>
+                                                        <PenLine size={19} />
+                                                        <p className=''>Update</p>
+                                                    </div>
+                                                    {updateCategory && <UpdateCategory categoryId={category._id} categoryName={category.categoryName} setUpdateCategory={setUpdateCategory} setShowOptions={setShowOptions} />}
+                                                    <div
+                                                        // deleteCategory(category._id)
+                                                        onClick={() => setShowPopUp(true)}
                                                         className='flex gap-2 items-center px-3 py-2 text-red-500 hover:bg-gray-100 rounded-lg'>
                                                         <Trash2 size={19} />
                                                         <p>Delete</p>
                                                     </div>
+                                                    {showPopUp && <DeleteCategory categoryId={category._id} categoryName={category.categoryName} setShowPopUp={setShowPopUp} setShowOptions={setShowOptions} />}
                                                 </div>
                                             )
                                         }
@@ -145,6 +156,7 @@ function AllCategories() {
                         </div>
                     )}
                 </div>
+
             </>
 
         )

@@ -17,17 +17,17 @@ function CategoryInfo() {
         axios.get(`http://localhost:3003/admin/items/category/${categoryId}`)
             .then(response => {
                 setCategoryInfo(response.data)
-                console.log("Category by Id: ", response.data)
+                // console.log("Category by Id: ", response.data)
                 setLoading(false)
             })
             .catch(error => {
                 console.log("Error: ", error)
                 setLoading(false)
             })
-    }, [])
+    }, [categoryInfo])
 
   return (
-    <div>
+    <div className='pb-20'>
         <div onClick={() => navigate(-1)}  className='flex gap-2 items-center cursor-pointer'>
             <div><ArrowLeft/></div>
             <div className='text-xl'><p>{categoryInfo.categoryName}</p></div>
@@ -38,7 +38,7 @@ function CategoryInfo() {
             ? (
                 <SpinnerBlue/>
             ):(
-            <div className=" bg-white border border-gray-300 mt-8 overflow-hidden   shadow-md sm:rounded-lg">
+            <div className=" bg-white border border-gray-300 mt-8   shadow-md sm:rounded-lg">
                 {
                     (categoryInfo.products && categoryInfo.products.length > 0 )
                     ?(
@@ -66,11 +66,6 @@ function CategoryInfo() {
                                 </tr>
                             </thead>
                             <tbody>
-                            {/* { (Array.isArray(categoryInfo.products) && categoryInfo.products.length > 0)  &&
-                                (categoryInfo.products.map((product, index) => (
-                                    <p>Produit {index}: {product.productName}</p>
-                                )))
-                            } */}
                             {
                                 (Array.isArray(categoryInfo.products) && categoryInfo.products.length > 0)
                                 ?(
@@ -95,8 +90,8 @@ function CategoryInfo() {
                                             <td className="px-6 py-4">
                                                 {item.qty}
                                             </td>
-                                            <td className="px-6 py-4 text-2xl text-red-600">
-                                                !!!
+                                            <td className="px-6 py-4 ">
+                                                {item.itemsSold}
                                             </td>
                                             <td className="px-6 py-4">
                                                 {item.price} <span className='text-black'>MAD</span>
@@ -109,22 +104,22 @@ function CategoryInfo() {
                                                 }
                                             </td>
                                             <td className="relative px-6 py-4 ">
-                                                <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
+                                                <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer ' />
                                                 {
                                                     showOptions === index && (
-                                                        <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg  w-32'>
+                                                        <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black font-base  w-32'>
                                                             {/* view product details  */}
-                                                            <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                            <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base  flex items-center border-b border-gray-200'>
                                                                 <div><Eye/></div>
                                                                 <p className=''>View</p>
                                                             </Link>
                                                             {/* update a product */}
-                                                            <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                            <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
                                                                 <div><PenLine /></div>
                                                                 <p>Update</p>
                                                             </Link>
                                                             {/* delete  a product */}
-                                                            <Link onClick={() => setPopUp(true)}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
+                                                            <Link onClick={() => setPopUp(true)}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
                                                                 <div><Trash2 /></div>
                                                                 <p>Delete</p>
                                                             </Link>

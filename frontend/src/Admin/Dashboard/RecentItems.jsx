@@ -8,7 +8,7 @@ function RecentItems() {
     useEffect(() => {
         axios.get("http://localhost:3003/admin/items/list")
             .then(response => setRecentItems(response.data))
-            .catch(error => consoel.log("Error: ", error))
+            .catch(error => console.log("Error: ", error))
     }, [recentItems])
   return (
     <div className=''>

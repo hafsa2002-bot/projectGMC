@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { ArrowLeft, EllipsisVertical } from 'lucide-react'
+import { ArrowLeft, EllipsisVertical, Image } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
@@ -23,9 +23,9 @@ function OutOfStock() {
   return (
     <div className='my-3'>
         <div className=''>
-            <Link to="/admin/items" className='flex gap-2 items-center w-40'>
+            <Link to="/admin/items" className='flex gap-3 items-center w-52'>
                 <div><ArrowLeft/></div>
-                <div className='text-2xl'><p>All Items</p></div>
+                <div className='text-2xl font-poppins'><p>Out Of Stock</p></div>
             </Link>
         </div>
         {loading ? (
@@ -46,10 +46,10 @@ function OutOfStock() {
                             Product
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Minimum Stock
+                            Available Stock
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Available Stock
+                            Minimum Stock
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Quantity Sold
@@ -65,22 +65,28 @@ function OutOfStock() {
                 <tbody>
                     {outOfStockProducts.map((item, index) => (
                         <tr key={index} className=" bg-white border-b border-gray-200">
-                            <td scope="row" className="px-6 py-4 flex items-center gap-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                <div className='w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
-                                    <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
-                                </div>
-                                <div>
-                                    <p className='text-sm'>{item.productName}</p>
-                                </div>
-                            </td>
-                            <td className="px-6 py-4">
-                                {item.minLevel}
+                            <td scope="row" className="px-6 py-4 flex items-center gap-4  text-gray-900 whitespace-nowrap dark:text-white">
+                                <Link to={`/admin/items/view/${item._id}`} className='flex items-center gap-4 '>
+                                    <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
+                                        {
+                                            item.productPhoto 
+                                            ?   <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
+                                            :   <div className= 'relative w-full  h-full flex justify-center items-center bg-gray-200 '><Image className='absolute text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
+                                        }
+                                    </div>
+                                    <div>
+                                        <p className='text-base'>{item.productName}</p>
+                                    </div>
+                                </Link>
                             </td>
                             <td className="px-6 py-4">
                                 {item.qty}
                             </td>
-                            <td className="px-6 py-4 text-red-600 text-2xl">
-                                <p>!!!</p>
+                            <td className="px-6 py-4">
+                                {item.minLevel}
+                            </td>
+                            <td className="px-6 py-4 ">
+                                <p>{item.itemsSold}</p>
                             </td>
                             <td className="px-6 py-4 text-base ">
                                 {item.price  } <span className='text-black'>MAD</span>

@@ -122,8 +122,7 @@ function AllItems() {
                                                                 <p>Delete</p>
                                                             </Link>
                                                             {/* a Component <PopUp/> to confirm the delete or cancel */}
-                                                            {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />
-                                                        }
+                                                            {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />}
                                                         </div>
                                                     )
                                                 }

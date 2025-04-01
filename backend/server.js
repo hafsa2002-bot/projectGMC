@@ -78,7 +78,7 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
 
         if(!categoryId || categoryId === "") categoryId = null;
 
-        console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
+        // console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
         const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId})
         await newItem.save();
 
@@ -86,7 +86,7 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
         await newItem.updateStockStatus();
         
         // check expiration
-        await newItem.checkExpiration()
+        await newItem.updateExpirationStatus()
         
         // update Store Stock
         await StoreStock.updateStoreStock();
@@ -105,6 +105,14 @@ app.post("/admin/items/add-item", upload.single("productPhoto"), async(req, res)
 app.get("/admin/items/list", async(req, res) => {
     try{
         const listProducts = await Product.find()
+
+        // Update expiration status only if not already marked
+        for (let product of listProducts) {
+            if (!product.isExpiringSoon && product.expirationDate) {
+                await product.updateExpirationStatus();
+            }
+        }
+
         res.send(listProducts)
     }catch(error){
         console.log("Error: ", error)
@@ -186,7 +194,15 @@ app.get("/admin/dashboard/stockLevels", async(req, res) => {
 // get products expired
 app.get("/admin/items/expiredItems", async (req, res) => {
     try{
-        const expired = await Product.find({isExpired: true})
+        //find expired products
+        const expired = await Product.find({ expirationDate: { $lte: new Date() } });
+
+        // update 'isExpired' field in the database
+        await Product.updateMany(
+            { expirationDate: { $lte: new Date() } },
+            { $set: { isExpired: true } }
+        );
+
         res.send(expired)
     }catch(error){
         console.log("Error: ", error)
@@ -288,15 +304,24 @@ app.get("/admin/items/category/:categoryId", async (req, res) => {
             console.log("Category not found")
             return res.status(404).json({message: "Category not found"})
         }
-        // const categoryWithTotals = category[0]
-        
-        // const categories = await Category.find({_id: req.params.categoryId})
-        console.log("Category found: ", category[0]);
+
+        // console.log("Category found: ", category[0]);
 
         res.json(category[0])
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server Error"})
+    }
+})
+
+// update category name
+app.patch("/update/category/:id",  async (req, res) => {
+    try{
+        const category = await Category.findByIdAndUpdate(req.params.id, { categoryName: req.body.categoryName }, {new: true})
+        if(!category) return res.status(404).json({message: 'Product not found'})
+            res.json(category)
+    }catch(error){
+        res.status(500).json({error: error.message})
     }
 })
 
@@ -308,6 +333,9 @@ app.delete("/admin/items/delete-category/:id", async(req, res) => {
             return res.status(404).json({error: "Category not found"})
         }
         console.log("deleted category: ", deletedCategory)
+        // supprimer les produits de la categorie
+        const deletedProducts = await Product.deleteMany({ categoryId: req.params.id });        
+        console.log("deleted products from this category : ", deletedProducts)
 
          // log activity
         await logActivity("User name", "Category deleted", `${deletedCategory.categoryName}`)
@@ -483,14 +511,23 @@ app.get("/orders/:id", async (req, res) => {
 app.get("/notifications", async (req, res) => {
     try {
         const products = await Product.find({
-            $or: [{ lowInStock: true }, { outOfStock: true }, { isExpired: true }]
+            $or: [{ lowInStock: true }, { outOfStock: true }, { isExpired: true }, { isExpiringSoon: true }]
         }).sort({ lastUpdated: -1 });
+
+        const updatedProducts = products.map(product => {
+            let daysLeftToExpire = null;
+            if (product.expirationDate ) {
+                const timeDiff = new Date(product.expirationDate) - new Date();
+                daysLeftToExpire = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert to days
+            }
+            return { ...product.toObject(), daysLeftToExpire };
+        });
 
         // Fetch recent orders from client side 
         const orders = await Order.find({ status: "pending" }).sort({ createdAt: -1 });
 
         // Combine products & orders into one array
-        const notifications = [...products, ...orders];
+        const notifications = [...updatedProducts, ...orders];
 
         // Sort the combined array by lastUpdated 
         notifications.sort((a, b) => {

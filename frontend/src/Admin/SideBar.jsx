@@ -20,7 +20,7 @@ function SideBar() {
             {/* <div className=' flex justify-center items-center text-2xl w-10 h-10 rounded-full bg-blue-200 text-blue-600 font-semibold mt-3'>
                 <Link to={"/admin"} className='outline-none'>N</Link> 
             </div> */}
-            <Link  to={"/admin"}>
+            <Link  to={"/admin"} className='outline-none'>
                 {showSideBar
                 ?(<div className='flex items-center gap-2'><img className='h-8 mt-4' src='/images/N2.png' alt='logo' /><p className='text-black font-poppins text-3xl mt-4'>Nov<span className='text-blue-600'>exa</span></p></div>)
                 :(<img className='h-10 mt-4' src='/images/N2.png' alt='logo' />)}

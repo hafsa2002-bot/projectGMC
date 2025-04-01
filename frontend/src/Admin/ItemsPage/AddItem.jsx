@@ -1,4 +1,4 @@
-import { ArrowLeft, Barcode, CalendarDays, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode } from 'lucide-react'
+import { ArrowLeft, Barcode, CalendarDays, Check, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode, X } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import DatePicker from "react-datepicker"
@@ -86,16 +86,16 @@ function AddItem() {
 
   return (
     <div className='my-3'>
-        <div className=''>
-            {/* <Link to="/admin/items" className='flex gap-2 items-center w-40'>
+        <div className=' mb-9'>
+            <Link to="/admin/items" className='flex gap-2 items-center text-gray-600 w-52'>
                 <div><ArrowLeft/></div>
-            </Link> */}
-            <div className='text-2xl text-gray-600 pl-2 font-semibold'><p>Add New Item</p></div>
+                <div className='text-2xl  pl-2 font-semibold'><p>Add New Item</p></div>
+            </Link>
         </div>
         <div className='bg-white p-5 mt-5  rounded-lg mb-24'>
             <div className='mb-3'>
                 <p className='text-xl font-semibold'>Product Details</p>
-                <p className='text-gray-500'>Add your product to make invoicing and cost management easier (* for required fields)</p>
+                <p className='text-gray-500'>Add your product to make invoicing and cost management easier (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
                 <div className='flex gap-8 w-full'>
@@ -181,6 +181,7 @@ function AddItem() {
                             <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
                         )}
                     </div>
+                    {/* min level infos */}
                     <div className=' w-2/12 relative pt-7 right-5'>
                         <div>
                             <CircleHelp
@@ -270,27 +271,27 @@ function AddItem() {
                 <div className=' w-full flex gap-8'>
                     <div className='relative w-1/2'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
-                        <div className= "flex justify-between h-11 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
+                        <div  onClick={() => setShowCategories(!showCategories)} className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
                             <p className={selectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{selectedCategory.name || "Choose category"}</p>
                             {   
                                 showCategories 
-                                ? (<ChevronDown className='rotate-180' onClick={() => setShowCategories(false)} />)
-                                : (<ChevronDown onClick={() => setShowCategories(true)} />)
+                                ? (<ChevronDown className='rotate-180 cursor-pointer' onClick={() => setShowCategories(false)} />)
+                                : (<ChevronDown className='cursor-pointer' onClick={() => setShowCategories(true)} />)
                             }
                             
                         </div>
                         {showCategories && 
                             (
-                                <div className='absolute z-20 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden'>
+                                <div className='absolute z-20 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden w-96'>
                                     {/* list of categories */}
                                     <div>
-                                        <ListOfCategories setSelectedCategory={setSelectedCategory} setShowCategories={setShowCategories} />
+                                        <ListOfCategories setSelectedCategory={setSelectedCategory}  setShowCategories={setShowCategories} />
                                     </div>
                                     {/* add new category */}
                                     <div>
                                         <div 
                                             onClick={() => setAddCategory(true)}
-                                            className='text-blue-600 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
+                                            className='text-blue-600 border-t border-gray-500 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
                                             <CirclePlus size={20} />
                                             <p>Add new category</p> 
                                         </div>
@@ -363,12 +364,14 @@ function AddItem() {
                         <button className='cursor-pointer h-full p-2.5 w-full' >Save Product</button>
                     </div>
                     {errorMessage && (
-                        <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-red-800 text-center rounded-lg bg-red-100 '>
+                        <div className='w-1/4 py-2 flex justify-center items-center gap-2 px-3 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-100 border border-gray-200 '>
+                            <div className='w-5 h-5 bg-red-600   rounded-full flex justify-center items-center'><X size={14} className='text-white' /></div>
                             <p>Please fill in all required fields</p> 
                         </div>
                     )}
                     {(submitted && ((qty > 1) && (productName != "") && (price > 1 ) && (minLevel > 1))  ) && (
-                        <div className='w-1/3 py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-green-800 text-center rounded-lg bg-green-100 '>
+                        <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
+                            <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
                             <p>Item added successfully</p> 
                         </div>
                     )}

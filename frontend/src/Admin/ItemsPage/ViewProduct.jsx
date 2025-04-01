@@ -58,29 +58,29 @@ function ViewProduct() {
                                     <p className=' text-lg font-semibold'>{product.productName}</p>
                                     <div className={`rounded-3xl px-4 py-1 font-semibold ${product.qty === 0 ? 'text-red-600 bg-red-100' : 'text-blue-600 bg-blue-100 '}`}><div>Quantity: {product.qty} </div></div>
                                 </div>
-                                <div className='flex'>
-                                    <p className='w-1/2 text-gray-500'>Item ID</p>
-                                    <p className='w-1/2'>{product._id}</p>
+                                <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Item ID</p>
+                                    <p className='w-2/3'>{product._id}</p>
                                 </div>
-                                <div className='flex'>
-                                    <p className='w-1/2 text-gray-500'>Price</p>
-                                    <p className='w-1/2'>{product.price} <span className='font-semibold'>MAD</span></p>
+                                <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Price</p>
+                                    <p className='w-2/3'>{product.price} <span className='font-semibold'>MAD</span></p>
                                 </div>
-                                <div className='flex'>
-                                    <p className='w-1/2 text-gray-500'>Items Sold</p>
-                                    <p className='w-1/2'>{product.itemsSold} items</p>
+                                <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Items Sold</p>
+                                    <p className='w-2/3'>{product.itemsSold} items</p>
                                 </div>
-                                <div className='flex'>
-                                    <p className='w-1/2 text-gray-500'>Minimum qty</p>
-                                    <p className='w-1/2'>{product.minLevel ? product.minLevel : '_'} items</p>
+                                <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Minimum qty</p>
+                                    <p className='w-2/3'>{product.minLevel ? product.minLevel : '_'} items</p>
                                 </div>
-                                <div className='flex'>
-                                    <p className='w-1/2 text-gray-500'>Category</p>
-                                    <p className='w-1/2'>{product.categoryId ? product.categoryId.categoryName : '_'}</p>
+                                <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Category</p>
+                                    <p className='w-2/3 '>{product.categoryId ? product.categoryId.categoryName : '_'}</p>
                                 </div>
-                                <div className='flex'>
-                                    <p className='w-1/2 text-gray-500'>Expire date</p>
-                                    <p className='w-1/2'>{product.expirationDate ? product.expirationDate.slice(0, 10) : '_'}</p>
+                                <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Expire date</p>
+                                    <p className='w-2/3 '>{product.expirationDate ? product.expirationDate.slice(0, 10) : '_'}</p>
                                 </div>
                             </div>
                         </div>

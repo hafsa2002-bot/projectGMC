@@ -25,7 +25,8 @@ const productSchema = new mongoose.Schema({
         default: null },
     expirationDate: {type: Date, required: false},
     isExpired: {type: Boolean, default: false},
-    lastUpdated: {type: Date, default: Date.now}  // track last status update
+    lastUpdated: {type: Date, default: Date.now},  // track last status update
+    isExpiringSoon: { type: Boolean, default: false }
 })
 
 // to calculate the the total stock value in StoreStock collection
@@ -41,6 +42,38 @@ productSchema.methods.updateStockStatus = async function(){
     await this.save();
 }
 
+productSchema.methods.updateExpirationStatus = async function () {
+    const now = new Date();
+    
+    if (this.expirationDate) {
+        const daysLeft = Math.ceil((new Date(this.expirationDate) - now) / (1000 * 60 * 60 * 24));
+
+        // Mark as expired if expiration date has passed
+        if (daysLeft <= 0) {
+            this.isExpired = true;
+        }
+        
+        // Mark as "expiring soon" only once when exactly 2 day are left
+        if (daysLeft <= 2 && daysLeft > 0 && !this.isExpiringSoon) {
+            this.isExpiringSoon = true;
+            await this.save();  // Save only when status changes
+        }
+    }
+};
+
+/*
+productSchema.methods.updateExpirationStatus = async function() {
+    const today = new Date();
+    const expirationDate = new Date(this.expirationDate);
+    
+    // Check if expiration is within 3 days (or any other period)
+    if (expirationDate - today <= 3 * 24 * 60 * 60 * 1000 && expirationDate > today && !this.isExpired) {
+        // Update lastUpdated field when near expiration
+        this.lastUpdated = new Date(); // Update timestamp
+    }
+    
+    await this.save();
+};
 productSchema.methods.checkExpiration = async function(){
     if(this.expirationDate){
         this.isExpired = this.expirationDate < new Date()
@@ -50,5 +83,6 @@ productSchema.methods.checkExpiration = async function(){
     }
     await this.save();
 }
+    */
 
 module.exports = mongoose.model("Product", productSchema)

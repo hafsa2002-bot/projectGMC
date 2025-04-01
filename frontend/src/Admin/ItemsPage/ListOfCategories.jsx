@@ -14,7 +14,7 @@ function ListOfCategories({setSelectedCategory, setShowCategories}) {
     }, [listOfCategories])
   return (
     <div>
-      <ul className='h-32 overflow-y-scroll'>
+        <ul className='h-32 overflow-y-scroll'>
         {
             listOfCategories.length > 0 
             ? (
