@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, PackageX } from 'lucide-react'
 
 function RecentItems() {
     const [recentItems, setRecentItems] = useState([])
@@ -46,8 +46,9 @@ function RecentItems() {
                     ))
                 )
                 : (
-                    <div>
-                        <p>No Items</p>
+                    <div className='text-gray-500 flex flex-col gap-2 justify-center items-center border border-gray-400 rounded-lg  bg-white w-full py-7'>
+                        <PackageX size={35} />
+                        <p class="text-gray-500 text-xl font-semibold">No items available.</p>
                     </div>
                 )
             }
@@ -78,8 +79,9 @@ function RecentItems() {
                     ))
                 )
                 : (
-                    <div>
-                        <p>No Items</p>
+                    <div className='text-gray-500 flex flex-col gap-2 justify-center items-center border border-gray-400 rounded-lg  bg-white w-full py-7'>
+                        <PackageX size={35} />
+                        <p class="text-gray-500 text-xl font-semibold">No items available.</p>
                     </div>
                 )
             }

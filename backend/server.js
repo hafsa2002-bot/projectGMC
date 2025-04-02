@@ -197,11 +197,17 @@ app.get("/admin/items/expiredItems", async (req, res) => {
         //find expired products
         const expired = await Product.find({ expirationDate: { $lte: new Date() } });
 
-        // update 'isExpired' field in the database
-        await Product.updateMany(
-            { expirationDate: { $lte: new Date() } },
-            { $set: { isExpired: true } }
-        );
+        // Go through each expired product and update only if needed
+        for (const product of expired) {
+            // Only update if the product was not already marked as expired
+            if (!product.isExpired) {
+                product.isExpired = true;
+                product.lastUpdated = new Date();  // Update lastUpdated when expired
+
+                // Save the updated product
+                await product.save();
+            }
+        }
 
         res.send(expired)
     }catch(error){
@@ -317,7 +323,11 @@ app.get("/admin/items/category/:categoryId", async (req, res) => {
 // update category name
 app.patch("/update/category/:id",  async (req, res) => {
     try{
+        const oldCategory = await Category.findById({_id: req.params.id})
         const category = await Category.findByIdAndUpdate(req.params.id, { categoryName: req.body.categoryName }, {new: true})
+
+        // log activity
+        await logActivity("User name", "Category updated", `${oldCategory.categoryName}`)
         if(!category) return res.status(404).json({message: 'Product not found'})
             res.json(category)
     }catch(error){

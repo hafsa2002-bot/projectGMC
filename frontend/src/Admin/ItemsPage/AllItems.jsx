@@ -29,7 +29,7 @@ function AllItems() {
 
     useEffect(() => {
         getItems()
-        console.log("hello")
+        // console.log("hello")
     }, [items])
 
   return (

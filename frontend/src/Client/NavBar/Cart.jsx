@@ -18,9 +18,6 @@ function Cart({setShowCart}) {
     calculateTotal()
   }, [cart])
 
-  const submitOrder = () => {
-
-  }
   return (
     <div className='bg-white w-[450px] absolute top-30 right-0 border-l border-gray-300 shadow-2xl h-[80vh] pl-5 pr-2 pt-3 pb-10 overflow-y-scroll'>
       <div className='flex justify-between items-center pt-2 pb-4'>

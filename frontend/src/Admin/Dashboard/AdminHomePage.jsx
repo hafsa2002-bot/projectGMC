@@ -8,6 +8,7 @@ import RecentActivities from './RecentActivities'
 import DashboardStockLevels from './DashboardStockLevels'
 import RequestedProducts from './RequestedProducts'
 import Notifications from './Notifications'
+import RecentOrders from './RecentOrders'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
@@ -101,6 +102,10 @@ function AdminHomePage() {
         <div className='lg:w-1/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white rounded-lg overflow-hidden'>
             <RequestedProducts/>
         </div>
+      </section>
+      {/* recent orders */}
+      <section className='mt-14'>
+        <RecentOrders/>
       </section>
       {/* recent Items added */}
       <section className='mb-32 '>

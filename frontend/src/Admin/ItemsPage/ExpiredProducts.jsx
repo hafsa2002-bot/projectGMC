@@ -2,10 +2,9 @@ import axios from 'axios'
 import { ArrowLeft, EllipsisVertical, Image } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
-import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
 
-function ExpiredItems() {
+function ExpiredProducts() {
     const [expiredProducts, setExpiredProducts] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -22,20 +21,10 @@ function ExpiredItems() {
     }, [expiredProducts])
   return (
     <div className='my-3'>
-        <div className=''>
-            <Link to="/admin/items" className='flex gap-3 items-center w-60'>
-                <div><ArrowLeft/></div>
-                <div className='text-2xl font-poppins'><p>Expired Products</p></div>
-            </Link>
-        </div>
         {loading ? (
             <SpinnerBlue/>
         ):(
-        <div className='bg-white pb-5 mt-10  rounded-lg mb-24'>
-            <div className='p-7 pb-10'>
-                <p className='text-xl font-semibold'>Expired Products</p>
-                <p className='text-gray-500'>This page displays products that are no longer valid for sale due to expiration.</p>
-            </div>
+        <div className='bg-white pb-5 mt-10  rounded-lg mb-7'>
             {
                 expiredProducts.length > 0
                 ?(
@@ -93,24 +82,24 @@ function ExpiredItems() {
                     ))}
                 </tbody>
             </table>
-                        )
-                        : (
-                            <div className='flex flex-col gap-3  justify-center items-center py-14 m-auto'>
-                                <img src="/images/sticker.svg" className='w-32 ' alt="" />
-                                <div className='flex flex-col items-center'>
-                                    <p className='text-xl font-semibold'>Your products show up here</p>
-                                    <p className='text-gray-600'>Click the <span className='font-semibold'>Add Item</span> button below to add products </p>
-                                </div>
-                                <Link to="/admin/items/add-item" className='text-white bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
-                                    <p>Add Item</p>
-                                </Link>
-                            </div>
-                        )
-                    }           
+            )
+            : (
+                <div className='flex flex-col gap-3  justify-center items-center py-14 m-auto'>
+                    <img src="/images/sticker.svg" className='w-32 ' alt="" />
+                    <div className='flex flex-col items-center'>
+                        <p className='text-xl font-semibold'>Your products show up here</p>
+                        <p className='text-gray-600'>Click the <span className='font-semibold'>Add Item</span> button below to add products </p>
+                    </div>
+                    <Link to="/admin/items/add-item" className='text-white bg-blue-600 px-3 py-2 rounded-xl font-semibold'>
+                        <p>Add Item</p>
+                    </Link>
+                </div>
+            )
+        }           
         </div>
         )}
     </div>
   )
 }
 
-export default ExpiredItems
+export default ExpiredProducts

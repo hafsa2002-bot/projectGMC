@@ -25,7 +25,7 @@ function ViewOrder() {
         })
         
     }
-
+    /*
     let getProductName = async (productId) => {
         try{
             const response = await axios.get(`http://localhost:3003/admin/items/view/${productId}`)
@@ -35,20 +35,13 @@ function ViewOrder() {
             return "Unknown Product"
         }
     }
+        */
     
 
     useEffect(() => {
         axios.get(`http://localhost:3003/orders/${id}`)
-            .then(async(response) => {
-                const orderData = response.data;
-                // for each product, fetch the product name
-                const productWithNames = await Promise.all(
-                    orderData.products.map(async(product) => {
-                        const productName = await getProductName(product.productId)
-                        return {...product, productName}
-                    })
-                )
-                setOrder ({...orderData, products: productWithNames})
+            .then(response => {
+                setOrder (response.data)
                 setLoading(false)
             })
             .catch(error => {
@@ -80,7 +73,6 @@ function ViewOrder() {
                             </button>
                         </div>
                     </div>
-                    {/* <TestPDF/>  */}
                     <div ref={pdfRef} id="pdf-content"  style={{ backgroundColor: "white", width: "90%", margin: "auto", marginTop: "40px", marginBottom: "40px", paddingBottom: "80px", fontFamily: "poppins"}}>
                         <div style={{ borderBottom: "1px solid #D1D5DB", paddingLeft: "32px", paddingRight: "32px", paddingBottom:"20px", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                             <div style={{ color: "#57534E" }}>
@@ -130,7 +122,7 @@ function ViewOrder() {
                                     {order.products &&
                                         order.products.map((product, index) => (
                                             <tr key={index}>
-                                                <td style={{ padding: '12px 32px' }}>{product.productName}</td>
+                                                <td style={{ padding: '12px 32px' }}>{product.name}</td>
                                                 <td style={{ padding: '12px 32px' }}>{product.quantity}</td>
                                                 <td style={{ padding: '12px 32px' }}>{product.price} MAD</td>
                                                 <td style={{ padding: '12px 32px' }}>{product.quantity * product.price} MAD</td>

@@ -149,7 +149,7 @@ function Notifications() {
                                                         {(element.outOfStock && !element.isExpired) && <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'><PackageX size={22} /></div>} 
                                                         {(element.lowInStock && !element.outOfStock) && <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-9 h-9 p-1 rounded-full'><TrendingDown size={22}  /></div>} 
                                                         {(element.isExpired) && <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><CalendarX2 size={22}  /></div>} 
-                                                        {element.isExpiringSoon && <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><Calendar size={22}  /></div>}
+                                                        {(element.isExpiringSoon  && !element.isExpired) && <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><Calendar size={22}  /></div>}
                                                     </div>
                                                     {(element.outOfStock && !element.isExpired) && (
                                                         <div className='flex flex-col juctify-between gap-1.5 w-full'>
@@ -186,7 +186,7 @@ function Notifications() {
                                                     )} 
                                                     {/* product near expiration: after n-days */}
                                                     {
-                                                        element.isExpiringSoon && (
+                                                        (element.isExpiringSoon && !element.isExpired) && (
                                                             <div className='flex flex-col juctify-between gap-1.5 w-full '>
                                                                 <p className=''><span className='font-semibold'>Product near expiration: </span>{element.productName} - <p className='text-gray-400 font-semibold text-sm'> {element.daysLeftToExpire == 1 ? <span>One day left</span> : <span> {element.daysLeftToExpire} days left </span> } </p> </p>
                                                                 <div className='flex justify-end items-center gap-1 mr-2 text-gray-600' >

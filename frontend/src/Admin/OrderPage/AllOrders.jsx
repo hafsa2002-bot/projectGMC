@@ -107,7 +107,7 @@ function AllOrders({setNumberOfOrders}) {
                                             order.status === 'pending' ? (
                                                 <div className='bg-blue-50 bg- text-blue-500 py-[2px] font-semibold text-[13px]  text-center  rounded-full'>Order processing</div>
                                             ) : order.status === 'packed' ? (
-                                                <div className='bg-purple-50 text-prurple-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full'>Packed</div>
+                                                <div className='bg-purple-50 text-purple-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full'>Packed</div>
                                             ) : order.status === 'done' ? (
                                                 <div className="bg-green-50 text-green-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full">Done</div>
                                             ) : order.status === 'canceled' ? (

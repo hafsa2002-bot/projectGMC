@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { ArrowLeft, EllipsisVertical, Image } from 'lucide-react'
+import { ArrowLeft, EllipsisVertical, Image, PenLine } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
@@ -8,6 +8,7 @@ import SpinnerBlue from '../SpinnerBlue'
 function OutOfStock() {
     const [outOfStockProducts, setOutOfStockProducts] = useState([])
     const [loading, setLoading] = useState(true)
+    const [updateQuantity, setUpdateQuantity] = useState(false)
     useEffect(() => {
         axios.get("http://localhost:3003/admin/items/outOfStock")
             .then(response => {
@@ -93,8 +94,13 @@ function OutOfStock() {
                             </td>
                             <td className="px-6 py-4">
                                 {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
-                                <EllipsisVertical />
+                                {/* <EllipsisVertical /> */}
+                                <PenLine
+                                    className='cursor-pointer'
+                                    onClick={() => setUpdateQuantity(true)} 
+                                />
                             </td>
+                            {updateQuantity }
                         </tr>
                     ))}
                 </tbody>
