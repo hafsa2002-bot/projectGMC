@@ -70,6 +70,73 @@ router.get("/reports/weekly-income", async (req, res) => {
     }
 })
 
+//weekly income for dashboard using the day format : M, T, ...
+router.get("/reports/weekly-income-dashboard", async (req, res) => {
+    try {
+        const now = new Date();
+        now.setHours(23, 59, 59, 999);
+
+        // Get the start of 7 days ago
+        const startOfWeek = new Date();
+        startOfWeek.setDate(now.getDate() - 6);
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const pipeline = [
+            {
+                $match: {
+                    createdAt: { $gte: startOfWeek, $lte: now },
+                },
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                    totalIncome: { $sum: "$amountPaid" },
+                    totalOrders: { $sum: 1 },
+                },
+            },
+            { $sort: { _id: -1 } },
+        ];
+        const results = await Order.aggregate(pipeline);
+
+        // Abbreviated day names starting from today
+        const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
+
+        let weekData = [];
+        for (let i = 0; i < 7; i++) {
+            const date = new Date();
+            date.setDate(now.getDate() - i);
+            date.setHours(0, 0, 0, 0);
+
+            let dayName = weekDays[date.getDay()];
+
+            weekData.push({
+                name: dayName,
+                date: date.toISOString().split("T")[0],
+                totalIncome: 0,
+                totalOrders: 0,
+            });
+        }
+
+        // Merge database results into weekData
+        results.forEach(({ _id, totalIncome, totalOrders }) => {
+            const index = weekData.findIndex((day) => day.date === _id);
+            if (index !== -1) {
+                weekData[index].totalIncome = totalIncome;
+                weekData[index].totalOrders = totalOrders;
+            }
+        });
+
+        // Reverse the array to ensure it starts with today's data
+        weekData.reverse();
+
+        res.json(weekData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching weekly income report", error });
+    }
+});
+
+
 // last three months
 router.get("/reports/last-three-months-weekly-income", async (req, res) => {
     try {

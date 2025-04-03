@@ -9,6 +9,9 @@ import DashboardStockLevels from './DashboardStockLevels'
 import RequestedProducts from './RequestedProducts'
 import Notifications from './Notifications'
 import RecentOrders from './RecentOrders'
+import DashboardOrders from './DashboardOrders'
+import WeekReport from '../Reports/WeekReport'
+import IncomeReports from './IncomeReports'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
@@ -89,6 +92,27 @@ function AdminHomePage() {
           </div>
         </div>
       </section>
+      {/* recent orders */}
+      <section className='mt-14'>
+        <RecentOrders/>
+      </section>
+      {/* reports */}
+      <section className='flex flex-col mt-14'>
+        <h1>Reports</h1>
+        <div className='flex gap-5 '>
+          <div className='w-1/2'>
+            <h1 className='text-xl font-semibold pb-3'>Income tracker</h1>
+            <div className=' bg-white rounded-xl border border-gray-300 py-7'>
+              <IncomeReports/>
+            </div>
+
+          </div>
+          <div className='h-1/2 bg-green-100'>
+            <p>hello</p>
+          </div>
+        </div>
+      </section>
+
       <section className='lg:flex lg:mt-14 mt-9 gap-6'>
         {/* Recent Activity */}
         <div className='lg:w-2/5 w-11/12 m-auto  bg-white rounded-lg overflow-hidden'>
@@ -103,9 +127,10 @@ function AdminHomePage() {
             <RequestedProducts/>
         </div>
       </section>
-      {/* recent orders */}
       <section className='mt-14'>
-        <RecentOrders/>
+        <div className="">
+          <DashboardOrders/>
+        </div>
       </section>
       {/* recent Items added */}
       <section className='mb-32 '>

@@ -46,7 +46,6 @@ function App() {
           <Route path="checkout" element={<Checkout/>}/>
           <Route path = "/login" element={<Login/>} />
           <Route path = "/signUp" element={<SignUp/>} />
-          {/* <Route path='/aboutUs' element={<AboutUs/>} /> */}
           <Route path='/contactUs' element={<ContactUs/>} />
 
           {/* Admin pages */}

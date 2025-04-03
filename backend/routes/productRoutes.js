@@ -1,16 +1,21 @@
 import express from 'express'
 import multer from 'multer'
 import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import Product from '../models/Product.js'
 import StoreStock from '../models/StoreStock.js'
 import { logActivity } from './ActivityLogRoutes.js'
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const router = express.Router()
 
 //configure multer for files uploads 
 const storage = multer.diskStorage({
-    destination: "uploads",
+    destination: path.join(__dirname, "../uploads"),
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname))
     }
