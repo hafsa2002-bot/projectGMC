@@ -50,39 +50,18 @@ productSchema.methods.updateExpirationStatus = async function () {
 
         // Mark as expired if expiration date has passed
         if (daysLeft <= 0) {
+            this.lastUpdated = new Date(); 
             this.isExpired = true;
         }
         
+        // change it to 10 if it's working
         // Mark as "expiring soon" only once when exactly 2 day are left
         if (daysLeft <= 2 && daysLeft > 0 && !this.isExpiringSoon) {
+            this.lastUpdated = new Date(); 
             this.isExpiringSoon = true;
-            await this.save();  // Save only when status changes
+            await this.save();  
         }
     }
 };
-
-/*
-productSchema.methods.updateExpirationStatus = async function() {
-    const today = new Date();
-    const expirationDate = new Date(this.expirationDate);
-    
-    // Check if expiration is within 3 days (or any other period)
-    if (expirationDate - today <= 3 * 24 * 60 * 60 * 1000 && expirationDate > today && !this.isExpired) {
-        // Update lastUpdated field when near expiration
-        this.lastUpdated = new Date(); // Update timestamp
-    }
-    
-    await this.save();
-};
-productSchema.methods.checkExpiration = async function(){
-    if(this.expirationDate){
-        this.isExpired = this.expirationDate < new Date()
-    }
-    else{
-        this.isExpired = false
-    }
-    await this.save();
-}
-    */
 
 module.exports = mongoose.model("Product", productSchema)
