@@ -1,14 +1,17 @@
 import axios from 'axios'
 import { Info } from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function PopUp({setPopUp, name, id, setShowOptions}) {
+    const navigate = useNavigate()
     const deleteItem = () => {
         axios.delete(`http://localhost:3003/admin/item/${id}`)
             .then( (response) => {
                 console.log(`the product: ${response.data} deleted`)
                 setPopUp(false);
                 // window.location.reload()
+                navigate("/admin/items")
             }
             )
             .catch(error => console.log(error))

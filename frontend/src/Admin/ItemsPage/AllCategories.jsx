@@ -63,21 +63,21 @@ function AllCategories() {
                                                 }
                                             </div>
                                             <div className='flex flex-col w-1/2 '>
-                                                <div className=' h-1/2 border-b-3 border-white'>
+                                                <div className=' h-1/2 border-b-3 border-white flex justify-center items-center'>
                                                     {
                                                         (category.products.length > 1 && category.products[1].productPhoto)
                                                         ? (
-                                                            <img className='w-20 h-20 m-auto' src={`http://localhost:3003${category.products[1].productPhoto}`} alt="" />
+                                                            <img className='w-20 h-18 m-auto' src={`http://localhost:3003${category.products[1].productPhoto}`} alt="" />
                                                         ):(
                                                             <div className="bg-gray-500"></div>
                                                         )
                                                     }
                                                 </div>
-                                                <div className='h-1/2 border-b-3 border-white'>
+                                                <div className='h-1/2 border-b-3 border-white  flex justify-center items-center'>
                                                     {
                                                         (category.products.length > 2 && category.products[2].productPhoto)
                                                         ? (
-                                                            <img className='w-20 h-20 m-auto' src={`http://localhost:3003${category.products[2].productPhoto}`} alt="" />
+                                                            <img className='w-20 h-18 m-auto' src={`http://localhost:3003${category.products[2].productPhoto}`} alt="" />
                                                         ):(
                                                             <div className="bg-gray-500"></div>
                                                         )

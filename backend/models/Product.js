@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const productSchema = new mongoose.Schema({
     productName: {type: String, required: true},
@@ -64,4 +64,4 @@ productSchema.methods.updateExpirationStatus = async function () {
     }
 };
 
-module.exports = mongoose.model("Product", productSchema)
+export default mongoose.model('Product', productSchema)

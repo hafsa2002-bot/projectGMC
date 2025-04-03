@@ -175,11 +175,6 @@ function Items() {
                                 </div>
                             )}
                         </div>
-                        {/* sort products by categories */}
-                        {/* <div className='relative cursor-pointer w-2/12 bg-gray-100 flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-gray-700'>
-                            <p>Sort by <span className='text-black font-semibold'>Category</span></p>
-                            <ChevronDown size ={20} />
-                        </div> */}
                     </div>
                     {   showAllItems
                         ? <AllItems/> : showOutOfStockItems 
