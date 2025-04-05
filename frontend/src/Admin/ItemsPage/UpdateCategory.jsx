@@ -1,11 +1,12 @@
-import { X } from 'lucide-react'
+import { Check, Info, X } from 'lucide-react'
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
-function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOptions}) {
+function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOptions, setMessage}) {
     const [updatedCategoryName, setUpdatedCategoryName] = useState(categoryName);
     const [errorMessage, setErrorMessage] = useState(false)
+    // const [message, setMessage] = useState(false)
     const navigate = useNavigate()
     const handleUpdateCategory = async () => {
         if(!updatedCategoryName){
@@ -16,6 +17,8 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
             const response = await axios.patch(`http://localhost:3003/update/category/${categoryId}`, { categoryName: updatedCategoryName })
             setUpdateCategory(false)
             setShowOptions(false)
+            setMessage(true)
+            setTimeout(() => setMessage(false), 3000) 
             navigate("/admin/items/categories")
             console.log('category updated: ', response.data)
         }catch(error){
@@ -62,11 +65,17 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
             >
                 Update category
             </div>
-            {/* {(submitCategory && categoryExists) && (
-              <div className='  text-red-700 bg-red-100 rounded-lg px-3 py-1 flex gap-2 w-full border'>
-                <div className=''><Info/></div>
-                <p className=''> this category already exist</p>
-              </div>
+            {(errorMessage && updatedCategoryName === "") && (
+                <div className='  text-red-700 bg-red-100 rounded-lg px-3 py-1 flex gap-2 w-full border'>
+                    <div className=''><Info/></div>
+                    <p className=''>Please enter a valid name to update</p>
+                </div>
+            )}
+            {/* {message && (
+                <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
+                    <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
+                    <p>Category updated successfully</p> 
+                </div>
             )} */}
           </div>
         </div>

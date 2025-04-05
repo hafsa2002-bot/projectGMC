@@ -163,7 +163,7 @@ function Items() {
                     </div>
                     <div className='flex gap-10 px-5'>
                         {/* search products */}
-                        <div className='bg-gray-100 flex items-center px-3 gap-3  w-7/12 text-gray-400 outline-blue-500  rounded-lg'>
+                        <div className='border border-gray-400 bg-gray-100 flex items-center px-3 gap-3  w-7/12 text-gray-400 outline-blue-500  rounded-lg'>
                             <Search size={20} />
                             <input
                                 onChange={(e) => {
@@ -183,7 +183,7 @@ function Items() {
                                 setShowFilter(!showFilter)
                                 if(showSortOptions) setShowSortOptions(false)
                             }} 
-                            className='relative cursor-pointer hover:bg-gray-500 hover:text-white bg-gray-100 flex items-center justify-center gap-2 w-2/12 rounded-lg px-3 py-2.5 text-gray-700'
+                            className='border border-gray-400 relative cursor-pointer bg-gray-100 flex items-center justify-center gap-2 w-2/12 rounded-lg px-3 py-2.5 text-gray-700'
                         >
                             <SlidersHorizontal size={20} />
                             <p>
@@ -214,12 +214,13 @@ function Items() {
                                 </div>
                             )}
                         </div>
+                        {/* sort items */}
                         <div 
                             onClick={() => {
                                 setShowSortOptions(!showSortOptions)
                                 if (showFilter) setShowFilter(false)
                             }} 
-                            className='relative w-3/12 bg-gray-100 flex justify-center items-center gap-3 text-gray-400 rounded-lg cursor-pointer'
+                            className='border border-gray-400 relative w-3/12 bg-gray-100 flex justify-center items-center gap-3 text-gray-500 rounded-lg cursor-pointer'
                         >
                             <div>Sort by 
                                 <span className='font-semibold text-gray-700 pl-2'>
