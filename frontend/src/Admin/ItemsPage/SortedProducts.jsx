@@ -1,37 +1,13 @@
-import React, {useState, useEffect} from 'react'
-import axios from 'axios'
-import { EllipsisVertical, Eye, Image, Info, PenLine, Trash2 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import React, {useState} from 'react'
 import SpinnerLoader from '../../SpinnerLoader'
+import { Link } from 'react-router-dom'
+import { EllipsisVertical, Eye, Image, PenLine, Trash2 } from 'lucide-react'
 import PopUp from './PopUp'
-import SpinnerBlue from '../SpinnerBlue'
 
-
-function AllItems() {
-    const [items, setItems] = useState([])
+function SortedProducts({items, loading}) {
     const [showOptions, setShowOptions] = useState(false);
     const [popUp, setPopUp] = useState(false)
-    const [loading, setLoading] = useState(true)
-
-    const getItems = () => {
-        axios.get("http://localhost:3003/admin/items/list")
-        .then(response => {
-            // if (JSON.stringify(response.data) !== JSON.stringify(items)) {
-                setItems(response.data);
-            // }
-            setLoading(false)
-        })
-        .catch(error => {
-            console.log("Error: ", error)
-            setLoading(false)
-        })
-    }
-
-    useEffect(() => {
-        getItems()
-        // console.log("hello")
-    }, [items])
-
+    const hasEarnings = items.some(item => item.earnings !== undefined);
   return (
     <div className=" bg-white border border-gray-300 mt-8    shadow-md sm:rounded-lg">
         {
@@ -60,6 +36,13 @@ function AllItems() {
                                     <th scope="col" className="px-6 py-3">
                                         Expiry Date
                                     </th>
+                                    {
+                                        hasEarnings && (
+                                            <th scope="col" className="px-6 py-3">
+                                                Earnings
+                                            </th>
+                                        )
+                                    }
                                     <th scope="col" className="px-6 py-3">
                                             
                                     </th>
@@ -69,7 +52,7 @@ function AllItems() {
                             {
                                 items
                                 ?(
-                                    [...items].reverse().map((item, index) => (
+                                    items.map((item, index) => (
                                         <tr key={index} className=" bg-white border-b border-gray-200">
                                             <td scope="row" className=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <Link to={`/admin/items/view/${item._id}`} className='flex items-center gap-4 '>
@@ -101,6 +84,15 @@ function AllItems() {
                                                 : (<p>-</p>)
                                                 }
                                             </td>
+                                            {item.earnings ? (
+                                                <td className="px-6 py-4 text-base">
+                                                    {item.earnings} <span className='text-black'>MAD</span> 
+                                                </td>
+                                            ):(
+                                                <td className="px-6 py-4 text-base">
+                                                    0 <span className='text-black'>MAD</span> 
+                                                </td>
+                                            )} 
                                             <td className="relative px-6 py-4">
                                                 <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                                 {
@@ -163,4 +155,4 @@ function AllItems() {
   )
 }
 
-export default AllItems
+export default SortedProducts

@@ -57,7 +57,7 @@ function RecentItems() {
         <div className='flex  lg:hidden gap-6  justify-center  px-3  py-3  flex-wrap '>
             {recentItems
                 ?(
-                    recentItems.slice(0, 4).map((item, index) => (
+                    [...recentItems].reverse().slice(0, 4).map((item, index) => (
                         <div key={index} className=' lg:w-1/6 w-5/12 shadow-xl  bg-white rounded-lg lg:px-2 py-2 '>
                             <div className=' w-28  h-28  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
                                 {item.productPhoto 

@@ -66,6 +66,7 @@ router.get("/items/list", async(req, res) => {
         }
 
         //update the expiration status
+        /*
         const products = await Product.find({ 
             isExpired: false,
             isExpiringSoon: false 
@@ -73,6 +74,23 @@ router.get("/items/list", async(req, res) => {
         for (const product of products) {
             await product.updateExpirationStatus();
         }
+        */
+
+        //find expired products
+        const expired = await Product.find({ expirationDate: { $lte: new Date() } });
+
+        // Go through each expired product and update only if needed
+        for (const product of expired) {
+            // Only update if the product was not already marked as expired
+            if (!product.isExpired) {
+                product.isExpired = true;
+                product.lastUpdated = new Date();  // Update lastUpdated when expired
+
+                // Save the updated product
+                await product.save();
+            }
+        }
+
 
 
         res.send(listProducts)
@@ -108,6 +126,59 @@ router.get("/items/view/:product_id", async(req, res) => {
         res.send(productById[0])
     }catch(error){
         console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// get products from low to high price
+router.get("/items/sort-from-low-to-high", async (req, res) => {
+    try{
+        const products = await Product.find().sort({price: 1})
+        res.send(products)
+    }catch(error){
+        console.log("error fetxhing low to high products", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// get products from high to low price
+router.get("/items/sort-from-high-to-low", async (req, res) => {
+    try{
+        const products = await Product.find().sort({price: -1})
+        res.send(products)
+    }catch(error){
+        console.log("error fetching high to low products", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// get best selling products
+router.get("/items/sort-best-selling", async (req, res) => {
+    try{
+        const products = await Product.find().sort({itemsSold: -1})
+        res.send(products)
+    }catch(error){
+        console.log("error fetching best selling products", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// get best selling products
+router.get("/items/sort-top-earning-products", async (req, res) => {
+    try{
+        const products = await Product.aggregate([
+            {
+                $addFields: {
+                    earnings: { $multiply: ["$price", "$itemsSold"] }
+                }
+            },
+            {
+                $sort: { earnings: -1 } // Sort by earnings descending
+            }
+        ]);
+        res.send(products)
+    }catch(error){
+        console.log("error fetching best selling products", error)
         res.status(500).json({error: "Internal server error"})
     }
 })

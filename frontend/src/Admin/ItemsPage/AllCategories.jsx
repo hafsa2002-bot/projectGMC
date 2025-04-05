@@ -42,6 +42,7 @@ function AllCategories() {
                 {/* <div className='flex justify-between px-5 pb-5'>
                     <p className='text-2xl pl-3'>All Categories</p>
                 </div> */}
+                
                 <div className='flex flex-wrap ml-8 mb-32 gap-10 mt-10'>
                     { (categories.length > 0)
                     ?(

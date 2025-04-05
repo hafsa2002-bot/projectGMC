@@ -96,6 +96,11 @@ function AdminHomePage() {
       <section className='mt-14'>
         <RecentOrders/>
       </section>
+      {/* <section className='mt-14'>
+        <div className="">
+          <DashboardOrders/>
+        </div>
+      </section> */}
       {/* reports */}
       <section className='flex flex-col mt-14'>
         <h1>Reports</h1>
@@ -108,7 +113,7 @@ function AdminHomePage() {
 
           </div>
           <div className='h-1/2 bg-green-100'>
-            <p>hello</p>
+            <p>Pipe line charts of popular products</p>
           </div>
         </div>
       </section>
@@ -127,11 +132,7 @@ function AdminHomePage() {
             <RequestedProducts/>
         </div>
       </section>
-      <section className='mt-14'>
-        <div className="">
-          <DashboardOrders/>
-        </div>
-      </section>
+      
       {/* recent Items added */}
       <section className='mb-32 '>
         <RecentItems/>

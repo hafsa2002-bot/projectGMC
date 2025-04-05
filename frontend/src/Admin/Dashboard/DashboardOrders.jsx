@@ -37,7 +37,7 @@ function DashboardOrders() {
                 </Link>
             </div>
             <div className='pl-6 pr-2 mt-3'>
-                <div className='flex text-gray-500 font-semibold'>
+                <div className='flex text-gray-500 text-lg font-semibold border-b border-gray-400 pb-2'>
                     <p className='w-2/5'>Orders</p>
                     <p className='w-1/5'>Status</p>
                     <p className='w-1/5'>Date</p>
