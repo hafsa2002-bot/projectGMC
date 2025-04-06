@@ -10,7 +10,10 @@ import OutOfStockProducts from './OutOfStockProducts'
 import LowInStockProducts from './LowInStockProducts'
 import ExpiredProducts from './ExpiredProducts'
 import ProductsFiltered from './ProductsFiltered'
-import SortedProducts from './SortedProducts'
+import HightToLowProducts from './HightToLowProducts'
+import LowToHighProducts from './LowToHighProducts'
+import BestSellingProducts from './BestSellingProducts'
+import TopEarning from './TopEarning'
 
 function Items() {
     const [items, setItems] = useState([])
@@ -18,67 +21,14 @@ function Items() {
     const [loading, setLoading] = useState(true)
     const [showFilter, setShowFilter] = useState(false)
     const [showSortOptions, setShowSortOptions] = useState(false)
-    const [typeOfItems, setTypeOfItems] = useState("all-items")
+    const [typeOfItems, setTypeOfItems] = useState("")
     const [productName, setProductName] = useState("")
     const [filteredProducts, setFilteredProducts] = useState([])
-    const [lowToHigh, setLowToHigh] = useState([])
-    const [highToLow, setHighToLow] = useState([])
-    const [bestSelling, setBestSelling] = useState([])
-    const [topEarning, setTopEarning] = useState([])
     
     const getItems = () => {
         axios.get("http://localhost:3003/admin/items/list")
         .then(response => setItems(response.data))
         .catch(error => console.log("Error: ", error))
-    }
-
-    const getItemsFromLowToHigh = () => {
-        axios.get("http://localhost:3003/admin/items/sort-from-low-to-high")
-        .then(response => {
-            setLowToHigh(response.data)
-            setLoading(false)
-        })
-        .catch(error => {
-            console.log("Error: ", error)
-            setLoading(false)
-        })
-    }
-
-    const getItemsFromHighToLow = () => {
-        axios.get("http://localhost:3003/admin/items/sort-from-high-to-low")
-        .then(response => {
-            setHighToLow(response.data)
-            setLoading(false)
-        })
-        .catch(error => {
-            console.log("Error: ", error)
-            setLoading(false)
-        })
-    }
-
-    const getBestSellingItems = () => {
-        axios.get("http://localhost:3003/admin/items/sort-best-selling")
-        .then(response => {
-            setBestSelling(response.data)
-            setLoading(false)
-        })
-        .catch(error => {
-            console.log("Error: ", error)
-            setLoading(false)
-        })
-    }
-
-    const getTopEarningProducts = () => {
-        axios.get("http://localhost:3003/admin/items/sort-top-earning-products")
-        .then(response => {
-            setTopEarning(response.data)
-            console.log("top earnings products: ", response.data)
-            setLoading(false)
-        })
-        .catch(error => {
-            console.log("Error: ", error)
-            setLoading(false)
-        })
     }
     
     const stockInfo = () => {
@@ -102,11 +52,15 @@ function Items() {
     useEffect(() => {
         getItems()
         stockInfo()
-        getItemsFromLowToHigh()
-        getItemsFromHighToLow()
-        getBestSellingItems()
-        getTopEarningProducts()
-    }, [items])
+    }, [])
+    
+    useEffect(() => {
+        if (productName !== "") {
+            filterProducts(productName)
+        } else {
+            setFilteredProducts(items)
+        }
+    }, [productName, items])
     // if(!items) return <SpinnerLoader/>
   return (
     <div className='mb-32'>
@@ -168,7 +122,7 @@ function Items() {
                             <input
                                 onChange={(e) => {
                                     setProductName(e.target.value)
-                                    if(e.target.value != "") filterProducts(e.target.value)
+                                    if(e.target.value !== "") filterProducts(e.target.value)
                                     else setFilteredProducts(items)
                                 }}
                                 value={productName} 
@@ -260,15 +214,15 @@ function Items() {
                         </div>
                     </div>
                     {   (typeOfItems === "all-items")
-                        ? <AllItems/> : (typeOfItems === "out-of-stock")
+                        ? <AllItems/> : (productName !== "" )
+                        ? <ProductsFiltered items={filteredProducts} /> : (typeOfItems === "out-of-stock")
                         ? <OutOfStockProducts/> : (typeOfItems === "low-in-stock")
                         ? <LowInStockProducts/> : (typeOfItems === "expired")
-                        ? <ExpiredProducts/> : (productName != "" )
-                        ? <ProductsFiltered items={filteredProducts} /> : (typeOfItems === "low-to-high")
-                        ? <SortedProducts items={lowToHigh} loading={loading} /> : (typeOfItems === "high-to-low")
-                        ? <SortedProducts items={highToLow} loading={loading} /> : (typeOfItems === "best-selling")
-                        ? <SortedProducts items={bestSelling} loading={loading} />  : (typeOfItems === "top-earning")
-                        ? <SortedProducts items={topEarning} loading={loading} /> : <AllItems/>
+                        ? <ExpiredProducts/> : (typeOfItems === "low-to-high")
+                        ? <LowToHighProducts/> : (typeOfItems === "high-to-low")
+                        ? <HightToLowProducts/> : (typeOfItems === "best-selling")
+                        ? <BestSellingProducts/>  : (typeOfItems === "top-earning")
+                        ? <TopEarning/> : <AllItems/>
                     }
                 </div> 
             </>

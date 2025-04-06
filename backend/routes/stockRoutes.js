@@ -76,6 +76,10 @@ router.get("/admin/items/lowInStock", async(req, res) => {
             {qty:0, $or:[{outOfStock: false}, {lowInStock: true}]},
             {$set:{outOfStock: true, lowInStock: false}}
         )
+        await Product.updateMany(
+            {$expr: { $lt: ["$qty", "$minLevel"] },lowInStock: false, outOfStock: false },
+            {$set:{lowInStock: true}}
+        )
         const  lowInStock = await Product.find({lowInStock: true})
         res.send(lowInStock)
     } catch(error){

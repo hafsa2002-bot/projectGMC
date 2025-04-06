@@ -91,8 +91,6 @@ router.get("/items/list", async(req, res) => {
             }
         }
 
-
-
         res.send(listProducts)
     }catch(error){
         console.log("Error: ", error)
@@ -179,6 +177,29 @@ router.get("/items/sort-top-earning-products", async (req, res) => {
         res.send(products)
     }catch(error){
         console.log("error fetching best selling products", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// update quantity 
+router.patch("/items/update/:id", async(req, res) => {
+    try{  
+        // to get the product name for activty log  
+        const produit = await Product.findById({_id: req.params.id})
+        const product = await Product.findByIdAndUpdate(req.params.id, {qty: req.body.newQty}, {new: true})
+
+        //log activity
+        await logActivity("User name", "Stock updated", produit.productName)
+
+        // update Store Stock
+        await StoreStock.updateStoreStock();
+
+        // update product status 
+        await product.updateStockStatus();
+
+        res.json(product)
+    }catch(error){
+        console.log("Error: ", error)
         res.status(500).json({error: "Internal server error"})
     }
 })

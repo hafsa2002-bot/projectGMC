@@ -55,6 +55,13 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
                     {$set: {outOfStock: true}}
                 )
             }
+            else if(product.qty - item.quantity < product.minLevel ){
+                console.log("it's low in stock ")
+                await Product.updateOne(
+                    {_id: item.productId},
+                    {$set: {lowInStock: true}}
+                )
+            }
             await product.updateStockStatus();
         }
 

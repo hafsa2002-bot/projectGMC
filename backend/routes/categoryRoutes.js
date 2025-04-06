@@ -104,7 +104,7 @@ router.patch("/update/category/:id",  async (req, res) => {
         // log activity
         await logActivity("User name", "Category updated", `${oldCategory.categoryName}`)
         if(!category) return res.status(404).json({message: 'Product not found'})
-            res.json(category)
+        res.json(category)
     }catch(error){
         res.status(500).json({error: error.message})
     }

@@ -34,9 +34,14 @@ function ViewProduct() {
                             <div><ArrowLeft/></div>
                             <div className='text-xl'><p>{product.productName}</p></div>
                         </div>
-                        <Link className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
-                            <p>Edit Item</p>
-                        </Link>
+                        <div className='flex gap-3'>
+                            <Link className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                                <p>Edit Item</p>
+                            </Link>
+                            <Link className='bg-blue-500 text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                                <p>Update quantity</p>
+                            </Link>
+                        </div>
                     </div>
                     <div className='bg-white px-8 mt-8 pb-20 pt-5  rounded-lg mb-24 flex flex-col gap-7'>
                         <div>
