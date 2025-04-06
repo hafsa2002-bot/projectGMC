@@ -3,12 +3,15 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ArrowLeft, Image } from 'lucide-react'
 import SpinnerBlue from '../SpinnerBlue'
+import UpdateQuantity from './UpdateQuantity'
 
 function ViewProduct() {
     const {product_id} = useParams()
     const [product, setProduct] = useState([])
+    const [updateQty, setUpdateQty] = useState(false)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
+    const [message, setMessage] = useState(false)
     useEffect(() => {
         axios.get(`http://localhost:3003/admin/items/view/${product_id}`)
             .then(response => {
@@ -35,12 +38,15 @@ function ViewProduct() {
                             <div className='text-xl'><p>{product.productName}</p></div>
                         </div>
                         <div className='flex gap-3'>
-                            <Link className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                            <Link to={`/admin/items/update-item/${product_id}`} className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                 <p>Edit Item</p>
                             </Link>
-                            <Link className='bg-blue-500 text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                            <div
+                                onClick={() => setUpdateQty(true)} 
+                                className='bg-blue-500 cursor-pointer text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                 <p>Update quantity</p>
-                            </Link>
+                            </div>
+                            {updateQty && <UpdateQuantity setUpdateQty={setUpdateQty} item={product} setMessage={setMessage} />}
                         </div>
                     </div>
                     <div className='bg-white px-8 mt-8 pb-20 pt-5  rounded-lg mb-24 flex flex-col gap-7'>
@@ -93,6 +99,12 @@ function ViewProduct() {
                 </>
             )
         }
+        {message && (
+            <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
+                <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
+                <p>Category updated successfully</p> 
+            </div>
+        )}
     </div>
   )
 }

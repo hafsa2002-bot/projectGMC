@@ -112,7 +112,7 @@ function AllItems() {
                                                                 <p>View</p>
                                                             </Link>
                                                             {/* update a product */}
-                                                            <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                            <Link to={`/admin/items/update-item/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
                                                                 <div><PenLine /></div>
                                                                 <p>Update</p>
                                                             </Link>

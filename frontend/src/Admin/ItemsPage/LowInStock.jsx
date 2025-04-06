@@ -1,13 +1,18 @@
 import axios from 'axios'
-import { ArrowLeft, EllipsisVertical, Image } from 'lucide-react'
+import { ArrowLeft, EllipsisVertical, Image, PenLine } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
+import UpdateQuantity from './UpdateQuantity'
 
 function LowInStock() {
     const [lowInStock, setLowInStock] = useState([])
     const [loading, setLoading] = useState(true)
+    const [updateQty, setUpdateQty] = useState(false)
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [message, setMessage] = useState(false)
+
     useEffect(() => {
         axios.get("http://localhost:3003/admin/items/lowInStock")
             .then(response => {
@@ -20,6 +25,12 @@ function LowInStock() {
                 setLoading(false)
             })
     }, [lowInStock])
+
+    const handleUpdateQty = (item) => {
+        setSelectedItem(item);
+        setUpdateQty(true);
+    };
+
   return (
     <div className='my-3'>
         <div className=''>
@@ -92,11 +103,14 @@ function LowInStock() {
                                     {item.price  } <span className='text-black'>MAD</span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a> */}
-                                    <EllipsisVertical />
+                                    <PenLine
+                                        className='cursor-pointer'
+                                        onClick={() => handleUpdateQty(item)}
+                                    />
                                 </td>
                             </tr>
                         ))}
+                        {updateQty && selectedItem && <UpdateQuantity setUpdateQty={setUpdateQty} item={selectedItem} setMessage={setMessage} />}
                     </tbody>
                 </table>
                             )
@@ -113,6 +127,12 @@ function LowInStock() {
                                 </div>
                             )
                         }           
+            </div>
+        )}
+        {message && (
+            <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
+                <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
+                <p>Category updated successfully</p> 
             </div>
         )}
     </div>

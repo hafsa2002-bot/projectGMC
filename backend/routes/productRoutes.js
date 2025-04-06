@@ -204,4 +204,45 @@ router.patch("/items/update/:id", async(req, res) => {
     }
 })
 
+// update item 
+
+router.patch("/items/updateProduct/:id", upload.single("updatedProductPhoto"), async(req, res) => {
+    try{
+        const updateFields = {
+            productName: req.body.productName,
+            price: req.body.price,
+            // qty: req.body.qty,
+            barcode: req.body.barcode,
+            minLevel: req.body.minLevel,
+            expirationDate: req.body.expirationDate,
+            categoryId: req.body.updatedCategoryId || null
+        };
+
+        if (req.file) {
+            updateFields.productPhoto = `/uploads/${req.file.filename}`;
+        }
+
+        const product = await Product.findByIdAndUpdate(
+            req.params.id,
+            updateFields,
+            { new: true }
+        );
+
+        
+            //log activity
+            await logActivity("User name", "Product updated", req.body.updatedProductName)
+    
+            // update Store Stock
+            await StoreStock.updateStoreStock();
+    
+            // update product status 
+            await product.updateStockStatus();
+    
+            res.json(product)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
 export default router

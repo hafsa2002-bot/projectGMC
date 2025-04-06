@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-// import AOS from 'aos'
-// import 'https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css';
+import AOS from 'aos'
+import 'aos/dist/aos.css'; 
 import { CirclePercent, Gem, Headphones, Laptop, Shirt, ShoppingCart, Star, StarHalf, Watch } from 'lucide-react';
 
 function AboutUs() {
-  /*
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -12,12 +11,9 @@ function AboutUs() {
     })
     AOS.refresh()
   }, [])
-  */
   return (
     <section>
-      <h1 className='text-6xl text-center font-bold relative top-5' 
-        // data-aos="fade-up"
-      >ABOUT US</h1>
+      <h1 className='text-6xl text-center font-bold relative top-5' data-aos="fade-up">ABOUT US</h1>
         <div className='w-full  h-[90vh] px-26 py-20 flex gap-5 text-stone-400 font-semibold'>
           <div className='w-1/3 flex flex-col gap-4'>
             <div className='h-1/3 bg-black border border-stone-500 rounded-lg p-4'>

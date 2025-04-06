@@ -30,6 +30,7 @@ import Checkout from "./Client/Checkout"
 import Order from "./Admin/OrderPage/Order"
 import ViewOrder from "./Admin/OrderPage/ViewOrder"
 import AddOrder from "./Admin/OrderPage/AddOrder"
+import UpdateItem from "./Admin/ItemsPage/UpdateItem"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
                 <Route index element={<AllItems/>}/>
               </Route>
               <Route path="add-item" element={<AddItem/>}/>
+              <Route path="update-item/:id" element={<UpdateItem/>}/>
               <Route path="categories">
                 <Route index element={<AllCategories/>}/>
                 <Route path=":categoryId" element={<CategoryInfo/>}/>

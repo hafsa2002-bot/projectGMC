@@ -32,8 +32,8 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
     } 
   }
   return (
-    <div className="bg-black w-screen h-screen fixed z-50 top-0 left-0 flex justify-start items-center"  style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
-        <div className='bg-white flex flex-col rounded-xl py-8 p-14 gap-4 w-6/12 ml-9 '>
+    <div className="bg-black w-screen h-screen fixed z-50 top-0 left-0 flex justify-center items-center"  style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
+        <div className='bg-white flex flex-col rounded-xl py-8 p-14 gap-4 w-6/12  '>
             <div >
                     <p className='text-2xl font-semibold text-black'>Update Quantity</p>
                     <p className='text-gray-600 text-base'>Increase or reduce stock of your product</p>

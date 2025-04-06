@@ -11,9 +11,4 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  resolve: {
-    alias: {
-      'aos': path.resolve(__dirname, 'node_modules/aos'), // Explicitly resolve aos
-    }
-  }
 })
