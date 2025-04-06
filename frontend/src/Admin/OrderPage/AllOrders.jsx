@@ -69,7 +69,7 @@ function AllOrders({setNumberOfOrders}) {
                     {
                         orders
                         ?(
-                            orders.map((order, index) => (
+                            [...orders].reverse().map((order, index) => (
                                 <tr key={index} className=" bg-white border-b border-gray-200 hover:bg-gray-300">
                                     <td scope="row" className=" pl-4  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <Link to={`/admin/view_order/${order._id}`} className=' h-full py-7'>
@@ -131,11 +131,12 @@ function AllOrders({setNumberOfOrders}) {
                                                         <p>Update</p>
                                                     </Link>
                                                     {/* delete  a product */}
-                                                    <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
+                                                    <div onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
                                                         <div><Trash2  size={18} /></div>
                                                         <p>Delete</p>
-                                                    </Link>
+                                                    </div>
                                                     {/* a Component <PopUp/> to confirm the delete or cancel */}
+
                                                 </div>
                                             )
                                         }

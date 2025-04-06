@@ -107,4 +107,8 @@ router.get("/orders/:id", async (req, res) => {
     }
 })
 
+// get orders on process
+// get orders done (status = done) not payment status
+// get unpaid orders
+
 export default router

@@ -10,6 +10,7 @@ function TopEarning() {
     const [loading, setLoading] = useState(true)
     const [showOptions, setShowOptions] = useState(false);
     const [popUp, setPopUp] = useState(false)
+    const hasEarnings = items.some(item => item.earnings !== undefined);
 
     const getTopEarningProducts = () => {
         axios.get("http://localhost:3003/admin/items/sort-top-earning-products")
@@ -55,6 +56,13 @@ function TopEarning() {
                                     <th scope="col" className="px-6 py-3">
                                         Expiry Date
                                     </th>
+                                    {
+                                        hasEarnings && (
+                                            <th scope="col" className="px-6 py-3">
+                                                Earnings
+                                            </th>
+                                        )
+                                    }
                                     <th scope="col" className="px-6 py-3">
                                             
                                     </th>
@@ -96,6 +104,15 @@ function TopEarning() {
                                                 : (<p>-</p>)
                                                 }
                                             </td>
+                                            {item.earnings ? (
+                                                <td className="px-6 py-4 text-base">
+                                                    {item.earnings} <span className='text-black'>MAD</span> 
+                                                </td>
+                                            ):(
+                                                <td className="px-6 py-4 text-base">
+                                                    0 <span className='text-black'>MAD</span> 
+                                                </td>
+                                            )} 
                                             <td className="relative px-6 py-4">
                                                 <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                                 {

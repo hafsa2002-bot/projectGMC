@@ -204,8 +204,7 @@ router.patch("/items/update/:id", async(req, res) => {
     }
 })
 
-// update item 
-
+// update a product
 router.patch("/items/updateProduct/:id", upload.single("updatedProductPhoto"), async(req, res) => {
     try{
         const updateFields = {
@@ -230,7 +229,7 @@ router.patch("/items/updateProduct/:id", upload.single("updatedProductPhoto"), a
 
         
             //log activity
-            await logActivity("User name", "Product updated", req.body.updatedProductName)
+            await logActivity("User name", "Product updated", req.body.productName)
     
             // update Store Stock
             await StoreStock.updateStoreStock();

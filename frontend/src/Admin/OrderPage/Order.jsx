@@ -3,22 +3,31 @@ import React, {useState, useEffect} from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import AllOrders from './AllOrders';
 import axios from 'axios';
+import OrdersOnProcess from './OrdersOnProcess';
+import OrdersDone from './OrdersDone';
+import OrdersUnpaid from './OrdersUnpaid';
 
 function Order() {
     const [totalOrders, setTotalOrders] = useState(0)
     const [numberOfOrders, setNumberOfOrders] = useState(0)
+    const [numberOfOrdersDone, setNumberOfOrdersDone] = useState(0)
     const [stockInfo, setStockInfo] = useState({})
+    const [ordersOnProcessLength, setOrdersOnProcessLength] = useState(0)
+    const [ordersUnpaidLength, setOrdersUnpaidLength] = useState(0)
+    const [orderType,setOrderType] = useState("all")
 
     const getStockInfo = () => {
         axios.get("http://localhost:3003/admin/stock")
             .then(response => setStockInfo(response.data))
             .catch(error => console.log("Error: ", error))
     }
+    /*
     const calculateAllOrders = () => {
         axios.get("http://localhost:3003/orders/getOnlineOrders")
             .then(response => setTotalOrders(response.data.length))
             .catch(error => console.log("error: ", error))
     }
+    */
 
     useEffect(() => {
         getStockInfo()
@@ -57,7 +66,7 @@ function Order() {
                 </div>
                 <div className='text-end'>
                     <p className='text-gray-600'>Order on process</p>
-                    <p className='font-semibold  text-2xl'>120</p>
+                    <p className='font-semibold  text-2xl'>{ordersOnProcessLength}</p>
                 </div>
             </div>
             {/* Order done */}
@@ -67,7 +76,7 @@ function Order() {
                 </div>
                 <div className='text-end'>
                     <p className='text-gray-600'>Order done</p>
-                    <p className='font-semibold  text-2xl'>120</p>
+                    <p className='font-semibold  text-2xl'>{numberOfOrdersDone}</p>
                 </div>
             </div>
             {/* Total Income */}
@@ -85,16 +94,43 @@ function Order() {
         </div>
         <div className=" bg-white pt-3 border border-gray-300 mt-8   shadow-md sm:rounded-lg mb-20">
             <div className='flex gap-3 mx-6 mt-3 mb-7 border-b border-gray-300'>
-                <NavLink 
-                    to="/admin/orders"
-                    className={({isActive}) => isActive && window.location.pathname === "/admin/orders"  ?  'text-blue-600 border-b-2 text-sm  pb-1 border-blue-600 flex items-center justify-center gap-3 px-3': ' text-sm px-3 pb-1 text-gray-600  flex items-center justify-center gap-3'} >
+                {/* all orders button */}
+                <div onClick={() => setOrderType("all")} className={`flex cursor-pointer  justify-center gap-3 pb-1 text-sm items-center ${orderType === "all" ? 'text-blue-600 border-b-2 border-blue-600 px-3' : 'px-3 text-gray-600'}`} >
                     <p className='font-semibold '>All</p>
-                    <NavLink to="/admin/orders" className={({isActive}) => isActive && window.location.pathname === "/admin/orders" ? 'bg-blue-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' : 'bg-gray-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' }>
+                    <div className={`flex justify-center items-center px-2 py-0.5  rounded-2xl font-semibold ${orderType == "all" ? 'bg-blue-100' : 'bg-gray-100'}`}>
                         {numberOfOrders}
-                    </NavLink>
-                </NavLink>
+                    </div>
+                </div>
+                {/* orders on Process button */}
+                <div onClick={() => setOrderType("on-process")} className={`flex cursor-pointer  justify-center gap-3 pb-1 text-sm items-center ${orderType === "on-process" ? 'text-blue-600 border-b-2 border-blue-600 px-3' : 'px-3 text-gray-600'}`} >
+                    <p className='font-semibold '>Orders On Process</p>
+                    <div className={`flex justify-center items-center px-2 py-0.5  rounded-2xl font-semibold ${orderType == "on-process" ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                        {ordersOnProcessLength}
+                    </div>
+                </div>
+                {/* orders Done button */}
+                <div onClick={() => setOrderType("done")} className={`flex cursor-pointer  justify-center gap-3 pb-1 text-sm items-center ${orderType === "done" ? 'text-blue-600 border-b-2 border-blue-600 px-3' : 'px-3 text-gray-600'}`} >
+                    <p className='font-semibold '>Orders Done</p>
+                    <div className={`flex justify-center items-center px-2 py-0.5  rounded-2xl font-semibold ${orderType == "done" ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                        {numberOfOrdersDone}
+                    </div>
+                </div>
+                {/* orders Unpaid button */}
+                <div onClick={() => setOrderType("unpaid")} className={`flex cursor-pointer  justify-center gap-3 pb-1 text-sm items-center ${orderType === "unpaid" ? 'text-blue-600 border-b-2 border-blue-600 px-3' : 'px-3 text-gray-600'}`} >
+                    <p className='font-semibold '>Orders Unpaid</p>
+                    <div className={`flex justify-center items-center px-2 py-0.5  rounded-2xl font-semibold ${orderType == "unpaid" ? 'bg-blue-100' : 'bg-gray-100'}`}>
+                        {ordersUnpaidLength}
+                    </div>
+                </div>
             </div>
-            <AllOrders setNumberOfOrders = {setNumberOfOrders}/>
+            {
+                orderType === "all" ? <AllOrders setNumberOfOrders = {setNumberOfOrders}/> 
+                : orderType === "on-process" ? <OrdersOnProcess setOrdersOnProcessLength={setOrdersOnProcessLength} />
+                : orderType === "done" ? <OrdersDone setNumberOfOrdersDone={setNumberOfOrdersDone} />
+                : orderType === "unpaid" ? <OrdersUnpaid setOrdersUnpaidLength={setOrdersUnpaidLength} />
+                : <AllOrders setNumberOfOrders = {setNumberOfOrders}/> 
+            }
+            
             {/* <Outlet/> */}
         </div> 
     </div>
