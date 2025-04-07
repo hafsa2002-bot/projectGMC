@@ -108,7 +108,36 @@ router.get("/orders/:id", async (req, res) => {
 })
 
 // get orders on process
+router.get("/orders/status/on-process", async  (req, res) => {
+    try{
+        const orders = await Order.find({status: "pending"})
+        res.json(orders)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
 // get orders done (status = done) not payment status
+router.get("/orders/status/done", async  (req, res) => {
+    try{
+        const orders = await Order.find({status: "done"})
+        res.json(orders)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
 // get unpaid orders
+router.get("/orders/payment-status/pending", async  (req, res) => {
+    try{
+        const orders = await Order.find({paymentStatus: "pending"})
+        res.json(orders)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
 
 export default router

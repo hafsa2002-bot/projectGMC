@@ -1,4 +1,4 @@
-import { CircleDollarSign, ClipboardList, Layers, Newspaper, PackageCheck, ReceiptText } from 'lucide-react'
+import { CircleDollarSign, ClipboardList, Layers, Newspaper, PackageCheck, ReceiptText, Search } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import AllOrders from './AllOrders';
@@ -21,13 +21,6 @@ function Order() {
             .then(response => setStockInfo(response.data))
             .catch(error => console.log("Error: ", error))
     }
-    /*
-    const calculateAllOrders = () => {
-        axios.get("http://localhost:3003/orders/getOnlineOrders")
-            .then(response => setTotalOrders(response.data.length))
-            .catch(error => console.log("error: ", error))
-    }
-    */
 
     useEffect(() => {
         getStockInfo()
@@ -123,13 +116,31 @@ function Order() {
                     </div>
                 </div>
             </div>
-            {
+            
+
+            {/* {
                 orderType === "all" ? <AllOrders setNumberOfOrders = {setNumberOfOrders}/> 
                 : orderType === "on-process" ? <OrdersOnProcess setOrdersOnProcessLength={setOrdersOnProcessLength} />
                 : orderType === "done" ? <OrdersDone setNumberOfOrdersDone={setNumberOfOrdersDone} />
                 : orderType === "unpaid" ? <OrdersUnpaid setOrdersUnpaidLength={setOrdersUnpaidLength} />
                 : <AllOrders setNumberOfOrders = {setNumberOfOrders}/> 
-            }
+            } */}
+
+            {/* Render all order components at once to allow them to fetch data  */}
+            <div className="relative">
+                <div className={`${orderType === "all" ? 'block' : 'hidden'}`}>
+                    <AllOrders setNumberOfOrders={setNumberOfOrders} />
+                </div>
+                <div className={`${orderType === "on-process" ? 'block' : 'hidden'}`}>
+                    <OrdersOnProcess setOrdersOnProcessLength={setOrdersOnProcessLength} />
+                </div>
+                <div className={`${orderType === "done" ? 'block' : 'hidden'}`}>
+                    <OrdersDone setNumberOfOrdersDone={setNumberOfOrdersDone} />
+                </div>
+                <div className={`${orderType === "unpaid" ? 'block' : 'hidden'}`}>
+                    <OrdersUnpaid setOrdersUnpaidLength={setOrdersUnpaidLength} />
+                </div>
+            </div>
             
             {/* <Outlet/> */}
         </div> 
