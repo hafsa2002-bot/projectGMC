@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import SpinnerBlue from '../SpinnerBlue'
 import { ArrowLeft, Download } from 'lucide-react'
-import html2pdf from "html2pdf.js";
+// import html2pdf from "html2pdf.js";
 
 
 function ViewOrder() {
@@ -89,7 +89,7 @@ function ViewOrder() {
                             </div>
                         </div>
                         <div style={{display: 'flex', gap: '20px', paddingTop: '20px', paddingLeft: "32px", paddingRight: "32px" }}>
-                            <div>Vendor:</div>
+                            <div>Customer:</div>
                             <div>
                                 {order.shipping && (
                                     <div style={{ color: '#4B5563' }}> {/* text-gray-600 */}
