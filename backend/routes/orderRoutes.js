@@ -140,4 +140,80 @@ router.get("/orders/payment-status/pending", async  (req, res) => {
     }
 })
 
+// update order status
+router.patch("/orders/update-status/:id", async (req, res) => {
+    try{
+        const {OrderStatus} = req.body
+        const order = await Order.findById(req.params.id)
+
+        if(!order) return res.status(404).json({message: 'Order not found'})
+
+        // if order canceled it means products are restocked but payment status is still the same 
+        if(OrderStatus === "canceled" && order.status !=="canceled"){
+            for (const item of order.products){
+                const updatedProduct = await Product.findByIdAndUpdate(item.productId, {
+                    $inc: {
+                        qty: item.quantity,
+                        itemsSold: -item.quantity
+                    }
+                })
+                if(updatedProduct.qty === 0){
+                    console.log("product was out of stock")/******/
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {outOfStock: false}}
+                    )
+                }
+            }
+            order.status = "canceled"
+            await order.save()
+
+        }else {
+            order.status = OrderStatus;
+            await order.save()
+        }
+        
+        // update store stock
+        await StoreStock.updateStoreStock();
+        
+        //log activity
+        await logActivity("User name", "Order status updated", `${order._id}`)
+        res.json(order)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
+// update payment status 
+router.patch("/orders/update-payment-status/:id", async (req, res) => {
+    try{
+        const {newStatus} = req.body
+        const order = await Order.findById(req.params.id)
+        if(!order) return res.status(404).json({message: 'Order not found'})
+        if(newStatus === "refunded" && order.paymentStatus !== "refunded"){
+            order.amountPaid = 0;
+            order.rest = 0;
+            order.paymentStatus = newStatus
+        }else if (newStatus === "paid" && order.paymentStatus !== "paid"){
+            order.amountPaid = order.totalAmount;
+            order.rest = 0;
+            order.paymentStatus = newStatus
+        }else{
+            // paid -> pending 
+            order.paymentStatus = newStatus
+        }
+        await order.save();
+
+        // update store stock
+        await StoreStock.updateStoreStock();
+        
+        //log activity
+        await logActivity("User name", "Payment status updated", `${order._id}`)
+        res.json(order)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
 export default router

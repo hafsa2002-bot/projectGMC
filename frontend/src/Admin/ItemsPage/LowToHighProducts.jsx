@@ -72,7 +72,7 @@ function LowToHighProducts() {
                                                     {
                                                         item.productPhoto 
                                                         ?   <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
-                                                        :   <div className= 'relative w-full  h-full flex justify-center items-center bg-gray-200 '><Image className='absolute text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
+                                                        :   <div className= '  w-full  h-full flex justify-center items-center bg-gray-200 '><Image className=' text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
                                                     }
                                                 </div>
                                                 <div>

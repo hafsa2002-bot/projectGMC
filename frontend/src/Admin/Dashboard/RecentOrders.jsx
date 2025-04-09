@@ -78,8 +78,8 @@ function RecentOrders() {
                                                     Done
                                                 </div>
                                             ) : order.status === 'canceled' ? (
-                                                <div className="bg-red-50 text-red-500 flex items-center gap-1 text-sm py-1 font-semibold w-20 text-center rounded-full px-2">
-                                                    <PackageX  size={17}/>
+                                                <div className="bg-red-50 text-red-500 flex items-center gap-1 text-sm py-1 font-semibold  text-center rounded-full px-2">
+                                                    <PackageX  size={17} />
                                                     Canceled
                                                 </div>
                                             ) : null

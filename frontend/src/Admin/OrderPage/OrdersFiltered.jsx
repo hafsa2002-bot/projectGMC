@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { EllipsisVertical, Eye, PenLine, Trash2 } from 'lucide-react'
+import PaymentStatus from './PaymentStatus'
 
 function OrdersFiltered({orders}) {
     const [showOptions, setShowOptions] = useState(false)
@@ -61,13 +62,16 @@ function OrdersFiltered({orders}) {
                                     {order.totalAmount} <span className='text-black '>MAD</span>
                                 </td>
                                 <td className="px-4 py-7 text-base ">
-                                    {order.paymentStatus && (
+                                    <PaymentStatus paymentStatus={order.paymentStatus} orderId={order._id} />
+                                    {/* {order.paymentStatus && (
                                         order.paymentStatus === 'pending' ? (
                                             <div className='bg-yellow-400 text-white py-[2px] font-semibold text-[13px] w-20 text-center  rounded-full'>Pending</div>
                                         ) : order.paymentStatus === 'paid' ? (
                                             <div className='bg-green-800 text-white py-[2px] font-semibold text-[13px] w-20  text-center rounded-full'>Paid</div>
-                                        ): null
-                                    )}
+                                        ) : order.paymentStatus === 'refunded' ? (
+                                            <div className='bg-red-400 text-white py-[2px] font-semibold text-[13px] w-20 text-center  rounded-full'>Pending</div>
+                                        ) : null
+                                    )} */}
                                 </td>
                                 <td className="px-4 py-7 text-base ">
                                     {order.products.reduce((totalQty, currentValue) => totalQty + currentValue.quantity, 0)} items

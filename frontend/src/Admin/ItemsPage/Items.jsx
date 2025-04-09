@@ -52,7 +52,7 @@ function Items() {
     useEffect(() => {
         getItems()
         stockInfo()
-    }, [])
+    }, [stock, items])
     
     useEffect(() => {
         if (productName !== "") {

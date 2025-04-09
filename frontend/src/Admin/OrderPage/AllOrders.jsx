@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import { EllipsisVertical, Eye, PenLine, Search, Trash2 } from 'lucide-react'
+import { ChevronDown, EllipsisVertical, Eye, PenLine, Search, Trash2 } from 'lucide-react'
 import SpinnerBlue from '../SpinnerBlue'
 import {Link} from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import OrdersFiltered from './OrdersFiltered'
+import OrderStatus from './OrderStatus'
+import PaymentStatus from './PaymentStatus'
 
 function AllOrders({setNumberOfOrders}) {
     const [orders,setOrders] = useState([])
@@ -113,7 +115,7 @@ function AllOrders({setNumberOfOrders}) {
                                         orders
                                         ?(
                                             [...orders].reverse().map((order, index) => (
-                                                <tr key={index} className=" bg-white border-b border-gray-200 hover:bg-gray-300">
+                                                <tr key={index} className=" bg-white border-b border-gray-200 ">
                                                     <td scope="row" className=" pl-4  font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                         <Link to={`/admin/view_order/${order._id}`} className=' h-full py-7'>
                                                             #{order._id}
@@ -133,30 +135,14 @@ function AllOrders({setNumberOfOrders}) {
                                                         {order.totalAmount} <span className='text-black '>MAD</span>
                                                     </td>
                                                     <td className="px-4 py-7 text-base ">
-                                                        {order.paymentStatus && (
-                                                            order.paymentStatus === 'pending' ? (
-                                                                <div className='bg-yellow-400 text-white py-[2px] font-semibold text-[13px] w-20 text-center  rounded-full'>Pending</div>
-                                                            ) : order.paymentStatus === 'paid' ? (
-                                                                <div className='bg-green-800 text-white py-[2px] font-semibold text-[13px] w-20  text-center rounded-full'>Paid</div>
-                                                            ): null
-                                                        )}
+                                                        <PaymentStatus paymentStatus={order.paymentStatus} orderId={order._id} />
                                                     </td>
                                                     <td className="px-4 py-7 text-base ">
                                                         {order.products.reduce((totalQty, currentValue) => totalQty + currentValue.quantity, 0)} items
                                                     </td>
+                                                    {/* Order status */}
                                                     <td className="px-4 py-7 text-base ">
-                                                        {/* 'pending', 'packed', 'done', 'canceled' */}
-                                                        {order.status && (
-                                                            order.status === 'pending' ? (
-                                                                <div className='bg-blue-50 bg- text-blue-500 py-[2px] font-semibold text-[13px]  text-center  rounded-full'>Order processing</div>
-                                                            ) : order.status === 'packed' ? (
-                                                                <div className='bg-purple-50 text-purple-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full'>Packed</div>
-                                                            ) : order.status === 'done' ? (
-                                                                <div className="bg-green-50 text-green-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full">Done</div>
-                                                            ) : order.status === 'canceled' ? (
-                                                                <div className="bg-red-50 text-red-500 text-[13px] py-[2px] font-semibold w-20 text-center rounded-full">Canceled</div>
-                                                            ) : null
-                                                        )}
+                                                        <OrderStatus status={order.status} orderId={order._id} />
                                                     </td>
                                                     <td className="relative px-4 py-7">
                                                         <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
@@ -186,8 +172,7 @@ function AllOrders({setNumberOfOrders}) {
                                                     </td>
                                                 </tr>
                                             ))
-                                        )
-                                        : (
+                                        ):(
                                             <SpinnerLoader/>
                                         )
                                     }

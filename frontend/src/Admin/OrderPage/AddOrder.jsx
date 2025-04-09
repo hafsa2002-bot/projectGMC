@@ -93,12 +93,12 @@ function AddOrder() {
 
   return (
     <div className='my-3'>
-        <div className='flex mb-10'>
-            <Link to="/admin/orders" className='flex gap-2 items-center'>
+        <Link to="/admin/orders"  className='flex mb-10'>
+            <div className='flex gap-2 items-center'>
                 <div><ArrowLeft className='text-gray-600 '/></div>
-            </Link>
-            <div className='text-2xl text-gray-600 pl-2 font-semibold font-poppins'><p>Add New Item</p></div>
-        </div>
+            </div>
+            <div className='text-2xl text-gray-600 pl-2 font-semibold font-poppins'><p>Add New Order</p></div>
+        </Link>
         <div className='bg-white p-5 mt-5 rounded-lg mb-24'>
             <div className='mb-3'>
                 <p className='text-xl font-semibold'>Order Details</p>
