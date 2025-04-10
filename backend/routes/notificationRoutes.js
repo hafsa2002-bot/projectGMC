@@ -8,7 +8,8 @@ const router = express.Router()
 router.get("/notifications", async (req, res) => {
     try {
         const products = await Product.find({
-            $or: [{ lowInStock: true }, { outOfStock: true }, { isExpired: true }, { isExpiringSoon: true }]
+            // $or: [{ lowInStock: true }, { outOfStock: true }, { isExpired: true }, { isExpiringSoon: true }]
+            $or: [{ lowInStock: true }, { outOfStock: true }]
         }).sort({ lastUpdated: -1 });
 
         const updatedProducts = products.map(product => {

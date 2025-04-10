@@ -270,7 +270,7 @@ function SideBar() {
                 <CircleUserRound size={35} color='white' />
             </Link>
         </nav>
-        <div className={` mx-0 w-full lg:px-0 px-2 lg:mr-8 lg:mt-3 mt-20 ${showSideBar ? 'lg:w-10/12 lg:ml-52' : 'lg:w-11/12 lg:ml-32'}`}>
+        <div className={` mx-0 w-full lg:w-10/12 lg:px-0 px-2 lg:mr-6 lg:mt-3 mt-20  ${showSideBar ? 'lg:w-10/12 lg:ml-52' : 'lg:w-11/12 lg:ml-26'}`}>
             <Outlet/>
         </div>
         
