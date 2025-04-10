@@ -216,4 +216,44 @@ router.patch("/orders/update-payment-status/:id", async (req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
 })
+
+//delete order
+router.delete("/orders/delete/:id", async (req, res) => {
+    try{
+        const order = await Order.findById({_id: req.params.id})
+        for (const item of order.products){
+            const product = await Product.findById(item.productId);
+            if (!product) {
+                console.log(`Product with ID ${item.productId} not found.`);
+                continue; // Skip this product if not found
+            }
+            const updatedProduct = await Product.findByIdAndUpdate(item.productId, {
+                $inc: {
+                    qty: item.quantity,
+                    itemsSold: -item.quantity
+                }
+            })
+            if(updatedProduct.qty === 0){
+                console.log("product was out of stock")
+                await Product.updateOne(
+                    {_id: item.productId},
+                    {$set: {outOfStock: false}}
+                )
+            }
+        }
+        await order.save()
+        await Order.findByIdAndDelete({_id: req.params.id})
+
+        // update store stock
+        await StoreStock.updateStoreStock();
+        
+        //log activity
+        await logActivity("User name", "Order deleted", `${order._id}`)
+        res.json(order)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+
 export default router

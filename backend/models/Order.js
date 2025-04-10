@@ -24,7 +24,6 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     totalAmount: {type: Number, required: true},
-    // required: true
     amountPaid: {type: Number, required: true, default: 0},
     rest: {type: Number},
     paymentStatus: {
@@ -39,7 +38,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: 'pending'
     },
-    isAdminOrder: { type: Boolean, default: false },
+    // isAdminOrder: { type: Boolean, default: false },
     createdAt: {type: Date, default: Date.now}
 })
 

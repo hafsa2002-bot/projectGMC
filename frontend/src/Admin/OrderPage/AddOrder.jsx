@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronDown, CirclePlus, Trash2} from 'lucide-react'
+import { AlertCircle, ArrowLeft, CheckCircle, ChevronDown, CirclePlus, Trash2} from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import ListOfProducts from './ListOfProducts'
@@ -6,7 +6,7 @@ import axios from 'axios'
 function AddOrder() {
     // const [shipping, setShipping] = useState({})
     const navigate = useNavigate()
-    const [rows, setRows] = useState([{id:1, productName: "", quantity: 1, price: 0, subtotal: 0}])
+    const [rows, setRows] = useState([{id:1, productName: "", quantity: 0, price: 0, subtotal: 0}])
     const [firstName, setFirstName] = useState("")
     const [address, setAddress] = useState("")
     const [showProducts, setShowProducts] = useState(false)
@@ -14,14 +14,13 @@ function AddOrder() {
     const [filteredProducts, setFilteredProducts] = useState([])
     const [amountPaid, setAmountPaid] = useState(0)
     const [totalAmount, setTotalAmount] = useState(0)
-    const [shippingPrice, setShippingPrice] = useState(0)
-    const [lastName, setLastName] = useState("")
-    const [selectedProduct, setSelectedProduct] = useState()
-    const [productName, setProductName] = useState("")
-    const [price, setPrice] = useState(0)
+    const [emptyRow, setEmptyRow] = useState(false)
+    const [quantityError, setQuantityError] = useState({notAvailable: false, qtyAvailable: 0, productName: ""})
+    const [negativeNumberMessage, setNegativeNumberMessage] = useState(false)
+    const [sucessMessage, setSucessMessage] = useState(false)
 
     const addNewRow = () => {
-        setRows([...rows, {id: rows.length + 1, productId: null , productName: "", quantity: 1, price: 0, subtotal: 0}])
+        setRows([...rows, {id: rows.length + 1, productId: null , productName: "", quantity: 0, price: 0, subtotal: 0}])
         setFilteredProducts(products)
         console.log("rows = ", rows)
     }
@@ -29,7 +28,17 @@ function AddOrder() {
     const removeRow = (id) => {
         setRows(rows.filter(row => row.id !== id))
     }
-    
+
+    const getProductById = async (productId) => {
+        try {
+            const response = await axios.get(`http://localhost:3003/admin/items/view/${productId}`);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching product by ID:", error);
+            return null;
+        }
+    }
+    // list of products
     const getListOfProducts = () => {
         axios.get("http://localhost:3003/admin/items/list")
         .then(response => {
@@ -52,20 +61,34 @@ function AddOrder() {
         calculateTotal()
     }, [rows])
 
-    const submitOrder = (event) => {
+    const submitOrder = async(event) => {
         event.preventDefault();
+        // for empty row or column 
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row.productId || !row.productName || !row.quantity || row.quantity == 0) {
+                setEmptyRow(true);
+                setTimeout(() => setEmptyRow(false), 3000);
+                return; 
+            }
+        }
+        if(amountPaid < 0 || amountPaid > totalAmount){
+            setNegativeNumberMessage(true)
+            setTimeout(() => setNegativeNumberMessage(false), 3000)
+            return
+        }
 
         const orderData = {
             contact: {
-                customerMail : "__"
+                customerMail : "Unknown"
             },
             shipping: {
-                firstName: "__",
-                lastName: firstName || "__",
-                address: address || "__",
-                postalCode: "__",
-                city: "__",
-                phoneNumber: "__",
+                firstName: "Unknown",
+                lastName: firstName || "Unknown",
+                address: address || "Unknown",
+                postalCode: "Unknown",
+                city: "Unknown",
+                phoneNumber: "Unknown",
                 shippingPrice: 0,
             },
             products: rows.map(row => ({
@@ -78,12 +101,15 @@ function AddOrder() {
             amountPaid: amountPaid,
             status: "done"
         }
-        axios.post('http://localhost:3003/orders/addOnlineOrder', orderData)
-            .then(response => {
-                console.log("order submitted successfully", response.data)
-                navigate("/admin/orders")
-            })
-            .catch(error => console.log("error submitting order", error))
+        try{
+            const response = await axios.post('http://localhost:3003/orders/addOnlineOrder', orderData)
+            setSucessMessage(true)
+            console.log("response", response.data)
+            setTimeout(() => setSucessMessage(false), 3000)
+            setTimeout(() => navigate(`/admin/view_order/${response.data.newOrder._id}`), 3500)
+        }catch(error){
+            console.log("error submitting order", error)
+        }
     }
 
     useEffect(() => {
@@ -129,24 +155,7 @@ function AddOrder() {
                             id="address"
                         />
                     </div>
-                </div>
-                {/* shipping fees */}
-                <div className='flex gap-10 mt-5'>
-                    {/*
-                    <div className='w-1/2 flex flex-col'>
-                        <label htmlFor="shippingPrice" className='font-medium text-gray-900 mb-2' >Shipping fees</label>
-                        <input 
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
-                            value={shippingPrice}
-                            onChange={(e) => setShippingPrice(e.target.value)}
-                            type="text" 
-                            name="shippingPrice" 
-                            id="shippingPrice"
-                        />
-                    </div>
-                    <div className='w-1/2'></div>
-                    */}
-                </div> 
+                </div>                
                 {/* order array */}
                 <div className='w-full border border-gray-300 rounded-lg overflow-hidden mt-10 '>
                     <table className='w-full'>
@@ -223,10 +232,27 @@ function AddOrder() {
                                                 className={` flex justify-between border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                                 type="number" name="quantity" id="quantity"
                                                 value={row.quantity}
-                                                onChange={(e) => {
+                                                onChange={async(e) => {
                                                     const newRows = [...rows]
-                                                    newRows[index].quantity = e.target.value
-                                                    newRows[index].subtotal = newRows[index].quantity * newRows[index].price
+                                                    const enteredQty = parseInt(e.target.value);
+                                                    const productId = newRows[index].productId;
+                                                    /*
+                                                    if (!productId) {
+                                                        setEmptyRow(true)
+                                                        setTimeout(() => setEmptyRow(false), 3000)
+                                                        return;
+                                                    }
+                                                        */
+                                                    const product = await getProductById(productId);
+                                                    if (!product) return;
+                                                    if (enteredQty > product.qty) {
+                                                        setQuantityError({notAvailable: true, qtyAvailable: product.qty, productName: product.productName})
+                                                        setTimeout(() => setQuantityError({notAvailable: false, qtyAvailable: 0, productName: ""}), 3000)
+                                                        // alert(`Only ${product.quantityInStock} items in stock for "${product.productName}".`);
+                                                        return;
+                                                    }
+                                                    newRows[index].quantity = enteredQty
+                                                    newRows[index].subtotal = enteredQty * newRows[index].price
                                                     setRows(newRows)
                                                 }}
                                             />
@@ -237,7 +263,6 @@ function AddOrder() {
                                         <input 
                                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                             type="number" name="" id=""  min="1"
-                                            // placeholder={selectedProduct?.price}
                                             value={row.price}
                                             disabled
                                         />
@@ -247,7 +272,6 @@ function AddOrder() {
                                         <input 
                                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                             type="number" name="" id=""
-                                            // value={row.subtotal}
                                             value={row.quantity * row.price}
                                             disabled 
                                         />
@@ -255,19 +279,18 @@ function AddOrder() {
                                     {/* delete row */}
                                     <td className="px-2 py-3">
                                         <Trash2 
-                                            className='text-gray-500'
+                                            className='text-red-500 cursor-pointer'
                                             onClick={() => removeRow(row.id)} 
                                         />
                                     </td>
                                 </tr>
-
                             ))}
                         </tbody>
                     </table>
                 </div>
                 {/* add new line */}
                 <div 
-                    className='text-blue-600 flex items-center gap-2 font-medium mt-4'
+                    className='text-blue-600 cursor-pointer w-2/12 flex items-center gap-2 font-medium mt-4'
                     onClick={addNewRow}
                 >
                     <CirclePlus size={20} /><p>Add new line</p> 
@@ -277,14 +300,6 @@ function AddOrder() {
                         <p>Total (MAD)</p>
                         <p>{totalAmount}</p>
                     </div>
-                    {/* <div className='w-full flex py-4 text-base text-gray-600 justify-between border-b border-gray-300'>
-                        <p>Shipping Fees (MAD)</p>
-                        <p>{shippingPrice}</p>
-                    </div> */}
-                    {/* <div className='w-full flex py-4 justify-between border-b border-gray-300'>
-                        <p>Total Due (MAD)</p>
-                        <p>{totalAmount + shippingPrice}</p>
-                    </div> */}
                     <div className='w-full flex py-4 justify-between items-center border-b text-gray-600 text-base border-gray-300'>
                         <p>Amount Paid (MAD)</p>
                         <input 
@@ -300,11 +315,38 @@ function AddOrder() {
                     </div>
                 </div>
                 <div className='py-5 flex  gap-4 items-center'>
-                    <button className='bg-blue-600 text-white px-5 py-2 rounded-lg text-lg font-medium'>Save Order</button>
-                    <div onClick={() => navigate(-1)} className='text-red-600 font-medium'>Cancel</div>
+                    <button className='bg-blue-600 text-white px-5 py-2 cursor-pointer rounded-lg text-lg font-medium'>Save Order</button>
+                    <div onClick={() => navigate(-1)} className='text-red-600 font-medium cursor-pointer'>Cancel</div>
                 </div>
             </form>
         </div>
+        {quantityError.notAvailable && (
+            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
+                <AlertCircle className="w-5 h-5 text-red-500" />
+                <span>
+                    Only {quantityError.qtyAvailable} item
+                    {quantityError.qtyAvailable > 1 ? 's' : ''} left in stock for <strong>{quantityError.productName}</strong>!
+                </span>
+            </div>
+        )}
+        {emptyRow && (
+            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
+                <AlertCircle className="w-5 h-5 text-red-500" />
+                <span>Please complete all required fields in the row before continuing.</span>
+            </div>
+        )}
+        {negativeNumberMessage && (
+            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
+                <AlertCircle className="w-5 h-5 text-red-500" />
+                <span>Please check your payment.</span>
+            </div>
+        )}
+        {sucessMessage && (
+            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span>Your order has been successfully added!</span>
+            </div>
+        )}
     </div>
   )
 }
