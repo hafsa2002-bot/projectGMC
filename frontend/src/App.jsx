@@ -31,6 +31,8 @@ import Order from "./Admin/OrderPage/Order"
 import ViewOrder from "./Admin/OrderPage/ViewOrder"
 import AddOrder from "./Admin/OrderPage/AddOrder"
 import UpdateItem from "./Admin/ItemsPage/UpdateItem"
+import ProtectedRoute from "./ProtectedRoute"
+import Unauthorized from "./Unauthorized"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 function App() {
 
@@ -50,7 +52,11 @@ function App() {
           <Route path='/contactUs' element={<ContactUs/>} />
 
           {/* Admin pages */}
-          <Route path="/admin" element={<SideBar/>}>
+          <Route path="/admin" element={
+            <ProtectedRoute>
+              <SideBar/>
+            </ProtectedRoute>
+          }>
             <Route index element={<AdminHomePage/>} />
             <Route path="items" element={<ItemsRoute/>}>
               <Route path="" element={<Items/>}>
@@ -75,6 +81,7 @@ function App() {
             <Route path="activities" element={<ActivityLog/>} />
             <Route path="members" element={<Members/>} />
           </Route>
+          <Route  path="/unauthorized" element={<Unauthorized/>} />
         </Routes>
       </Router>
     </>

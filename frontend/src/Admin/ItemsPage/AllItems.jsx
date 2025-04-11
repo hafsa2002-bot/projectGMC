@@ -70,8 +70,8 @@ function AllItems() {
                                 items
                                 ?(
                                     [...items].reverse().map((item, index) => (
-                                        <tr key={index} className=" bg-white border-b border-gray-200">
-                                            <td scope="row" className=" px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <tr key={index} className=" bg-white border-b border-gray-200 w-full">
+                                            <td scope="row" className=" px-6 py-4 font-medium text-gray-900  dark:text-white">
                                                 <Link to={`/admin/items/view/${item._id}`} className='flex items-center gap-4 '>
                                                     <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
                                                         {
@@ -82,7 +82,7 @@ function AllItems() {
                                                         }
                                                     </div>
                                                     <div>
-                                                        <p className='text-base'>{item.productName}</p>
+                                                        <p className='text-base max-w-60 truncate'>{item.productName}</p>
                                                     </div>
                                                 </Link>
                                             </td>

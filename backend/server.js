@@ -8,6 +8,7 @@ import requestedProductsRoutes from './routes/requestedProductsRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import notificationRoutes from './routes/notificationRoutes.js'
 import reportsRoutes from './routes/reportsRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 const app = express()
 const port = 3003
@@ -31,5 +32,6 @@ app.use("/", requestedProductsRoutes)
 app.use("/", orderRoutes)
 app.use("/", notificationRoutes)
 app.use("/", reportsRoutes)
+app.use("/", userRoutes)
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

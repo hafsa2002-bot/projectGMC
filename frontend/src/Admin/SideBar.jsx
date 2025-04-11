@@ -1,14 +1,57 @@
 import { ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UsersRound } from 'lucide-react'
-import React, {useState} from 'react'
-import { Outlet, Link, NavLink, useLocation } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import { Outlet, Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function SideBar() {
     const [showSettings, setShowSettings] = useState(false)
-    const [showSettingsName, setShowSettingsName] = useState(false)
     const [showSignOut, setShowSignOut] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
+    const [user, setUser] = useState({})
+    const [firstLetters, setFirstLetters] = useState("")
     const location = useLocation()
+    const navigate = useNavigate()
+    const token = localStorage.getItem("token");
+
+    const fetchData = () => {
+        axios.get("http://localhost:3003/users/data", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => setUser(response.data))
+            .catch(error => {
+                console.log("Error: ", error)
+                if (error.response && error.response.status === 401) {
+                    // Unauthorized, likely token expired or invalid
+                    handleLogout()
+                }
+            })
+    }
+
+    const firstLetterOfUserName = () => {
+        const fullName = user.name.split(' ')
+        const firstName = fullName[0]
+        const lastName = fullName[1] || ''
+        const x = firstName[0] + lastName[0]
+        // console.log("****** x = ", x)
+        setFirstLetters(x.toUpperCase())
+    }
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        if (user && user.name) {
+            firstLetterOfUserName()
+        }
+    }, [user])
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')  
+        navigate('/')                
+    }
     
   return (
     <div className='flex  bg-gray-100 min-h-screen'>
@@ -17,9 +60,6 @@ function SideBar() {
             onMouseEnter={() => setShowSideBar(true)}
             onMouseLeave={() => setShowSideBar(false)}
             className={`lg:flex hidden fixed  text-neutral-500 left-0 flex-col justify-between items-center bg-white h-screen border-r border-gray-300 shadow-lg ${showSideBar ? 'w-48' : 'w-20'}`}>
-            {/* <div className=' flex justify-center items-center text-2xl w-10 h-10 rounded-full bg-blue-200 text-blue-600 font-semibold mt-3'>
-                <Link to={"/admin"} className='outline-none'>N</Link> 
-            </div> */}
             <Link  to={"/admin"} className='outline-none'>
                 {showSideBar
                 ?(<div className='flex items-center gap-2'><img className='h-8 mt-4' src='/images/N2.png' alt='logo' /><p className='text-black font-poppins text-3xl mt-4'>Nov<span className='text-blue-500'>exa</span></p></div>)
@@ -106,28 +146,30 @@ function SideBar() {
             </div>
             
             <div 
-                className='relative mb-3 cursor-pointer ' 
+                className='relative w-10/12 mb-3 cursor-pointer  px-3 py-3 text-gray-500 hover:bg-gray-100 rounded-lg' 
                 onClick={() => setShowSettings(!showSettings)}
-                onMouseEnter={() => setShowSettingsName(true)}
-                onMouseLeave={() => setShowSettingsName(false)}
             >
-                <Settings/>
                 {
-                    showSettingsName && (
-                        <div className='absolute z-50 left-10 bottom-0 px-3 py-1 text-white bg-gray-700 rounded-lg'>
-                            <p>Settings</p>
+                    showSideBar 
+                    ?(
+                        <div className='flex justify-start gap-3 items-center '>
+                            <Settings strokeWidth={2} />
+                            <p className='font-poppins font-semibold'>Settings</p>
                         </div>
+                    ):(
+                        <Settings strokeWidth={2} className='m-auto'/>
                     )
                 }
                 {showSettings && (
-                    <div className=' text-stone-500 absolute w-52  py-2 left-16 bottom-0 bg-white border border-gray-400 rounded-md'>
+                    <div className={`text-stone-500 absolute w-52  py-2 bottom-0 bg-white border border-gray-400 rounded-md ${showSideBar ? 'left-32' : 'left-16'} `}>
                         <div className='flex items-center gap-3 border-b border-gray-400 px-3 pb-2'>
                             {/* first letter of userName */}
                             <div className='bg-gray-200 w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>
-                                <p className='text-lg font-semibold text-gray-600'>HB</p> 
+                                <p className='text-lg font-semibold text-gray-600'> {firstLetters} </p> 
                             </div>
                             <div className='font-medium text-gray-600'>
-                                <p>Hafsa Barhoud</p>
+                                {/* <p>Hafsa Barhoud</p> */}
+                                <p>{user.name && user.name}</p>
                             </div>
                         </div>
                         <div  className='flex items-center gap-3 pt-2 px-3'>
@@ -135,12 +177,14 @@ function SideBar() {
                                 <Settings size={20}  />
                             </div>
                             <div>
-                                <p>Settings</p>
+                                <p>Profile</p>
                             </div>
                         </div>
-                        <div className='flex items-center gap-3 py-2 px-3'>
+                        <div
+                            onClick={() => handleLogout()} 
+                            className='flex items-center gap-3 py-2 px-3 text-red-500'>
                             <div>
-                                <Power size={20} />
+                                <LogOut  size={23} />
                             </div>
                             <div>
                                 <p>Sign Out</p>

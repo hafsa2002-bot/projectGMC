@@ -81,7 +81,7 @@ function AboutUs() {
           </div>
           
         </div>
-        <p className="text-4xl text-center">About US</p>
+        {/* <p className="text-4xl text-center">About US</p>
         <p>Welcome to <strong>Novexa</strong>, your one-stop online store dedicated
             to offering high-quality products that meet your everyday 
             needs. We are committed to providing a seamless shopping 
@@ -91,8 +91,8 @@ function AboutUs() {
             satisfaction. Whether you're searching for the latest trends, 
             essential items, or unique finds, our platform is designed to 
             make online shopping effortless and enjoyable.
-        </p>
-        <i className='font-semibold'>Join Novexa today and discover a world of possibilities at your fingertips!</i>
+        </p> */}
+        {/* <i className='font-semibold'>Join Novexa today and discover a world of possibilities at your fingertips!</i> */}
     </section>
   )
 }

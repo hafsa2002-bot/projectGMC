@@ -86,7 +86,7 @@ function LowInStock() {
                                             }
                                         </div>
                                         <div>
-                                            <p className='text-base'>{item.productName}</p>
+                                            <p className='text-base max-w-60 truncate'>{item.productName}</p>
                                         </div>
                                     </Link>
                                 </td>
