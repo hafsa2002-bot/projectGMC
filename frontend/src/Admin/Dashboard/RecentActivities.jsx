@@ -37,7 +37,7 @@ function RecentActivities() {
           activities && activities.length > 0 
             ?(
               <div className='overflow-y-scroll h-64 px-3 flex flex-col gap-4 py-3'>
-                {activities.length > 20 && activities.slice(0, 20).map((log, index) => (
+                {activities.length > 0 && activities.slice(0, 10).map((log, index) => (
                   <div className='flex gap-2 items-start'>
                     {/* absolute z-10 -left-12 top-5 */}
                     <div className="w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 bg-white shadow mt-2">

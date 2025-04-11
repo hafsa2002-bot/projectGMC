@@ -54,9 +54,8 @@ productSchema.methods.updateExpirationStatus = async function () {
             this.isExpired = true;
         }
         
-        // change it to 10 if it's working
-        // Mark as "expiring soon" only once when exactly 2 day are left
-        if (daysLeft <= 2 && daysLeft > 0 && !this.isExpiringSoon) {
+        // Mark as "expiring soon" only once when exactly 10 day are left
+        if (daysLeft <= 10 && daysLeft > 0 && !this.isExpiringSoon) {
             this.lastUpdated = new Date(); 
             this.isExpiringSoon = true;
             await this.save();  

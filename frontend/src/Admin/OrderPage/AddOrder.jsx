@@ -72,7 +72,7 @@ function AddOrder() {
                 return; 
             }
         }
-        if(amountPaid < 0 || amountPaid > totalAmount){
+        if(amountPaid < 0 || amountPaid > totalAmount || !amountPaid){
             setNegativeNumberMessage(true)
             setTimeout(() => setNegativeNumberMessage(false), 3000)
             return

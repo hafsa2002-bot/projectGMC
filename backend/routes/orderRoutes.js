@@ -149,26 +149,62 @@ router.patch("/orders/update-status/:id", async (req, res) => {
         if(!order) return res.status(404).json({message: 'Order not found'})
 
         // if order canceled it means products are restocked but payment status is still the same 
+        /*
         if(OrderStatus === "canceled" && order.status !=="canceled"){
             for (const item of order.products){
-                const updatedProduct = await Product.findByIdAndUpdate(item.productId, {
-                    $inc: {
-                        qty: item.quantity,
-                        itemsSold: -item.quantity
-                    }
-                })
+                const product = await Product.findByIdAndUpdate(item.productId)
+                
+                if(!product) continue
+                product.qty += item.quantity,
+                product.itemsSold -= item.quantity
+                // await product.updateStockStatus()
+            }
+                
+                ///
                 if(updatedProduct.qty === 0){
-                    console.log("product was out of stock")/******/
+                    console.log("product was out of stock")
                     await Product.updateOne(
                         {_id: item.productId},
                         {$set: {outOfStock: false}}
                     )
                 }
+                ///
+                order.status = "canceled"
+                await order.save()
+
+        }
+        */
+        if(OrderStatus === "canceled" && order.status !=="canceled"){
+            for (const item of order.products){
+                const product = await Product.findByIdAndUpdate(item.productId, {
+                    $inc: {
+                        qty: item.quantity,
+                        itemsSold: -item.quantity
+                    }
+                })
+                // in case he was out of stock
+                if(product.qty === 0){
+                    console.log("product was out of stock")
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {outOfStock: false}}
+                    )
+                }
+                //in case he was low in stock 
+                if(product.qty + item.quantity > product.minLevel){
+                    console.log("product was low in stock")
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {lowInStock: false}}
+                    )
+                }
+                //await product.updateStockStatus()
             }
             order.status = "canceled"
             await order.save()
 
-        }else {
+        }
+        else {
             order.status = OrderStatus;
             await order.save()
         }
@@ -221,28 +257,39 @@ router.patch("/orders/update-payment-status/:id", async (req, res) => {
 router.delete("/orders/delete/:id", async (req, res) => {
     try{
         const order = await Order.findById({_id: req.params.id})
-        for (const item of order.products){
-            const product = await Product.findById(item.productId);
-            if (!product) {
-                console.log(`Product with ID ${item.productId} not found.`);
-                continue; // Skip this product if not found
-            }
-            const updatedProduct = await Product.findByIdAndUpdate(item.productId, {
-                $inc: {
-                    qty: item.quantity,
-                    itemsSold: -item.quantity
+        if(order.status !== "canceled"){
+            for (const item of order.products){
+                const product = await Product.findById(item.productId);
+                if (!product) {
+                    console.log(`Product with ID ${item.productId} not found.`);
+                    continue; // Skip this product if not found
                 }
-            })
-            if(updatedProduct.qty === 0){
-                console.log("product was out of stock")
-                await Product.updateOne(
-                    {_id: item.productId},
-                    {$set: {outOfStock: false}}
-                )
+                const updatedProduct = await Product.findByIdAndUpdate(item.productId, {
+                    $inc: {
+                        qty: item.quantity,
+                        itemsSold: -item.quantity
+                    }
+                })
+                if(updatedProduct.qty === 0){
+                    console.log("product was out of stock")
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {outOfStock: false}}
+                    )
+                }
+                //in case he was low in stock 
+                if(product.qty + item.quantity > product.minLevel){
+                    console.log("product was low in stock")
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {lowInStock: false}}
+                    )
+                }
             }
+            await order.save()
+            await Order.findByIdAndDelete({_id: req.params.id})
         }
-        await order.save()
-        await Order.findByIdAndDelete({_id: req.params.id})
+        else await Order.findByIdAndDelete({_id: req.params.id})
 
         // update store stock
         await StoreStock.updateStoreStock();

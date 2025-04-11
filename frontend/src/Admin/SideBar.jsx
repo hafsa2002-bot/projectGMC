@@ -146,7 +146,7 @@ function SideBar() {
             </div>
             
             <div 
-                className='relative w-10/12 mb-3 cursor-pointer  px-3 py-3 text-gray-500 hover:bg-gray-100 rounded-lg' 
+                className='relative  w-10/12 mb-3 cursor-pointer  px-3 py-3 text-gray-500 hover:bg-gray-100 rounded-lg' 
                 onClick={() => setShowSettings(!showSettings)}
             >
                 {
@@ -161,7 +161,7 @@ function SideBar() {
                     )
                 }
                 {showSettings && (
-                    <div className={`text-stone-500 absolute w-52  py-2 bottom-0 bg-white border border-gray-400 rounded-md ${showSideBar ? 'left-32' : 'left-16'} `}>
+                    <div className={`text-stone-500 absolute z-999 w-52  py-2 bottom-0 bg-white border border-gray-400 rounded-md ${showSideBar ? 'left-32' : 'left-16'} `}>
                         <div className='flex items-center gap-3 border-b border-gray-400 px-3 pb-2'>
                             {/* first letter of userName */}
                             <div className='bg-gray-200 w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>

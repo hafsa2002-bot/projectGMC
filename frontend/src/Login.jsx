@@ -9,9 +9,11 @@ function Login() {
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
   const [user, setUser] = useState({})
+  // const token = localStorage.getItem("token");
 
   const handleSubmit = async(event) => {
     event.preventDefault()
+
     try{
         const response = await axios.post("http://localhost:3003/users/login", {
             email, 
@@ -35,15 +37,16 @@ function Login() {
         console.log("error: ", error)
     }
 }
-
+  /*
   const fetchData = () => {
     axios.get(`http://localhost:3007/user/${email}`)
         .then(response => setUser(response.data))
         .catch(error => console.log("Error: ", error))
-}
-useEffect(() => {
+  }
+  useEffect(() => {
     fetchData()
-}, [email])
+  }, [email])
+  */
 
   return (
     <>
