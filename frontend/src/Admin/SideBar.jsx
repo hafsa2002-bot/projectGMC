@@ -146,13 +146,13 @@ function SideBar() {
             </div>
             
             <div 
-                className='relative  w-10/12 mb-3 cursor-pointer  px-3 py-3 text-gray-500 hover:bg-gray-100 rounded-lg' 
+                className='relative w-10/12 mb-3 cursor-pointer  px-3 py-3 text-gray-500 hover:bg-gray-100 rounded-lg' 
                 onClick={() => setShowSettings(!showSettings)}
             >
                 {
                     showSideBar 
                     ?(
-                        <div className='flex justify-start gap-3 items-center '>
+                        <div className='flex  justify-start gap-3 items-center '>
                             <Settings strokeWidth={2} />
                             <p className='font-poppins font-semibold'>Settings</p>
                         </div>

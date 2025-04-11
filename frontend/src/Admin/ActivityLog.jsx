@@ -73,21 +73,21 @@ function ActivityLog() {
         :(
           logs && logs.length > 0 ? (
             <div>
-              <p className='text-2xl font-medium mt-2 mb-10'>Activity History</p>
-              <div className='bg-white p-4 pl-14 rounded-lg w-9/12 mb-20'>
+              <p className='text-3xl font-medium mb-7 ml-12 mt-5 text-blue-500 font-poppins'>Activity History</p>
+              <div className=' p-4 pl-14 rounded-lg w-9/12 mb-20'>
                 {Object.keys(groupedLogs).map((category) => (
                   groupedLogs[category].length > 0 && (
                     <div key={category}>
                       <div className='font-bold text-xl mb-5'>{category}</div>
 
                       {/* Timeline Wrapper */}
-                      {/* relative z-0 */}
-                      <div className=" pl-8  z-0 border-l-2  border-gray-300">
+                      {/* relative z-0 border-l-2   pl-8*/}
+                      <div className="  border-gray-300">
                         {groupedLogs[category].map((log, index) => (
-                          <div key={index} className="relative z-0   flex items-start gap-4 mb-6">
+                          <div key={index} className=" bg-gray-100  flex items-start gap-3 pl-2 mb-6">
                             
                             {/* Timeline Icon - Centered on the Line */}
-                            <div className="absolute z-0  -left-12 top-5 w-8 h-8 flex justify-center items-center rounded-full border border-gray-300 shadow">
+                            <div className=" bg-white mt-2 w-9 h-9 flex justify-center items-center rounded-full border border-gray-300 shadow">
                               {log.action.toLowerCase().includes("added") && (
                                 <>
                                   {log.action.toLowerCase().includes("category") &&  <FolderPlus size={18} className="text-gray-600" /> }  
@@ -100,7 +100,7 @@ function ActivityLog() {
                             </div>
 
                             {/* Log Details */}
-                            <div className="     w-full rounded-lg p-4 mr-7 shadow-md">
+                            <div className=" bg-white   w-full rounded-lg p-4 mr-7 shadow-md">
                               {/* Action & Details & user name */}
                               <div className="text-sm text-gray-800 ">
                                 <span className='font-semibold  font-poppins'>{log.action}:</span> {log.details} 
