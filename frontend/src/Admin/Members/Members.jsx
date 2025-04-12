@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import SpinnerBlue from '../SpinnerBlue'
-import { ChevronDown, Plus, Trash2, UserRound } from 'lucide-react'
+import { ChevronDown, Plus, Trash2, UserRound, UserRoundX } from 'lucide-react'
 import { Link } from 'react-router-dom';
 
 
 function Members() {
-  /*
+
   const [members, setMembers] = useState([])
   const [loading, setLoading] = useState(true)
   const getAllMembers = () => {
-    axios.get("http://localhost:3003/user/all-members")
+    axios.get("http://localhost:3003/all-users")
     .then(response => {
       setMembers(response.data)
       setLoading(false)
@@ -23,7 +23,7 @@ function Members() {
   useEffect(() => {
     getAllMembers()
   }, [members])
-  */
+ /*
   const members = [
     {
       name: "Ahmed Alali",
@@ -46,14 +46,15 @@ function Members() {
       role: "member"
     }
   ];
+  */
   
   return (
     <div>
-        {/* {
+        {
           loading 
           ?(
             <SpinnerBlue/>
-          ):( */}
+          ):(
             <div>
               <div className='flex justify-between items-center'>
                 <div className='flex'>
@@ -70,26 +71,26 @@ function Members() {
                   members.length > 0 
                   ?(
                     members.map((user, index) => (
-                      /*
-                      <div key={index} className='bg-white rounded-lg w-1/4 py-4 font-poppins '> 
-                        <div className='bg-gray-100 mb-3  w-20 h-20 m-auto flex justify-center items-center  text-gray-400 rounded-full'>
-                          <UserRound size={40} />
-                        </div>
-                        <div className='text-center'>
-                          {user.name}
-                        </div>
-                        <div className='text-center mb-4'>
-                          {user.email}
-                        </div>
-                        <div className='flex gap-2 justify-center mx-2'>
-                          <div className='text-white bg-stone-700 px-2.5 py-2 rounded-lg flex justify-center items-center'> update role <ChevronDown/></div>
-                          <div className='bg-red-400 text-white px-2.5 py-2 rounded-lg'>delete</div>
-                        </div>
-                      </div>
-                      */
                       <div key={index} className="bg-white rounded-2xl w-1/4 py-6 shadow-md font-poppins border border-blue-100">
                         <div className="bg-gray-100 mb-4 w-20 h-20 m-auto flex justify-center items-center text-gray-500 rounded-full">
                           <UserRound size={40} />
+                        </div>
+                        <div>
+                          {user.role === "admin" && (
+                            <div className='bg-blue-50 text-blue-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/3 m-auto mb-3 text-sm'>
+                              <div className='w-1.5 h-1.5 rounded-full bg-blue-600'></div>Admin
+                            </div>
+                          )}
+                          {user.role === "member" && (
+                            <div className='bg-green-50 text-green-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/3 m-auto mb-3 text-sm'>
+                              <div className='w-1.5 h-1.5 rounded-full bg-green-600'></div>Member
+                            </div>
+                          )}
+                          {user.role === "client" && (
+                            <div className='bg-purple-50 text-purple-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/3 m-auto mb-3 text-sm'>
+                              <div className='w-1.5 h-1.5 rounded-full bg-purple-600'></div>Client
+                            </div>
+                          )}
                         </div>
                         <div className="text-center text-lg font-semibold text-gray-800">
                           {user.name}
@@ -108,13 +109,20 @@ function Members() {
                       </div>
                     ))
                   ):(
-                    <div>no mebers found</div>
+                    <div className="bg-white flex-col gap-3 rounded-2xl w-11/12 py-14 shadow-md font-poppins border border-blue-100 flex justify-center items-center text-gray-400">
+                      <UserRoundX size={50} />
+                      <p className="text-2xl font-semibold text-gray-400">No users found</p>
+                      <Link to="/admin/add-member" className='bg-blue-500 px-3 mt-5 py-2 rounded-xl gap-1 text-white flex font-semibold justify-center items-center'>
+                        <Plus/>
+                        <p>Add member</p>
+                      </Link>
+                    </div>
                   )
                 }
               </div>
             </div>
-          {/* )
-        } */}
+          )
+        }
     </div>
   )
 }

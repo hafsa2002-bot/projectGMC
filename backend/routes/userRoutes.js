@@ -12,8 +12,8 @@ const JWT_SECRET = "123@hafsa/"
 // register
 router.post("/users/register", async (req, res) => {
     try{
-        const {name, email, password} = req.body;
-        if(!name || !email || !password){
+        const {name, email, password, role} = req.body;
+        if(!name || !email || !password || !role){
             res.status(400).json({message: "Please add all fields"})
         }
 
@@ -31,7 +31,8 @@ router.post("/users/register", async (req, res) => {
         const user = await User.create({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword, 
+            role
         })
 
         if(user){
@@ -39,6 +40,7 @@ router.post("/users/register", async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
                 token: generateToken(user._id, user.role)
             })
         }else{
@@ -46,7 +48,7 @@ router.post("/users/register", async (req, res) => {
         }
     }catch(error){
         console.log("Error: ", error)
-        re.status(500).json({message: "Internal server error"})
+        res.status(500).json({message: "Internal server error"})
     }
 })
 
@@ -102,10 +104,11 @@ router.get("/user/:email", async(req, res) => {
 })
 
 // get all members
-router.get("/user/all-members", async (req, res) => {
+router.get("/all-users", async (req, res) => {
     try{
-        const members = await User.find({role: "member"})
-        res.send(members)
+        const users = await User.find()
+        // console.log("users: ", users)
+        res.json(users)
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({message: "Internal server error"})

@@ -45,7 +45,7 @@ function ProtectedRoute({children}) {
         return <Navigate to="/login" replace />
     }
 
-    if(decoded.role !== "admin"){
+    if(decoded.role !== "admin" && decoded.role !== "member"){
         return <Navigate to="/unauthorized" replace />
     } 
 

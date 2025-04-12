@@ -27,7 +27,7 @@ function Login() {
 
         const decoded = jwtDecode(token)
         //redirect based on role
-        if(decoded.role === "admin"){
+        if(decoded.role === "admin" || decoded.role === "member"){
             navigate("/admin")
         }
         else {
