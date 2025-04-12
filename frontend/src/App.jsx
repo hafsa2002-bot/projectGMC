@@ -12,7 +12,7 @@ import SideBar from "./Admin/SideBar"
 import AdminHomePage from "./Admin/Dashboard/AdminHomePage"
 import Items from "./Admin/ItemsPage/Items"
 import Search from "./Admin/Search"
-import Members from "./Admin/Members"
+import Members from "./Admin/Members/Members"
 import Reports from "./Admin/Reports/Reports"
 import ActivityLog from "./Admin/ActivityLog"
 import AddItem from "./Admin/ItemsPage/AddItem"
@@ -33,6 +33,7 @@ import AddOrder from "./Admin/OrderPage/AddOrder"
 import UpdateItem from "./Admin/ItemsPage/UpdateItem"
 import ProtectedRoute from "./ProtectedRoute"
 import Unauthorized from "./Unauthorized"
+import AddMember from "./Admin/Members/AddMember"
 // import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
             <Route path="reports" element={<Reports/>} />
             <Route path="activities" element={<ActivityLog/>} />
             <Route path="members" element={<Members/>} />
+            <Route path="add-member" element={<AddMember/>} />
           </Route>
           <Route  path="/unauthorized" element={<Unauthorized/>} />
         </Routes>

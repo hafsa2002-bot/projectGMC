@@ -74,7 +74,7 @@ function AllOrders({setNumberOfOrders}) {
                                 }}
                                 value={orderKey} 
                                 type="search" name="orderKey" id="orderKey"
-                                placeholder='Search to find an order id, customer'
+                                placeholder='Search to find an order ID, Customer or Amount'
                                 className="outline-none text-black placeholder:text-gray-400 w-11/12  py-2.5" 
                             />
                         </div>

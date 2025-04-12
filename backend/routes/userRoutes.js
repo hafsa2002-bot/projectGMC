@@ -101,6 +101,17 @@ router.get("/user/:email", async(req, res) => {
     }
 })
 
+// get all members
+router.get("/user/all-members", async (req, res) => {
+    try{
+        const members = await User.find({role: "member"})
+        res.send(members)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({message: "Internal server error"})
+    }
+})
+
 // generate JWT
 const generateToken = (id, role) => {
     return jsonwebtoken.sign({id, role}, JWT_SECRET, {

@@ -7,7 +7,9 @@ const router = express.Router()
 router.get("/reports/weekly-income", async (req, res) => {
     try{
         const now = new Date();
-        now.setHours(23, 59, 59, 999)
+        console.log("today is : ", now)
+        // now.setHours(23, 59, 59, 999)
+        now.setHours(0, 0, 0, 0)
 
         // get the strat of 7days ago
         const startOfWeek = new Date()
@@ -35,20 +37,19 @@ router.get("/reports/weekly-income", async (req, res) => {
         const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
         let weekData = []
-        for(let i = 0; i < 7; i++){
-            const date = new Date()
-            date.setDate(now.getDate() - i);
-            date.setHours(0, 0, 0, 0)
-
-            // Get the day name based on today's position
-            let dayName = weekDays[date.getDay()];
-
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date(now.getTime()); // clone base date
+            date.setDate(date.getDate() - i);       // subtract i days
+        
+            const dayName = weekDays[date.getDay()];
+        
             weekData.push({
                 name: dayName,
-                date: date.toISOString().split("T")[0],
+                // date: date.toISOString().split("T")[0],
+                date: date.toLocaleDateString('en-CA'),
                 totalIncome: 0,
                 totalOrders: 0,
-            })
+            });
         }
 
         // Merge database results into weekData
@@ -59,9 +60,6 @@ router.get("/reports/weekly-income", async (req, res) => {
                 weekData[index].totalOrders = totalOrders;
             }
         });
-
-        // Reverse the array to ensure it starts with today's data
-        weekData.reverse();
 
         res.json(weekData)
     }catch (error) {
@@ -74,7 +72,8 @@ router.get("/reports/weekly-income", async (req, res) => {
 router.get("/reports/weekly-income-dashboard", async (req, res) => {
     try {
         const now = new Date();
-        now.setHours(23, 59, 59, 999);
+        // now.setHours(23, 59, 59, 999);
+        now.setHours(0, 0, 0, 0)
 
         // Get the start of 7 days ago
         const startOfWeek = new Date();
@@ -102,16 +101,16 @@ router.get("/reports/weekly-income-dashboard", async (req, res) => {
         const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
         let weekData = [];
-        for (let i = 0; i < 7; i++) {
-            const date = new Date();
-            date.setDate(now.getDate() - i);
-            date.setHours(0, 0, 0, 0);
-
-            let dayName = weekDays[date.getDay()];
-
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date(now.getTime()); // clone base date
+            date.setDate(date.getDate() - i);       // subtract i days
+        
+            const dayName = weekDays[date.getDay()];
+        
             weekData.push({
                 name: dayName,
-                date: date.toISOString().split("T")[0],
+                // date: date.toISOString().split("T")[0],
+                date: date.toLocaleDateString('en-CA'),
                 totalIncome: 0,
                 totalOrders: 0,
             });
@@ -126,9 +125,6 @@ router.get("/reports/weekly-income-dashboard", async (req, res) => {
             }
         });
 
-        // Reverse the array to ensure it starts with today's data
-        weekData.reverse();
-
         res.json(weekData);
     } catch (error) {
         console.error(error);
@@ -142,6 +138,7 @@ router.get("/reports/last-three-months-weekly-income", async (req, res) => {
     try {
         const now = new Date();
         now.setHours(23, 59, 59, 999);
+        // now.setHours(0, 0, 0, 0)
 
         // Find the start of the current week (Monday)
         const currentMonday = new Date(now);
@@ -255,18 +252,19 @@ router.get("/reports/last-month-daily-income", async (req, res) => {
 
         // Generate the last 30 days with just the day of the month (1, 2, 3, ...)
         let dailyData = [];
-        let tempDate = new Date(startOfPeriod);
 
         for (let i = 0; i < 30; i++) {
-            const dayOfMonth = tempDate.getDate(); // Get the day of the month (1, 2, 3, ...)
+            // const dayOfMonth = tempDate.getDate(); // Get the day of the month (1, 2, 3, ...)
+            const loopDate = new Date(startOfPeriod.getTime());
+            loopDate.setDate(startOfPeriod.getDate() + i);
+
             dailyData.push({
-                name: dayOfMonth.toString(), // Just the day number as string
-                date: tempDate.toISOString().split("T")[0], // YYYY-MM-DD
+                name: loopDate.getDate().toString(), // Just the day number as string
+                date: loopDate.toLocaleDateString("en-CA"), // YYYY-MM-DD
                 totalIncome: 0,
                 totalOrders: 0,
             });
 
-            tempDate.setDate(tempDate.getDate() + 1); // Move to next day
         }
 
         // Merge database results into dailyData
@@ -284,6 +282,7 @@ router.get("/reports/last-month-daily-income", async (req, res) => {
         res.status(500).json({ message: "Error fetching last month's daily income report", error });
     }
 });
+
 
 //current year income
 router.get("/reports/yearly-income", async (req, res) => {

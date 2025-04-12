@@ -127,7 +127,7 @@ function Order() {
             } */}
 
             {/* Render all order components at once to allow them to fetch data  */}
-            <div className="relative">
+            <div className="">
                 <div className={`${orderType === "all" ? 'block' : 'hidden'}`}>
                     <AllOrders setNumberOfOrders={setNumberOfOrders} />
                 </div>

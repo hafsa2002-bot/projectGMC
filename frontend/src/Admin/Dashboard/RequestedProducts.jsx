@@ -99,7 +99,7 @@ function RequestedProducts() {
                 {(requestedProducts.length > 0 )
                 ?(
                     requestedProducts.map((product, index) => (
-                        <div className='p-2 border rounded-lg border-gray-400 flex justify-between gap-4 items-center'>
+                        <div key={product._id} className='p-2 border rounded-lg border-gray-400 flex justify-between gap-4 items-center'>
                             <div className=''>
                                 <div className='font-semibold text-gray-700'>
                                     <p>{product.reqProductName}</p>

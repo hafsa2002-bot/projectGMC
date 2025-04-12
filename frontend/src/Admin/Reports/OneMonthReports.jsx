@@ -61,7 +61,7 @@ const CustomTooltip = ({ active, payload, label }) => {
           </p>
           <p className="text-sm text-green-400">
             Total Orders:
-            <span className="ml-2">{payload[1].value}MAD</span>
+            <span className="ml-2">{payload[1].value}</span>
           </p>
         </div>
       );

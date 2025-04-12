@@ -34,7 +34,7 @@ function DashboardStockLevels() {
                 (dashboardProducts.length >= 1) 
                 ?(
                     dashboardProducts.map((product, index)=> (
-                        <Link to={`/admin/items/view/${product._id}`} className="flex justify-between items-center border-b border-gray-300 lg:px-4 px-2 py-2.5 h-14 ">
+                        <Link to={`/admin/items/view/${product._id}`} key={product._id} className="flex justify-between items-center border-b border-gray-300 lg:px-4 px-2 py-2.5 h-14 ">
                             <div className='lg:w-3/5 w-2/5 flex items-baseline gap-2 '>
                                 <p className='lg:text-lg font-semibold truncate whitespace overflow-hidden'>{product.productName} </p>
                                 <p className='text-gray-400 text-sm'>#{index+1}</p>

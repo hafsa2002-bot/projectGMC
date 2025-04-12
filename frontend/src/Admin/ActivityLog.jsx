@@ -78,13 +78,13 @@ function ActivityLog() {
                 {Object.keys(groupedLogs).map((category) => (
                   groupedLogs[category].length > 0 && (
                     <div key={category}>
-                      <div className='font-bold text-xl mb-5'>{category}</div>
+                      <div className='font-semibold text-2xl mb-5 ml-16 font-poppins'>{category}</div>
 
                       {/* Timeline Wrapper */}
                       {/* relative z-0 border-l-2   pl-8*/}
                       <div className="  border-gray-300">
                         {groupedLogs[category].map((log, index) => (
-                          <div key={index} className=" bg-gray-100  flex items-start gap-3 pl-2 mb-6">
+                          <div key={index} className=" bg-gray-100  flex items-start gap-5 pl-2 mb-9">
                             
                             {/* Timeline Icon - Centered on the Line */}
                             <div className=" bg-white mt-2 w-9 h-9 flex justify-center items-center rounded-full border border-gray-300 shadow">
@@ -98,30 +98,42 @@ function ActivityLog() {
                               {log.action.toLowerCase().includes("deleted") && <Trash2 size={18} className="text-red-400" />}
                               {log.action.toLowerCase().includes("updated") && <PenLine size={18} className="text-gray-600" />}
                             </div>
-
-                            {/* Log Details */}
-                            <div className=" bg-white   w-full rounded-lg p-4 mr-7 shadow-md">
-                              {/* Action & Details & user name */}
-                              <div className="text-sm text-gray-800 ">
-                                <span className='font-semibold  font-poppins'>{log.action}:</span> {log.details} 
-                                <span className='font-semibold ml-3 font-poppins'>By: </span> {log.user}
+                            
+                            <div className="bg-white w-10/12 rounded-xl p-5 mr-7 shadow-sm border border-gray-200 font-poppins">
+                              {/* Action & Details */}
+                              <div className="mb-3">
+                                <p className="text-sm text-gray-700 leading-relaxed">
+                                  <span className="font-semibold text-gray-900">{log.action}</span>
+                                  <span className="text-gray-600"> — {log.details}</span>
+                                </p>
                               </div>
+                              <div className="border-t border-gray-100 my-3"></div>
 
-                              {/* Date-Time Info */}
-                              <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
-                                <div className="flex items-center gap-3">
+                              {/* Bottom Section: User & Date-Time */}
+                              <div className="flex justify-between items-center text-xs text-gray-500">
+                                {/* Left: User */}
+                                <div className="flex items-center gap-1">
+                                  <UserRound size={14} className="text-gray-500" />
+                                  <span className="font-medium text-gray-600">Performed by</span>
+                                  <span>{log.user}</span>
+                                </div>
+
+                                {/* Right: Date & Time */}
+                                <div className="flex items-center gap-4">
                                   <div className="flex items-center gap-1">
                                     <Calendar size={14} className="text-gray-500" />
-                                    <span>{log.createdAt.slice(0, 10)}</span> {/* Extracting Date */}
+                                    <span>{log.createdAt.slice(0, 10)}</span>
                                   </div>
-                                  <div className="w-[1px] h-4 bg-gray-400"></div>
+                                  <div className="w-[1px] h-4 bg-gray-300"></div>
                                   <div className="flex items-center gap-1">
                                     <Clock size={14} className="text-gray-500" />
-                                    <span>{log.createdAt.slice(11, 16)}</span> {/* Extracting Time */}
+                                    <span>{log.createdAt.slice(11, 16)}</span>
                                   </div>
                                 </div>
                               </div>
                             </div>
+
+
                           </div>
                         ))}
                       </div>

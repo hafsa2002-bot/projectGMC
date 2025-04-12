@@ -239,13 +239,14 @@ router.patch("/orders/update-payment-status/:id", async (req, res) => {
             // paid -> pending 
             order.paymentStatus = newStatus
         }
+        //log activity
+        await logActivity("User name", "Payment status updated", `${order._id}, new status: ${newStatus}`)
+
         await order.save();
 
         // update store stock
         await StoreStock.updateStoreStock();
         
-        //log activity
-        await logActivity("User name", "Payment status updated", `${order._id}`)
         res.json(order)
     }catch(error){
         console.log("Error: ", error)
