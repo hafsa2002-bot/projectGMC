@@ -67,7 +67,8 @@ function AddMember() {
                 onChange={(event) => setName(event.target.value)} 
                 className="w-full p-3 mt-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-blue-500 focus:border-blue-500 outline-none" 
                 placeholder="Enter member's full name" 
-                required 
+                required
+                autoComplete='off' 
                 />
             </div>
 
@@ -98,6 +99,7 @@ function AddMember() {
                 className="w-full p-3 mt-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-blue-500 focus:border-blue-500 outline-none" 
                 placeholder="Enter a password" 
                 required 
+                autocomplete="new-password"
                 />
             </div>
 

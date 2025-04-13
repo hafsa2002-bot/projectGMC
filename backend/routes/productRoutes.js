@@ -7,6 +7,7 @@ import { dirname } from 'path';
 import Product from '../models/Product.js'
 import StoreStock from '../models/StoreStock.js'
 import { logActivity } from './ActivityLogRoutes.js'
+import { protect } from "../middlewares/protect.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,7 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
 // add new item
-router.post("/items/add-item", upload.single("productPhoto"), async(req, res) => {
+router.post("/items/add-item", protect, upload.single("productPhoto"), async(req, res) => {
     try{
         let {productName, barcode, qty, itemsSold, minLevel, price, expirationDate, categoryId} = req.body;
         const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
@@ -31,7 +32,7 @@ router.post("/items/add-item", upload.single("productPhoto"), async(req, res) =>
         if(!categoryId || categoryId === "") categoryId = null;
         
         // console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
-        const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId})
+        const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId, userId: req.user._id})
         await newItem.save();
         
         // update Stock Status
@@ -44,7 +45,7 @@ router.post("/items/add-item", upload.single("productPhoto"), async(req, res) =>
         await StoreStock.updateStoreStock();
         
         // log activity
-        await logActivity("User name", "Product Added", `${productName}`)
+        await logActivity(req.user._id, req.user.name, "Product Added", `${productName}`)
         
         res.json({message: "Product added successfully", productPhoto})
     } catch(error){

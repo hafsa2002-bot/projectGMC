@@ -27,7 +27,11 @@ function ActivityLog() {
   }
 
   const getLogs = () => {
-    axios.get("http://localhost:3003/activities")
+    axios.get("http://localhost:3003/activities",
+      {headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }}
+    )
       .then(response => {
         setLogs(response.data)
         setLoading(false)
@@ -98,7 +102,7 @@ function ActivityLog() {
                               {log.action.toLowerCase().includes("deleted") && <Trash2 size={18} className="text-red-400" />}
                               {log.action.toLowerCase().includes("updated") && <PenLine size={18} className="text-gray-600" />}
                             </div>
-                            
+
                             <div className="bg-white w-10/12 rounded-xl p-5 mr-7 shadow-sm border border-gray-200 font-poppins">
                               {/* Action & Details */}
                               <div className="mb-3">
@@ -115,7 +119,7 @@ function ActivityLog() {
                                 <div className="flex items-center gap-1">
                                   <UserRound size={14} className="text-gray-500" />
                                   <span className="font-medium text-gray-600">Performed by</span>
-                                  <span>{log.user}</span>
+                                  <span>{log.userName} {log.user}</span>
                                 </div>
 
                                 {/* Right: Date & Time */}

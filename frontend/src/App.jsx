@@ -34,8 +34,15 @@ import UpdateItem from "./Admin/ItemsPage/UpdateItem"
 import ProtectedRoute from "./ProtectedRoute"
 import Unauthorized from "./Unauthorized"
 import AddMember from "./Admin/Members/AddMember"
-// import AddCategoryPage from "./Admin/Pages/AddCategoryPage"
+import {jwtDecode} from 'jwt-decode';
 function App() {
+  const token = localStorage.getItem("token");
+  let userRole = null;
+
+  if (token) {
+    const decoded = jwtDecode(token);
+    userRole = decoded.role; // Assuming the token has a `role` field
+  }
 
   return (
     <>
@@ -80,7 +87,10 @@ function App() {
             <Route path="add-order" element={<AddOrder/>}/>
             <Route path="reports" element={<Reports/>} />
             <Route path="activities" element={<ActivityLog/>} />
-            <Route path="members" element={<Members/>} />
+            <Route 
+              path="members" 
+              element={userRole === "admin"  ? <Members/> : <AdminHomePage/>} 
+            />
             <Route path="add-member" element={<AddMember/>} />
           </Route>
           <Route  path="/unauthorized" element={<Unauthorized/>} />

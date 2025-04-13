@@ -9,6 +9,7 @@ function Members() {
 
   const [members, setMembers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [data, setData] = useState({})
   const getAllMembers = () => {
     axios.get("http://localhost:3003/all-users")
     .then(response => {
@@ -20,33 +21,22 @@ function Members() {
       setLoading(false)
     })
   }
+  const getUserData = () => {
+    axios.get("http://localhost:3003/users/data",
+      {headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }}
+    )
+      .then(response => {
+        setData(response.data)
+        console.log("data: ", response.data)
+      })
+      .catch(error => console.log("Error: ", error))
+  }
   useEffect(() => {
     getAllMembers()
-  }, [members])
- /*
-  const members = [
-    {
-      name: "Ahmed Alali",
-      email: "ahmed.alali@example.com",
-      role: "admin"
-    },
-    {
-      name: "Layla Mansour",
-      email: "layla.mansour@example.com",
-      role: "member"
-    },
-    {
-      name: "Sami Aljabouri",
-      email: "sami.aljabouri@example.com",
-      role: "member"
-    },
-    {
-      name: "Sami Aljabouri",
-      email: "sami.aljabouri@example.com",
-      role: "member"
-    }
-  ];
-  */
+    getUserData()
+  }, [])
   
   return (
     <div>
@@ -92,8 +82,9 @@ function Members() {
                             </div>
                           )}
                         </div>
-                        <div className="text-center text-lg font-semibold text-gray-800">
+                        <div className="text-center flex items-center justify-center gap-1 text-lg font-semibold text-gray-800">
                           {user.name}
+                          {user.email === data.email && (<div className='text-base'>(You)</div>)}
                         </div>
                         <div className="text-center text-sm text-gray-500 mb-4">
                           {user.email}

@@ -4,19 +4,20 @@ import Category from '../models/Category.js'
 import StoreStock from '../models/StoreStock.js'
 import Product from '../models/Product.js'
 import { logActivity } from './ActivityLogRoutes.js'
+import { protect } from "../middlewares/protect.js";
 
 const router = express.Router()
 
 // add category
-router.post("/admin/items/addCategory", async(req, res) => {
+router.post("/admin/items/addCategory", protect, async(req, res) => {
     try{
         const {categoryName} = req.body;
-        const newCategory = new Category({categoryName})
+        const newCategory = new Category({categoryName, userId: req.user._id})
         await newCategory.save()
         await StoreStock.updateStoreStock()
 
          // log activity
-        await logActivity("User name", "Category added", `${newCategory.categoryName}`)
+        await logActivity(req.user._id, req.user.name, "Category added", `${newCategory.categoryName}`)
         res.json({message: "category added successfully", categoryName})
     }catch(error){
         console.log("Error: ", error)

@@ -2,6 +2,7 @@ import { ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboar
 import React, {useEffect, useState} from 'react'
 import { Outlet, Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 
 function SideBar() {
     const [showSettings, setShowSettings] = useState(false)
@@ -13,6 +14,13 @@ function SideBar() {
     const location = useLocation()
     const navigate = useNavigate()
     const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+    const decoded = jwtDecode(token);
+    userRole = decoded.role; // Assuming the token has a `role` field
+    }
+    
 
     const fetchData = () => {
         axios.get("http://localhost:3003/users/data", {
@@ -33,7 +41,7 @@ function SideBar() {
     const firstLetterOfUserName = () => {
         const fullName = user.name.split(' ')
         const firstName = fullName[0]
-        const lastName = fullName[1] || ''
+        const lastName = fullName[1] || ' '
         const x = firstName[0] + lastName[0]
         // console.log("****** x = ", x)
         setFirstLetters(x.toUpperCase())
@@ -133,16 +141,18 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Members */}
-                <NavLink to="/admin/members" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
-                    {
-                        showSideBar ? (
-                            <div className='flex justify-start gap-3 items-center '>
-                                <UsersRound/>
-                                <p className='font-poppins '>Members</p>
-                            </div>
-                        ):(<UsersRound className='m-auto'/>)
-                    }
-                </NavLink>
+                {userRole === "admin" && (
+                    <NavLink to="/admin/members" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                        {
+                            showSideBar ? (
+                                <div className='flex justify-start gap-3 items-center '>
+                                    <UsersRound/>
+                                    <p className='font-poppins '>Members</p>
+                                </div>
+                            ):(<UsersRound className='m-auto'/>)
+                        }
+                    </NavLink>
+                )}
             </div>
             
             <div 

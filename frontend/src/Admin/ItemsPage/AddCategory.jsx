@@ -46,7 +46,10 @@ function AddCategory({setAddCategory}) {
       try{
         console.log("Input: ", categoryName)
         const response = await axios.post("http://localhost:3003/admin/items/addCategory", 
-          {categoryName}
+          {categoryName},
+          {headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}` 
+          }}
         )
         console.log("category added: ", response.data)
         setSubmitCategory(true)

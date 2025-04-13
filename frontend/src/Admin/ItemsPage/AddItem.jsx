@@ -1,5 +1,5 @@
 import { ArrowLeft, Barcode, CalendarDays, Check, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode, X } from 'lucide-react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -22,10 +22,14 @@ function AddItem() {
     const [errorMessage, setErrorMessage] = useState(false)
     const [showRequired, setShowRequired] = useState(false)
     const [showMinLevelDetails, setShowMinLevelDetails ] = useState(false)
-    // const [productID, setProductID] = useState("")
     const navigate = useNavigate()
+    const datePickerRef = useRef(null);
 
-    // console.log("category selected: ", selectedCategory)
+    const handleDivClick = () => {
+        if (datePickerRef.current) {
+        datePickerRef.current.setFocus(); // Open the calendar
+        }
+    };
 
     let totalValue = () => {
         if (price || qty) return `${price * qty} `;
@@ -56,6 +60,9 @@ function AddItem() {
             const response = await fetch("http://localhost:3003/admin/items/add-item", {
                 method: "POST",
                 body: formData,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }
             })
             if(!response.ok){
                 throw new Error("failed to add item")
@@ -309,17 +316,20 @@ function AddItem() {
                 <div className=' w-full flex gap-8'>
                     <div className='w-1/2 '>
                         <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
-                        <div className='relative w-full'>
-                            <div className="absolute z-10 right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                <CalendarDays className='text-gray-500' />
-                            </div>
+                        <div
+                            onClick={handleDivClick} 
+                            className='flex justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'>
                             <DatePicker
                                 selected={expirationDate}
                                 onChange={(date) => setExpirationDate(date)}
                                 dateFormat="yyyy-MM-dd"
-                                className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[450px] p-2.5 '
+                                className=' p-2.5 outline-none '
                                 placeholderText='Select Date'
+                                ref={datePickerRef}
                             />
+                            <div >
+                                <CalendarDays className='text-gray-500' />
+                            </div>
                         </div>
                     </div>
                     <div className='w-1/2'></div>

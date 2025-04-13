@@ -11,7 +11,11 @@ function RecentActivities() {
   const currentDate = new Date().toLocaleDateString('en-CA');
 
   const fetchData = () => {
-    axios.get("http://localhost:3003/activities")
+    axios.get("http://localhost:3003/activities",
+      {headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }}
+    )
       .then(response => {
         setActivities(response.data)
         setLoading(false)
@@ -74,8 +78,8 @@ function RecentActivities() {
                         </div>
                         <div className='flex items-center gap-1'>
                           {/* <span className='font-semibold ml-3 font-poppins'>By: </span> */}
-                          <div className='w-5 h-5 rounded-md text-white font-semibold bg-gray-600 flex justify-center items-center '>H</div>
-                          {log.user}
+                          <div className='w-5 h-5 rounded-md text-white font-semibold bg-gray-600 flex justify-center items-center '>{log.userName ? log.userName[0].toUpperCase() : log.user[0].toUpperCase()}</div>
+                          {log.user}{log.userName}
                         </div>
                       </div>
                       <div className='absolute w-4 h-4 bg-gray-100 -left-2 top-4 rotate-45'></div>

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
-    // unique:true
-    categoryName: {type: String, required: true}, 
+    categoryName: {type: String, required: true},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}, 
     createdAt: {type: Date, default: Date.now}
 })
 
