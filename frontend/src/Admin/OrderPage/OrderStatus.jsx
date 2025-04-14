@@ -7,7 +7,10 @@ function OrderStatus({status, orderId} ) {
     const updateOrderStatus = async(newStatus) => {
         try{
             const response = await axios.patch(`http://localhost:3003/orders/update-status/${orderId}`, 
-                {OrderStatus: newStatus}
+                {OrderStatus: newStatus},
+                {headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }}
             )
             console.log("Order status updated: ", response.data)
         }catch(error){

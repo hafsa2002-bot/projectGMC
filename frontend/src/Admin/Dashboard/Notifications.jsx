@@ -91,13 +91,12 @@ function Notifications() {
     return (
         <div className='relative cursor-pointer'>
             <div 
-                className='relative w-9 h-9 hover:bg-gray-200 rounded-lg flex justify-center items-center' 
+                className='relative w-10 h-10 border border-gray-500 rounded-full hover:bg-gray-200 flex justify-center items-center' 
                 onMouseEnter={() => setShowNotifiactionTitle(true)} 
                 onMouseLeave={() => setShowNotifiactionTitle(false)}
             >
                 <Bell 
-                    size={27} 
-                    fill={showNotifications ? `rgb(55, 65, 81)` : '#F3F4F6'} 
+                    size={22} 
                     strokeWidth={2}  
                     onClick={() => setShowNotifications(!showNotifications)} 
                 />
@@ -107,7 +106,7 @@ function Notifications() {
                     </div>
                 )}
                 {(notifications.length > 0) && (
-                    <div className='absolute w-6 h-6 border-[#F3F4F6] border-3 text-xs bg-red-600 text-white flex justify-center items-center rounded-full bottom-4 left-4'>
+                    <div className='absolute min-w-6 min-h-6 px-0.5 border-[#F3F4F6] border-3 text-xs bg-red-600 text-white flex justify-center items-center rounded-full bottom-5 left-5'>
                         <p>{notifications.length}</p>
                     </div>
                 )}

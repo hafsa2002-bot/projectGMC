@@ -4,7 +4,11 @@ import axios from 'axios'
 
 function DeleteOrder({setShowOptions, setPopUp, orderId}) {
     const deleteOrder = (id) => {
-        axios.delete(`http://localhost:3003/orders/delete/${id}`)
+        axios.delete(`http://localhost:3003/orders/delete/${id}`,
+            {headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}` 
+            }}
+        )
             .then(response => console.log("order deleted: ", response.data))
             .catch(error => console.log("Error: ",error))
     }

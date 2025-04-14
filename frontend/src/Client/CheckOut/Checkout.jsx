@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import {useCart} from '../CartContext'
+import {useCart} from '../../CartContext'
 import { CircleHelp, ShoppingCart } from 'lucide-react'
 import CheckOutNav from './CheckOutNav'
 import ChecOutCart from './ChecOutCart'
@@ -52,12 +52,12 @@ function Checkout() {
             status: "pending"
         }
         try{
-            console.log("Submitting order data:", orderData)  // Debug: Log the order data
-            console.log("Before making the request")  // Debugging
+            console.log("Submitting order data:", orderData)  
+            console.log("Before making the request") 
             const response = await fetch("http://localhost:3003/orders/addOnlineOrder", {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Specify the content type
+                    'Content-Type': 'application/json', 
                 },
                 body: JSON.stringify(orderData),
             })

@@ -1,4 +1,4 @@
-import { ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UsersRound } from 'lucide-react'
+import { ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UserRound, UsersRound } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
 import { Outlet, Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -68,14 +68,14 @@ function SideBar() {
             onMouseEnter={() => setShowSideBar(true)}
             onMouseLeave={() => setShowSideBar(false)}
             className={`lg:flex hidden fixed  text-neutral-500 left-0 flex-col justify-between items-center bg-white h-screen border-r border-gray-300 shadow-lg ${showSideBar ? 'w-48' : 'w-20'}`}>
-            <Link  to={"/admin"} className='outline-none'>
+            <Link  to={"/admin"} onClick={() => setShowSettings(false)} className='outline-none'>
                 {showSideBar
                 ?(<div className='flex items-center gap-2'><img className='h-8 mt-4' src='/images/N2.png' alt='logo' /><p className='text-black font-poppins text-3xl mt-4'>Nov<span className='text-blue-500'>exa</span></p></div>)
                 :(<img className='h-10 mt-4' src='/images/N2.png' alt='logo' />)}
             </Link>
             <div className='flex flex-col gap-4'>
                 {/* dashboard */}
-                <NavLink to="/admin" className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative  px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative  px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center'>
@@ -86,7 +86,7 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* items */}
-                <NavLink to="/admin/items" className={({ isActive }) => isActive ? 'relative  cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/items" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative  cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center '>
@@ -97,7 +97,7 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Search */}
-                <NavLink to="/admin/search" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/search" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center'>
@@ -108,7 +108,7 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Orders */}
-                <NavLink to="/admin/orders" className={({ isActive }) => isActive || location.pathname.includes("order") ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/orders" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive || location.pathname.includes("order") ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center '>
@@ -119,7 +119,7 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Reports */}
-                <NavLink to="/admin/reports"  className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/reports" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center'>
@@ -130,7 +130,7 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Activity Log */}
-                <NavLink to="/admin/activities" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/activities" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center '>
@@ -142,7 +142,7 @@ function SideBar() {
                 </NavLink>
                 {/* Members */}
                 {userRole === "admin" && (
-                    <NavLink to="/admin/members" className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                    <NavLink to="/admin/members" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                         {
                             showSideBar ? (
                                 <div className='flex justify-start gap-3 items-center '>
@@ -154,7 +154,7 @@ function SideBar() {
                     </NavLink>
                 )}
             </div>
-            
+            {/* settings */}
             <div 
                 className='relative w-10/12 mb-3 cursor-pointer  px-3 py-3 text-gray-500 hover:bg-gray-100 rounded-lg' 
                 onClick={() => setShowSettings(!showSettings)}
@@ -171,28 +171,27 @@ function SideBar() {
                     )
                 }
                 {showSettings && (
-                    <div className={`text-stone-500 absolute z-999 w-52  py-2 bottom-0 bg-white border border-gray-400 rounded-md ${showSideBar ? 'left-32' : 'left-16'} `}>
-                        <div className='flex items-center gap-3 border-b border-gray-400 px-3 pb-2'>
-                            {/* first letter of userName */}
-                            <div className='bg-gray-200 w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>
+                    <div className={`text-gray-700 absolute z-999 w-48  pt-2 overflow-hidden bottom-0 bg-white border border-gray-400 rounded-md ${showSideBar ? 'left-32' : 'left-16'} `}>
+                        {/* userName */}
+                        <div className='flex items-center gap-3 cursor-default border-b border-gray-400 px-3 pb-2'>
+                            <div className='bg-gray-200  w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>
                                 <p className='text-lg font-semibold text-gray-600'> {firstLetters} </p> 
                             </div>
-                            <div className='font-medium text-gray-600'>
-                                {/* <p>Hafsa Barhoud</p> */}
+                            <div className='font-medium text-gray-600 max-w-2/3  truncate'>
                                 <p>{user.name && user.name}</p>
                             </div>
                         </div>
-                        <div  className='flex items-center gap-3 pt-2 px-3'>
-                            <div>
-                                <Settings size={20}  />
-                            </div>
-                            <div>
-                                <p>Profile</p>
-                            </div>
-                        </div>
+                        <Link className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'>
+                            <div><UserRound size={20}  /></div>
+                            <div>View Profile</div>
+                        </Link>
+                        <Link className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'>
+                            <div><Settings size={20}  /></div>
+                            <div>Settings</div>
+                        </Link>
                         <div
                             onClick={() => handleLogout()} 
-                            className='flex items-center gap-3 py-2 px-3 text-red-500'>
+                            className='flex items-center gap-3 hover:bg-gray-100 py-2 px-3 text-red-500'>
                             <div>
                                 <LogOut  size={23} />
                             </div>

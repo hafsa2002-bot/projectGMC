@@ -8,8 +8,7 @@ router.get("/reports/weekly-income", async (req, res) => {
     try{
         const now = new Date();
         console.log("today is : ", now)
-        // now.setHours(23, 59, 59, 999)
-        now.setHours(0, 0, 0, 0)
+        now.setHours(23, 59, 59, 999)
 
         // get the strat of 7days ago
         const startOfWeek = new Date()
@@ -72,8 +71,7 @@ router.get("/reports/weekly-income", async (req, res) => {
 router.get("/reports/weekly-income-dashboard", async (req, res) => {
     try {
         const now = new Date();
-        // now.setHours(23, 59, 59, 999);
-        now.setHours(0, 0, 0, 0)
+        now.setHours(23, 59, 59, 999);
 
         // Get the start of 7 days ago
         const startOfWeek = new Date();

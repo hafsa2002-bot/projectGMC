@@ -102,7 +102,7 @@ function AddOrder() {
             status: "done"
         }
         try{
-            const response = await axios.post('http://localhost:3003/orders/addOnlineOrder', orderData)
+            const response = await axios.post('http://localhost:3003/orders/addOrderr', orderData)
             setSucessMessage(true)
             console.log("response", response.data)
             setTimeout(() => setSucessMessage(false), 3000)

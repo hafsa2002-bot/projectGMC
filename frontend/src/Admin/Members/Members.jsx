@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import SpinnerBlue from '../SpinnerBlue'
-import { ChevronDown, Plus, Trash2, UserRound, UserRoundX } from 'lucide-react'
+import { ArrowRight, ChevronDown, Plus, Trash2, UserRound, UserRoundX } from 'lucide-react'
 import { Link } from 'react-router-dom';
 
 
@@ -61,23 +61,26 @@ function Members() {
                   members.length > 0 
                   ?(
                     members.map((user, index) => (
-                      <div key={index} className="bg-white rounded-2xl w-1/4 py-6 shadow-md font-poppins border border-blue-100">
-                        <div className="bg-gray-100 mb-4 w-20 h-20 m-auto flex justify-center items-center text-gray-500 rounded-full">
-                          <UserRound size={40} />
+                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl w-1/4 pb-6 pt-3 shadow-md font-poppins border border-gray-300">
+                        <div className='w-full flex justify-end pr-2 py-2'>
+                          <Link className='flex gap-1 items-center px-2 hover:text-white rounded-full hover:bg-gray-400'>Activity Log <ArrowRight size={18} /></Link>
+                        </div>
+                        <div className="bg-gray-200 mb-4 w-20 h-20 m-auto flex justify-center items-center  rounded-full">
+                          <UserRound size={45} />
                         </div>
                         <div>
                           {user.role === "admin" && (
-                            <div className='bg-blue-50 text-blue-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/3 m-auto mb-3 text-sm'>
+                            <div className='bg-blue-50 text-blue-600 flex justify-center items-center gap-1 rounded-xl px-1 w-1/4 m-auto mb-3 text-sm'>
                               <div className='w-1.5 h-1.5 rounded-full bg-blue-600'></div>Admin
                             </div>
                           )}
                           {user.role === "member" && (
-                            <div className='bg-green-50 text-green-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/3 m-auto mb-3 text-sm'>
+                            <div className='bg-green-50 text-green-600 flex justify-center items-center gap-1 rounded-xl px-2 w-4/12 m-auto mb-3 text-sm'>
                               <div className='w-1.5 h-1.5 rounded-full bg-green-600'></div>Member
                             </div>
                           )}
                           {user.role === "client" && (
-                            <div className='bg-purple-50 text-purple-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/3 m-auto mb-3 text-sm'>
+                            <div className='bg-purple-100 text-purple-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/4 m-auto mb-3 text-sm'>
                               <div className='w-1.5 h-1.5 rounded-full bg-purple-600'></div>Client
                             </div>
                           )}

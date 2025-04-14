@@ -2,18 +2,18 @@ let mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
     // required: true
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", default: null},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", default: null, required: false},
     contact: {
-        customerMail: {type: String, required: true}
+        customerMail: {type: String, required: false}
     },
     shipping: {
-        firstName: {type: String, required: true},
-        lastName: {type: String, required: true},
-        address: {type: String, required: true},
+        firstName: {type: String, required: false},
+        lastName: {type: String, required: false},
+        address: {type: String, required: false},
         postalCode: {type: String, required: false},
-        city: {type: String, required: true},
-        phoneNumber: {type: String, required: true},
-        shippingPrice: {type: Number, default: 0, rquired: true}
+        city: {type: String, required: false},
+        phoneNumber: {type: String, required: false},
+        shippingPrice: {type: Number, default: 0, rquired: false}
     },
     products: [
         {
