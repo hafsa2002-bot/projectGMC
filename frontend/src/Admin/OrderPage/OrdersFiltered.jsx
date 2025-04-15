@@ -54,7 +54,7 @@ function OrdersFiltered({orders}) {
                                 </td>
                                 <td className="px-4 py-4 ">
                                     {order.shipping ? (
-                                        <div>{order.shipping?.firstName + " " + order.shipping?.lastName}</div>
+                                        <div>{order.shipping.firstName && order.shipping.firstName} {order.shipping.lastName && order.shipping.lastName}</div>
                                     ):(
                                         <p>-</p>
                                     )}

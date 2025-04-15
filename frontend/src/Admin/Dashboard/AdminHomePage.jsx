@@ -86,7 +86,7 @@ function AdminHomePage() {
           <div className='lg:w-1/6 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
             <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><NotebookPen /></div>
             <div className='text-center text-gray-500'>
-              <div className='font-semibold flex justify-center gap-1 text-xl'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid :<p className='text-lg font-semibold'>{stockInfo.totalUnpaid}</p>} DH</div>
+              <div className='font-semibold flex justify-center gap-1 text-xl'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid.toFixed(2) :<p className='text-lg font-semibold'>{stockInfo.totalUnpaid}</p>} DH</div>
               <p>Awaiting Payment</p>
             </div>
           </div>

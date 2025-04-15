@@ -47,7 +47,7 @@ function DashboardStockLevels() {
                                         )
                                     }
                                     {       
-                                        product.lowInStock && (
+                                        product.lowInStock && !product.outOfStock && (
                                             <div className='bg-orange-400 lg:w-11/12 w-8/12  m-auto text-white rounded-md text-center font-semibold text-sm'><p>Low in Stock</p></div>
                                         )
                                     }
@@ -57,28 +57,6 @@ function DashboardStockLevels() {
                                     <div className=''><p>{product.qty} Available</p></div>
                                 </div>
                             </div>
-                            {/* <div className="relative p-1.5 bg-gray-50 hover:bg-gray-200 rounded-full">
-                                <EllipsisVertical size={20} onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
-                                {
-                                    showOptions === index && (
-                                        <div className=' z-30 absolute right-7 top-7 bg-white shadow-md border border-gray-200 rounded-lg text-black w-28'>
-                                            update a product 
-                                            <Link className='hover:bg-gray-100 px-2 py-2 gap-1 text-base font-semibold flex items-center justify-center border-b border-gray-200'>
-                                                <div><PenLine size={20} /></div>
-                                                <p>Update</p>
-                                            </Link>
-                                            delete  a product
-                                            <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-2 py-2 gap-1 text-base font-semibold flex justify-center items-center text-red-600'>
-                                                <div><Trash2 size={20} /></div>
-                                                <p>Delete</p>
-                                            </Link>
-                                            a Component <PopUp/> to confirm the delete or cancel
-                                            {popUp && <PopUp setPopUp={setPopUp} name={product.productName} id={product._id} setShowOptions={setShowOptions} />
-                                        }
-                                        </div>
-                                    )
-                                }
-                            </div> */}
                         </Link>
                     ))
                 ):(

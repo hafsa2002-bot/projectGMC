@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import ListOfProducts from './ListOfProducts'
 import axios from 'axios'
+import SucessMessage from '../SucessMessage'
 function AddOrder() {
     // const [shipping, setShipping] = useState({})
     const navigate = useNavigate()
@@ -79,17 +80,9 @@ function AddOrder() {
         }
 
         const orderData = {
-            contact: {
-                customerMail : "Unknown"
-            },
             shipping: {
-                firstName: "Unknown",
                 lastName: firstName || "Unknown",
                 address: address || "Unknown",
-                postalCode: "Unknown",
-                city: "Unknown",
-                phoneNumber: "Unknown",
-                shippingPrice: 0,
             },
             products: rows.map(row => ({
                 productId: row.productId,
@@ -102,7 +95,14 @@ function AddOrder() {
             status: "done"
         }
         try{
-            const response = await axios.post('http://localhost:3003/orders/addOrderr', orderData)
+            const response = await axios.post('http://localhost:3003/orders/addOrder', 
+                orderData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}` 
+                    }
+                }
+            )
             setSucessMessage(true)
             console.log("response", response.data)
             setTimeout(() => setSucessMessage(false), 3000)
@@ -341,12 +341,13 @@ function AddOrder() {
                 <span>Please check your payment.</span>
             </div>
         )}
-        {sucessMessage && (
+        {sucessMessage && <SucessMessage message="Your order has been successfully added!" />}
+        {/* {sucessMessage && (
             <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
                 <CheckCircle className="w-5 h-5 text-green-500" />
                 <span>Your order has been successfully added!</span>
             </div>
-        )}
+        )} */}
     </div>
   )
 }

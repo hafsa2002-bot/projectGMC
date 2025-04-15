@@ -90,7 +90,7 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
 //add order 
 router.post("/orders/addOrder", protect, async(req, res) => {
     try{
-        const {contact, shipping, products, totalAmount, amountPaid, status} = req.body
+        const {shipping, products, totalAmount, amountPaid, status} = req.body
 
         if(!products || products.length == 0){
             return res.status(400).json({error: "Order must contain at least one product"})
@@ -145,14 +145,12 @@ router.post("/orders/addOrder", protect, async(req, res) => {
             await product.updateStockStatus();
         }
 
-        const newOrder = new Order ({contact, shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
+        const newOrder = new Order ({shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
         await newOrder.save()
         console.log("new order: ", newOrder)
 
         //log activity:
-        if(contact.customerMail == "__"){
-            logActivity(req.user._id, req.user.name, "Order Added", `${newOrder._id}`)
-        }
+        logActivity(req.user._id, req.user.name, "Order Added", `${newOrder._id}`)
 
         // update store stock
         await StoreStock.updateStoreStock();

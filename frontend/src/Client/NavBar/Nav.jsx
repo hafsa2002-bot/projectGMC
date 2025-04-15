@@ -29,97 +29,144 @@ function Nav(props) {
   return (
     <div>
         <div className='z-50 border-b border-gray-300  w-full shadow-md fixed top-0'>
-            <nav  className='bg-black text-white   py-3'>
-                <div className='flex justify-between items-center px-5'>
-                    <div className='lg:w-1/3 flex justify-start'>
-                        <Link to="/" className='gap-2 flex justify-center  items-center outline-none'>
-                            <div className='h-10 overflow-hidden '><img  src="/images/N1.png" className='w-full h-full' alt="Logo" /></div>
-                            {/* <div className='w-14 h-14   overflow-hidden'><img src="/images/blackLogo.png" className='w-full h-full' alt="Logo" /></div><p className="hidden">2</p> */}
-                            
-                            <h2 className='text-4xl lg:text-4xl font-poppins font-semibold flex '><span className="bg-gradient-to-r from-white via-stone-400 to-stone-500 bg-clip-text text-transparent">Novexa</span> </h2>
+            <nav className="bg-black text-white px-6 py-3 w-full shadow-md ">
+                <div className="flex items-center justify-between w-full">
+    
+                    {/* Left side: Logo + NavLinks */}
+                    <div className={`flex items-center gap-8 lg:w-2/3 ${props.details ? 'w-1/2' : 'w-full'} `}>
+                        {/* Logo */}
+                        <Link to="/" className={`flex items-center gap-2 outline-none  lg:w-1/2 ${!props.details && 'w-full flex justify-center'} `}>
+                            <div className="lg:h-10 lg:w-10 w-9 h-9 overflow-hidden">
+                            <img src="/images/N1.png" className="w-full h-full object-cover" alt="Logo" />
+                            </div>
+                            <h2 className="text-3xl font-poppins font-bold bg-gradient-to-r from-white via-stone-400 to-stone-500 bg-clip-text text-transparent">
+                            Novexa
+                            </h2>
                         </Link>
-                    </div>
-                    {/* links in laptop version */}
-                    <div className=' w-1/3 text-lg font-semibold lg:flex hidden justify-center  gap-9  '>
-                        <NavLink 
-                            to={"/"}
-                            className={({isActive}) => isActive ? 'border-b-2 border-[#FFEB3B]  text-white' : 'text-stone-400'}
-                        >
-                            Home
-                        </NavLink>
-                        <NavLink 
-                            to={"/products"}
-                            className={({isActive}) => isActive ? 'border-b-2 border-[#FFEB3B]  text-white' : 'text-stone-400'}
-                        >
-                            Products
-                        </NavLink>
-                        <NavLink 
-                            to={"/ContactUs"}
-                            className={({isActive}) => isActive ? 'border-b-2 border-[#FFEB3B]  text-white' : 'text-stone-400'}
-                        >
-                            Contact Us
-                        </NavLink>
-                    </div>
-                    {/* links in mobile version */}
-                    <div className=' text-lg font-semibold flex gap-5 lg:hidden justify-center items-center  lg:gap-9 text-stone-300 '>
-                        <Link to={"/"} >Home</Link>
-                        <Link to={"/products"} >Products</Link>
-                        <Link to={"/ContactUs"} >Contact Us</Link>
-                    </div>
-                    <div className='relative lg:w-1/3 flex justify-end items-center ' >
-                        {/* login link for laptop version */}
-                        <div onClick = {() => {
-                                setShowLogin(!showLogin)
-                                setShowFavorite(false)
-                                setShowCart(false)
-                                setShowMenu(false)
-                            }}>
-                            <CircleUserRound size={35} />
-                            {showLogin && (
-                                <div className='border border-gray-300 cursor-pointer shadow-lg absolute z-50 top-10 right-0 rounded-2xl bg-white text-black w-64 px-3 py-3 flex flex-col'>
-                                    <Link to="/login" className='bg-black text-white font-semibold text-lg rounded-full  text-center py-1.5'>Sign in</Link>
-                                    <Link to="/signUp" className='text-gray-500 text-center mt-1 text-base'>Register</Link>
-                                </div>
-                            )}
+                        {/* NavLinks - Desktop */}
+                        <div className={`hidden lg:flex gap-6 text-base font-medium lg:w-1/2 justify-center`}>
+                            <NavLink 
+                                to="/" 
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" : "text-stone-400 hover:text-white"}>
+                                Home
+                            </NavLink>
+                            <NavLink 
+                                to="/products" 
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" : "text-stone-400 hover:text-white"}>
+                                Products
+                            </NavLink>
+                            <NavLink 
+                                to="/ContactUs" 
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" : "text-stone-400 hover:text-white"}>
+                                Contact Us
+                            </NavLink>
                         </div>
-                        {/* login link for mobile version */}
-                        <Link to={"/login"} className='flex lg:hidden  '>
-                            <CircleUserRound size={32} />
-                        </Link>
-                        {
-                            props.details && (
-                                <div className=''>
-                                    <div className='relative flex items-center pl-5' >
-                                        <button 
-                                            className='cursor-pointer' 
-                                            type='button' 
-                                            onClick={() => {
-                                                setShowMenu(!showMenu)
-                                                setShowLogin(false)
-                                                setShowFavorite(false)
-                                                setShowCart(false)
-                                            }}>
-                                            <Menu size={35} className='' aria-hidden="true" />
-                                        </button>
-                                        {/* Comment *** Dropdown menu */}
-                                        {showMenu && (
-                                            <CategoriesMenu categories={categories} setShowMenu={setShowMenu} />
-                                            )
-                                        }
-                                    </div>
-                                </div>
-                            )        
-                        }
+                        {/* {!props.details && (
+                            <div className='w-1/3'></div>
+                        )} */}
                     </div>
-                </div>  
+                    {props.details && (
+                        <div className="flex items-center justify-end gap-4 lg:w-1/3 w-1/2">
+                            {/* Search */}
+                            {/* <div className="lg:flex hidden items-center border border-stone-500 rounded-full px-3 py-1 w-7/12">
+                                <input 
+                                    type="search" 
+                                    placeholder="Search for Products"
+                                    className="bg-transparent text-sm text-white placeholder-stone-400 outline-none w-full" 
+                                />
+                                <button className="bg-white text-black rounded-full px-3 py-1 ml-2">
+                                    <Search size={18} />
+                                </button>
+                            </div> */}
+                            {/* Icons */}
+                            <div className="flex items-center gap-4 text-white">
+
+                                {/* search - Mobile */}
+                                <div className=''>
+                                    <Search size={24}/>
+                                </div>
+                                {/* Favorite */}
+                                <div 
+                                    onClick={() => {
+                                        setShowFavorite(!showFavorite);
+                                        setShowLogin(false);
+                                        setShowCart(false);
+                                        setShowMenu(false);
+                                    }}
+                                    className="cursor-pointer relative"
+                                >
+                                    <Heart size={24} />
+                                </div>
+                                {showFavorite && <Favorites />}
+
+                                {/* Cart */}
+                                <div 
+                                    onClick={() => {
+                                        setShowCart(!showCart);
+                                        setShowMenu(false);
+                                        setShowLogin(false);
+                                        setShowFavorite(false);
+                                    }}
+                                    className="cursor-pointer relative"
+                                >
+                                    <ShoppingCart size={24} />
+                                    <span className="absolute -top-2 -right-2 bg-yellow-400 text-black rounded-full text-xs px-2 py-0.5">
+                                        {cart.length}
+                                    </span>
+                                </div>
+                                {showCart && <Cart setShowCart={setShowCart} />}
+
+                                {/* Menu */}
+                                <div className="">
+                                    <button onClick={() => {
+                                        setShowMenu(!showMenu);
+                                        setShowLogin(false);
+                                        setShowFavorite(false);
+                                        setShowCart(false);
+                                    }}>
+                                        <Menu size={30} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    
+                </div>
+                {/* Mobile Links */}
+                <div className="lg:hidden flex justify-center gap-6 mt-5 text-sm font-medium">
+                    <NavLink 
+                        to="/" 
+                        className={({ isActive }) => isActive 
+                            ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
+                            : "text-stone-300 hover:text-white"}>
+                        Home
+                    </NavLink>
+                    <NavLink 
+                        to="/products" 
+                        className={({ isActive }) => isActive 
+                            ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
+                            : "text-stone-300 hover:text-white"}>
+                        Products
+                    </NavLink>
+                    <NavLink 
+                        to="/ContactUs" 
+                        className={({ isActive }) => isActive 
+                            ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
+                            : "text-stone-300 hover:text-white"}>
+                        Contact Us
+                    </NavLink>
+                </div>
+
+                {showMenu && <CategoriesMenu categories={categories} setShowMenu={setShowMenu} />}
             </nav>
+
             {/* search, favorite, cart */}
             <div className='w-full'>
                 {props.details && (
-                    <div className='bg-white w-full text-black flex justify-between py-2 px-5'>
+                    <div className='bg-white w-full text-black flex justify-between '>
                         <div className='w-1/3'></div>
                         {/* search */}
-                        <div className='w-1/3 border rounded-full flex justify-between items-center pl-3 pr-[1px] py-[1px]'>
+                        {/* <div className='w-1/3 border rounded-full flex justify-between items-center pl-3 pr-[1px] py-[1px]'>
                             <input
                                 className='outline-none'
                                 type="search" 
@@ -130,9 +177,8 @@ function Nav(props) {
                             <button className='bg-black rounded-full text-white px-4  my-[0.2px] py-2 cursor-pointer'>
                                 <Search size={19} />
                             </button>
-                        </div>
-                        <div className='w-1/3 flex justify-end items-center'>
-                            {/* Favorites */}
+                        </div> */}
+                        {/* <div className='w-1/3 flex justify-end items-center'>
                             <div onClick={() => {
                                     setShowFavorite(!showFavorite)
                                     setShowLogin(false)
@@ -145,7 +191,6 @@ function Nav(props) {
                                     size={28}/>
                             </div>
                             {showFavorite && (<Favorites/>)}
-                            {/* Cart */}
                             <div
                                 onClick={() => {
                                     setShowCart(!showCart)
@@ -165,7 +210,7 @@ function Nav(props) {
                                 <Cart setShowCart={setShowCart} />
                             )
                             }
-                        </div>
+                        </div> */}
                     </div>
                 )}
             </div>

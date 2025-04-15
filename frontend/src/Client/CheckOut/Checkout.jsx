@@ -6,6 +6,7 @@ import CheckOutNav from './CheckOutNav'
 import ChecOutCart from './ChecOutCart'
 import axios from 'axios'
 import CheckOutInfo from './CheckOutInfo'
+import SucessMessage from '../../Admin/SucessMessage'
 
 function Checkout() {
     const {cart, setCart} = useCart()
@@ -64,9 +65,10 @@ function Checkout() {
             if(response.status === 200){
                 console.log("order added: ", response.data)
                 setShowMessage(true)
+                setTimeout(() => setShowMessage(false), 2000) 
                 localStorage.removeItem("cart")
                 setCart([])
-                navigate("/products")
+                setTimeout(() => navigate("/products"), 2400)
             }else{
                 console.log("failed")
             }
@@ -96,10 +98,6 @@ function Checkout() {
         const Qty = cart.reduce((totalQty, currentValue) => totalQty + (currentValue.quantity), 0)
         setTotalQty(Qty)
     }
-    // useEffect(() => {
-    //     calculateTotal()
-    //     CalculateTotalQuantity()
-    // }, [cart])
 
   return (
     <div className=''>
@@ -217,6 +215,7 @@ function Checkout() {
                 {outOfStockMessage && (
                     <div className='text-red-500 bg-white shadow absolute top-0 p-2'>One or more items in your cart are out of stock!</div>
                 )}
+                {showMessage && <SucessMessage message="Your order has been successfully passed!" />}
             </div>
             {/* Cart Info */}
             <ChecOutCart cart={cart} totalAmount={totalAmount} totalQty={totalQty}  />

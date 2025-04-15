@@ -53,11 +53,17 @@ function App() {
           <Route path='/products' element={<Nav details={true} />}>
             <Route index element ={<ProductsPage/>} />
             <Route path = ":category" element={<CategoryPage/>} />
+            {/* <Route path='/contactUs' element={<ContactUs/>} /> */}
           </Route>
+            {/* <Route path='/' element={<Nav details={true} />}>
+              <Route index element={<HomePage/>} />
+              <Route path="products"  element ={<ProductsPage/>} />
+              <Route path = "products/:category" element={<CategoryPage/>} />
+            </Route> */}
+          <Route path='/contactUs' element={<ContactUs/>} />
           <Route path="checkout" element={<Checkout/>}/>
           <Route path = "/login" element={<Login/>} />
           <Route path = "/signUp" element={<SignUp/>} />
-          <Route path='/contactUs' element={<ContactUs/>} />
 
           {/* Admin pages */}
           <Route path="/admin" element={
