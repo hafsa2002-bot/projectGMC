@@ -29,13 +29,13 @@ function Nav(props) {
   return (
     <div>
         <div className='z-50 border-b border-gray-300  w-full shadow-md fixed top-0'>
-            <nav className="bg-black text-white px-6 py-3 w-full shadow-md ">
+            <nav className="bg-black text-white lg:px-6 px-3 py-3 w-full shadow-md ">
                 <div className="flex items-center justify-between w-full">
     
                     {/* Left side: Logo + NavLinks */}
                     <div className={`flex items-center gap-8 lg:w-2/3 ${props.details ? 'w-1/2' : 'w-full'} `}>
                         {/* Logo */}
-                        <Link to="/" className={`flex items-center gap-2 outline-none  lg:w-1/2 ${!props.details && 'w-full flex justify-center'} `}>
+                        <Link to="/" className={`flex items-center gap-2 outline-none  lg:w-1/2 ${!props.details && 'w-full flex lg:justify-start justify-center'} `}>
                             <div className="lg:h-10 lg:w-10 w-9 h-9 overflow-hidden">
                             <img src="/images/N1.png" className="w-full h-full object-cover" alt="Logo" />
                             </div>
@@ -79,7 +79,7 @@ function Nav(props) {
                                 </button>
                             </div> */}
                             {/* Icons */}
-                            <div className="flex items-center gap-4 text-white">
+                            <div className="flex items-center lg:gap-5 gap-3 text-white">
 
                                 {/* search - Mobile */}
                                 <div className=''>
@@ -117,7 +117,7 @@ function Nav(props) {
                                 {showCart && <Cart setShowCart={setShowCart} />}
 
                                 {/* Menu */}
-                                <div className="">
+                                <div className="realtive">
                                     <button onClick={() => {
                                         setShowMenu(!showMenu);
                                         setShowLogin(false);
@@ -126,6 +126,7 @@ function Nav(props) {
                                     }}>
                                         <Menu size={30} />
                                     </button>
+                                    {showMenu && <CategoriesMenu categories={categories} setShowMenu={setShowMenu} />}
                                 </div>
                             </div>
                         </div>
@@ -156,8 +157,6 @@ function Nav(props) {
                         Contact Us
                     </NavLink>
                 </div>
-
-                {showMenu && <CategoriesMenu categories={categories} setShowMenu={setShowMenu} />}
             </nav>
 
             {/* search, favorite, cart */}

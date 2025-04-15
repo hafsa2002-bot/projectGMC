@@ -11,7 +11,7 @@ function DeletePopUp({productId, setShowDeletePopUp}) {
     }
   return (
     <div className='w-screen h-screen  top-0 right-0 fixed flex justify-center  items-center'style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
-        <div className=' bg-white opacity-100 px-5 w-96 py-4 rounded-md shadow-md flex flex-col  gap-8'>
+        <div className=' bg-white opacity-100 px-5 lg:w-96 w-72 py-4 rounded-md shadow-md flex flex-col  gap-8'>
             <div className=''>
                 <div className='flex justify-between items-center w-full'>
                     <div className='text-center'>

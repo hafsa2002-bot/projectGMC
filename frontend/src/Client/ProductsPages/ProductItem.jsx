@@ -104,7 +104,7 @@ function ProductItem({product}) {
         </div>  
         {
             showMessage && (
-                <div className='px-3 py-2 fixed top-36 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center gap-3 border border-gray-300 '>
+                <div className='px-3 py-2 fixed lg:top-20 top-32 lg:w-auto w-10/12  left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center gap-3 border border-gray-300 '>
                     <div className='w-4 h-4 bg-red-700 rounded-full flex justify-center items-center'><X className='text-white' size={12}/></div>
                     <p>Product Almost sold out</p> 
                 </div>
@@ -112,7 +112,7 @@ function ProductItem({product}) {
         }  
         {
             successMessage && (
-                <div className=' py-2 px-3 fixed top-36 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-white flex justify-center items-center gap-3 border border-gray-200'>
+                <div className=' py-2 px-3 fixed lg:top-20 top-32 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg lg:bg-white bg-green-50 flex justify-center items-center gap-3 border border-gray-200'>
                     <div className='w-4 h-4 bg-green-800 rounded-full flex justify-center items-center'><Check className='text-white' size={12} /></div>
                     <p>Added to cart!</p> 
                 </div>

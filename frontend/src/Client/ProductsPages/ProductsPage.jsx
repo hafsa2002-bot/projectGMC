@@ -1,10 +1,10 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import { Link, useNavigate, useOutletContext } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import SpinnerLoader from '../../SpinnerLoader'
 import Footer from '../Footer'
-import { ChevronDown } from 'lucide-react'
+import { ArrowRight, ChevronDown } from 'lucide-react'
 
 function ProductsPage() {
     const [categories, setCategories] = useState({})
@@ -13,6 +13,14 @@ function ProductsPage() {
     const [itemsToShow, setItemsToShow] = useState(12)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
+    const scrollRef = useRef();
+
+    const scrollRight = () => {
+        scrollRef.current.scrollBy({
+            left: 200,
+            behavior: 'smooth'
+        });
+    };
     
     const shuffleArray = (arr) => {
         // Make a copy of the array to avoid direct mutation of state
@@ -63,7 +71,7 @@ function ProductsPage() {
         return result;
     }
   return (
-    <div className='mt-40'>
+    <div className='mt-28'>
         <div className=' w-full'>
             {
                 loading
@@ -72,29 +80,52 @@ function ProductsPage() {
                 )
                 : (
                     <>
-                        <div className='flex justify-center gap-24 mb-20'>
-                            {categories.length > 0 && (
-                                categories.slice(0, 5).map((category, index) => (
-                                    <Link to={`/products/${category.categoryName}`}  key={index} className="flex flex-col justify-center items-center">
-                                        <div className='w-30 h-30 rounded-full border border-gray-400'>
-                                            {(category.products.length>0 && category.products[1].productPhoto) && (
+                        {/* categories */}
+                        <div className="relative w-full">
+                            <div 
+                                ref={scrollRef}
+                                className="flex pt-3 px-8 gap-16 overflow-x-scroll w-full hide-scrollbar scroll-smooth"
+                            >
+                                {categories.length > 0 && categories.map((category, index) => (
+                                    <Link 
+                                        to={`/products/${category.categoryName}`}  
+                                        key={index} 
+                                        className="flex flex-col items-center text-center hover:scale-105 transition-transform duration-300"
+                                    >
+                                        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
+                                            {(category.products.length > 0 && category.products[1]?.productPhoto) && (
                                                 <img 
-                                                    src={`http://localhost:3003${category.products[1].productPhoto}`}
-                                                    className="w-full h-full"
+                                                    src={`http://localhost:3003${category.products[1]?.productPhoto}`}
+                                                    className="w-full h-full object-cover"
+                                                    alt={category.categoryName}
                                                 />
                                             )}
                                         </div>
-                                        <p className='font-roboto text-xl pt-2'>{firstLetterToUpperCase(category.categoryName)}</p>
+                                        <p className="font-semibold text-lg mt-3 capitalize text-gray-700">
+                                            {firstLetterToUpperCase(category.categoryName)}
+                                        </p>
                                     </Link>
-                                ))
-                            )}
+                                ))}
+                            </div>
+
+                        {/* Right-side Gradient Shadow (behind the button) */}
+                        <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+                            {/* Scroll Arrow Button */}
+                            <button 
+                                onClick={scrollRight}
+                                className="absolute right-2 top-2/5 -translate-y-1/2 bg-gray-100 border border-gray-400 rounded-full p-2 shadow-md hover:bg-gray-200 transition-all z-20"
+                            >
+                                <ArrowRight className="text-gray-600" />
+                            </button>
                         </div>
+
+
                         {/* items-baseline */}
-                        <div className=' flex flex-wrap gap-9 justify-between  lg:px-10 px-6 '>
+                        <div className=' flex flex-wrap gap-9 justify-between mt-16  lg:px-10 px-6 '>
                             {
                                 displayedProducts.map((product, index) => (
                                     <ProductItem product = {product} key={index}  />
-                                    ))
+                                ))
                             }
                         </div>
                         {

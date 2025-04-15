@@ -50,8 +50,8 @@ function CartElement({product}) {
     <div>
         {
             product && (
-            <div className='flex justify-between py-5'>
-                <div className='flex w-9/12 gap-5 items-start'>
+            <div className='flex justify-between  lg:gap-0 gap-4 py-5'>
+                <div className='flex w-9/12 gap-5  items-start'>
                     <div className='w-24 h-24 rounded-lg border border-gray-300 mt-2'>
                         {product.productPhoto && (
                             <img src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} className='w-full h-full' />
@@ -81,7 +81,7 @@ function CartElement({product}) {
                     </div>
                 </div>
                 <div className='flex flex-col justify-between items-end pr-2'>
-                    <div className='font-mono font-semibold'>{(product.quantity * product.price).toFixed(2)} MAD</div>
+                    <div className='font-mono font-semibold text-end'>{(product.quantity * product.price).toFixed(2)} MAD</div>
                     <div
                         onClick={() => setShowDeletePopUp(true)}
                         className='cursor-pointer text-red-500 text-lg'
@@ -95,7 +95,7 @@ function CartElement({product}) {
         }
         <hr className='text-gray-300 w-11/12 m-auto'/>
         {message && (
-            <div className='px-3 py-2 fixed top-36 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center gap-3 border border-gray-300 '>
+            <div className='px-3 py-2 fixed top-20 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center lg:w-auto w-11/12  gap-3 border border-gray-300 '>
                 <div className='w-4 h-4 bg-red-700 rounded-full flex justify-center items-center'><X className='text-white' size={12}/></div>
                 <p>The maximum available quantity is {productById.qty}</p> 
             </div>
