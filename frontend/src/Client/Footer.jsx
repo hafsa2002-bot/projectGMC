@@ -3,7 +3,7 @@ import { Instagram, Facebook, Twitter } from 'lucide-react'
 
 function Footer() {
   return (
-    <footer className=" flex flex-col mt-[200px] bg-black text-white items-center pt-7">
+    <footer className="hidden lg:flex flex-col mt-[200px] bg-black text-white items-center pt-7">
         <div className='flex justify-center gap-28 border-b w-10/12 pb-8'>
             <div>
                 <div>
