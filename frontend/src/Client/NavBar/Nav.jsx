@@ -13,7 +13,7 @@ function Nav(props) {
     const [showMenu, setShowMenu] = useState(false)
     const [showCart, setShowCart] = useState(false)
     const [showFavorite, setShowFavorite] = useState(false)
-    const {cart} = useCart()
+    const {cart, favorites} = useCart()
     const navigate = useNavigate()
 
     const fetchData = () => {
@@ -96,8 +96,13 @@ function Nav(props) {
                                     className="cursor-pointer relative"
                                 >
                                     <Heart size={24} />
+                                    {favorites.length > 0 &&  (
+                                        <span className="absolute -top-2 -right-2 bg-yellow-400 text-black rounded-full text-xs px-2 py-0.5">
+                                            {favorites.length}
+                                        </span>
+                                    )}
                                 </div>
-                                {showFavorite && <Favorites />}
+                                {showFavorite && <Favorites setShowFavorite={setShowFavorite} />}
 
                                 {/* Cart */}
                                 <div 

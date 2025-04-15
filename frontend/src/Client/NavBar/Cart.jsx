@@ -48,7 +48,7 @@ function Cart({setShowCart}) {
             </div>
           </div>
         ):(
-          <div className=' flex flex-col justify-center items-center gap-6 h-[60vh]'>
+          <div className=' flex flex-col justify-center items-center gap-6 h-[73vh]'>
             <div className='flex flex-col justify-center items-center text-gray-300'>
               <ShoppingCart size={80} fill="rgb(203, 213, 225)"/>
               <p className='text-gray-500 font-semibold'>Your cart is empty</p>

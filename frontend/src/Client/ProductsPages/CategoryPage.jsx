@@ -39,7 +39,7 @@ function CategoryPage() {
                 <SpinnerLoader/>
             )
             :(
-                <div className=' flex flex-wrap gap-14 items-baseline w-11/12 m-auto px-4'>
+                <div className=' flex flex-wrap lg:gap-9 gap-x-2 gap-y-9 justify-between lg:w-11/12 m-auto lg:px-10 px-6'>
                     {
                         listOfProducts.products?.map((product, index) => (
                             <ProductItem product = {product} key={index} />
