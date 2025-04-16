@@ -97,13 +97,13 @@ router.get("/admin/items/category/:categoryId", async (req, res) => {
 })
 
 // update category name
-router.patch("/update/category/:id",  async (req, res) => {
+router.patch("/update/category/:id", protect,  async (req, res) => {
     try{
         const oldCategory = await Category.findById({_id: req.params.id})
         const category = await Category.findByIdAndUpdate(req.params.id, { categoryName: req.body.categoryName }, {new: true})
 
         // log activity
-        await logActivity("User name", "Category updated", `${oldCategory.categoryName}`)
+        await logActivity(req.user._id, req.user.name, "Category updated", `${oldCategory.categoryName}`)
         if(!category) return res.status(404).json({message: 'Product not found'})
         res.json(category)
     }catch(error){
@@ -113,7 +113,7 @@ router.patch("/update/category/:id",  async (req, res) => {
 
 
 // delete category by Id
-router.delete("/admin/items/delete-category/:id", async(req, res) => {
+router.delete("/admin/items/delete-category/:id", protect, async(req, res) => {
     try{
         const deletedCategory = await Category.findByIdAndDelete({_id: req.params.id})
         if(!deletedCategory){
@@ -125,7 +125,7 @@ router.delete("/admin/items/delete-category/:id", async(req, res) => {
         console.log("deleted products from this category : ", deletedProducts)
 
          // log activity
-        await logActivity("User name", "Category deleted", `${deletedCategory.categoryName}`)
+        await logActivity(req.user._id, req.user.name, "Category deleted", `${deletedCategory.categoryName}`)
         res.json({message: "category deleted successfully", deletedCategory})
     }catch(error){
         console.log("Error: ",error)

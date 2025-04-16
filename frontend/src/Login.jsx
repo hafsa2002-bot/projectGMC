@@ -9,10 +9,16 @@ function Login() {
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
   const [user, setUser] = useState({})
-  // const token = localStorage.getItem("token");
+  const [errorMessage, setErrorMessage] = useState(false)
 
   const handleSubmit = async(event) => {
     event.preventDefault()
+
+    if(user.length == 0){
+      setErrorMessage(true)
+      setTimeout(() => setErrorMessage(false), 3000)
+      return
+    } 
 
     try{
         const response = await axios.post("http://localhost:3003/users/login", {
@@ -37,22 +43,19 @@ function Login() {
         console.log("error: ", error)
     }
 }
-  /*
   const fetchData = () => {
-    axios.get(`http://localhost:3007/user/${email}`)
+    axios.get(`http://localhost:3003/user/${email}`)
         .then(response => setUser(response.data))
         .catch(error => console.log("Error: ", error))
   }
   useEffect(() => {
     fetchData()
   }, [email])
-  */
 
   return (
     <>
       <div className="flex flex-col items-center justify-center lg:h-screen min-h-screen lg:gap-20 gap-16  lg:bg-[url('https://brandio.io/envato/iofrm/html/images/graphic8.svg')] lg:bg-[500px_auto] bg-[410px_auto] bg-no-repeat bg-center">
         <div className='flex gap-4 mb-8'>
-            {/* <Ratio size = {40} className='text-blue-600 '/>  */}
             {/* <div className='h-10 overflow-hidden'><img src="/images/logo7.png" className='w-full h-full' alt="Logo" /></div> */}
             <h2 className='font-bold text-5xl text-black '>Novexa</h2>
         </div>
@@ -98,6 +101,14 @@ function Login() {
             {/* <p className='text-gray-500 text-sm'>Don't have an account? <Link to="/signUp" className='text-black font-medium'>Sign up</Link></p> */}
         </div>
     </div>
+    {errorMessage && (
+          <div className='bg-red-100 fixed top-0 left-0 right-0 p-4 border-t-4 border-red-500 flex items-center justify-between shadow-lg'>
+              <div className='flex items-center'>
+                  <div className='w-4 h-4 bg-red-500 rounded-full mr-3'></div>
+                  <p className='text-lg font-semibold text-red-800'>This Account doesn't exist.</p>
+              </div>
+          </div>
+      )}
     </>
   )
 }

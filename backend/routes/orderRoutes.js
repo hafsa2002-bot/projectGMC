@@ -70,13 +70,6 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
         await newOrder.save()
         console.log("new order: ", newOrder)
 
-        //log activity:
-        /*
-        if(contact.customerMail == "__"){
-            logActivity("User name", "Order Added", `${newOrder._id}`)
-        }
-            */
-
         // update store stock
         await StoreStock.updateStoreStock();
 

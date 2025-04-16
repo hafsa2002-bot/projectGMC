@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router-dom'
 function PopUp({setPopUp, name, id, setShowOptions}) {
     const navigate = useNavigate()
     const deleteItem = () => {
-        axios.delete(`http://localhost:3003/admin/item/${id}`)
+        axios.delete(`http://localhost:3003/admin/item/${id}`,
+            {headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}` 
+            }}
+        )
             .then( (response) => {
                 console.log(`the product: ${response.data} deleted`)
                 setPopUp(false);

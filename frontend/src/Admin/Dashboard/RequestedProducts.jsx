@@ -1,12 +1,14 @@
 import { CirclePlus, Trash2, X } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
+import DeleteRequestedProduct from './DeleteRequestedProduct'
 
 function RequestedProducts() {
     const [requestedProducts, setRequestedProducts] = useState([])
     const [reqProductName, setReqProductName] = useState("")
     const [showFormToAddProduct, setShowFormToAddProduct] = useState(false)
     const [submitProduct, setSubmitProduct] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
 
     const getRequestedProducts = () => {
         axios.get("http://localhost:3003/admin/dashbord/requested-products")
@@ -19,7 +21,10 @@ function RequestedProducts() {
         if(!reqProductName.trim()) return;
         try{
             const response = await axios.post("http://localhost:3003/admin/dashboard/add-requested-product",
-                {reqProductName}
+                {reqProductName},
+                {headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }}
             )
             console.log("product added successfully: ", response.data)
             getRequestedProducts() // refresh the list
@@ -30,23 +35,28 @@ function RequestedProducts() {
             console.log("Error: ", error)
         }
     }
-    
+    /*
     const deleteRequestedProduct = (productID) => {
-        axios.delete(`http://localhost:3003/admin/dashboard/delete-requested-product/${productID}`)
+        axios.delete(`http://localhost:3003/admin/dashboard/delete-requested-product/${productID}`,
+            {headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}` 
+            }}
+        )
             .then((response) => console.log("requested product deleted:", response.data))
             .catch(error => console.log("error: ", error))
     }
+            */
 
     useEffect(() => {
         getRequestedProducts()
     }, [requestedProducts])
     
   return (
-    <div>
+    <div className=''>
         <div className='pt-2 sticky top-0 z-10 bg-gray-50 px-4 pb-2'>
             <p className='text-xl font-semibold text-gray-700'>Requested Products</p>
         </div>
-        <div className='overflow-y-scroll h-64'>
+        <div className='overflow-y-scroll h-64 '>
             <div className='flex justify-end'>
                 <div 
                     onClick={() => setShowFormToAddProduct(true)}
@@ -99,26 +109,20 @@ function RequestedProducts() {
                 {(requestedProducts.length > 0 )
                 ?(
                     requestedProducts.map((product, index) => (
-                        <div key={product._id} className='p-2 border rounded-lg border-gray-400 flex justify-between gap-4 items-center'>
-                            <div className=''>
-                                <div className='font-semibold text-gray-700'>
-                                    <p>{product.reqProductName}</p>
-                                </div>
-                                {/* <div className='text-sm pl-1'>
-                                    {(product.numberOfRequests == 1) && (
-                                        <p>{product.numberOfRequests} request</p>
-                                    )}
-                                    {(product.numberOfRequests > 1) && (
-                                        <p>{product.numberOfRequests} requests</p>
-                                    )}
-                                </div> */}
+                        <div key={product._id} 
+                            className='relative p-2 border rounded-lg border-gray-400 flex justify-between gap-4 items-start '
+                        >
+                            <div className='font-semibold text-gray-700 max-w-10/12 '>
+                                <p className=' break-words'>{product.reqProductName}</p>
                             </div>
                             <div
-                                onClick={() => deleteRequestedProduct(product._id)}
-                                className='text-red-400 cursor-pointer'
+                                // onClick={() => deleteRequestedProduct(product._id)}
+                                onClick={() => setShowDelete(true)}
+                                className='text-red-400 cursor-pointer pt-2'
                             >
                                 <Trash2 size={19} />
                             </div>
+                            {showDelete && <DeleteRequestedProduct setShowDelete={setShowDelete} name={product.reqProductName} id={product._id}  />}
                         </div>
                     ))
                 ):(

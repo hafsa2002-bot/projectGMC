@@ -77,7 +77,7 @@ function AllCategories() {
                                         <div className=''>
                                             {(category.products && category.products.length > 0)
                                             ?(
-                                            <div className='flex w-60 h-40 '>
+                                            <div className='flex w-60 h-40'>
                                                 <div className='w-1/2 border-r-3 border-b-3 border-white flex justify-center items-center'>
                                                     {
                                                         (category.products.length > 0 && category.products[0].productPhoto)
@@ -121,8 +121,8 @@ function AllCategories() {
                                         </div>
                                     </div>
                                     <div className='bg-white flex justify-between items-center  pl-3 pr-2 py-1'>
-                                        <div className=' text-gray-700 font-semibold'>
-                                            <div><p>{category.categoryName}</p></div>
+                                        <div className=' text-gray-700 font-semibold w-10/12'>
+                                            <div className="max-w-44"><p className='truncate'>{category.categoryName}</p></div>
                                             <div className='text-sm flex text-gray-400 font-normal '>
                                                 <div className=' flex items-center gap-1 w-auto'>
                                                     <Layers size={14} />
@@ -140,7 +140,7 @@ function AllCategories() {
                                             <EllipsisVertical  onClick={() => setShowOptions(index === showOptions ? null : index)}  />
                                             {
                                                 showOptions === index && (
-                                                    <div className='absolute z-50 top-6 right-4  flex flex-col  px-1 py-1 rounded-lg bg-white border border-gray-200 text-gray-500 w-28 '>
+                                                    <div className='absolute z-40 top-6 right-4  flex flex-col  px-1 py-1 rounded-lg bg-white border border-gray-200 text-gray-500 w-28 '>
                                                         <Link 
                                                             to={`/admin/items/categories/${category._id}`} 
                                                             className='flex gap-2 items-center px-3 py-2 hover:bg-gray-100 text-black rounded-lg'>
@@ -155,7 +155,6 @@ function AllCategories() {
                                                         </div>
                                                         {updateCategory && <UpdateCategory categoryId={category._id} categoryName={category.categoryName} setUpdateCategory={setUpdateCategory} setShowOptions={setShowOptions} setMessage={setMessage} />}
                                                         <div
-                                                            // deleteCategory(category._id)
                                                             onClick={() => setShowPopUp(true)}
                                                             className='flex gap-2 items-center px-3 py-2 text-red-500 hover:bg-gray-100 rounded-lg'>
                                                             <Trash2 size={19} />

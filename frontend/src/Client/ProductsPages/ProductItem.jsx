@@ -1,6 +1,6 @@
 import { Check, Heart, ImageOff, ShoppingCart, X } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {useCart} from '../../CartContext'
 import axios from 'axios'
 
@@ -59,13 +59,13 @@ function ProductItem({product}) {
     <>
         <div
             className='lg:w-64 w-40  overflow-hidden hover:shadow-lg hover:shadow-gray-400 border border-gray-300 rounded-md pb-3 group'>
-            <div className='relative '>
+            <Link to={`/products/${product._id}`} className='relative '>
                 {
                     product.productPhoto 
                         ?(
-                            <>
-                                <img className='lg:h-72 h-56 w-full ' src={`http://localhost:3003${product.productPhoto}`} />
-                            </>
+                            <div className='lg:h-72 h-56 w-full p-5'>
+                                <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} />
+                            </div>
                         )
                         :(
                             <div className='lg:h-72 h-56 w-full bg-gray-50 relative'>
@@ -92,7 +92,7 @@ function ProductItem({product}) {
                     </div>
                 </div>
                 
-            </div>
+            </Link>
             <div className='text-center px-2'>
                 <h2 className=' pt-2  h-9 overflow-hidden truncate'>{product.productName}</h2>
                 <h2 className='font-semibold px-2'><span className='text-xl '>{product.price} <span className='text-sm'>MAD</span></span> </h2>

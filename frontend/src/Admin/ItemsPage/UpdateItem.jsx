@@ -1,5 +1,5 @@
 import { ArrowLeft, Barcode, CalendarDays, Check, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode, X } from 'lucide-react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -21,7 +21,7 @@ function UpdateItem() {
     const [showCategories, setShowCategories] = useState(false)
     const [updatedSelectedCategory, setUpdatedSelectedCategory] = useState({id: "", name: ""})
     const [addCategory, setAddCategory] = useState(false)
-    const [updatedExpirationDate, setUpdatedExpirationDate] = useState("")
+    const [updatedExpirationDate, setUpdatedExpirationDate] = useState(null)
     const [updatedProductPhoto, setUpdatedProductPhoto] = useState(null)
     const [submitted, setSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState(false)
@@ -30,6 +30,13 @@ function UpdateItem() {
     const [updateQuantity, setUpdateQuantity] = useState(false)
     const [message, setMessage] = useState(false)
     const navigate = useNavigate()
+    const datePickerRef = useRef(null);
+
+    const handleDivClick = () => {
+        if (datePickerRef.current) {
+        datePickerRef.current.setFocus(); // Open the calendar
+        }
+    };
 
     let totalValue = () => {
         if (updatedPrice || updatedQty) return `${updatedPrice * updatedQty} `;
@@ -49,10 +56,11 @@ function UpdateItem() {
             const formData = new FormData();
             formData.append("productName", updatedProductName);
             formData.append("price", updatedPrice);
-            // formData.append("qty", updatedQty);
             formData.append("barcode", updatedBarcode);
             formData.append("minLevel", updatedMinLevel);
-            formData.append("expirationDate", updatedExpirationDate);
+            if (updatedExpirationDate) {
+                formData.append("expirationDate", updatedExpirationDate.toString()); 
+            }
             formData.append("updatedCategoryId", updatedSelectedCategory.id);
             if (updatedProductPhoto instanceof File) {
                 formData.append("updatedProductPhoto", updatedProductPhoto);
@@ -63,7 +71,8 @@ function UpdateItem() {
                 formData,
                 {
                     headers: {
-                        "Content-Type": "multipart/form-data"
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${localStorage.getItem("token")}` 
                     }
                 }
             );
@@ -91,12 +100,8 @@ function UpdateItem() {
                 setUpdatedExpirationDate(data.expirationDate)
                 setUpdatedProductPhoto(data.productPhoto)
                 console.log("Product By ID: ", response.data)
-                // setLoading(false)
             })
-            .catch(error => {
-                console.log("error: ", error)
-                // setLoading(false)
-            })
+            .catch(error => console.log("error: ", error))
     }, [])
 
     useEffect(() => {
@@ -140,7 +145,6 @@ function UpdateItem() {
                             onChange={(e) => setUpdatedProductName(e.target.value)} 
                             value={updatedProductName} 
                             placeholder='Product name'
-                            // required
                         />
                         {(updatedProductName === "" && showRequired ) && (
                             <div className='absolute text-red-600 text-sm'>Required</div>
@@ -173,14 +177,11 @@ function UpdateItem() {
                         <label htmlFor="updatedQty" className="block mb-2 font-medium text-gray-900">Quantity <span className='text-red-500'>*</span></label>
                         <input 
                             type="number" 
-                            // min="1"
                             name="updatedQty" 
                             id="updatedQty"
                             value={updatedQty}
-                            // onChange={(e) => setUpdatedQty(e.target.value) }
                             placeholder="1" 
                             className={` bg-gray-200 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((updatedQty ==="" || updatedQty == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
-                            // required 
                             disabled
                         />
                         <div className='flex gap-1 mt-2 font-semibold'>To adjust this quantity, <div onClick={() => setUpdateQuantity(true)} className='text-blue-500 cursor-pointer'>click here</div></div>
@@ -192,13 +193,11 @@ function UpdateItem() {
                         <div className='flex'>
                             <input 
                                 type="number"
-                                //min="1" 
                                 name="updatedMinLevel" 
                                 id="updatedMinLevel" 
                                 value={updatedMinLevel}
                                 onChange={(e) => setUpdatedMinLevel(e.target.value)}
                                 className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((updatedMinLevel ==="" || updatedMinLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
-                                // required
                             />
                         </div>
                         {((updatedMinLevel === "") && showRequired) && (
@@ -229,21 +228,18 @@ function UpdateItem() {
                     </div>
                 </div>
                 <div className='flex gap-8  w-full items-center'>
-
                     {/* Price */}
                     <div className='w-1/2'>
                         <label htmlFor="updatedPrice" className="block mb-2 font-medium text-gray-900">Price <span className='text-red-500'>*</span></label>
                         <div className='relative'>
                             <input 
                                 type="number"
-                                // min="1" 
                                 name="updatedPrice" 
                                 id="updatedPrice"
                                 placeholder='100'
                                 onChange={(e) => setUpdatedPrice(e.target.value)}
                                 value={updatedPrice}
                                 className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((updatedPrice ==="" || updatedPrice == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
-                                // required                                                            
                             />
                             {(updatedPrice === "" && showRequired) && (
                                 <div className='absolute text-red-600 text-sm'>Required</div>
@@ -339,17 +335,20 @@ function UpdateItem() {
                 <div className=' w-full flex gap-8'>
                     <div className='w-1/2 '>
                         <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
-                        <div className='relative w-full'>
-                            <div className="absolute z-10 right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                                <CalendarDays className='text-gray-500' />
-                            </div>
+                        <div
+                            onClick={handleDivClick} 
+                            className='flex justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'
+                        >
                             <DatePicker
                                 selected={updatedExpirationDate}
                                 onChange={(date) => setUpdatedExpirationDate(date)}
                                 dateFormat="yyyy-MM-dd"
-                                className=' bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[450px] p-2.5 '
+                                className=' p-2.5 outline-none '
                                 placeholderText='Select Date'
                             />
+                            <div className="">
+                                <CalendarDays className='text-gray-500' />
+                            </div>
                         </div>
                     </div>
                     <div className='w-1/2'></div>
@@ -372,17 +371,7 @@ function UpdateItem() {
                                     </>
                                 )
                                 :(
-                                    <>
-                                        <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{updatedProductPhoto.name ? updatedProductPhoto.name : updatedProductPhoto}</p>
-                                        {/* {updatedProductPhoto.name && (
-                                            <img
-                                                src={URL.createObjectURL(updatedProductPhoto)}
-                                                alt="Preview"
-                                                className="w-24 h-10 object-contain"
-                                            />
-                                        )} */}
-                                        {/* <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{updatedProductPhoto.size && ((updatedProductPhoto.size / 1024).toFixed(2))} KB</p> */}
-                                    </>
+                                    <p className="font-semibold mb-2 text-sm text-gray-500 dark:text-gray-400">{updatedProductPhoto.name ? updatedProductPhoto.name : updatedProductPhoto}</p>
                                 )}
                             </div>
                             <input 

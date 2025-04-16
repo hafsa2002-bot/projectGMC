@@ -10,7 +10,6 @@ const productSchema = new mongoose.Schema({
     barcode: {type: String, required: false, unique: false},
     minLevel: {type:Number, required: true, min: 1}, 
 
-    // required : true
     productPhoto: {type: String, required: false},
     createdAt: {type: Date, default: Date.now},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},

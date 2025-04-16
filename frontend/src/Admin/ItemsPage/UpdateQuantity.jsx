@@ -21,7 +21,12 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
     }
     
     try{
-      const response = await axios.patch(`http://localhost:3003/admin/items/update/${item._id}`, {newQty: newQty})
+      const response = await axios.patch(`http://localhost:3003/admin/items/update/${item._id}`, 
+        {newQty: newQty},
+        {headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}` 
+        }
+      })
       setUpdateQty(false)
       setMessage(true)
       setTimeout(() => setMessage(false), 3000)

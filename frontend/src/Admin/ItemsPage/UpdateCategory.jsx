@@ -14,7 +14,14 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
             return
         }
         try{
-            const response = await axios.patch(`http://localhost:3003/update/category/${categoryId}`, { categoryName: updatedCategoryName })
+            const response = await axios.patch(`http://localhost:3003/update/category/${categoryId}`, 
+                { categoryName: updatedCategoryName },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}` 
+                    }
+                }
+            )
             setUpdateCategory(false)
             setShowOptions(false)
             setMessage(true)

@@ -213,20 +213,18 @@ function AddItem() {
                     {/* Price */}
                     <div className='w-1/2'>
                         <label htmlFor="price" className="block mb-2 font-medium text-gray-900">Price <span className='text-red-500'>*</span></label>
-                        <div className='relative'>
+                        <div className='relative z-0'>
                             <input 
                                 type="number"
-                                // min="1" 
                                 name="price" 
                                 id="price"
                                 placeholder='100'
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
                                 className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((price==="" || price == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
-                                // required                                                            
                             />
                             {(price === "" && showRequired) && (
-                                <div className='absolute text-red-600 text-sm'>Required</div>
+                                <div className='absolute z-0 text-red-600 text-sm'>Required</div>
                             )}
                             {(Number(price) < 1  && showRequired && price !== "") && (
                                 <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
@@ -276,7 +274,7 @@ function AddItem() {
                 </div>
                 {/* Category */}
                 <div className=' w-full flex gap-8'>
-                    <div className='relative w-1/2'>
+                    <div className='relative z-10 w-1/2'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
                         <div  onClick={() => setShowCategories(!showCategories)} className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
                             <p className={selectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{selectedCategory.name || "Choose category"}</p>

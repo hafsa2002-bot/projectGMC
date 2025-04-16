@@ -24,7 +24,7 @@ function ListOfCategories({setSelectedCategory, setShowCategories}) {
                             setSelectedCategory({id: category._id, name: category.categoryName})
                             setShowCategories(false)
                         }}
-                        className='cursor-pointer hover:bg-gray-100 py-2.5 px-2 border-b border-gray-300'
+                        className='cursor-pointer hover:bg-gray-100 py-2.5 px-2 border-b border-gray-300 truncate'
                     >
                         {category.categoryName}
                     </li>

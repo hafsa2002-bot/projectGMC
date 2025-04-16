@@ -59,8 +59,8 @@ function RecentActivities() {
                     {/* Log Details */}
                     <div className="relative w-10/12 rounded-lg p-4  shadow-md bg-gray-100 ml-3">
                       {/* Action & Details & user name */}
-                      <div className="text-sm text-gray-800 ">
-                        <span className='font-semibold  font-poppins'>{log.action}:</span> {log.details} 
+                      <div className="text-sm text-gray-800 truncate">
+                        <span className='font-semibold  font-poppins '>{log.action}:</span> {log.details} 
                       </div>
 
                       {/* Date-Time Info */}

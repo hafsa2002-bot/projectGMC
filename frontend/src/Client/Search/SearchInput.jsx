@@ -83,7 +83,7 @@ function SearchInput({setShowSearch}) {
                                                         <li key={index} className='py-2 font-semibold hover:bg-gray-100 hover:underline px-2 cursor-pointer' >
                                                             <div onClick={() => {
                                                                 setShowSearch(false)
-                                                                navigate(`/products/${category.categoryName}`)
+                                                                navigate(`/products/category/${category.categoryName}`)
                                                             }}
                                                             >
                                                                 {category.categoryName}
@@ -103,20 +103,20 @@ function SearchInput({setShowSearch}) {
                                             <ul className='w-full '>
                                                 {
                                                     productsSearched.slice(0, 7).map((product, index) => (
-                                                        <li 
-                                                            key={index} 
-                                                            className='py-2 w-full flex gap-3 hover:bg-gray-50 cursor-pointer px-2 '
-                                                            onClick={() => {
-                                                                setShowSearch(false)
-                                                                navigate(`/products/${product._id}`)
-                                                            }}
-                                                        >
-                                                            <div className='w-12 h-12  border border-gray-300 rounded-lg'>
-                                                                <img className='w-full h-full' src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} />
-                                                            </div>
-                                                            <div className='lg:w-10/12 w-9/12'>
-                                                                <div className='font-semibold hover:underline truncate  max-w-11/12'>{product.productName}</div>
-                                                                <div className='text-gray-500 text-sm'> {product.price} MAD </div>
+                                                        <li key={index} >
+                                                            <div className='py-2 w-full flex gap-3 hover:bg-gray-50 cursor-pointer px-2'
+                                                                onClick={() => {
+                                                                    setShowSearch(false)
+                                                                    navigate(`/products/${product._id}`)
+                                                                }}
+                                                            >
+                                                                <div className='w-12 h-12 p-0.5 border border-gray-300 rounded-lg overflow-hidden'>
+                                                                    <img className='w-full h-full' src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} />
+                                                                </div>
+                                                                <div className='lg:w-10/12 w-9/12'>
+                                                                    <div className='font-semibold hover:underline truncate  max-w-11/12'>{product.productName}</div>
+                                                                    <div className='text-gray-500 text-sm'> {product.price} MAD </div>
+                                                                </div>
                                                             </div>
                                                         </li>
                                                     ))

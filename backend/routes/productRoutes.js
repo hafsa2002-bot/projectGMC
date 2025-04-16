@@ -100,7 +100,7 @@ router.get("/items/list", async(req, res) => {
 })
 
 // delete item by Id
-router.delete("/item/:id", async(req, res) => {
+router.delete("/item/:id", protect, async(req, res) => {
     try{
         const deletedProduct = await Product.findByIdAndDelete({_id : req.params.id})
         if(!deletedProduct){
@@ -109,7 +109,7 @@ router.delete("/item/:id", async(req, res) => {
         console.log("deleted product: ", deletedProduct)
         
         // log activity
-        await logActivity("User name", "Product deleted", `${deletedProduct.productName}`)
+        await logActivity(req.user._id, req.user.name, "Product deleted", `${deletedProduct.productName}`)
         res.status(200).json({message: "Product deleted successfully", deletedProduct})
     }catch(error){
         console.log("error: ", error)
@@ -183,14 +183,14 @@ router.get("/items/sort-top-earning-products", async (req, res) => {
 })
 
 // update quantity 
-router.patch("/items/update/:id", async(req, res) => {
+router.patch("/items/update/:id", protect, async(req, res) => {
     try{  
         // to get the product name for activty log  
         const produit = await Product.findById({_id: req.params.id})
         const product = await Product.findByIdAndUpdate(req.params.id, {qty: req.body.newQty}, {new: true})
 
         //log activity
-        await logActivity("User name", "Stock updated", produit.productName)
+        await logActivity(req.user._id, req.user.name, "Stock updated", produit.productName)
 
         // update Store Stock
         await StoreStock.updateStoreStock();
@@ -206,12 +206,11 @@ router.patch("/items/update/:id", async(req, res) => {
 })
 
 // update a product
-router.patch("/items/updateProduct/:id", upload.single("updatedProductPhoto"), async(req, res) => {
+router.patch("/items/updateProduct/:id", protect, upload.single("updatedProductPhoto"), async(req, res) => {
     try{
         const updateFields = {
             productName: req.body.productName,
             price: req.body.price,
-            // qty: req.body.qty,
             barcode: req.body.barcode,
             minLevel: req.body.minLevel,
             expirationDate: req.body.expirationDate,
@@ -230,7 +229,7 @@ router.patch("/items/updateProduct/:id", upload.single("updatedProductPhoto"), a
 
         
             //log activity
-            await logActivity("User name", "Product updated", req.body.productName)
+            await logActivity(req.user._id, req.user.name, "Product updated", req.body.productName)
     
             // update Store Stock
             await StoreStock.updateStoreStock();

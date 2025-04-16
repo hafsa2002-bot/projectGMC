@@ -53,14 +53,8 @@ function App() {
           <Route path='/products' element={<Nav details={true} />}>
             <Route index element ={<ProductsPage/>} />
             <Route path = ":product_id" element={<ProductDetails/>} />
-            <Route path = ":category" element={<CategoryPage/>} />
-            {/* <Route path='/contactUs' element={<ContactUs/>} /> */}
+            <Route path = "category/:category" element={<CategoryPage/>} />
           </Route>
-            {/* <Route path='/' element={<Nav details={true} />}>
-              <Route index element={<HomePage/>} />
-              <Route path="products"  element ={<ProductsPage/>} />
-              <Route path = "products/:category" element={<CategoryPage/>} />
-            </Route> */}
           <Route path='/contactUs' element={<ContactUs/>} />
           <Route path="checkout" element={<Checkout/>}/>
           <Route path = "/login" element={<Login/>} />
@@ -105,26 +99,6 @@ function App() {
       </Router>
     </>
   )
-}
-
-function Loc() {
-  const location = useLocation();
-  return (
-    <>
-      {(
-        location.pathname !== '/login' && 
-        location.pathname !== '/signUp' && 
-        location.pathname !== '/admin/dashboard' &&
-        location.pathname !== '/admin/items' &&
-        location.pathname !== '/admin/search' &&
-        location.pathname !== '/admin/purshase-order' &&
-        location.pathname !== '/admin/reports' &&
-        location.pathname !== '/admin/activities' &&
-        location.pathname !== '/admin/members'
-        )  && <Footer />}
-      {/* {location.pathname !== '/signUp'  && <Footer />} */}
-    </>
-  );
 }
 
 export default App

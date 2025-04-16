@@ -5,7 +5,13 @@ import axios from 'axios'
 function DeleteCategory({categoryId, categoryName, setShowPopUp, setShowOptions}) {
 
     const deleteCategory = (id) => {
-        axios.delete(`http://localhost:3003/admin/items/delete-category/${id}`)
+        axios.delete(`http://localhost:3003/admin/items/delete-category/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }
+            }
+        )
             .then(response => console.log("category deleted: ", response.data))
             .catch(error => console.log("Error: ",error))
     }

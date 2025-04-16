@@ -342,12 +342,6 @@ function AddOrder() {
             </div>
         )}
         {sucessMessage && <SucessMessage message="Your order has been successfully added!" />}
-        {/* {sucessMessage && (
-            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-                <span>Your order has been successfully added!</span>
-            </div>
-        )} */}
     </div>
   )
 }

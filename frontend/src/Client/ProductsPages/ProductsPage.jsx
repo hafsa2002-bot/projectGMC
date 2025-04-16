@@ -88,20 +88,20 @@ function ProductsPage() {
                             >
                                 {categories.length > 0 && categories.map((category, index) => (
                                     <Link 
-                                        to={`/products/${category.categoryName}`}  
+                                        to={`/products/category/${category.categoryName}`}  
                                         key={index} 
                                         className="flex flex-col items-center text-center hover:scale-105 transition-transform duration-300"
                                     >
-                                        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
-                                            {(category.products.length > 0 && category.products[1]?.productPhoto) && (
+                                        <div className="w-24 h-24 p-3 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
+                                            {(category.products.length > 0 && category.products[0]?.productPhoto) && (
                                                 <img 
-                                                    src={`http://localhost:3003${category.products[1]?.productPhoto}`}
+                                                    src={`http://localhost:3003${category.products[0]?.productPhoto}`}
                                                     className="w-full h-full object-cover"
                                                     alt={category.categoryName}
                                                 />
                                             )}
                                         </div>
-                                        <p className="font-semibold text-lg mt-3 capitalize text-gray-700">
+                                        <p className="font-semibold text-lg mt-3 capitalize text-gray-700 break-words max-h-16 max-w-40 truncate">
                                             {firstLetterToUpperCase(category.categoryName)}
                                         </p>
                                     </Link>

@@ -8,9 +8,9 @@ function CategoriesMenu({categories, setShowMenu}) {
             {categories.map((category, index) => (
             <Link
                 onClick={() => setShowMenu(false)}
-                to={`/products/${category.categoryName}`}
+                to={`/products/category/${category.categoryName}`}
                 key={index}
-                className="px-5 py-3 text-base text-gray-700 font-medium hover:bg-black hover:text-white transition-colors duration-200"
+                className="px-5 py-3 text-base text-gray-700 font-medium hover:bg-black hover:text-white transition-colors duration-200 truncate"
                 role="menuitem"
             >
                 {category.categoryName}
