@@ -6,6 +6,7 @@ import Cart from './Cart'
 import {useCart} from '../../CartContext'
 import CategoriesMenu from './CategoriesMenu'
 import Favorites from './Favorites'
+import SearchInput from '../Search/SearchInput'
 
 function Nav(props) {
     const [categories, setCategories] = useState([])
@@ -13,6 +14,7 @@ function Nav(props) {
     const [showMenu, setShowMenu] = useState(false)
     const [showCart, setShowCart] = useState(false)
     const [showFavorite, setShowFavorite] = useState(false)
+    const [showSearch, setShowSearch] = useState(false)
     const {cart, favorites} = useCart()
     const navigate = useNavigate()
 
@@ -81,17 +83,25 @@ function Nav(props) {
                             {/* Icons */}
                             <div className="flex items-center lg:gap-5 gap-3 text-white">
 
-                                {/* search - Mobile */}
-                                <div className=''>
+                                {/* search */}
+                                <div 
+                                    onClick={() => {
+                                        setShowSearch(true)
+                                        setShowFavorite(false);
+                                        setShowCart(false);
+                                        setShowMenu(false);
+                                    }}
+                                >
                                     <Search size={24}/>
                                 </div>
+                                {showSearch && <SearchInput setShowSearch={setShowSearch} />}
                                 {/* Favorite */}
                                 <div 
                                     onClick={() => {
                                         setShowFavorite(!showFavorite);
-                                        setShowLogin(false);
                                         setShowCart(false);
                                         setShowMenu(false);
+                                        setShowSearch(false);
                                     }}
                                     className="cursor-pointer relative"
                                 >
@@ -109,8 +119,8 @@ function Nav(props) {
                                     onClick={() => {
                                         setShowCart(!showCart);
                                         setShowMenu(false);
-                                        setShowLogin(false);
                                         setShowFavorite(false);
+                                        setShowSearch(false);
                                     }}
                                     className="cursor-pointer relative"
                                 >
@@ -125,9 +135,9 @@ function Nav(props) {
                                 <div className="realtive">
                                     <button onClick={() => {
                                         setShowMenu(!showMenu);
-                                        setShowLogin(false);
                                         setShowFavorite(false);
                                         setShowCart(false);
+                                        setShowSearch(false);
                                     }}>
                                         <Menu size={30} />
                                     </button>
@@ -182,39 +192,7 @@ function Nav(props) {
                                 <Search size={19} />
                             </button>
                         </div> */}
-                        {/* <div className='w-1/3 flex justify-end items-center'>
-                            <div onClick={() => {
-                                    setShowFavorite(!showFavorite)
-                                    setShowLogin(false)
-                                    setShowCart(false)
-                                    setShowMenu(false)
-                                }} 
-                                className='relative cursor-pointer mr-4'>
-                                <Heart 
-                                    // fill='red'   
-                                    size={28}/>
-                            </div>
-                            {showFavorite && (<Favorites/>)}
-                            <div
-                                onClick={() => {
-                                    setShowCart(!showCart)
-                                    setShowMenu(false)
-                                    setShowLogin(false)
-                                    setShowFavorite(false)
-                                }}
-                                className='cursor-pointer relative flex justify-center items-center gap-1.5 text-sm'
-                            >
-                                <ShoppingCart size={28} />
-                                <div className='absolute bottom-4 left-4 bg-black text-white rounded-full flex justify-center items-center h-4 px-2'>
-                                    <p >{cart.length}</p>
-                                </div>
-                            </div>
-                            {
-                                showCart && (
-                                <Cart setShowCart={setShowCart} />
-                            )
-                            }
-                        </div> */}
+                        
                     </div>
                 )}
             </div>

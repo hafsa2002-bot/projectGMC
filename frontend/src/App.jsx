@@ -5,7 +5,6 @@ import SignUp from "./SignUp"
 import CategoryPage from "./Client/ProductsPages/CategoryPage"
 import Nav from "./Client/NavBar/Nav"
 import Footer from "./Client/Footer"
-import AboutUs from "./Client/HomePage/AboutUs"
 import ContactUs from "./Client/ContactUs"
 import ProductsPage from "./Client/ProductsPages/ProductsPage"
 import SideBar from "./Admin/SideBar"
@@ -35,6 +34,7 @@ import ProtectedRoute from "./ProtectedRoute"
 import Unauthorized from "./Unauthorized"
 import AddMember from "./Admin/Members/AddMember"
 import {jwtDecode} from 'jwt-decode';
+import ProductDetails from "./Client/ProductsPages/ProductDetails"
 function App() {
   const token = localStorage.getItem("token");
   let userRole = null;
@@ -52,6 +52,7 @@ function App() {
           <Route path="/" element={<HomePage/>} />
           <Route path='/products' element={<Nav details={true} />}>
             <Route index element ={<ProductsPage/>} />
+            <Route path = ":product_id" element={<ProductDetails/>} />
             <Route path = ":category" element={<CategoryPage/>} />
             {/* <Route path='/contactUs' element={<ContactUs/>} /> */}
           </Route>

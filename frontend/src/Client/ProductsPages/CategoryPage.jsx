@@ -31,7 +31,7 @@ function CategoryPage() {
     
 
   return (
-    <div className='mt-36'>
+    <div className='lg:mt-24 mt-32'>
         <h1 className='text-4xl text-center font-semibold mb-10'> {firstLetterToUpperCase(category)} </h1>
         {
             isLoading 
@@ -39,7 +39,7 @@ function CategoryPage() {
                 <SpinnerLoader/>
             )
             :(
-                <div className=' flex flex-wrap lg:gap-9 gap-x-2 gap-y-9 justify-between lg:w-11/12 m-auto lg:px-10 px-6'>
+                <div className=' flex flex-wrap lg:gap-9 gap-x-2 gap-y-9 justify-between lg:justify-start lg:w-11/12 m-auto lg:px-10 px-6'>
                     {
                         listOfProducts.products?.map((product, index) => (
                             <ProductItem product = {product} key={index} />

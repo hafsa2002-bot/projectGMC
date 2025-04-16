@@ -39,19 +39,6 @@ function AboutUs() {
               <div>
                 Your<br/> <span className='text-white'>one-stop shop</span> for the latest trends<br/> & essentials
               </div>
-              {/* <div className='flex flex-col gap-5 mt-6'>
-                <div className='flex gap-10 justify-center'>
-                  <Shirt className='relative top- left-7' fill='#9e9e9e'/>
-                  <ShoppingCart className='relative bottom-2 left-10'/>
-                  <Watch className='relative top-5 left-8' />
-                  <Headphones  className='relative bottom-0 left-8' />
-                </div>
-                <div className='flex gap-10 justify-center'>
-                  <CirclePercent className='relative top-4 right-4'/>
-                  <Gem className='relative top-2 left-' />
-                  <Laptop className='relative top-8 left-5' />
-                </div>
-              </div> */}
               <div className='flex justify-center gap-6 pb-5 text-white'>
                   <Shirt fill='white'/>
                   <ShoppingCart/>
