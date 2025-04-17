@@ -2,6 +2,7 @@ import { ArrowLeft, ChevronLeft } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import SucessMessage from '../SucessMessage'
 
 function AddMember() {
     const [name, setName] = useState("")
@@ -31,7 +32,12 @@ function AddMember() {
         try{
             const response = await axios.post("http://localhost:3003/users/register", {
                 name, email, password, role
-            })
+            },{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }
+            }
+        )
             setSuccessMessage(true)
             setTimeout(() => setSuccessMessage(false), 2000)
             setTimeout(() => navigate("/admin/members"), 3000)
@@ -144,14 +150,7 @@ function AddMember() {
                 </button>
             </div>
         </form>
-        {successMessage && (
-            <div className='bg-white fixed top-0 left-0 right-0 p-4 border-t-4 border-green-500 flex items-center justify-between shadow-lg'>
-                <div className='flex items-center'>
-                    <div className='w-4 h-4 bg-green-500 rounded-full mr-3'></div>
-                    <p className='text-lg font-semibold text-gray-800'>Account created</p>
-                </div>
-            </div>
-        )}
+        {successMessage && <SucessMessage message="Account created" />}
         {errorMessage && (
             <div className='bg-red-100 fixed top-0 left-0 right-0 p-4 border-t-4 border-red-500 flex items-center justify-between shadow-lg'>
                 <div className='flex items-center'>

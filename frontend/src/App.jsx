@@ -35,6 +35,7 @@ import Unauthorized from "./Unauthorized"
 import AddMember from "./Admin/Members/AddMember"
 import {jwtDecode} from 'jwt-decode';
 import ProductDetails from "./Client/ProductsPages/ProductDetails"
+import AdminRoute from "./AdminRoute"
 function App() {
   const token = localStorage.getItem("token");
   let userRole = null;
@@ -90,7 +91,12 @@ function App() {
             <Route path="activities" element={<ActivityLog/>} />
             <Route 
               path="members" 
-              element={userRole === "admin"  ? <Members/> : <AdminHomePage/>} 
+              // element={userRole === "admin"  ? <Members/> : <AdminHomePage/>} 
+              element={
+                <AdminRoute>
+                  <Members/>
+                </AdminRoute>
+              }
             />
             <Route path="add-member" element={<AddMember/>} />
           </Route>

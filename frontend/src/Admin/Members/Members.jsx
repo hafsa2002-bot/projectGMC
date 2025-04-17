@@ -3,6 +3,8 @@ import axios from 'axios'
 import SpinnerBlue from '../SpinnerBlue'
 import { ArrowRight, ChevronDown, Plus, Trash2, UserRound, UserRoundX } from 'lucide-react'
 import { Link } from 'react-router-dom';
+import UpdateRole from './UpdateRole';
+import DeleteMember from './DeleteMember';
 
 
 function Members() {
@@ -34,12 +36,15 @@ function Members() {
       .catch(error => console.log("Error: ", error))
   }
   useEffect(() => {
-    getAllMembers()
     getUserData()
   }, [])
+
+  useEffect(() => {
+    getAllMembers()
+  }, [members])
   
   return (
-    <div>
+    <div className='mb-20'>
         {
           loading 
           ?(
@@ -56,12 +61,12 @@ function Members() {
                   <p>Add New</p>
                 </Link>
               </div>
-              <div className='flex gap-6 ml-7 mt-10'>
+              <div className='grid grid-cols-4 gap-5 w-full mt-7 '>
                 {
                   members.length > 0 
                   ?(
                     members.map((user, index) => (
-                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl w-1/4 pb-6 pt-3 shadow-md font-poppins border border-gray-300">
+                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl pb-6 pt-3 shadow-md font-poppins border border-gray-300">
                         <div className='w-full flex justify-end pr-2 py-2'>
                           <Link className='flex gap-1 items-center px-2 hover:text-white rounded-full hover:bg-gray-400'>Activity Log <ArrowRight size={18} /></Link>
                         </div>
@@ -93,12 +98,12 @@ function Members() {
                           {user.email}
                         </div>
                         <div className="flex gap-3 justify-center px-4">
-                          <button className="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl flex items-center gap-1 transition-all duration-200">
-                            Update Role <ChevronDown className="w-5 h-5" />
-                          </button>
-                          <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-200">
-                            <Trash2/>
-                          </button>
+                          {user.email !== data.email && (
+                            <>
+                              <UpdateRole user={user} />
+                              <DeleteMember/>
+                            </>
+                          )}
                         </div>
                       </div>
                     ))

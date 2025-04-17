@@ -10,7 +10,7 @@ const router = express.Router()
 const JWT_SECRET = "123@hafsa/"
 
 // register
-router.post("/users/register", async (req, res) => {
+router.post("/users/register", protect, async (req, res) => {
     try{
         const {name, email, password, role} = req.body;
         if(!name || !email || !password || !role){
@@ -43,6 +43,9 @@ router.post("/users/register", async (req, res) => {
                 role: user.role,
                 token: generateToken(user._id, user.role)
             })
+
+            //log activity
+            await logActivity(req.user._id, req.user.name, `New ${user.role} added`, `${user.name}`)
         }else{
             res.status(400).json({message: "Invalid user data"})
         }
@@ -109,6 +112,21 @@ router.get("/all-users", async (req, res) => {
         const users = await User.find()
         // console.log("users: ", users)
         res.json(users)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({message: "Internal server error"})
+    }
+})
+
+// update user role 
+router.patch("/update-role/:id", protect, async(req, res) => {
+    try{
+        const user = await User.findByIdAndUpdate(req.params.id, {role: req.body.role}, {new: true})
+
+        //log activity
+        await logActivity(req.user._id, req.user.name, "Role updated", `${user.name}, new role: ${req.body.role}`)
+
+        res.json(user)
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({message: "Internal server error"})

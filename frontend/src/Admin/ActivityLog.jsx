@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, {useState, useEffect} from 'react'
 import SpinnerBlue from './SpinnerBlue'
-import { Box, Boxes, Calendar, Clock, FileClock, FolderPlus, PackagePlus, PenLine, Plus, Trash2, UserRound } from 'lucide-react'
+import { Box, Boxes, Calendar, Clock, FileClock, FolderPlus, PackagePlus, PenLine, Plus, Trash2, UserRound, UserRoundPlus } from 'lucide-react'
 
 function ActivityLog() {
   const [logs, setLogs] = useState([])
@@ -97,6 +97,7 @@ function ActivityLog() {
                                   {log.action.toLowerCase().includes("category") &&  <FolderPlus size={18} className="text-gray-600" /> }  
                                   {log.action.toLowerCase().includes("product") &&  <PackagePlus size={18} className="text-gray-600" /> }  
                                   {log.action.toLowerCase().includes("order") &&  <Boxes size={18} className="text-gray-600" /> }  
+                                  {(log.action.toLowerCase().includes("member") || log.action.toLowerCase().includes("admin")) &&  <UserRoundPlus size={18} className="text-gray-600" /> }  
                                 </>
                               ) }
                               {log.action.toLowerCase().includes("deleted") && <Trash2 size={18} className="text-red-400" />}
