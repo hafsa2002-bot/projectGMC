@@ -1,4 +1,4 @@
-import { ArrowRight, Box, Boxes, Calendar, Clock, FileClock, FolderPlus, PenLine, Trash2 } from 'lucide-react'
+import { ArrowRight, Box, Boxes, Calendar, Clock, FileClock, FolderPlus, PenLine, Trash2, UserRoundPlus } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
@@ -50,6 +50,8 @@ function RecentActivities() {
                           {log.action.toLowerCase().includes("category") &&  <FolderPlus size={18} className="text-gray-600" /> }  
                           {log.action.toLowerCase().includes("product") &&  <Box size={18} className="text-gray-600" /> }  
                           {log.action.toLowerCase().includes("order") &&  <Boxes size={18} className="text-gray-600" /> }  
+                          {(log.action.toLowerCase().includes("member") || log.action.toLowerCase().includes("admin")) &&  <UserRoundPlus size={18} className="text-gray-600" /> }  
+                          
                         </>
                       )}
                       {log.action.toLowerCase().includes("deleted") && <Trash2 size={18} className="text-red-400" />}

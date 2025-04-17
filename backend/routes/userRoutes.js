@@ -133,6 +133,25 @@ router.patch("/update-role/:id", protect, async(req, res) => {
     }
 })
 
+//delete member by id
+router.delete("/delete-user/:id", protect, async(req, res) => {
+    try{
+        const deletedUser = await User.findByIdAndDelete({_id: req.params.id})
+        if(!deletedUser){
+            return res.status(404).json({error: "User not found"})
+        }
+        console.log("deleted user: ", deletedUser)
+
+        //log Activity
+        await logActivity(req.user._id, req.user.name, "User deleted", deletedUser.name)
+
+        res.json({message: "user deleted successfully", deletedUser})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({message: "Internal server error"})
+    }
+})
+
 // generate JWT
 const generateToken = (id, role) => {
     return jsonwebtoken.sign({id, role}, JWT_SECRET, {

@@ -5,13 +5,16 @@ import { ArrowRight, ChevronDown, Plus, Trash2, UserRound, UserRoundX } from 'lu
 import { Link } from 'react-router-dom';
 import UpdateRole from './UpdateRole';
 import DeleteMember from './DeleteMember';
+import AddMember from './AddMember';
 
 
 function Members() {
-
   const [members, setMembers] = useState([])
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState({})
+  const [deletePopUp, setDeletePopUp] = useState(false)
+  const [addNewUser, setAddNewUser] = useState(false)
+
   const getAllMembers = () => {
     axios.get("http://localhost:3003/all-users")
     .then(response => {
@@ -56,10 +59,14 @@ function Members() {
                   <p className='text-3xl font-medium mb-7 ml-7 mt-5 text-blue-500 font-poppins '>Members</p>
                   <p className='relative top-3 left-1 text-blue-500 font-semibold font-poppins'>{members.length} </p>
                 </div>
-                <Link to="/admin/add-member" className='bg-blue-600 px-3 py-2 rounded-xl gap-1 text-white flex font-semibold justify-center items-center'>
+                <div 
+                  onClick={() => setAddNewUser(true)} 
+                  className='bg-blue-600 px-3 py-2 cursor-pointer rounded-xl gap-1 text-white flex font-semibold justify-center items-center'
+                >
                   <Plus/>
                   <p>Add New</p>
-                </Link>
+                </div>
+                {addNewUser && <AddMember setAddNewUser={setAddNewUser} />}
               </div>
               <div className='grid grid-cols-4 gap-5 w-full mt-7 '>
                 {
@@ -101,7 +108,14 @@ function Members() {
                           {user.email !== data.email && (
                             <>
                               <UpdateRole user={user} />
-                              <DeleteMember/>
+                              {/* <DeleteMember user={user} /> */}
+                              <button 
+                                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-200"
+                                  onClick={() => setDeletePopUp(true)}
+                              >
+                                  <Trash2/>
+                              </button>
+                              {deletePopUp && <DeleteMember user={user} setDeletePopUp={setDeletePopUp} />}
                             </>
                           )}
                         </div>
@@ -111,10 +125,14 @@ function Members() {
                     <div className="bg-white flex-col gap-3 rounded-2xl w-11/12 py-14 shadow-md font-poppins border border-blue-100 flex justify-center items-center text-gray-400">
                       <UserRoundX size={50} />
                       <p className="text-2xl font-semibold text-gray-400">No users found</p>
-                      <Link to="/admin/add-member" className='bg-blue-500 px-3 mt-5 py-2 rounded-xl gap-1 text-white flex font-semibold justify-center items-center'>
+                      <div
+                        onClick={() => setAddNewUser(true)} 
+                        className='bg-blue-500 px-3 mt-5 py-2 rounded-xl gap-1 text-white flex font-semibold justify-center items-center'
+                      >
                         <Plus/>
                         <p>Add member</p>
-                      </Link>
+                      </div>
+                      {addNewUser && <AddMember setAddNewUser={setAddNewUser} />}
                     </div>
                   )
                 }

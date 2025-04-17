@@ -98,7 +98,6 @@ function App() {
                 </AdminRoute>
               }
             />
-            <Route path="add-member" element={<AddMember/>} />
           </Route>
           <Route  path="/unauthorized" element={<Unauthorized/>} />
         </Routes>

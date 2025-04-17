@@ -21,7 +21,7 @@ function PopUp({setPopUp, name, id, setShowOptions}) {
             .catch(error => console.log(error))
     }
   return (
-    <div className='w-screen h-screen  top-0 right-0 fixed flex justify-center items-center ' style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
+    <div className='w-screen h-screen  top-0 right-0 fixed flex justify-center items-center  modal-overlay'>
         <div className=' bg-white opacity-100 px-16 py-6 rounded-md shadow-md flex flex-col items-center gap-5'>
             <div className='flex justify-center items-center  rounded-full w-12 h-12 bg-red-100'>
                 <div className='flex justify-center items-center rounded-full bg-red-200 w-9 h-9 '>

@@ -46,3 +46,7 @@ input[type="number"] {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
