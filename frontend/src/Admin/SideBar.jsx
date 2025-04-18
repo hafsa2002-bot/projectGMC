@@ -205,7 +205,7 @@ function SideBar() {
             </div>
         </nav>
 
-        <Navbar/>
+        <Navbar firstLetters ={firstLetters} userName={user.name} />
         <div className={` mx-0 w-full lg:w-10/12 lg:px-0 px-2 lg:mr-6 lg:mt-3 mt-20  ${showSideBar ? 'lg:w-10/12 lg:ml-52' : 'lg:w-11/12 lg:ml-26'}`}>
             <Outlet/>
         </div>

@@ -42,7 +42,9 @@ function AdminHomePage() {
         <div className='text-3xl text-gray-700 font-semibold'>
             <p>Dashboard</p>
         </div>
-        <Notifications/>
+        <div className='lg:flex hidden'>
+          <Notifications/>
+        </div>
       </div>
       <hr className='lg:w-full w-11/12 lg:m-0 m-auto mb-5 lg:pl-0 text-gray-400'/>
       
@@ -103,11 +105,11 @@ function AdminHomePage() {
       </section> */}
       {/* reports */}
       <section className='flex flex-col mt-14  '>
-        <h1>Reports</h1>
-        <div className='flex gap-5 '>
-          <div className='w-1/2'>
+        <h1 className='lg:ml-0 ml-3'>Reports</h1>
+        <div className='lg:flex gap-5 '>
+          <div className='lg:w-1/2 w-11/12 m-auto lg:mx-0'>
             <h1 className='text-xl font-semibold pb-3'>Income tracker</h1>
-            <div className=' bg-white rounded-xl border border-gray-300 py-7'>
+            <div className=' bg-white rounded-xl border border-gray-300 lg:py-7 py-4'>
               <IncomeReports/>
             </div>
 

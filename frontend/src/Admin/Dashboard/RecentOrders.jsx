@@ -28,7 +28,7 @@ function RecentOrders() {
     
     
   return (
-    <div className='bg-white border border-gray-300 rounded-lg pb-3'>
+    <div className='bg-white border border-gray-300  rounded-lg pb-3'>
         <div className='flex justify-between items-center  px-2 py-2 '>
             <p className='text-xl font-semibold text-gray-700 px-2'>Recent Orders</p>
             <Link to="/admin/orders" className='text-blue-600 font-semibold flex  items-center gap-3 py-2'>
@@ -36,17 +36,20 @@ function RecentOrders() {
                 <ArrowRight size={20} />
             </Link>
         </div>
-        <div className='px-6'>
+        <div className='lg:px-6 px-3'>
             {
                 (orders && orders.length > 0)
                 ?(
                     // [...orders].reverse()
                     [...orders].reverse().slice(0, number ).map((order, index) => (
                         <div className='border border-gray-300 rounded-lg p-2 mt-2' key={index}>
-                            <div className='flex justify-between items-center'>
-                                <div className='flex items-center gap-2'>
+                            <div className='lg:flex justify-between  items-center'>
+                                <div className='flex lg:hidden justify-end mb-1'>
+                                    <Link to={`/admin/view_order/${order._id}`} className='bg-blue-500 lg:hidden px-4 text-sm py-1 font-semibold rounded-full text-white flex items-center gap-1'>View<ArrowRight size={16} /></Link>
+                                </div>
+                                <div className='lg:flex items-center gap-2 '>
                                     <p className='font-semibold text-lg'> Order #{order._id} </p>
-                                    <div className="flex items-center gap-3 text-gray-500 ml-2">
+                                    <div className="flex items-center gap-3 text-gray-500 lg:ml-2">
                                         <div className="flex items-center gap-1">
                                             <Calendar size={14} className="text-gray-500" />
                                             <span>{order.createdAt.slice(0, 10)}</span> {/* Extracting Date */}
@@ -59,7 +62,7 @@ function RecentOrders() {
                                     </div>
                                     {/* <p className='text-gray-600 font-poppins mt-1.5'> {order.createdAt.slice(0, 10)} </p> */}
                                 </div>
-                                <div className='flex gap-3'>
+                                <div className='flex gap-3 lg:m-0 my-1.5'>
                                     <div> 
                                         {order.status && (
                                             order.status === 'pending' ? (
@@ -85,7 +88,7 @@ function RecentOrders() {
                                             ) : null
                                         )} 
                                     </div>
-                                    <Link to={`/admin/view_order/${order._id}`} className='bg-blue-500 px-4 text-sm py-1 font-semibold rounded-full text-white flex items-center gap-1'>View<ArrowRight size={16} /></Link>
+                                    <Link to={`/admin/view_order/${order._id}`} className='bg-blue-500 hidden px-4 text-sm py-1 font-semibold rounded-full text-white lg:flex items-center gap-1'>View<ArrowRight size={16} /></Link>
                                 </div>
                             </div>
                             <div className='flex justify-between items-center mt-4'>
@@ -99,34 +102,38 @@ function RecentOrders() {
                                     )}
                                     {/* get the second product in the order if exists */}
                                     {order.products && order.products.length > 1 && (
-                                        <div className='border border-gray-300 rounded-lg flex items-center gap-1 max-w-44 px-3 '>
-                                            <div className='font-semibold'> {order.products[1].quantity}</div>
-                                            <div className='text-gray-600 truncate whitespace-nowrap overflow-hidden'> {order.products[1].name ? order.products[1].name : "Unknown Product" }</div>
-                                        </div>
+                                        <>
+                                            <div className='border border-gray-300 rounded-lg  lg:flex hidden items-center gap-1 max-w-44 px-3 '>
+                                                <div className='font-semibold'> {order.products[1].quantity}</div>
+                                                <div className='text-gray-600 truncate whitespace-nowrap overflow-hidden'> {order.products[1].name ? order.products[1].name : "Unknown Product" }</div>
+                                            </div>
+                                            <div className='border border-gray-300 rounded-lg  flex lg:hidden items-center gap-1 max-w-44 px-3 '>
+                                                <div className='font-semibold'> ...</div>
+                                            </div>
+                                        </>
                                     )}
                                     {/* get the third product in the order if exists */}
                                     {order.products && order.products.length > 2 && (
-                                        <div className='border border-gray-300 rounded-lg flex items-center gap-1 max-w-44 px-3 '>
+                                        <div className='border border-gray-300 rounded-lg lg:flex hidden items-center gap-1 max-w-44 px-3 '>
                                             <div className='font-semibold'> {order.products[2].quantity}</div>
                                             <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[2].name ? order.products[2].name : "Unknown Product" }</div>
                                         </div>
                                     )}
                                     {order.products && order.products.length > 3 && (
-                                        <div className='border border-gray-300 rounded-lg flex items-center gap-1 max-w-44 px-3 '>
+                                        <div className='border border-gray-300 rounded-lg  lg:flex hidden items-center gap-1 max-w-44 px-3 '>
                                             <div className='font-semibold'> {order.products[3].quantity}</div>
                                             <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[3].name ? order.products[2].name : "Unknown Product" }</div>
                                         </div>
                                     )}
                                     {order.products && order.products.length > 4 && (
-                                        <div className='border border-gray-300 rounded-lg flex items-center gap-1 max-w-44 px-3 '>
+                                        <div className='border border-gray-300 rounded-lg  lg:flex hidden items-center gap-1 max-w-44 px-3 '>
                                             <div className='font-semibold'> {order.products[4].quantity}</div>
                                             <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[4].name ? order.products[2].name : "Unknown Product" }</div>
                                         </div>
                                     )}
                                     {order.products && order.products.length > 4 && (
-                                        <div className='border border-gray-300 rounded-lg flex items-center gap-1 max-w-44 px-3 '>
+                                        <div className='border border-gray-300 rounded-lg  lg:flex hidden items-center gap-1 max-w-44 px-3 '>
                                             <div className='font-semibold'> ...</div>
-                                            
                                         </div>
                                     )}
                                 </div>

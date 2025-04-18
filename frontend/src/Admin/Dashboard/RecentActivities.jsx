@@ -66,7 +66,7 @@ function RecentActivities() {
                       </div>
 
                       {/* Date-Time Info */}
-                      <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
+                      <div className="lg:flex justify-between items-center lg:mt-3 mt-1.5 text-xs text-gray-500">
                         <div className="flex items-center gap-2">
                           <div className="flex items-center gap-1">
                             <Calendar size={14} className="text-gray-500" />
@@ -78,7 +78,7 @@ function RecentActivities() {
                             <span>{log.createdAt.slice(11, 16)}</span> {/* Extracting Time */}
                           </div>
                         </div>
-                        <div className='flex items-center gap-1'>
+                        <div className='flex items-center gap-1 lg:mt-0 mt-1.5'>
                           {/* <span className='font-semibold ml-3 font-poppins'>By: </span> */}
                           <div className='w-5 h-5 rounded-md text-white font-semibold bg-gray-600 flex justify-center items-center '>{log.userName ? log.userName[0].toUpperCase() : log.user[0].toUpperCase()}</div>
                           {log.user}{log.userName}

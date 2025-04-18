@@ -31,7 +31,7 @@ function IncomeReports() {
             height={300}
             data={data}
             margin={{
-                right: 30,
+                right: 0,
                 top: 10
             }}
         >

@@ -54,12 +54,12 @@ function RecentItems() {
             }
         </div>
         {/* phone version */}
-        <div className='flex  lg:hidden gap-6  justify-center  px-3  py-3  flex-wrap '>
+        <div className='flex lg:hidden gap-5  overflow-x-scroll w-full px-3  py-3  '>
             {recentItems
                 ?(
-                    [...recentItems].reverse().slice(0, 4).map((item, index) => (
-                        <div key={index} className=' lg:w-1/6 w-5/12 shadow-xl  bg-white rounded-lg lg:px-2 py-2 '>
-                            <div className=' w-28  h-28  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
+                    [...recentItems].reverse().slice(0, 6).map((item, index) => (
+                        <div key={index} className='w-72 shadow-xl  bg-white rounded-lg lg:px-2 py-2 '>
+                            <div className=' w-40 h-40  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
                                 {item.productPhoto 
                                     ? (
                                         <img 

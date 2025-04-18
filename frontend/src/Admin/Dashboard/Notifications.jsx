@@ -1,4 +1,4 @@
-import { ArrowRight, Bell, Calendar, CalendarX2, Package, PackageX, ShoppingCart, TrendingDown, TriangleAlert } from 'lucide-react'
+import { ArrowRight, Bell, Calendar, CalendarX2, Package, PackageX, ShoppingCart, TrendingDown, TriangleAlert, X } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
@@ -89,16 +89,17 @@ function Notifications() {
     }, [stockInfo])
   */
     return (
-        <div className='relative cursor-pointer'>
+        <div className='relative cursor-pointer px-4 '>
             <div 
-                className='relative w-10 h-10 border border-gray-500 rounded-full hover:bg-gray-200 flex justify-center items-center' 
+                className='relative w-10 h-10 border lg:border-gray-500 lg:text-gray-500 text-white border-white rounded-full hover:bg-gray-200 flex justify-center items-center' 
                 onMouseEnter={() => setShowNotifiactionTitle(true)} 
                 onMouseLeave={() => setShowNotifiactionTitle(false)}
+                onClick={() => setShowNotifications(!showNotifications)} 
             >
                 <Bell 
                     size={22} 
                     strokeWidth={2}  
-                    onClick={() => setShowNotifications(!showNotifications)} 
+                    // onClick={() => setShowNotifications(!showNotifications)} 
                 />
                 {showNotificationTitle && (
                     <div className='absolute  top-12 right-0 text-sm px-3 py-1 text-white bg-gray-600 rounded-lg'>
@@ -106,14 +107,22 @@ function Notifications() {
                     </div>
                 )}
                 {(notifications.length > 0) && (
-                    <div className='absolute min-w-6 min-h-6 px-0.5 border-[#F3F4F6] border-3 text-xs bg-red-600 text-white flex justify-center items-center rounded-full bottom-5 left-5'>
+                    <div className='absolute min-w-6 min-h-6 px-0.5 border-[#F3F4F6] border-2 text-xs bg-red-600 text-white flex justify-center items-center rounded-full bottom-5 left-5'>
                         <p>{notifications.length}</p>
                     </div>
                 )}
             </div>
                 {showNotifications && (
-                        <div className=' absolute z-20 bg-white w-96 h-[85vh] overflow-x-scroll right-0 top-10 rounded-xl shadow-2xl'>
-                            <div className=' border-gray-400 shadow-lg font-semibold text-gray-600 px-3 py-3 text-lg sticky top-0 bg-white '>Notifications</div>
+                        <div className=' absolute z-20 bg-white lg:w-96 w-screen h-[85vh] overflow-x-scroll right-0 lg:top-10 top-14 lg:rounded-xl shadow-2xl'>
+                            <div className=' border-gray-400 flex justify-between items-center shadow-lg font-semibold text-gray-600 px-3 py-3 text-lg sticky top-0 bg-white '>
+                                <p>Notifications</p>
+                                <div
+                                    className='lg:hidden ' 
+                                    onClick={() => setShowNotifications(false)}
+                                >
+                                    <X/>
+                                </div>
+                            </div>
                             <div className='mt-3'>
                                 {
                                     notifications.length > 0 
