@@ -83,7 +83,7 @@ function Members() {
                         <div>
                           {user.role === "admin" && (
                             <div className='bg-blue-50 text-blue-600 flex justify-center items-center gap-1 rounded-xl px-1 w-1/4 m-auto mb-3 text-sm'>
-                              <div className='w-1.5 h-1.5 rounded-full bg-blue-600'></div>Admin
+                              <div className='w-1.5 h-1.5 rounded-full bg-blue-500'></div>Admin
                             </div>
                           )}
                           {user.role === "member" && (
@@ -107,8 +107,9 @@ function Members() {
                         <div className="flex gap-3 justify-center px-4">
                           {user.email !== data.email && (
                             <>
+                              {/* update member */}
                               <UpdateRole user={user} />
-                              {/* <DeleteMember user={user} /> */}
+                              {/* Delete Member */}
                               <button 
                                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-200"
                                   onClick={() => setDeletePopUp(true)}

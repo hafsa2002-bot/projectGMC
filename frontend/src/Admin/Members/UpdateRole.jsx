@@ -19,12 +19,12 @@ function UpdateRole({user}) {
   return (
     <div>
         <button 
-            className="relative z-10 cursor-pointer text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl flex items-center gap-1 transition-all duration-200"
+            className="relative z-10 cursor-pointer text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-xl flex items-center gap-1 transition-all duration-200"
             onClick={() => setShowRoleOptions(!showRoleOptions)}
         >
             Update Role <ChevronDown className="w-5 h-5" />
             {showRoleOptions && (
-                <div className='absolute z-10 top-10 w-full right-0 overflow-hidden rounded-lg text-gray-600 bg-white  border border-gray-300'>
+                <div className='absolute top-10 w-full right-0 overflow-hidden rounded-lg text-gray-600 bg-white  border border-gray-300'>
                     <div
                         onClick={() => updateRole("member")} 
                         className=' py-1.5 hover:bg-gray-100 cursor-pointer  border-b border-gray-300'

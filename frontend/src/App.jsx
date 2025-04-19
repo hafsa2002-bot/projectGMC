@@ -59,7 +59,7 @@ function App() {
           <Route path='/contactUs' element={<ContactUs/>} />
           <Route path="checkout" element={<Checkout/>}/>
           <Route path = "/login" element={<Login/>} />
-          <Route path = "/signUp" element={<SignUp/>} />
+          {/* <Route path = "/signUp" element={<SignUp/>} /> */}
 
           {/* Admin pages */}
           <Route path="/admin" element={
