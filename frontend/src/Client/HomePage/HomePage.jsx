@@ -217,9 +217,9 @@ function HomePage() {
   <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
   {/* Glass-like content box */}
-  <div className="relative z-10 flex flex-col m-auto lg:flex-row  items-center justify-center w-11/12 max-w-6xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-8 py-6 md:px-12 md:py-10 shadow-xl">
+  <div className="relative z-10 flex flex-col m-auto lg:flex-row  items-center justify-center w-11/12 max-w-6xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 pb-2 pt-7 md:px-12 md:py-6 shadow-xl">
     {/* Left Content */}
-    <div className="flex flex-col gap-6 text-white max-w-xl text-center lg:text-left">
+    <div className="flex flex-col gap-5 text-white max-w-xl text-center lg:text-left">
       <h1 className="text-3xl md:text-4xl font-extrabold font-poppins tracking-wide leading-snug">
         Welcome to Your <span className="text-yellow-400">Ultimate</span> Store
       </h1>
@@ -228,7 +228,7 @@ function HomePage() {
       </p>
       <Link
         to="/products"
-        className="w-fit bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
+        className="w-fit bg-gradient-to-r m-auto from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
       >
         Browse Products
       </Link>
