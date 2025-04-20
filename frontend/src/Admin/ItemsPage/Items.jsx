@@ -104,14 +104,22 @@ function Items() {
                         <NavLink 
                             to="/admin/items"
                             className={({isActive}) => isActive && window.location.pathname === "/admin/items"  ?  'text-blue-600 border-b-2 text-sm  pb-1 border-blue-600 flex items-center justify-center gap-3 px-3': ' text-sm px-3 pb-1 text-gray-600  flex items-center justify-center gap-3'} >
-                            <p className='font-semibold '>All</p>
+                            <p className='font-semibold '>
+                                {/* All */}
+                                {typeOfItems ===  "all-items" 
+                                ? "All" : (typeOfItems === "out-of-stock")
+                                ? "Out of stock" : (typeOfItems === "low-in-stock")
+                                ? "Low in stock" : (typeOfItems === "expired")
+                                ? "expired" : productName 
+                                ? "all" : "all"}
+                            </p>
                             <NavLink to="/admin/items" className={({isActive}) => isActive && window.location.pathname === "/admin/items" ? 'bg-blue-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' : 'bg-gray-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' }>
                                 {typeOfItems ===  "all-items" 
                                 ? items.length : (typeOfItems === "out-of-stock")
                                 ? stock.totalOutOfStock : (typeOfItems === "low-in-stock")
                                 ? stock.totalLowInStock : (typeOfItems === "expired")
                                 ? stock.totalExpiredProducts : productName
-                                ? filteredProducts.length : items.length}
+                                ?filteredProducts.length : items.length }
                             </NavLink>
                         </NavLink>
                     </div>
@@ -148,7 +156,7 @@ function Items() {
                                 ? "Expired items" : "Filter"}
                             </p>
                             {showFilter && (
-                                <div className='w-40 h-42 font-semibold bg-white text-gray-800 absolute top-12 z-50 border border-gray-200 rounded-lg'>
+                                <div className='w-full font-semibold bg-white text-gray-800 absolute top-12 z-10 shadow-xl border border-gray-200 rounded-lg'>
                                     <div 
                                         onClick={() => setTypeOfItems("all-items")}
                                         className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'
@@ -188,7 +196,7 @@ function Items() {
                             </div>
                             <ChevronDown className='text-gray-700'/>
                             {showSortOptions && (
-                                <div className='w-10/12 font-semibold bg-white text-gray-800 absolute top-12 z-50 border border-gray-200 rounded-lg'>
+                                <div className='w-full font-semibold bg-white text-gray-800 absolute top-12 z-10 border border-gray-200 rounded-lg shadow-xl'>
                                     <div 
                                         onClick={() => setTypeOfItems("all-items")}
                                         className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'

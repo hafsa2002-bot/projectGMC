@@ -7,6 +7,7 @@ import OrdersFiltered from './OrdersFiltered'
 import PaymentStatus from './PaymentStatus'
 import OrderStatus from './OrderStatus'
 import DeleteOrder from './DeleteOrder'
+import { jwtDecode } from 'jwt-decode'
 
 function OrdersDone({setNumberOfOrdersDone}) {
     const [orders, setOrders] = useState([])
@@ -15,6 +16,13 @@ function OrdersDone({setNumberOfOrdersDone}) {
     const [popUp, setPopUp] = useState(false)
     const [orderKey, setOrderKey] = useState("")
     const [filteredOrders, setFilteredOrders] = useState([])
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     const getOrderOnProcess = () => {
         axios.get("http://localhost:3003/orders/status/done")
@@ -144,28 +152,39 @@ function OrdersDone({setNumberOfOrdersDone}) {
                                                         <OrderStatus status={order.status} orderId={order._id} />
                                                     </td>
                                                     <td className="relative px-4 py-7">
-                                                        <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                                         {
-                                                            showOptions === index && (
-                                                                <div className=' z-30 absolute right-12 top-12 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
-                                                                    {/* view order details  */}
-                                                                    <Link to={`/admin/view_order/${order._id}`}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
-                                                                        <div><Eye size={18} /></div>
-                                                                        <p>View</p>
-                                                                    </Link>
-                                                                    {/* update an order */}
-                                                                    {/* <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
-                                                                        <div><PenLine  size={18} /></div>
-                                                                        <p>Update</p>
-                                                                    </Link> */}
-                                                                    {/* delete  an order */}
-                                                                    <div onClick={() => setPopUp(true)} className='hover:bg-gray-100 cursor-pointer px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
-                                                                        <div><Trash2  size={18} /></div>
-                                                                        <p>Delete</p>
-                                                                    </div>
-                                                                    {/* a Component <PopUp/> to confirm the delete or cancel */}
-                                                                    {popUp && <DeleteOrder setShowOptions ={setShowOptions} setPopUp={setPopUp} orderId={order._id} />}
-                                                                </div>
+                                                            userRole == "admin" 
+                                                            ?(
+                                                                <>
+                                                                    <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
+                                                                    {
+                                                                        showOptions === index && (
+                                                                            <div className=' z-30 absolute right-12 top-12 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
+                                                                                {/* view order details  */}
+                                                                                <Link to={`/admin/view_order/${order._id}`}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
+                                                                                    <div><Eye size={18} /></div>
+                                                                                    <p>View</p>
+                                                                                </Link>
+                                                                                {/* update an order */}
+                                                                                {/* <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
+                                                                                    <div><PenLine  size={18} /></div>
+                                                                                    <p>Update</p>
+                                                                                </Link> */}
+                                                                                {/* delete  an order */}
+                                                                                <div onClick={() => setPopUp(true)} className='hover:bg-gray-100 cursor-pointer px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
+                                                                                    <div><Trash2  size={18} /></div>
+                                                                                    <p>Delete</p>
+                                                                                </div>
+                                                                                {/* a Component <PopUp/> to confirm the delete or cancel */}
+                                                                                {popUp && <DeleteOrder setShowOptions ={setShowOptions} setPopUp={setPopUp} orderId={order._id} />}
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                </>
+                                                            ):(
+                                                                <Link to={`/admin/view_order/${order._id}`} className='hover:text-black underline text-blue-500 '>
+                                                                    View
+                                                                </Link>
                                                             )
                                                         }
                                                     </td>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import PopUp from './PopUp'
 import SpinnerBlue from '../SpinnerBlue'
+import { jwtDecode } from 'jwt-decode'
 
 
 function AllItems() {
@@ -12,6 +13,13 @@ function AllItems() {
     const [showOptions, setShowOptions] = useState(false);
     const [popUp, setPopUp] = useState(false)
     const [loading, setLoading] = useState(true)
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     const getItems = () => {
         axios.get("http://localhost:3003/admin/items/list")
@@ -103,35 +111,42 @@ function AllItems() {
                                                 }
                                             </td>
                                             <td className="relative px-6 py-4">
-                                                <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
-                                                {
-                                                    showOptions === index && (
-                                                        <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
-                                                            {/* view product details  */}
-                                                            <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
-                                                                <div><Eye /></div>
-                                                                <p>View</p>
-                                                            </Link>
-                                                            {/* update a product */}
-                                                            <Link to={`/admin/items/update-item/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
-                                                                <div><PenLine /></div>
-                                                                <p>Update</p>
-                                                            </Link>
-                                                            {/* delete  a product */}
-                                                            <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
-                                                                <div><Trash2 /></div>
-                                                                <p>Delete</p>
-                                                            </Link>
-                                                            {/* a Component <PopUp/> to confirm the delete or cancel */}
-                                                            {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />}
-                                                        </div>
+                                                {userRole == "admin" 
+                                                    ?(
+                                                        <>
+                                                        <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
+                                                        {
+                                                            showOptions === index && (
+                                                                <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
+                                                                    {/* view product details  */}
+                                                                    <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                                        <div><Eye /></div>
+                                                                        <p>View</p>
+                                                                    </Link>
+                                                                    {/* update a product */}
+                                                                    <Link to={`/admin/items/update-item/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
+                                                                        <div><PenLine /></div>
+                                                                        <p>Update</p>
+                                                                    </Link>
+                                                                    {/* delete  a product */}
+                                                                    <Link onClick={() => setPopUp(true)} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center text-red-600'>
+                                                                        <div><Trash2 /></div>
+                                                                        <p>Delete</p>
+                                                                    </Link>
+                                                                    {/* a Component <PopUp/> to confirm the delete or cancel */}
+                                                                    {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />}
+                                                                </div>
+                                                            )
+                                                        }
+                                                        </>
+                                                    ):(
+                                                        <Link to={`/admin/items/view/${item._id}`} className='hover:text-black underline text-blue-500 '>
+                                                            View
+                                                        </Link>
                                                     )
                                                 }
                                             </td>
                                         </tr>
-                                        // <div key={index}>
-                                        //     <p>{item.productName}</p>
-                                        // </div>
                                     ))
                                 )
                                 : (

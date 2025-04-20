@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ArrowLeft, Image } from 'lucide-react'
 import SpinnerBlue from '../SpinnerBlue'
 import UpdateQuantity from './UpdateQuantity'
+import { jwtDecode } from 'jwt-decode'
 
 function ViewProduct() {
     const {product_id} = useParams()
@@ -12,6 +13,13 @@ function ViewProduct() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [message, setMessage] = useState(false)
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
     useEffect(() => {
         axios.get(`http://localhost:3003/admin/items/view/${product_id}`)
             .then(response => {
@@ -37,17 +45,19 @@ function ViewProduct() {
                             <div><ArrowLeft/></div>
                             <div className='text-xl'><p>{product.productName}</p></div>
                         </div>
-                        <div className='flex gap-3'>
-                            <Link to={`/admin/items/update-item/${product_id}`} className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
-                                <p>Edit Item</p>
-                            </Link>
-                            <div
-                                onClick={() => setUpdateQty(true)} 
-                                className='bg-blue-500 cursor-pointer text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>
-                                <p>Update quantity</p>
+                        {userRole == "admin" && (
+                            <div className='flex gap-3'>
+                                <Link to={`/admin/items/update-item/${product_id}`} className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                                    <p>Edit Item</p>
+                                </Link>
+                                <div
+                                    onClick={() => setUpdateQty(true)} 
+                                    className='bg-blue-500 cursor-pointer text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>
+                                    <p>Update quantity</p>
+                                </div>
+                                {updateQty && <UpdateQuantity setUpdateQty={setUpdateQty} item={product} setMessage={setMessage} />}
                             </div>
-                            {updateQty && <UpdateQuantity setUpdateQty={setUpdateQty} item={product} setMessage={setMessage} />}
-                        </div>
+                        )}
                     </div>
                     <div className='bg-white px-8 mt-8 pb-20 pt-5  rounded-lg mb-24 flex flex-col gap-7'>
                         <div>

@@ -70,7 +70,13 @@ function App() {
                 <Route index element={<AllItems/>}/>
               </Route>
               <Route path="add-item" element={<AddItem/>}/>
-              <Route path="update-item/:id" element={<UpdateItem/>}/>
+              <Route 
+                path="update-item/:id" 
+                element={
+                  <AdminRoute>
+                    <UpdateItem/>
+                  </AdminRoute>
+                }/>
               <Route path="categories">
                 <Route index element={<AllCategories/>}/>
                 <Route path=":categoryId" element={<CategoryInfo/>}/>
