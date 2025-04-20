@@ -64,18 +64,18 @@ function ProductDetails() {
         fetchData()
     }, [product_id])
   return (
-    <div className='lg:mt-24 mt-32 px-7 '>
-        <div onClick={() => navigate(-1)} className='flex font-semibold text-xl gap-1 items-center cursor-pointer w-1/12'> <ArrowLeft/> Back</div>
+    <div className='lg:mt-24 mt-32 lg:px-7 px-2 '>
+        <div onClick={() => navigate(-1)} className='flex font-semibold text-xl gap-1 items-center cursor-pointer lg:w-1/12'> <ArrowLeft/> Back</div>
         {
             loading 
             ?(
                 <SpinnerLoader/>
             ):(
-                <div className='flex gap-14 justify-center items-center mt-10 px-5'>
-                    <div className='w-4/12 h-4/12'>
+                <div className='lg:flex gap-14 justify-center items-center mt-10 px-5 '>
+                    <div className='lg:w-4/12 lg:h-4/12'>
                         <img className='w-full h-full' src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} />
                     </div>
-                    <div className=' w-1/2 p-6 '>
+                    <div className=' lg:w-1/2 p-6 '>
                         <div className='flex flex-col gap-2'>
                             <div>
                                 {/* product name */}
@@ -86,7 +86,7 @@ function ProductDetails() {
                             <div className="w-full my-4">
                                 {/* Show message if out of stock */}
                                 {product.qty === 0 ? (
-                                    <p className="text-red-600 font-semibold text-xl bg-red-100 w-3/12 text-center rounded-full">Out of stock</p>
+                                    <p className="text-red-600 font-semibold text-xl bg-red-100 lg:w-3/12 w-7/12 text-center rounded-full">Out of stock</p>
                                 ) : (
                                     <div className='flex flex-col gap-2 w-full'>
                                         <div className=' text-base'> {product.qty} items left </div>
@@ -112,10 +112,10 @@ function ProductDetails() {
                             )}
                             
                         </div>
-                        <div className='flex gap-5 mt-18'>
+                        <div className='flex gap-5 lg:mt-18 mt-6  '>
                             <div
                                 onClick={() => addToCartFunction()} 
-                                className='bg-stone-800 text-xl cursor-pointer font-semibold text-white h-13 flex justify-center items-center w-7/12'>
+                                className='bg-stone-800 text-xl cursor-pointer font-semibold text-white h-13 flex justify-center items-center lg:w-7/12 w-9/12'>
                                 Add To Cart
                             </div>
                             <div

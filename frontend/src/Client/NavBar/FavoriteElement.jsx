@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useCart} from '../../CartContext'
 import axios from 'axios'
-import { Check, Heart, Plus, X } from 'lucide-react'
+import { Check, Heart, Plus, ShoppingCart, X } from 'lucide-react'
 function FavoriteElement({product}) {
     const {cart, favorites, setFavorites, addToCart} = useCart()
     const [productById, setProductById] = useState({})
@@ -40,7 +40,7 @@ function FavoriteElement({product}) {
         {
             product && (
                 <div className='flex justify-between  lg:gap-0 gap-4 py-5'>
-                    <div className='flex w-9/12 gap-5  items-center'>
+                    <div className='flex lg:w-9/12 gap-5  items-center border border-red-600'>
                         <div className='w-24 h-24 rounded-lg border border-gray-300 mt-2'>
                             {product.productPhoto && (
                                 <img src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} className='w-full h-full' />
@@ -64,7 +64,7 @@ function FavoriteElement({product}) {
                                 className='bg-gray-100 border border-gray-300 hover:bg-gray-300 cursor-pointer flex  text-sm px-2 py-1 rounded-full'>
                                 {isInCart 
                                     ?  <div className='flex justify-center items-center gap-1.5'><Check size={17} /> In Cart</div>
-                                    : <p>Add to cart</p>
+                                    : <p><span className='lg:block hidden'>Add to cart</span> <span className='lg:hidden flex justify-center gap-1 items-center'><ShoppingCart size={17}/> Add</span></p>
                                 }
                             </div>
                         </div>
