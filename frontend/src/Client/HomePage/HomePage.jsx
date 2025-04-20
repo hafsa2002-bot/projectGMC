@@ -212,7 +212,7 @@ function HomePage() {
                     </Link>
                 </div>
             </section> */}
-            <section className="relative pt-10  lg:hidden h-[90vh] items-center justify-center bg-cover bg-center bg-[url('/5ded84aab41bea08a7059b6f07644b1c.jpg')]">
+            <section className="relative top-6 pt-6  lg:hidden h-[90vh] items-center justify-center bg-cover bg-center bg-[url('/5ded84aab41bea08a7059b6f07644b1c.jpg')]">
   {/* Blurred dark overlay */}
   <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
