@@ -1,8 +1,27 @@
 import express from 'express'
 import Product from '../models/Product.js'
 import Order from '../models/Order.js'
+import Notification from '../models/Notification.js'
 
 const router = express.Router()
+
+// create new notification
+const createNotification = async (productId, notificationName) => {
+    try{
+        if(notificationName !== "expiring soon"){
+            await Notification.create({productId, notificationName})
+        }else{
+            const product = await Product.findById({_id: productId})
+            const today = new Date()
+            const expiryDate = new Date(product.expirationDate)
+            const diffTime = expiryDate - today 
+            const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+            await Notification.create({ productId, notificationName, daysLeft: daysLeft});
+        }
+    }catch(error){
+        console.log("Failed to add new Notification: ", error)
+    }
+}
 
 // fetch and sort data by lastUpdated
 router.get("/notifications", async (req, res) => {
@@ -41,4 +60,5 @@ router.get("/notifications", async (req, res) => {
     }
 });
 
+export {createNotification}
 export default router

@@ -113,7 +113,7 @@ function Notifications() {
                 )}
             </div>
                 {showNotifications && (
-                        <div className=' absolute z-20 bg-white lg:w-96 w-screen h-[85vh] overflow-x-scroll right-0 lg:top-10 top-14 lg:rounded-xl shadow-2xl'>
+                        <div className=' absolute z-20 bg-white lg:w-96 w-screen lg:h-[85vh] h-[90vh] overflow-x-scroll right-0 lg:top-10 top-14 lg:rounded-xl shadow-2xl'>
                             <div className=' border-gray-400 flex justify-between items-center shadow-lg font-semibold text-gray-600 px-3 py-3 text-lg sticky top-0 bg-white '>
                                 <p>Notifications</p>
                                 <div
@@ -152,56 +152,68 @@ function Notifications() {
                                                 </div>
                                             ):(
                                                 // <div className={`flex  ${(element.outOfStock && !element.isExpired) && 'bg-blue-400'} ${(element.lowInStock && !element.outOfStock) && 'bg-orange-400'} ${element.isExpired && 'bg-red-400'}`} >
-                                                <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
-                                                    <div>
-                                                        {(element.outOfStock && !element.isExpired) && <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'><PackageX size={22} /></div>} 
-                                                        {(element.lowInStock && !element.outOfStock && !element.isExpired) && <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-9 h-9 p-1 rounded-full'><TrendingDown size={22}  /></div>} 
-                                                        {/* {(element.isExpired) && <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><CalendarX2 size={22}  /></div>}  */}
-                                                        {/* {(element.isExpiringSoon  && !element.isExpired) && <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><Calendar size={22}  /></div>} */}
-                                                    </div>
-                                                    {(element.outOfStock && !element.isExpired) && (
-                                                        <div className='flex flex-col juctify-between gap-1.5 w-full'>
-                                                            <p><span className='font-semibold'>Product out of stock: </span>{element.productName} </p>
-                                                            <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
-                                                                <div className=''><Calendar size={17}/></div>
-                                                                {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>}
-                                                                <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                {element.lastUpdated.slice(11,16)}
+                                                <div>
+                                                    {(element.outOfStock && !element.isExpired) 
+                                                        && (
+                                                            <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                                <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'><PackageX size={22} /></div>
+                                                                <div className='flex flex-col juctify-between gap-1.5 w-full'>
+                                                                    <p><span className='font-semibold'>Product out of stock: </span>{element.productName} </p>
+                                                                    <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                                        <div className=''><Calendar size={17}/></div>
+                                                                        {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>}
+                                                                        <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                                        {element.lastUpdated.slice(11,16)}
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    )} 
-                                                    {(element.lowInStock && !element.outOfStock && !element.isExpired) && (
-                                                        <div className='flex flex-col juctify-between gap-1.5 w-full '>
-                                                            <p><span className='font-semibold'>Product low in stock: </span>{element.productName} </p>
-                                                            <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
-                                                                <div className='mr-1'><Calendar size={17}/></div>
-                                                                {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
-                                                                <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                {element.lastUpdated.slice(11,16)}
+                                                        )
+                                                    }
+                                                    {(element.lowInStock && !element.outOfStock ) 
+                                                        &&(
+                                                            <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                                <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-9 h-9 p-1 rounded-full'><TrendingDown size={22}  /></div>
+                                                                <div className='flex flex-col juctify-between gap-1.5 w-full '>
+                                                                    <p><span className='font-semibold'>Product low in stock: </span>{element.productName} </p>
+                                                                    <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                                        <div className='mr-1'><Calendar size={17}/></div>
+                                                                        {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
+                                                                        <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                                        {element.lastUpdated.slice(11,16)}
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    )} 
-                                                    {/* {element.isExpired && (
-                                                        <div className='flex flex-col juctify-between gap-1.5 w-full '>
-                                                            <p><span className='font-semibold'>Product expired: </span>{element.productName} </p>
-                                                            <div className='flex justify-end items-center gap-1 mr-2 text-gray-600' >
-                                                            <div className='mr-1'><Calendar size={17}/></div>
-                                                                {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
-                                                                <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                {element.lastUpdated.slice(11,16)}
+                                                        )
+                                                    }
+                                                    {/* {element.isExpired
+                                                        && (
+                                                            <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                                <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><CalendarX2 size={22}  /></div>
+                                                                <div className='flex flex-col juctify-between gap-1.5 w-full '>
+                                                                    <p><span className='font-semibold'>Product expired: </span>{element.productName} </p>
+                                                                    <div className='flex justify-end items-center gap-1 mr-2 text-gray-600' >
+                                                                    <div className='mr-1'><Calendar size={17}/></div>
+                                                                        {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
+                                                                        <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                                        {element.lastUpdated.slice(11,16)}
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    )}  */}
-                                                    {/* product near expiration: after n-days */}
+                                                        )
+                                                    } */}
                                                     {/* {
-                                                        (element.isExpiringSoon && !element.isExpired) && (
-                                                            <div className='flex flex-col juctify-between gap-1.5 w-full '>
-                                                                <p className=''><span className='font-semibold'>Product near expiration: </span>{element.productName} - <p className='text-gray-400 font-semibold text-sm'> {element.daysLeftToExpire == 1 ? <span>One day left</span> : <span> {element.daysLeftToExpire} days left </span> } </p> </p>
-                                                                <div className='flex justify-end items-center gap-1 mr-2 text-gray-600' >
-                                                                <div className='mr-1'><Calendar size={17}/></div>
-                                                                    {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
-                                                                    <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                    {element.lastUpdated.slice(11,16)}
+                                                        (element.isExpiringSoon  && !element.isExpired)  
+                                                        &&(
+                                                            <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                                <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-9 h-9 p-1 rounded-full'><Calendar size={22}  /></div>
+                                                                <div className='flex flex-col juctify-between gap-1.5 w-full '>
+                                                                    <p className=''><span className='font-semibold'>Product near expiration: </span>{element.productName} - <p className='text-gray-400 font-semibold text-sm'> {element.daysLeftToExpire == 1 ? <span>One day left</span> : <span> {element.daysLeftToExpire} days left </span> } </p> </p>
+                                                                    <div className='flex justify-end items-center gap-1 mr-2 text-gray-600' >
+                                                                    <div className='mr-1'><Calendar size={17}/></div>
+                                                                        {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
+                                                                        <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                                        {element.lastUpdated.slice(11,16)}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         )

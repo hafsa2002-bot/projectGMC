@@ -30,7 +30,7 @@ function Nav(props) {
 
   return (
     <div>
-        <div className='z-50 border-b border-gray-300  w-full shadow-md fixed top-0'>
+        <div className='z-50   w-full shadow-md fixed top-0'>
             <nav className="bg-black text-white lg:px-6 px-3 py-3 w-full shadow-md ">
                 <div className="flex items-center justify-between w-full">
     
@@ -72,7 +72,7 @@ function Nav(props) {
                         </div>
                     </div>
                     {!props.details && (
-                        <Link to="/login" className='w-1/3 text-end text-black'>Login</Link>
+                        <Link to="/login" className=' lg:block hidden w-1/3 text-end text-black'>Login</Link>
                     )} 
                     {props.details && (
                         <div className="flex items-center justify-end gap-4 lg:w-1/3 w-1/2">

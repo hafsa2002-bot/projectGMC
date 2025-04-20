@@ -150,6 +150,7 @@ function ProductsPage() {
         }
         </div>
         <Footer/>
+        
     </div>
   )
 }

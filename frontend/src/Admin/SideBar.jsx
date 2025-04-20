@@ -18,8 +18,8 @@ function SideBar() {
     let userRole = null;
     
     if (token) {
-    const decoded = jwtDecode(token);
-    userRole = decoded.role; // Assuming the token has a `role` field
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
     }
     
 
@@ -172,7 +172,7 @@ function SideBar() {
                     )
                 }
                 {showSettings && (
-                    <div className={`text-gray-700 absolute z-50 w-48  pt-2 overflow-hidden bottom-0 bg-white border border-gray-400 rounded-md ${showSideBar ? 'left-32' : 'left-16'} `}>
+                    <div className={`text-gray-700 absolute z-50 w-48  pt-2 overflow-hidden bg-white shadow-xl shadow-gray-400 rounded-md bottom-14 border border-gray-200  ${showSideBar ? 'left-0' : setShowSettings(false)} `}>
                         {/* userName */}
                         <div className='flex items-center gap-3 cursor-default border-b border-gray-400 px-3 pb-2'>
                             <div className='bg-gray-200  w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Instagram, Facebook, Twitter } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -22,16 +23,16 @@ function Footer() {
                 <div>
                     <h3 className=' font-medium lg:text-lg pb-1 mb-3 border-b-2 w-28 text-yellow-300'>Contact Info</h3>
                     <ul className='footerList flex flex-col gap-1 text-stone-400'>
-                        <li>Email: <a href='' className='no-underline text-[rgb(105, 105, 105)]'>support@novexa.com</a></li>
-                        <li>Phone: <br className='flex lg:hidden'/> +212 123-456-789</li>
+                        <li>Email: <a href='' className='no-underline text-[rgb(105, 105, 105)] hover:text-white'>support@novexa.com</a></li>
+                        <li>Phone: <br className='flex lg:hidden '/> <span className='hover:text-white'>+212 123-456-789</span> </li>
                     </ul>
                 </div>
                 <div>
                     <h3 className=' font-medium lg:text-lg pb-1 mb-3 border-b-2 pr-2 text-yellow-300'>Follow-us on Social Media</h3>
                     <ul className='footerList socialMediaList flex flex-col justify-center gap-2 text-stone-400'>
-                        <li><a className='no-underline text-[rgb(105, 105, 105)] flex items-center gap-2.5' href=''>< Instagram  className='text-stone-400' /> <span>Instagram</span></a></li>
-                        <li><a className='no-underline text-[rgb(105, 105, 105)] flex items-center gap-2.5' href=''>< Facebook className='text-stone-400'/><span>Facebook</span></a></li>
-                        <li><a className='no-underline text-[rgb(105, 105, 105)] flex items-center gap-2.5' href=''>< Twitter  className='text-stone-400' /><span>Twitter</span></a></li>
+                        <li><Link to="https://www.instagram.com/hafssa_4748/?hl=fr"  className='no-underline text-stone-400 hover:text-white flex items-center gap-2.5' href=''>< Instagram   /> <span>Instagram</span></Link></li>
+                        <li><Link className='no-underline text-stone-400 hover:text-white flex items-center gap-2.5' href=''>< Facebook /><span>Facebook</span></Link></li>
+                        <li><Link className='no-underline text-stone-400 hover:text-white flex items-center gap-2.5' href=''>< Twitter  /><span>Twitter</span></Link></li>
                     </ul>
                 </div>
 

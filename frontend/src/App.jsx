@@ -1,10 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom"
 import HomePage from "./Client/HomePage/HomePage"
 import Login from "./Login"
-import SignUp from "./SignUp"
 import CategoryPage from "./Client/ProductsPages/CategoryPage"
 import Nav from "./Client/NavBar/Nav"
-import Footer from "./Client/Footer"
 import ContactUs from "./Client/ContactUs"
 import ProductsPage from "./Client/ProductsPages/ProductsPage"
 import SideBar from "./Admin/SideBar"
@@ -15,14 +13,12 @@ import Members from "./Admin/Members/Members"
 import Reports from "./Admin/Reports/Reports"
 import ActivityLog from "./Admin/ActivityLog"
 import AddItem from "./Admin/ItemsPage/AddItem"
-import AddCategory from "./Admin/ItemsPage/AddCategory"
 import OutOfStock from "./Admin/ItemsPage/OutOfStock"
 import ExpiredItems from "./Admin/ItemsPage/ExpiredItems"
 import LowInStock from "./Admin/ItemsPage/LowInStock"
 import ViewProduct from "./Admin/ItemsPage/ViewProduct"
 import ItemsRoute from "./Admin/ItemsPage/ItemsRoute"
 import AllItems from "./Admin/ItemsPage/AllItems"
-import CategoryItems from "./Admin/ItemsPage/CategoryItems"
 import AllCategories from "./Admin/ItemsPage/AllCategories"
 import CategoryInfo from "./Admin/ItemsPage/CategoryInfo"
 import Checkout from "./Client/CheckOut/Checkout"
@@ -32,11 +28,11 @@ import AddOrder from "./Admin/OrderPage/AddOrder"
 import UpdateItem from "./Admin/ItemsPage/UpdateItem"
 import ProtectedRoute from "./ProtectedRoute"
 import Unauthorized from "./Unauthorized"
-import AddMember from "./Admin/Members/AddMember"
 import {jwtDecode} from 'jwt-decode';
 import ProductDetails from "./Client/ProductsPages/ProductDetails"
 import AdminRoute from "./AdminRoute"
 function App() {
+  /*
   const token = localStorage.getItem("token");
   let userRole = null;
 
@@ -44,6 +40,7 @@ function App() {
     const decoded = jwtDecode(token);
     userRole = decoded.role; // Assuming the token has a `role` field
   }
+  */
 
   return (
     <>
@@ -91,7 +88,6 @@ function App() {
             <Route path="activities" element={<ActivityLog/>} />
             <Route 
               path="members" 
-              // element={userRole === "admin"  ? <Members/> : <AdminHomePage/>} 
               element={
                 <AdminRoute>
                   <Members/>

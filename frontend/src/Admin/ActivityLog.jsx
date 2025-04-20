@@ -78,20 +78,20 @@ function ActivityLog() {
           logs && logs.length > 0 ? (
             <div>
               <p className='text-3xl font-medium mb-7 ml-12 mt-5 text-blue-500 font-poppins'>Activity History</p>
-              <div className=' p-4 pl-14 rounded-lg w-9/12 mb-20'>
+              <div className=' p-4 lg:pl-14 pl-8 rounded-lg lg:w-9/12 mb-20'>
                 {Object.keys(groupedLogs).map((category) => (
                   groupedLogs[category].length > 0 && (
                     <div key={category}>
-                      <div className='font-semibold text-2xl mb-5 ml-16 font-poppins'>{category}</div>
+                      <div className='font-semibold text-2xl mb-5 ml-12 font-poppins'>{category}</div>
 
                       {/* Timeline Wrapper */}
                       {/* relative z-0 border-l-2   pl-8*/}
-                      <div className="  border-gray-300">
+                      <div className="relative z-0 border-l-2   pl-7 border-gray-300">
                         {groupedLogs[category].map((log, index) => (
-                          <div key={index} className=" bg-gray-100  flex items-start gap-5 pl-2 mb-9">
+                          <div key={index} className=" relative bg-gray-100  flex items-start gap-5 pl-2 mb-9">
                             
                             {/* Timeline Icon - Centered on the Line */}
-                            <div className=" bg-white mt-2 w-9 h-9 flex justify-center items-center rounded-full border border-gray-300 shadow">
+                            <div className=" absolute -left-12 top-3 bg-white  w-9 h-9 flex justify-center items-center rounded-full border border-gray-300 shadow">
                               {log.action.toLowerCase().includes("added") && (
                                 <>
                                   {log.action.toLowerCase().includes("category") &&  <FolderPlus size={18} className="text-gray-600" /> }  
@@ -104,20 +104,20 @@ function ActivityLog() {
                               {log.action.toLowerCase().includes("updated") && <PenLine size={18} className="text-gray-600" />}
                             </div>
 
-                            <div className="bg-white w-10/12 rounded-xl p-5 mr-7 shadow-sm border border-gray-200 font-poppins">
+                            <div className="bg-white lg:w-10/12 w-full rounded-xl p-5 mr-7 shadow-sm border border-gray-200 font-poppins">
                               {/* Action & Details */}
                               <div className="mb-3">
-                                <p className="text-sm text-gray-700 leading-relaxed">
+                                <p className="text-sm text-gray-700 leading-relaxed break-words">
                                   <span className="font-semibold text-gray-900">{log.action}</span>
-                                  <span className="text-gray-600"> — {log.details}</span>
+                                  <span className="text-gray-600 "> — {log.details}</span>
                                 </p>
                               </div>
                               <div className="border-t border-gray-100 my-3"></div>
 
                               {/* Bottom Section: User & Date-Time */}
-                              <div className="flex justify-between items-center text-xs text-gray-500">
+                              <div className="lg:flex  justify-between items-center text-xs text-gray-500">
                                 {/* Left: User */}
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center  gap-1 lg:mb-0 mb-1.5">
                                   <UserRound size={14} className="text-gray-500" />
                                   <span className="font-medium text-gray-600">Performed by</span>
                                   <span>{log.userName} {log.user}</span>

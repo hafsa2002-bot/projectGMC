@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
+import { jwtDecode } from 'jwt-decode'
 
 function ExpiredItems() {
     const [expiredProducts, setExpiredProducts] = useState([])
     const [loading, setLoading] = useState(true)
+    
     useEffect(() => {
         axios.get("http://localhost:3003/admin/items/expiredItems")
             .then(response => {
@@ -83,7 +85,6 @@ function ExpiredItems() {
                                 {item.qty}
                             </td>
                             <td className="px-6 py-4">
-                                {/* <EllipsisVertical /> */}
                                 {item.minLevel}
                             </td>
                             <td className="px-6 py-4 ">

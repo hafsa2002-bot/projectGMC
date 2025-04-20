@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
 import UpdateQuantity from './UpdateQuantity'
-import PopUp from './PopUp'
+import { jwtDecode } from 'jwt-decode'
 
 function OutOfStock() {
     const [outOfStockProducts, setOutOfStockProducts] = useState([])
@@ -13,6 +13,13 @@ function OutOfStock() {
     const [updateQty, setUpdateQty] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null);
     const [message, setMessage] = useState(false)
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     useEffect(() => {
         axios.get("http://localhost:3003/admin/items/outOfStock")
@@ -104,10 +111,16 @@ function OutOfStock() {
                                 {item.price  } <span className='text-black'>MAD</span>
                             </td>
                             <td className="px-6 py-4" >
-                                <PenLine
-                                    className='cursor-pointer'
-                                    onClick={() => handleUpdateQty(item)}
-                                />
+                                {userRole == "admin" ? (
+                                    <PenLine
+                                        className='cursor-pointer'
+                                        onClick={() => handleUpdateQty(item)}
+                                    />
+                                ):(
+                                    <Link to={`/admin/items/view/${item._id}`} className='hover:text-black underline text-blue-500 '>
+                                        View
+                                    </Link>
+                                )}
                             </td>
                         </tr>
                     ))}

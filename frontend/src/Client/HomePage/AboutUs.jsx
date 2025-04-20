@@ -12,8 +12,9 @@ function AboutUs() {
     AOS.refresh()
   }, [])
   return (
-    <section>
-      <h1 className='text-6xl text-center font-bold relative top-5' data-aos="fade-up">ABOUT US</h1>
+    <>
+      <section className='hidden lg:block'>
+        <h1 className='text-6xl text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 font-extrabold relative top-5' data-aos="fade-up">ABOUT US</h1>
         <div className='w-full  h-[90vh] px-26 py-20 flex gap-5 text-stone-400 font-semibold'>
           <div className='w-1/3 flex flex-col gap-4'>
             <div className='h-1/3 bg-black border border-stone-500 rounded-lg p-4'>
@@ -68,19 +69,85 @@ function AboutUs() {
           </div>
           
         </div>
-        {/* <p className="text-4xl text-center">About US</p>
-        <p>Welcome to <strong>Novexa</strong>, your one-stop online store dedicated
-            to offering high-quality products that meet your everyday 
-            needs. We are committed to providing a seamless shopping 
-            experience with a diverse range of items, ensuring you find 
-            exactly what you're looking for.
-            At <strong>Novexa</strong>, we believe in innovation, convenience, and customer
-            satisfaction. Whether you're searching for the latest trends, 
-            essential items, or unique finds, our platform is designed to 
-            make online shopping effortless and enjoyable.
-        </p> */}
-        {/* <i className='font-semibold'>Join Novexa today and discover a world of possibilities at your fingertips!</i> */}
-    </section>
+      </section>
+      <section className='lg:hidden'>
+  <h1 className='text-4xl text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 font-extrabold relative top-5 px-6' data-aos="fade-up">
+    ABOUT US
+  </h1>
+  
+  <div className='w-full h-auto px-6 py-8 flex flex-col gap-8 text-stone-400 font-semibold'>
+    
+    {/* Left Side */}
+    <div className='flex flex-col gap-6'>
+      
+      {/* Customer Satisfaction Box */}
+      <div className='bg-black border border-stone-500 rounded-lg p-6'>
+        <div className='relative flex justify-end items-center'>
+          <div className='flex gap-2'>
+            {Array.from({ length: 5 }, () => (
+              <Star fill="#6b7280" strokeWidth={0} />
+            ))}
+          </div>
+          <div className="absolute flex gap-2">
+            <Star fill="yellow" strokeWidth={0} />
+            <Star fill="yellow" strokeWidth={0} />
+            <Star fill="yellow" strokeWidth={0} />
+            <Star fill="yellow" strokeWidth={0} />
+            <StarHalf fill="yellow" className='text-stone-900' strokeWidth={0} />
+          </div>
+        </div>
+        <div className='text-2xl mt-4'>
+          <span className='text-white'>Customer satisfaction </span><br/>is our top priority.
+        </div>
+      </div>
+      
+      {/* One-Stop Shop Section */}
+      <div className='bg-black border border-stone-500 rounded-lg p-6'>
+        <div className='text-xl'>
+          Your<br/> <span className='text-white'>one-stop shop</span> for the latest trends<br/> & essentials
+        </div>
+        <div className='flex justify-around gap-4 mt-4 text-white'>
+          <Shirt fill='white' className='w-10 h-10'/>
+          <ShoppingCart className='w-10 h-10'/>
+          <Watch className='w-10 h-10'/>
+          <Headphones className='w-10 h-10'/>
+          <CirclePercent className='w-10 h-10'/>
+          <Gem className='w-10 h-10'/>
+          <Laptop className='w-10 h-10'/>
+        </div>
+      </div>
+      
+    </div>
+
+    {/* Right Side */}
+    <div className='flex flex-col gap-6'>
+      
+      {/* Discover Quality Products Box */}
+      <div className='bg-black shadow-lg border border-stone-500 rounded-lg p-6 relative'>
+        <div className='text-2xl'>
+          Discover a world of<br/> 
+          <span className='text-white'>quality products</span> <br/>
+          at unbeatable prices
+        </div>
+        <p className='text-sm mt-4'>Explore high-quality products at unbeatable prices, with something for everyone!</p>
+        <img src="/images/leonrdo2.png" alt="Product" className="w-full mt-4 rounded-lg" />
+      </div>
+      
+      {/* Secure Payments Section */}
+      <div className='bg-black shadow-lg border border-stone-500 rounded-lg p-6 text-xl text-white'>
+        Secure payments<br/> & fast delivery for a seamless experience.
+      </div>
+      
+    </div>
+    
+  </div>
+</section>
+
+
+    </>
+
+
+  
   )
 }
 
