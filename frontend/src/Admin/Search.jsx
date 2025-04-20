@@ -2,7 +2,7 @@ import React from 'react'
 
 function Search() {
   return (
-    <div>
+    <div className='font-poppins'>
         <p>search</p>
     </div>
   )

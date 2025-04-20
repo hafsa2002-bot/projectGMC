@@ -31,7 +31,7 @@ function RecentActivities() {
   return (
     <div >
         <div className='bg-gray-50 flex justify-between items-center px-2 '>
-            <p className='text-xl font-semibold text-gray-700 px-2'>Recent Activities</p>
+            <p className='text-xl font-semibold text-gray-900 px-2'>Recent Activities</p>
             <Link to="/admin/activities" className=' text-blue-600   py-2 font-semibold flex justify-center items-center gap-3'>
                 <p>View All</p>
                 <div><ArrowRight size={20} /></div>

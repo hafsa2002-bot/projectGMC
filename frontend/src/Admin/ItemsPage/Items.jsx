@@ -75,8 +75,8 @@ function Items() {
                         <div className='bg-blue-50 w-14 h-14 rounded-full flex justify-center items-center'>
                             <PackageX size={28} className='text-blue-600'/>
                         </div>
-                        <div>
-                            <p>Out of stock</p>
+                        <div className=''>
+                            <p className='text-gray-600'>Out of stock</p>
                             <p className='font-semibold'>{stock ? (<span>{stock.totalOutOfStock}</span>): (<span>N/A</span>)}</p>
                         </div>
                     </Link>
@@ -85,7 +85,7 @@ function Items() {
                             <TrendingDown size={28} className='text-orange-600'/>
                         </div>
                         <div>
-                            <p>Low in stock</p>
+                            <p className='text-gray-600'>Low in stock</p>
                             <p className='font-semibold'>{stock.totalLowInStock}</p>
                         </div>
                     </Link>
@@ -94,7 +94,7 @@ function Items() {
                             <TriangleAlert color='rgb(254, 242, 242)'  fill="rgb(222, 13, 7)" size={30} />
                         </div>
                         <div>
-                            <p>Expired Items</p>
+                            <p className='text-gray-600'>Expired Items</p>
                             <p className='font-semibold'>{stock.totalExpiredProducts}</p>
                         </div>
                     </Link>

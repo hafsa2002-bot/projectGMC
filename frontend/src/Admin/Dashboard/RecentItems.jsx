@@ -13,7 +13,7 @@ function RecentItems() {
   return (
     <div className=''>
         <div className='flex justify-between items-center mt-9 mb-4 lg:px0 px-3'>
-            <p className='text-2xl  font-semibold text-gray-700  '>Recent Items</p>
+            <p className='text-2xl  font-semibold text-gray-900  '>Recent Items</p>
             {/* <Link to="/admin/items" className=' bg-blue-600  py-2 rounded-xl font-semibold text-white '>All Items</Link> */}
             <Link to="/admin/items" className=' text-blue-600   py-2 font-semibold flex justify-center items-center gap-3'>
                 <p>View All</p>
@@ -39,8 +39,8 @@ function RecentItems() {
                                 }
                             </div>
                             <div className='px-3 flex flex-col mt-2'>
-                                <p className='font-semibold'>{item.productName}</p>
-                                <p className='text-gray-500 font-bold'>{item.qty} Qty</p>
+                                <p className='font-semibold text-gray-800 '>{item.productName}</p>
+                                <p className='text-gray-500 font-bold '>{item.qty} Qty</p>
                             </div>
                         </div>
                     ))

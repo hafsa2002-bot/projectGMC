@@ -18,7 +18,7 @@ function DashboardStockLevels() {
         <div className='sticky top-0 z-10 bg-gray-50 px-4 pb-2'>
             <div className=' pt-2 flex justify-between items-center'>
                 <div className='flex  justify-center items-center gap-3'>
-                    <p className='text-xl font-semibold text-gray-700'>Stock Levels</p>
+                    <p className='text-xl font-semibold text-gray-900'>Stock Levels</p>
                     <div className='bg-red-400 rounded-full px-3 text-white font-semibold'>
                         <p>{dashboardProducts.length}</p>
                     </div>
@@ -36,7 +36,7 @@ function DashboardStockLevels() {
                     dashboardProducts.map((product, index)=> (
                         <Link to={`/admin/items/view/${product._id}`} key={product._id} className="flex justify-between items-center border-b border-gray-300 lg:px-4 px-2 py-2.5 h-14 ">
                             <div className='lg:w-3/5 w-2/5 flex items-baseline gap-2 '>
-                                <p className='lg:text-lg font-semibold truncate whitespace overflow-hidden'>{product.productName} </p>
+                                <p className=' font-semibold text-gray-700 truncate whitespace overflow-hidden'>{product.productName} </p>
                                 <p className='text-gray-400 text-sm'>#{index+1}</p>
                             </div>
                             <div className='flex flex-col lg:w-1/4 w-1/2 gap-1 '>

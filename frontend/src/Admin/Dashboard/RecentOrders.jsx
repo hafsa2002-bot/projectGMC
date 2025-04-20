@@ -30,7 +30,7 @@ function RecentOrders() {
   return (
     <div className='bg-white border border-gray-300  rounded-lg pb-3'>
         <div className='flex justify-between items-center  px-2 py-2 '>
-            <p className='text-xl font-semibold text-gray-700 px-2'>Recent Orders</p>
+            <p className='text-2xl font-semibold text-gray-900 px-4'>Recent Orders</p>
             <Link to="/admin/orders" className='text-blue-600 font-semibold flex  items-center gap-3 py-2'>
                 <p>View All</p>
                 <ArrowRight size={20} />
@@ -45,10 +45,12 @@ function RecentOrders() {
                         <div className='border border-gray-300 rounded-lg p-2 mt-2' key={index}>
                             <div className='lg:flex justify-between  items-center'>
                                 <div className='flex lg:hidden justify-end mb-1'>
-                                    <Link to={`/admin/view_order/${order._id}`} className='bg-blue-500 lg:hidden px-4 text-sm py-1 font-semibold rounded-full text-white flex items-center gap-1'>View<ArrowRight size={16} /></Link>
+                                    <Link to={`/admin/view_order/${order._id}`} className='bg-blue-500 lg:hidden px-4 text-sm py-1 font-semibold rounded-full text-white flex items-center gap-1'>
+                                        View<ArrowRight size={16} />
+                                    </Link>
                                 </div>
                                 <div className='lg:flex items-center gap-2 '>
-                                    <p className='font-semibold text-lg'> Order #{order._id} </p>
+                                    <p className='font-semibold text-gray-700'> Order #{order._id} </p>
                                     <div className="flex items-center gap-3 text-gray-500 lg:ml-2">
                                         <div className="flex items-center gap-1">
                                             <Calendar size={14} className="text-gray-500" />

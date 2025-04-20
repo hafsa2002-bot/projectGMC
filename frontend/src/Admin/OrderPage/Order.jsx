@@ -26,9 +26,9 @@ function Order() {
         getStockInfo()
     }, [stockInfo])
   return (
-    <div>
+    <div className='font-poppins'>
         <div className=' bg-gray-100 border-b border-gray-400 flex justify-between items-center my-5 '>
-            <div className='flex  gap-5 text-2xl '>
+            <div className='flex  gap-5 text-3xl '>
                 <Link
                 className= 'text-blue-600 border-b-3 border-blue-700 pb-5 font-semibold px-3 ' 
                 to="/admin/orders">
@@ -41,46 +41,46 @@ function Order() {
                 </Link>
             </div>
         </div>
-        <div className='flex justify-between '>
+        <div className='flex justify-between gap-10'>
             {/* Total order */}
-            <div className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3 justify-between items-center rounded-lg px-4">
+            <div className="lg:w-1/4 w-5/12 py-5 bg-white border border-gray-300 flex gap-3 justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600 rounded-lg flex justify-center items-center w-12 h-12'>
                     <ClipboardList className='text-white' size={27} />
                 </div>
                 <div className='text-end'>
-                    <p className='text-gray-600'>Total order</p>
-                    <p className='font-semibold text-2xl'>{numberOfOrders}</p>
+                    <p className='text-gray-600 text-lg'>Total order</p>
+                    <p className='font-semibold text-xl'>{numberOfOrders}</p>
                 </div>
             </div>
             {/* Order on process */}
-            <div  className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3  justify-between items-center rounded-lg px-4">
+            <div  className="lg:w-1/4 w-5/12 py-5 bg-white border border-gray-300 flex gap-3  justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600 rounded-lg flex justify-center items-center  w-12 h-12'>
                     <Layers  className='text-white'  size={27} />
                 </div>
                 <div className='text-end'>
-                    <p className='text-gray-600'>Order on process</p>
-                    <p className='font-semibold  text-2xl'>{ordersOnProcessLength}</p>
+                    <p className='text-gray-600 text-lg'>Order on process</p>
+                    <p className='font-semibold  text-xl'>{ordersOnProcessLength}</p>
                 </div>
             </div>
             {/* Order done */}
-            <div className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3 justify-between items-center rounded-lg px-4">
+            <div className="lg:w-1/4 w-5/12 py-5 bg-white border border-gray-300 flex gap-3 justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600  rounded-lg flex justify-center items-center w-12 h-12'>
                     <PackageCheck  className='text-white'  size={27} />
                 </div>
                 <div className='text-end'>
-                    <p className='text-gray-600'>Order done</p>
-                    <p className='font-semibold  text-2xl'>{numberOfOrdersDone}</p>
+                    <p className='text-gray-600 text-lg'>Order done</p>
+                    <p className='font-semibold  text-xl'>{numberOfOrdersDone}</p>
                 </div>
             </div>
             {/* Total Income */}
-            <div className="lg:w-1/5 w-5/12 py-5 bg-white border border-gray-300 flex gap-3  justify-between items-center rounded-lg px-4">
+            <div className="lg:w-1/4 w-5/12 py-5 bg-white border border-gray-300 flex gap-3  justify-between items-center rounded-lg px-4">
                 <div className='bg-blue-600 rounded-lg flex justify-center items-center  w-12 h-12'>
                     <CircleDollarSign  className='text-white'  size={27} />
                 </div>
                 <div className='text-end'>
-                    <p className='text-gray-600'>Total Income</p>
-                    <div className="font-semibold text-2xl flex gap-1">
-                        {stockInfo.totalIncome ? stockInfo.totalIncome : 'N/A'} MAD
+                    <p className='text-gray-600 text-lg'>Total Income</p>
+                    <div className="font-semibold text-xl flex gap-1">
+                        {stockInfo.totalIncome ? stockInfo.totalIncome : 'N/A'} DH
                     </div>                
                 </div>
             </div>

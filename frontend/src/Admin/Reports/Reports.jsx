@@ -9,7 +9,7 @@ function Reports() {
   const [showPeriodOptions, setShowPeriodOptions] = useState(false)
   const [reportsPeriod, setReportsPeriod] = useState("week")
   return (
-    <div>
+    <div className='font-poppins'>
       <div className='bg-white p-3  w-10/12 m-auto rounded-xl'>
         <div className='flex justify-between items-center mt-2 mb-7 mx-3'>
           <h1 className='text-2xl font-outfit'>Income & Orders Tracker</h1>

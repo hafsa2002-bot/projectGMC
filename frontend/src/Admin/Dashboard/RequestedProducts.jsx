@@ -54,7 +54,7 @@ function RequestedProducts() {
   return (
     <div className=''>
         <div className='pt-2 sticky top-0 z-10 bg-gray-50 px-4 pb-2'>
-            <p className='text-xl font-semibold text-gray-700'>Requested Products</p>
+            <p className='text-xl font-semibold text-gray-900'>Requested Products</p>
         </div>
         <div className='overflow-y-scroll lg:h-64 h-32 max-h-64'>
             <div className='flex justify-end'>
