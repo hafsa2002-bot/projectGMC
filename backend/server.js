@@ -12,7 +12,6 @@ import userRoutes from './routes/userRoutes.js'
 
 const app = express()
 const port = 3003
-import uri from './mongo_uri.js'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 dotenv.config();

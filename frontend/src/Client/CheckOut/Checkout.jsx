@@ -7,6 +7,7 @@ import ChecOutCart from './ChecOutCart'
 import axios from 'axios'
 import CheckOutInfo from './CheckOutInfo'
 import SucessMessage from '../../Admin/SucessMessage'
+import PhoneCheckOut from './PhoneCheckOut'
 
 function Checkout() {
     const {cart, setCart} = useCart()
@@ -103,10 +104,10 @@ function Checkout() {
     <div className=''>
         {/* NavBar */}
         <CheckOutNav/>
-        <div className='flex '>
+        <div className='lg:flex '>
             {/* Client Info */}
-            <div className='w-7/12 border-r border-gray-300 pb-20'>
-                <form onSubmit={handleSubmit}  className='w-9/12 m-auto mt-10 flex flex-col gap-4'>
+            <div className='lg:w-7/12 w-11/12 mx-auto lg:mx-0 lg:border-r border-gray-300 lg:pb-20 pb-6'>
+                <form onSubmit={handleSubmit}  className='lg:w-9/12 w-11/12 m-auto mt-10 flex flex-col gap-4'>
                     {/* Contact */}
                     <div>
                         <h2 className='mb-2 text-2xl font-medium text-gray-900'>Contact</h2>
@@ -198,19 +199,26 @@ function Checkout() {
                                     pattern="^0[67][0-9]{8}$"
                                     placeholder='Phone number: +212xxxxxxxxx' required 
                                 />
-                                <div className='relative' onMouseEnter={() => setShowPhoneInfo(true)} onMouseLeave={() => setShowPhoneInfo(false)}>
+                                <div className='relative lg:flex hidden' onMouseEnter={() => setShowPhoneInfo(true)} onMouseLeave={() => setShowPhoneInfo(false)}>
                                     <CircleHelp className='text-gray-600' />
                                     {showPhoneInfo && (
                                             <div className='absolute bg-gray-800 text-white w-32 bottom-7  p-2 rounded-lg'>In case we need to contact you about your order</div>
+                                        )}
+                                </div>
+                                <div className='relative lg:hidden' onClick={() => setShowPhoneInfo(!showPhoneInfo)}>
+                                    <CircleHelp className='text-gray-600' />
+                                    {showPhoneInfo && (
+                                            <div className='absolute bg-gray-800 text-white w-32 bottom-7 right-0  p-2 rounded-lg'>In case we need to contact you about your order</div>
                                         )}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <CheckOutInfo shippingPrice={shippingPrice}/>
-                    <button  className='bg-black font-semibold px-2.5 py-3 flex justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
+                    <button  className='bg-black font-semibold px-2.5 py-3 lg:flex hidden justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
                         <p className=' w-full'>Confirm the order</p> 
                     </button>
+                    <PhoneCheckOut cart={cart} totalAmount={totalAmount} totalQty={totalQty} />
                 </form>
                 {outOfStockMessage && (
                     <div className='text-red-500 bg-white shadow absolute top-0 p-2'>One or more items in your cart are out of stock!</div>

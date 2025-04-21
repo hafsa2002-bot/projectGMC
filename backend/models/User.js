@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
         enum: ["admin", "member", "client"], 
         default: "client"
     },
+    photo: {type: String, required: false},
     createdAt: {type: Date, default: Date.now}
 })
 

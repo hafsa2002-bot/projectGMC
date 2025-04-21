@@ -31,6 +31,7 @@ import Unauthorized from "./Unauthorized"
 import {jwtDecode} from 'jwt-decode';
 import ProductDetails from "./Client/ProductsPages/ProductDetails"
 import AdminRoute from "./AdminRoute"
+import ProfilePage from "./Admin/Profile/ProfilePage"
 function App() {
   /*
   const token = localStorage.getItem("token");
@@ -64,7 +65,9 @@ function App() {
               <SideBar/>
             </ProtectedRoute>
           }>
+            {/* dashboard */}
             <Route index element={<AdminHomePage/>} />
+            {/* items page */}
             <Route path="items" element={<ItemsRoute/>}>
               <Route path="" element={<Items/>}>
                 <Route index element={<AllItems/>}/>
@@ -87,9 +90,11 @@ function App() {
               <Route path="view/:product_id" element={<ViewProduct/>}/>
             </Route>
             <Route path="search" element={<Search/>} />
+            {/* order page */}
             <Route path="orders" element={<Order/>} />
             <Route path="view_order/:id" element={<ViewOrder/>}/>
             <Route path="add-order" element={<AddOrder/>}/>
+            {/* reports */}
             <Route path="reports" element={<Reports/>} />
             <Route path="activities" element={<ActivityLog/>} />
             <Route 
@@ -100,6 +105,8 @@ function App() {
                 </AdminRoute>
               }
             />
+            {/* profile */}
+            <Route path="profile" element={<ProfilePage/>} />
           </Route>
           <Route  path="/unauthorized" element={<Unauthorized/>} />
         </Routes>

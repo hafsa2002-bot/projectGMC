@@ -8,6 +8,8 @@ import SpinnerBlue from '../SpinnerBlue'
 import DeleteCategory from './DeleteCategory'
 import UpdateCategory from './UpdateCategory'
 import SearchedCategories from './SearchedCategories'
+import { jwtDecode } from 'jwt-decode'
+
 function AllCategories() {
     const [categories, setCategories] = useState([])
     const [showOptions, setShowOptions] = useState(false)
@@ -19,6 +21,13 @@ function AllCategories() {
     const [filteredCategories, setFilteredCategories] = useState([])
     const [message, setMessage] = useState(false)
     // const [addCategory, setAddCategory] = useState(false)
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     const filterCategories = (name) => {
         const result = categories?.filter(category => category.categoryName.toLowerCase().includes(name.toLowerCase()))
@@ -137,31 +146,45 @@ function AllCategories() {
                                         <div 
                                             className='relative' 
                                         >
-                                            <EllipsisVertical  onClick={() => setShowOptions(index === showOptions ? null : index)}  />
                                             {
-                                                showOptions === index && (
-                                                    <div className='absolute z-40 top-6 right-4  flex flex-col  px-1 py-1 rounded-lg bg-white border border-gray-200 text-gray-500 w-28 '>
-                                                        <Link 
-                                                            to={`/admin/items/categories/${category._id}`} 
-                                                            className='flex gap-2 items-center px-3 py-2 hover:bg-gray-100 text-black rounded-lg'>
-                                                            <Eye size={19} />
-                                                            <p className='text-black'>View</p>
-                                                        </Link>
-                                                        <div 
-                                                            onClick={() => setUpdateCategory(true)}
-                                                            className='flex gap-2 items-center px-3 py-2 hover:bg-gray-100 text-black rounded-lg'>
-                                                            <PenLine size={19} />
-                                                            <p className=''>Update</p>
-                                                        </div>
-                                                        {updateCategory && <UpdateCategory categoryId={category._id} categoryName={category.categoryName} setUpdateCategory={setUpdateCategory} setShowOptions={setShowOptions} setMessage={setMessage} />}
-                                                        <div
-                                                            onClick={() => setShowPopUp(true)}
-                                                            className='flex gap-2 items-center px-3 py-2 text-red-500 hover:bg-gray-100 rounded-lg'>
-                                                            <Trash2 size={19} />
-                                                            <p>Delete</p>
-                                                        </div>
-                                                        {showPopUp && <DeleteCategory categoryId={category._id} categoryName={category.categoryName} setShowPopUp={setShowPopUp} setShowOptions={setShowOptions} />}
-                                                    </div>
+                                                userRole == "admin" 
+                                                ?(
+                                                    <>
+                                                        <EllipsisVertical  onClick={() => setShowOptions(index === showOptions ? null : index)}  />
+                                                        {
+                                                            showOptions === index && (
+                                                                <div className='absolute z-40 top-6 right-4  flex flex-col  px-1 py-1 rounded-lg bg-white border border-gray-200 text-gray-500 w-28 '>
+                                                                    <Link 
+                                                                        to={`/admin/items/categories/${category._id}`} 
+                                                                        className='flex gap-2 items-center px-2 py-2 hover:bg-gray-100 text-black rounded-lg'>
+                                                                        <Eye size={17} />
+                                                                        <p className='text-black'>View</p>
+                                                                    </Link>
+                                                                    <div 
+                                                                        onClick={() => setUpdateCategory(true)}
+                                                                        className='flex gap-2 items-center px-2 py-2 hover:bg-gray-100 text-black rounded-lg'>
+                                                                        <PenLine size={17} />
+                                                                        <p className=''>Update</p>
+                                                                    </div>
+                                                                    {updateCategory && <UpdateCategory categoryId={category._id} categoryName={category.categoryName} setUpdateCategory={setUpdateCategory} setShowOptions={setShowOptions} setMessage={setMessage} />}
+                                                                    <div
+                                                                        onClick={() => setShowPopUp(true)}
+                                                                        className='flex gap-2 items-center px-2 py-2 text-red-500 hover:bg-gray-100 rounded-lg'>
+                                                                        <Trash2 size={17} />
+                                                                        <p>Delete</p>
+                                                                    </div>
+                                                                    {showPopUp && <DeleteCategory categoryId={category._id} categoryName={category.categoryName} setShowPopUp={setShowPopUp} setShowOptions={setShowOptions} />}
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </>
+                                                ):(
+                                                    <Link 
+                                                        to={`/admin/items/categories/${category._id}`} 
+                                                        className='text-blue-500 underline hover:text-black'>
+                                                        {/* <Eye size={17} /> */}
+                                                        <p className='text-xs'>View</p>
+                                                    </Link>
                                                 )
                                             }
                                         </div>

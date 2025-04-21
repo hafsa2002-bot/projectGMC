@@ -19,6 +19,20 @@ function RecentOrders() {
         if(orders.length >= 3) setNumber(3)
         if(orders.length >= 4) setNumber(4)
     }
+
+    const updateOrderStatus = async(newStatus, orderId) => {
+        try{
+            const response = await axios.patch(`http://localhost:3003/orders/update-status/${orderId}`, 
+                {OrderStatus: newStatus},
+                {headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }}
+            )
+            console.log("Order status updated: ", response.data)
+        }catch(error){
+            console.log("Error: ", error)
+        }
+    }
     
     useEffect(() => {
         fetchData()
@@ -124,13 +138,13 @@ function RecentOrders() {
                                     {order.products && order.products.length > 3 && (
                                         <div className='border border-gray-300 rounded-lg  lg:flex hidden items-center gap-1 max-w-44 px-3 '>
                                             <div className='font-semibold'> {order.products[3].quantity}</div>
-                                            <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[3].name ? order.products[2].name : "Unknown Product" }</div>
+                                            <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[3].name ? order.products[3].name : "Unknown Product" }</div>
                                         </div>
                                     )}
                                     {order.products && order.products.length > 4 && (
                                         <div className='border border-gray-300 rounded-lg  lg:flex hidden items-center gap-1 max-w-44 px-3 '>
                                             <div className='font-semibold'> {order.products[4].quantity}</div>
-                                            <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[4].name ? order.products[2].name : "Unknown Product" }</div>
+                                            <div className='text-gray-600 truncate  whitespace-nowrap  overflow-hidden'> {order.products[4].name ? order.products[4].name : "Unknown Product" }</div>
                                         </div>
                                     )}
                                     {order.products && order.products.length > 4 && (
@@ -139,7 +153,10 @@ function RecentOrders() {
                                         </div>
                                     )}
                                 </div>
-                                <div className='text-red-500 underline font-semibold cursor-pointer pr-2'>
+                                <div 
+                                    className='text-red-500 underline font-semibold cursor-pointer pr-2'
+                                    onClick={() => updateOrderStatus("canceled", order._id)}
+                                >
                                     Cancel
                                 </div>
                             </div>

@@ -213,45 +213,45 @@ function HomePage() {
                 </div>
             </section> */}
             <section className="relative top-6 pt-6  lg:hidden h-[90vh] items-center justify-center bg-cover bg-center bg-[url('/5ded84aab41bea08a7059b6f07644b1c.jpg')]">
-  {/* Blurred dark overlay */}
-  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+                {/* Blurred dark overlay */}
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
-  {/* Glass-like content box */}
-  <div className="relative z-10 flex flex-col m-auto lg:flex-row  items-center justify-center w-11/12 max-w-6xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 pb-2 pt-7 md:px-12 md:py-6 shadow-xl">
-    {/* Left Content */}
-    <div className="flex flex-col gap-5 text-white max-w-xl text-center lg:text-left">
-      <h1 className="text-3xl md:text-4xl font-extrabold font-poppins tracking-wide leading-snug">
-        Welcome to Your <span className="text-yellow-400">Ultimate</span> Store
-      </h1>
-      <p className="text-sm md:text-base text-gray-200 font-poppins">
-        Shop smart. Shop fast. Everything you need — snacks, drinks, and more — delivered with care and convenience.
-      </p>
-      <Link
-        to="/products"
-        className="w-fit bg-gradient-to-r m-auto from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
-      >
-        Browse Products
-      </Link>
-    </div>
+                {/* Glass-like content box */}
+                    <div className="relative z-10 flex flex-col m-auto lg:flex-row  items-center justify-center w-11/12 max-w-6xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 pb-2 pt-7 md:px-12 md:py-6 shadow-xl">
+                        {/* Left Content */}
+                        <div className="flex flex-col gap-5 text-white max-w-xl text-center lg:text-left">
+                            <h1 className="text-3xl md:text-4xl font-extrabold font-poppins tracking-wide leading-snug">
+                                Welcome to Your <span className="text-yellow-400">Ultimate</span> Store
+                            </h1>
+                            <p className="text-sm md:text-base text-gray-200 font-poppins">
+                                Shop smart. Shop fast. Everything you need — snacks, drinks, and more — delivered with care and convenience.
+                            </p>
+                            <Link
+                                to="/products"
+                                className="w-fit bg-gradient-to-r m-auto from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
+                            >
+                                Browse Products
+                            </Link>
+                        </div>
 
-    {/* Right Image */}
-    <div className="mt-6 lg:mt-0 md:hidden">
-      <img
-        src="/a-man-with-a-grocery-bag-1.png"
-        alt="Shopping Guy"
-        className="w-[300px] h-[300px] object-contain mx-auto"
-      />
-    </div>
-  </div>
-</section>
+                        {/* Right Image */}
+                        <div className="mt-6 lg:mt-0 md:hidden">
+                            <img
+                                src="/a-man-with-a-grocery-bag-1.png"
+                                alt="Shopping Guy"
+                                className="w-[300px] h-[300px] object-contain mx-auto"
+                            />
+                        </div>
+                    </div>
+            </section>
 
 
             {/* Product Carousel Section */}
-            <section className="w-10/12 m-auto my-12 flex flex-col justify-center">
+            <section className="lg:w-10/12 w-11/12 m-auto lg:my-12 mb-7 mt-20 flex flex-col justify-center">
                 {/* <h2 className="text-3xl font-bold text-center  mb-6">
                     Featured Products
                 </h2> */}
-                <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 text-5xl font-extrabold uppercase tracking-wide mb-10 drop-shadow-sm">
+                <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-10 mb-4 drop-shadow-sm">
                     Featured Products
                 </h2>
 
@@ -275,14 +275,14 @@ function HomePage() {
                     onSwiper={(swiper) => swiper.autoplay.start()}
                 >
                     {category.products.map((product) => (
-                    <SwiperSlide key={product._id} className="text-center flex flex-col items-center py-6 pb-8">
+                    <SwiperSlide key={product._id} className="text-center flex flex-col  items-center py-6 pb-8">
                         <Link to={`/products/${product._id}`} className="border border-stone-300 bg-white p-4 shadow-lg rounded-lg flex flex-col justify-between h-full">
                             <img
                                 src={`http://localhost:3003${product.productPhoto}`}
                                 alt={product.productName}
-                                className="w-full h-60 object-cover rounded-lg mb-4"
+                                className="w-full lg:h-60 object-cover rounded-lg mb-4"
                             />
-                            <h3 className="text-lg font-semibold h-12">{product.productName}</h3>
+                            <h3 className="text-lg font-semibold lg:h-12 truncate ">{product.productName}</h3>
                         </Link>
                     </SwiperSlide>
                     ))}

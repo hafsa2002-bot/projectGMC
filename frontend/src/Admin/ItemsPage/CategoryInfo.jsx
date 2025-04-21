@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ArrowLeft, EllipsisVertical, Eye, Image, PenLine, Trash2 } from 'lucide-react'
 import PopUp from './PopUp'
 import SpinnerBlue from '../SpinnerBlue'
+import { jwtDecode } from 'jwt-decode'
 
 function CategoryInfo() {
     const {categoryId} = useParams()
@@ -12,6 +13,13 @@ function CategoryInfo() {
     const [popUp, setPopUp] = useState(false)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     useEffect(() => {
         axios.get(`http://localhost:3003/admin/items/category/${categoryId}`)
@@ -104,30 +112,41 @@ function CategoryInfo() {
                                                 }
                                             </td>
                                             <td className="relative px-6 py-4 ">
-                                                <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer ' />
                                                 {
-                                                    showOptions === index && (
-                                                        <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black font-base  w-32'>
-                                                            {/* view product details  */}
-                                                            <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base  flex items-center border-b border-gray-200'>
-                                                                <div><Eye/></div>
-                                                                <p className=''>View</p>
-                                                            </Link>
-                                                            {/* update a product */}
-                                                            <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
-                                                                <div><PenLine /></div>
-                                                                <p>Update</p>
-                                                            </Link>
-                                                            {/* delete  a product */}
-                                                            <Link onClick={() => setPopUp(true)}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
-                                                                <div><Trash2 /></div>
-                                                                <p>Delete</p>
-                                                            </Link>
-                                                            {/* a Component <PopUp/> to confirm the delete or cancel */}
-                                                            {   
-                                                                popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />
+                                                    userRole == "admin" 
+                                                    ?(
+                                                        <>
+                                                            <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer ' />
+                                                            {
+                                                                showOptions === index && (
+                                                                    <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black font-base  w-32'>
+                                                                        {/* view product details  */}
+                                                                        <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base  flex items-center border-b border-gray-200'>
+                                                                            <div><Eye/></div>
+                                                                            <p className=''>View</p>
+                                                                        </Link>
+                                                                        {/* update a product */}
+                                                                        <Link className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center border-b border-gray-200'>
+                                                                            <div><PenLine /></div>
+                                                                            <p>Update</p>
+                                                                        </Link>
+                                                                        {/* delete  a product */}
+                                                                        <Link onClick={() => setPopUp(true)}  className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base flex items-center text-red-600'>
+                                                                            <div><Trash2 /></div>
+                                                                            <p>Delete</p>
+                                                                        </Link>
+                                                                        {/* a Component <PopUp/> to confirm the delete or cancel */}
+                                                                        {   
+                                                                            popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />
+                                                                        }
+                                                                    </div>
+                                                                )
                                                             }
-                                                        </div>
+                                                        </>
+                                                    ):(
+                                                        <Link to={`/admin/items/view/${item._id}`} className='hover:text-black underline text-blue-500 '>
+                                                            <p className=''>View</p>
+                                                        </Link>
                                                     )
                                                 }
                                             </td>

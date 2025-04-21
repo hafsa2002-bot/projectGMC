@@ -285,7 +285,7 @@ router.patch("/orders/update-status/:id", protect, async (req, res) => {
         await StoreStock.updateStoreStock();
         
         //log activity
-        await logActivity(req.user._id, req.user.name, "Order status updated", `${order._id}`)
+        await logActivity(req.user._id, req.user.name, "Order status updated",  `${order._id}, new status: ${OrderStatus}`)
         res.json(order)
     }catch(error){
         console.log("Error: ", error)

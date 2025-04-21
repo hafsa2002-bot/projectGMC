@@ -1,4 +1,4 @@
-import { ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UserRound, UsersRound } from 'lucide-react'
+import { AlignJustify, ChevronDown, CircleUserRound, FileClock, History, House, LayoutDashboard, LogOut, Menu, Package, Power, ScanBarcode, Search, Settings, ShoppingCart, SquareKanban, UserRound, UsersRound } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
 import { Outlet, Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -7,8 +7,6 @@ import Navbar from './Navbar'
 
 function SideBar() {
     const [showSettings, setShowSettings] = useState(false)
-    // const [showSignOut, setShowSignOut] = useState(false)
-    // const [showMenu, setShowMenu] = useState(false)
     const [showSideBar, setShowSideBar] = useState(false)
     const [user, setUser] = useState({})
     const [firstLetters, setFirstLetters] = useState("")
@@ -164,37 +162,42 @@ function SideBar() {
                     showSideBar 
                     ?(
                         <div className='flex  justify-start gap-3 items-center '>
-                            <Settings strokeWidth={2} />
-                            <p className='font-poppins font-semibold'>Settings</p>
+                            {/* <Settings strokeWidth={2} /> */}
+                            <AlignJustify  strokeWidth={2}/>
+                            <p className='font-poppins font-semibold'>More</p>
                         </div>
                     ):(
-                        <Settings strokeWidth={2} className='m-auto'/>
+                        // <Settings strokeWidth={2} className='m-auto'/>
+                        <AlignJustify strokeWidth={2} className='m-auto' />
                     )
                 }
                 {showSettings && (
-                    <div className={`text-gray-700 absolute z-50 w-48  pt-2 overflow-hidden bg-white shadow-xl shadow-gray-400 rounded-md bottom-14 border border-gray-200  ${showSideBar ? 'left-0' : setShowSettings(false)} `}>
+                    <div className={`text-black font-semibold absolute z-50 w-48  pt-2 overflow-hidden bg-white shadow-xl shadow-gray-400 rounded-md bottom-14 border border-gray-300  ${showSideBar ? 'left-0' : 'hidden'} `}>
                         {/* userName */}
-                        <div className='flex items-center gap-3 cursor-default border-b border-gray-400 px-3 pb-2'>
-                            <div className='bg-gray-200  w-9 h-9 border-2 border-blue-300  rounded-full flex justify-center items-center'>
-                                <p className='text-lg font-semibold text-gray-600'> {firstLetters} </p> 
+                        <div className='flex items-center gap-3 cursor-default border-b-2 border-gray-400 px-3 pb-2'>
+                            <div className='bg-white  w-9 h-9 border-2 border-blue-500  rounded-full flex justify-center items-center'>
+                                <p className='text-lg font-semibold text-black'> {firstLetters} </p> 
                             </div>
-                            <div className='font-medium text-gray-600 max-w-2/3  truncate'>
+                            <div className='font-medium text-black max-w-2/3  truncate'>
                                 <p>{user.name && user.name}</p>
                             </div>
                         </div>
-                        <Link className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'>
+                        <Link 
+                            to="/admin/profile" 
+                            className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'
+                        >
                             <div><UserRound size={20}  /></div>
-                            <div>View Profile</div>
+                            <div>Profile</div>
                         </Link>
-                        <Link className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'>
+                        {/* <Link className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'>
                             <div><Settings size={20}  /></div>
                             <div>Settings</div>
-                        </Link>
+                        </Link> */}
                         <div
                             onClick={() => handleLogout()} 
-                            className='flex items-center gap-3 hover:bg-gray-100 py-2 px-3 text-red-500'>
+                            className='flex items-center gap-3 hover:bg-gray-100 py-2 px-3 font-semibold text-red-500'>
                             <div>
-                                <LogOut  size={23} />
+                                <LogOut  size={20} />
                             </div>
                             <div>
                                 <p>Sign Out</p>
