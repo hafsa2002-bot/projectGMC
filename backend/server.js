@@ -14,9 +14,11 @@ const app = express()
 const port = 3003
 import uri from './mongo_uri.js'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv';
+dotenv.config();
 
 // connect to MongoDB
-mongoose.connect(uri)
+mongoose.connect(process.env.uri)
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log("ERROR: ", err))
 

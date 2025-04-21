@@ -86,7 +86,8 @@ function ProductsPage() {
                                 ref={scrollRef}
                                 className="flex pt-3 px-8 gap-16 overflow-x-scroll w-full hide-scrollbar scroll-smooth"
                             >
-                                {categories.length > 0 && categories.map((category, index) => (
+                                {categories.length > 0 
+                                    ? categories.map((category, index) => (
                                     <Link 
                                         to={`/products/category/${category.categoryName}`}  
                                         key={index} 
@@ -105,7 +106,11 @@ function ProductsPage() {
                                             {firstLetterToUpperCase(category.categoryName)}
                                         </p>
                                     </Link>
-                                ))}
+                                )):(
+                                    <div className='w-full h-[80vh] flex justify-center items-center'>
+                                        <img className='w-[440px] h-[370px]' src='/images/noProducts.png' />
+                                    </div>
+                                )}
                             </div>
 
                         {/* Right-side Gradient Shadow (behind the button) */}
