@@ -109,7 +109,7 @@ function ActivityLog() {
                               <div className="mb-3">
                                 <p className="text-sm text-gray-700 leading-relaxed break-words">
                                   <span className="font-semibold text-gray-900">{log.action}</span>
-                                  <span className="text-gray-600 "> — {log.details}</span>
+                                  <span className="text-gray-600 ">{log.details && <span>  — {log.details} </span>} </span>
                                 </p>
                               </div>
                               <div className="border-t border-gray-100 my-3"></div>

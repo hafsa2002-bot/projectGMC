@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
         default: "client"
     },
     photo: {type: String, required: false},
-    createdAt: {type: Date, default: Date.now}
+    phoneNumber: {type: String, default: "", required: false},
 })
 
 module.exports = mongoose.model("User", userSchema)

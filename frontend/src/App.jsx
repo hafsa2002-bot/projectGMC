@@ -32,6 +32,9 @@ import {jwtDecode} from 'jwt-decode';
 import ProductDetails from "./Client/ProductsPages/ProductDetails"
 import AdminRoute from "./AdminRoute"
 import ProfilePage from "./Admin/Profile/ProfilePage"
+import PersonalInfo from "./Admin/Profile/PersonalInfo"
+import SecuritySettings from "./Admin/Profile/SecuritySettings"
+import BusinessInfo from "./Admin/Profile/BusinessInfo"
 function App() {
   /*
   const token = localStorage.getItem("token");
@@ -106,7 +109,11 @@ function App() {
               }
             />
             {/* profile */}
-            <Route path="profile" element={<ProfilePage/>} />
+            <Route path="profile" element={<ProfilePage/>} >
+              <Route index element={<PersonalInfo/>} />
+              <Route path="security-settings" element={<SecuritySettings/>} />
+              <Route path="business-informations" element={<BusinessInfo/>} />
+            </Route>
           </Route>
           <Route  path="/unauthorized" element={<Unauthorized/>} />
         </Routes>

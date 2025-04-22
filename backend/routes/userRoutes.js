@@ -1,6 +1,10 @@
 import express from 'express'
 import jsonwebtoken from 'jsonwebtoken'
 import bcryptjs from 'bcryptjs'
+import multer from 'multer'
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import User from '../models/User.js'
 import { logActivity } from './ActivityLogRoutes.js'
@@ -8,6 +12,17 @@ import {protect} from '../middlewares/protect.js'
 
 const router = express.Router()
 const JWT_SECRET = "123@hafsa/"
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+//configure multer for files uploads 
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, "../uploads"),
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+})
+const upload = multer({storage})
 
 // register
 router.post("/users/register", protect, async (req, res) => {
@@ -83,15 +98,39 @@ router.post("/users/login", async (req, res) => {
 // get user data
 router.get("/users/data", protect, async(req, res) => {
     try{
-        const {_id, name, email} = await User.findById(req.user.id)
+        /*
+        const {_id, name, email, photo, phoneNumber} = await User.findById(req.user.id)
         res.status(200).json({
             id: _id,
             name,
-            email
+            email,
+            photo, 
+            phoneNumber
         })
+            */
+        const user  = await User.findById(req.user.id)
+        res.json(user)
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({message: "Internal server error"})
+    }
+})
+
+// update user data
+router.patch("/update-user-info", protect, upload.single("photo"), async (req, res) => {
+    try{
+        const {name, email, phoneNumber} = req.body;
+        const photo = req.file ? `/uploads/${req.file.filename}` : null
+
+        const user = await User.findByIdAndUpdate(req.user._id, {name, email, photo, phoneNumber}, {new: true})
+
+        // log activity
+        await logActivity(req.user._id, req.user.name,"profile updated", '')
+
+        res.json(user)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, failed to update profile"})
     }
 })
 
