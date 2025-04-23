@@ -16,6 +16,7 @@ router.patch("/add-store-infos", protect, async (req, res) => {
         if (!store) {
             // If no store exists, create a new one 
             store = new Store({
+                address,
                 city,
                 country,
                 currency

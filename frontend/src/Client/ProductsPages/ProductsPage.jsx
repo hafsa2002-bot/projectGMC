@@ -1,6 +1,6 @@
 import React,{useState, useEffect, useRef} from 'react'
 import axios from 'axios'
-import { Link, useNavigate, useOutletContext } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import SpinnerLoader from '../../SpinnerLoader'
 import Footer from '../Footer'
@@ -12,7 +12,6 @@ function ProductsPage() {
     const [displayedProducts, setDisplayedProducts] = useState([])
     const [itemsToShow, setItemsToShow] = useState(12)
     const [loading, setLoading] = useState(true)
-    const navigate = useNavigate()
     const scrollRef = useRef();
 
     const scrollRight = () => {
@@ -33,13 +32,16 @@ function ProductsPage() {
     };
 
     const A = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    console.log("shuffleArray : ", shuffleArray(A))
+    // console.log("shuffleArray : ", shuffleArray(A))
 
     const fetchData = () => {
+        console.log("Fetching items...")
+
         axios.get("http://localhost:3003/admin/items/list")
             .then(response => {
                 console.log(response.data);
                 const shuffleProducts = shuffleArray(response.data)
+                // const shuffleProducts = response.data
                 setProducts(shuffleProducts)
                 setDisplayedProducts(shuffleProducts.slice(0, itemsToShow))
                 setLoading(false)
@@ -55,17 +57,22 @@ function ProductsPage() {
             .catch(error => console.log("Error: ", error))
     }
     useEffect(() => {
-        fetchData()
-        getCategories()
-    }, [])
+        console.log("call effect...")
+        let mounted = true;
+        if (mounted) {
+            fetchData();
+            getCategories();
+        }
+        return () => { mounted = false };
+    }, []);
+    
 
     const loadMoreProducts = () => {
-        setItemsToShow(prevItems => {
-            const newItemsToShow = prevItems + 8;
+            const newItemsToShow = itemsToShow + 8;
+            setItemsToShow(newItemsToShow)
             setDisplayedProducts(products.slice(0, newItemsToShow))
-            return newItemsToShow;
-        })
-    }
+        }
+    
     const firstLetterToUpperCase = (str) => {
         const result =   str[0].toUpperCase() + str.slice(1,str.length)
         return result;
@@ -155,7 +162,6 @@ function ProductsPage() {
         }
         </div>
         <Footer/>
-        
     </div>
   )
 }

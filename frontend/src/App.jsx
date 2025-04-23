@@ -28,7 +28,6 @@ import AddOrder from "./Admin/OrderPage/AddOrder"
 import UpdateItem from "./Admin/ItemsPage/UpdateItem"
 import ProtectedRoute from "./ProtectedRoute"
 import Unauthorized from "./Unauthorized"
-import {jwtDecode} from 'jwt-decode';
 import ProductDetails from "./Client/ProductsPages/ProductDetails"
 import AdminRoute from "./AdminRoute"
 import ProfilePage from "./Admin/Profile/ProfilePage"
@@ -36,16 +35,6 @@ import PersonalInfo from "./Admin/Profile/PersonalInfo"
 import SecuritySettings from "./Admin/Profile/SecuritySettings"
 import BusinessInfo from "./Admin/Profile/BusinessInfo"
 function App() {
-  /*
-  const token = localStorage.getItem("token");
-  let userRole = null;
-
-  if (token) {
-    const decoded = jwtDecode(token);
-    userRole = decoded.role; // Assuming the token has a `role` field
-  }
-  */
-
   return (
     <>
       <Router>
@@ -60,7 +49,6 @@ function App() {
           <Route path='/contactUs' element={<ContactUs/>} />
           <Route path="checkout" element={<Checkout/>}/>
           <Route path = "/login" element={<Login/>} />
-          {/* <Route path = "/signUp" element={<SignUp/>} /> */}
 
           {/* Admin pages */}
           <Route path="/admin" element={

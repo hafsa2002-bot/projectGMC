@@ -98,17 +98,18 @@ router.post("/users/login", async (req, res) => {
 // get user data
 router.get("/users/data", protect, async(req, res) => {
     try{
-        /*
-        const {_id, name, email, photo, phoneNumber} = await User.findById(req.user.id)
-        res.status(200).json({
-            id: _id,
-            name,
-            email,
-            photo, 
-            phoneNumber
-        })
-            */
         const user  = await User.findById(req.user.id)
+        res.json(user)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({message: "Internal server error"})
+    }
+})
+
+// get user by id
+router.get("/get-user-byId/:id", async (req, res) => {
+    try{
+        const user  = await User.findById(req.params.id)
         res.json(user)
     }catch(error){
         console.log("Error: ", error)
@@ -188,6 +189,33 @@ router.delete("/delete-user/:id", protect, async(req, res) => {
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({message: "Internal server error"})
+    }
+})
+
+// update the password
+router.patch("/change-password", protect, async (req, res) => {
+    try{
+        const userId = req.user._id
+        const {currentPassword, newPassword} = req.body;
+        // get the user from DB
+        const user = await User.findById(userId)
+        
+        //compare the current password with hashed password in DB
+        const isMatch = await bcryptjs.compare(currentPassword, user.password)
+        if(!isMatch){
+            return res.status(400).json({message: 'current password is incorrect'})
+        }
+
+        // hash the new password
+        const salt = await bcryptjs.genSalt(10)
+        const hashedPassword = await bcryptjs.hash(newPassword, salt)
+
+        //update password
+        user.password = hashedPassword
+        await user.save()
+        res.status(200).json({message: "password updated successfully"})
+    }catch(error){
+        res.status(500).json({message: "Something went wrong", error})
     }
 })
 

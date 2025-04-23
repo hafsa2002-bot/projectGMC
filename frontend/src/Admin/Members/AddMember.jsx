@@ -149,8 +149,8 @@ function AddMember({setAddNewUser}) {
                     className="w-full p-3 mt-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-blue-500 focus:border-blue-500" 
                     required
                     >
-                    <option value="member">Member</option>
-                    <option value="admin">Admin</option>
+                        <option value="member">Member</option>
+                        <option value="admin">Admin</option>
                     </select>
                 </div>
 

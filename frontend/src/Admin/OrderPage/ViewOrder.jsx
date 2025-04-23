@@ -11,6 +11,8 @@ function ViewOrder() {
     const [order, setOrder] = useState({})
     const [loading, setLoading] = useState(true)
     const [productName, setProductName] = useState("")
+    const [user, setUser] = useState({})
+    const [store, setStore] = useState({})
     const navigate = useNavigate()
     const pdfRef = useRef()
 
@@ -25,23 +27,19 @@ function ViewOrder() {
         })
         
     }
-    /*
-    let getProductName = async (productId) => {
-        try{
-            const response = await axios.get(`http://localhost:3003/admin/items/view/${productId}`)
-            return response.data.productName
-        }catch(error){
-            console.log("Error: ", error)
-            return "Unknown Product"
-        }
-    }
-        */
-    
 
     useEffect(() => {
-        axios.get(`http://localhost:3003/orders/${id}`)
+        axios.get(`http://localhost:3003/orders/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` 
+                }
+            }
+        )
             .then(response => {
                 setOrder (response.data)
+                getUserDetails(response.data.userId)
+                getStoreInfos()
                 setLoading(false)
             })
             .catch(error => {
@@ -50,6 +48,17 @@ function ViewOrder() {
             })
     }, [id])
 
+    const getUserDetails = (id) => {
+        axios.get(`http://localhost:3003/get-user-byId/${id}`)
+            .then(response => setUser(response.data))
+            .catch(error => console.log("Error: ", error))
+    }
+
+    const getStoreInfos = () => {
+        axios.get(`http://localhost:3003/store-infos`)
+            .then(response => setStore(response.data))
+            .catch(error => console.log("Error: ", error))
+    }
   return (
     <div>
         
@@ -77,11 +86,15 @@ function ViewOrder() {
                         <div style={{ borderBottom: "1px solid #D1D5DB", paddingLeft: "32px", paddingRight: "32px", paddingBottom:"20px", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                             <div style={{ color: "#57534E" }}>
                                 <p style={{ color: "#2563EB", fontSize: "20px", fontWeight: "600", marginBottom: "4px" }}>Novexa</p>
-                                <p>Admin Name</p>
-                                <p>Address, num x<span>,</span></p>
-                                <p>Country</p>
-                                <p>admin@gmail.com</p>
-                                <p>0000000000</p>
+                                <p> {user && user.name} </p>
+                                <div className='flex'>
+                                    <div>{store.address && store.address} </div>
+                                    <div> {(store.address && store.city) && <div className='mr-1'>, </div>} </div>
+                                    <div>{store.city && store.city.charAt(0).toUpperCase() + store.city.slice(1)} </div>
+                                </div>
+                                <p> {store.country && store.country} </p>
+                                <p>{user.email && user.email}</p>
+                                <p>{user.phoneNumber && user.phoneNumber}</p>
                             </div>
                             <div>
                                 <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}><span style={{ fontWeight: "600" }}>Order number:</span> <p style={{ color: "#4B5563" }}>{order._id}</p></div>
@@ -98,7 +111,9 @@ function ViewOrder() {
                                             {order.shipping.lastName && <p>{order.shipping.lastName}</p>}
                                         </div>
                                         <div>
-                                            {order.shipping.address},<br />
+                                            {order.shipping.address}
+                                            {(order.shipping.address && order.shipping.city) && <span>, </span>}
+                                            <br />
                                             <div style={{ display: 'flex', gap: '4px' }}>
                                                 {order.shipping.city && <p>{order.shipping.city},</p>} {order.shipping.postalCode && <p>{order.shipping.postalCode}</p>}
                                             </div>

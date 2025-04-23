@@ -84,6 +84,7 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
 router.post("/orders/addOrder", protect, async(req, res) => {
     try{
         const {shipping, products, totalAmount, amountPaid, status} = req.body
+        const userId = req.user._id;
 
         if(!products || products.length == 0){
             return res.status(400).json({error: "Order must contain at least one product"})
@@ -138,7 +139,7 @@ router.post("/orders/addOrder", protect, async(req, res) => {
             await product.updateStockStatus();
         }
 
-        const newOrder = new Order ({shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
+        const newOrder = new Order ({userId, shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
         await newOrder.save()
         console.log("new order: ", newOrder)
 
@@ -169,7 +170,7 @@ router.get("/orders/getOnlineOrders", async (req, res) => {
 
 
 //get order by Id
-router.get("/orders/:id", async (req, res) => {
+router.get("/orders/:id", protect, async (req, res) => {
     try{
         const orderById = await Order.find({_id: req.params.id})
         res.send(orderById[0])

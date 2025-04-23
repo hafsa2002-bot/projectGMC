@@ -2,7 +2,7 @@ let mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
     // required: true
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", default: null, required: false},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: false},
     contact: {
         customerMail: {type: String, required: false}
     },

@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import { EllipsisVertical, Eye, Image, Info, PenLine, Trash2 } from 'lucide-react'
+import { EllipsisVertical, Eye, Image, PenLine, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import PopUp from './PopUp'
-import SpinnerBlue from '../SpinnerBlue'
 import { jwtDecode } from 'jwt-decode'
-
 
 function AllItems() {
     const [items, setItems] = useState([])
@@ -24,9 +22,7 @@ function AllItems() {
     const getItems = () => {
         axios.get("http://localhost:3003/admin/items/list")
         .then(response => {
-            // if (JSON.stringify(response.data) !== JSON.stringify(items)) {
-                setItems(response.data);
-            // }
+            setItems(response.data);
             setLoading(false)
         })
         .catch(error => {
@@ -37,7 +33,6 @@ function AllItems() {
 
     useEffect(() => {
         getItems()
-        // console.log("hello")
     }, [items])
 
   return (

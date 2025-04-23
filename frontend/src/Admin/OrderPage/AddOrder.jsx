@@ -113,7 +113,8 @@ function AddOrder() {
     }
 
     useEffect(() => {
-        getListOfProducts();  
+        getListOfProducts(); 
+        // getCurrentUserDetails ()
     }, []);  
 
 

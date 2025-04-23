@@ -122,7 +122,7 @@ function AdminHomePage() {
 
           </div>
           <div className='h-1/2 bg-green-100'>
-            <p>Pipe line charts of popular products</p>
+            <p>Pipe line charts : popular products</p>
           </div>
         </div>
       </section>
