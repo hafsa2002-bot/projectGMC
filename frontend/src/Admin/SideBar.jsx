@@ -96,7 +96,7 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Search */}
-                <NavLink to="/admin/search" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                {/* <NavLink to="/admin/search" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center'>
@@ -105,7 +105,7 @@ function SideBar() {
                             </div>
                         ):(<Search className='m-auto'/>)
                     }
-                </NavLink>
+                </NavLink> */}
                 {/* Orders */}
                 <NavLink to="/admin/orders" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive || location.pathname.includes("order") ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {

@@ -245,15 +245,18 @@ function HomePage() {
                     </div>
             </section>
 
-
             {/* Product Carousel Section */}
             <section className="lg:w-10/12 w-11/12 m-auto lg:my-12 mb-7 mt-20 flex flex-col justify-center">
                 {/* <h2 className="text-3xl font-bold text-center  mb-6">
                     Featured Products
                 </h2> */}
-                <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-10 mb-4 drop-shadow-sm">
+                {/* <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-10 mb-4 drop-shadow-sm">
+                    Featured Products
+                </h2> */}
+                <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-10 mb-4 drop-shadow-sm font-poppins">
                     Featured Products
                 </h2>
+
 
                 {category.products && category.products.length > 4 ? (
                 <Swiper

@@ -31,7 +31,7 @@ function Nav(props) {
   return (
     <div>
         <div className='z-50   w-full shadow-md fixed top-0'>
-            <nav className="bg-black text-white lg:px-6 px-3 py-3 w-full shadow-md ">
+            <nav className="bg-black text-white lg:px-6 px-3 lg:py-4 py-3 w-full shadow-md ">
                 <div className="flex items-center justify-between w-full">
     
                     {/* Left side: Logo + NavLinks */}
@@ -42,31 +42,35 @@ function Nav(props) {
                             onClick={() => window.scrollTo(0, 0)} 
                             className={`flex items-center gap-2 outline-none  lg:w-1/2 ${!props.details && 'w-full flex lg:justify-start justify-center'} `}
                         >
-                            <div className="lg:h-10 lg:w-10 w-9 h-9 overflow-hidden">
-                            <img src="/images/N1.png" className="w-full h-full object-cover" alt="Logo" />
+                            <div className="lg:h-12 lg:w-12 w-9 h-9 overflow-hidden">
+                            {/* <img src="/images/N1.png" className="w-full h-full object-cover" alt="Logo" /> */}
+                            <img src="/images/newLogo.png" className="w-full h-full object-cover" alt="Logo" />
                             </div>
-                            <h2 className="text-3xl font-poppins font-bold bg-gradient-to-r from-white via-stone-400 to-stone-500 bg-clip-text text-transparent">
+                            {/* <h2 className="text-3xl font-poppins font-bold bg-gradient-to-r from-white via-stone-400 to-stone-500 bg-clip-text text-transparent">
                             Novexa
+                            </h2> */}
+                            <h2 className="text-4xl font-semibold tracking-wide text-white font-sans">
+                                Novexa
                             </h2>
                         </Link>
                         {/* NavLinks - Desktop */}
-                        <div className={`hidden lg:flex gap-6 text-base font-medium lg:w-1/2 justify-center`}>
+                        <div className={`hidden lg:flex gap-6 text-base font-medium lg:w-1/2 justify-center `}>
                             <NavLink 
                                 to="/"
                                 onClick={() => window.scrollTo(0, 0)}  
-                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" : "text-stone-400 hover:text-white"}>
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
                                 Home
                             </NavLink>
                             <NavLink 
                                 to="/products"
                                 onClick={() => window.scrollTo(0, 0)}  
-                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" : "text-stone-400 hover:text-white"}>
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
                                 Products
                             </NavLink>
                             <NavLink 
                                 to="/ContactUs"
                                 onClick={() => window.scrollTo(0, 0)}  
-                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" : "text-stone-400 hover:text-white"}>
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
                                 Contact Us
                             </NavLink>
                         </div>
@@ -148,7 +152,7 @@ function Nav(props) {
                         onClick={() => window.scrollTo(0, 0)}  
                         className={({ isActive }) => isActive 
                             ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
-                            : "text-stone-300 hover:text-white"}>
+                            : "text-white hover:text-yellow-300"}>
                         Home
                     </NavLink>
                     <NavLink 
@@ -156,7 +160,7 @@ function Nav(props) {
                         onClick={() => window.scrollTo(0, 0)}  
                         className={({ isActive }) => isActive 
                             ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
-                            : "text-stone-300 hover:text-white"}>
+                            : "text-white hover:text-text-yellow-300"}>
                         Products
                     </NavLink>
                     <NavLink 
@@ -164,7 +168,7 @@ function Nav(props) {
                         onClick={() => window.scrollTo(0, 0)}  
                         className={({ isActive }) => isActive 
                             ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
-                            : "text-stone-300 hover:text-white"}>
+                            : "text-white hover:text-yellow-300"}>
                         Contact Us
                     </NavLink>
                 </div>

@@ -34,6 +34,7 @@ import ProfilePage from "./Admin/Profile/ProfilePage"
 import PersonalInfo from "./Admin/Profile/PersonalInfo"
 import SecuritySettings from "./Admin/Profile/SecuritySettings"
 import BusinessInfo from "./Admin/Profile/BusinessInfo"
+import UseMemoTest from "./Admin/UseMemoTest"
 function App() {
   return (
     <>
@@ -80,7 +81,7 @@ function App() {
               <Route path="expired-items" element={<ExpiredItems/>}/>
               <Route path="view/:product_id" element={<ViewProduct/>}/>
             </Route>
-            <Route path="search" element={<Search/>} />
+            {/* <Route path="search" element={<UseMemoTest/>} /> */}
             {/* order page */}
             <Route path="orders" element={<Order/>} />
             <Route path="view_order/:id" element={<ViewOrder/>}/>

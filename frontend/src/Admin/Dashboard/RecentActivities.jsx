@@ -27,7 +27,7 @@ function RecentActivities() {
   }
   useEffect(() => {
     fetchData()
-  }, [activities])
+  }, [])
   return (
     <div >
         <div className='bg-gray-50 flex justify-between items-center px-2 '>

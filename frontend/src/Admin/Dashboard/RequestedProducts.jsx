@@ -8,7 +8,8 @@ function RequestedProducts() {
     const [reqProductName, setReqProductName] = useState("")
     const [showFormToAddProduct, setShowFormToAddProduct] = useState(false)
     const [submitProduct, setSubmitProduct] = useState(false)
-    const [showDelete, setShowDelete] = useState(false)
+    const [productToDelete, setProductToDelete] = useState(null)
+    // const [showDelete, setShowDelete] = useState(false)
 
     const getRequestedProducts = () => {
         axios.get("http://localhost:3003/admin/dashbord/requested-products")
@@ -31,25 +32,20 @@ function RequestedProducts() {
             setShowFormToAddProduct(false)
             setReqProductName("")
             setSubmitProduct(false)
+            //console.log(requestedProducts)
+            // setRequestedProducts(prev => )
         }catch(error){
             console.log("Error: ", error)
         }
     }
     /*
-    const deleteRequestedProduct = (productID) => {
-        axios.delete(`http://localhost:3003/admin/dashboard/delete-requested-product/${productID}`,
-            {headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}` 
-            }}
-        )
-            .then((response) => console.log("requested product deleted:", response.data))
-            .catch(error => console.log("error: ", error))
-    }
-            */
-
     useEffect(() => {
         getRequestedProducts()
     }, [requestedProducts])
+    */
+    useEffect(() => {
+        getRequestedProducts()
+    }, [])
     
   return (
     <div className=''>
@@ -108,7 +104,7 @@ function RequestedProducts() {
             <div className='flex h-full flex-col gap-2 mt-2 px-2'>
                 {(requestedProducts.length > 0 )
                 ?(
-                    requestedProducts.map((product, index) => (
+                    [...requestedProducts].reverse().map((product, index) => (
                         <div key={product._id} 
                             className='relative p-2 border rounded-lg border-gray-400 flex justify-between gap-4 items-start '
                         >
@@ -117,12 +113,20 @@ function RequestedProducts() {
                             </div>
                             <div
                                 // onClick={() => deleteRequestedProduct(product._id)}
-                                onClick={() => setShowDelete(true)}
+                                onClick={() => setProductToDelete(product._id)}
                                 className='text-red-400 cursor-pointer pt-2'
                             >
                                 <Trash2 size={19} />
                             </div>
-                            {showDelete && <DeleteRequestedProduct setShowDelete={setShowDelete} name={product.reqProductName} id={product._id}  />}
+                            {productToDelete === product._id  && 
+                                <DeleteRequestedProduct 
+                                    setShowDelete={setProductToDelete} 
+                                    name={product.reqProductName} 
+                                    id={product._id}
+                                    products = {requestedProducts}
+                                    setProducts={setRequestedProducts} 
+                                />
+                            }
                         </div>
                     ))
                 ):(

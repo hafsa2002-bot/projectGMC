@@ -15,12 +15,6 @@ import IncomeReports from './IncomeReports'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
-  // const [showNotifications, setShowNotifications] = useState(false)
-  // const [showNotificationTitle, setShowNotifiactionTitle] = useState(false)
-  // const [showNotificationOutOfStock, setShowNotificationOutOfStock]= useState(false)
-  // const [showNotificationLowInStock, setShowNotificationLowInStock]= useState(false)
-  // const [showNotificationExpired, setShowNotificationExpired]= useState(false)
-  // const [numberOfNotifications, setNumberOfNotifications] = useState(0)
   
   const getStockInfo = () => {
     axios.get("http://localhost:3003/admin/stock")
@@ -31,7 +25,7 @@ function AdminHomePage() {
   }
   useEffect(() => {
     getStockInfo();
-  }, [stockInfo])
+  }, [])
   
   return (
     <div className='lg:px-0  px-0 font-poppins'>
@@ -52,22 +46,15 @@ function AdminHomePage() {
       <section className=' mt-7'>
         {/* <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4 lg:pl-0 pl-3'>Inventory Summary</p> */}
         <div className='flex lg:flex-nowrap flex-wrap lg:gap-10 gap-8 lg:justify-between justify-center '>
-          {/* Number of Items bg-blue-100 text-blue-600 */}
-          <div className='lg:w-1/4 w-5/12 py-5 bg-white rounded-lg  hidden flex-col gap-3 justify-center items-center  '>
-            <div className='w-10 h-10 rounded-lg bg-blue-500 text-white flex justify-center items-center'><FileText /></div>
-            <div className='text-center text-gray-600'>
-              <div className='font-semibold text-xl text-black'>{stockInfo.totalProducts ? stockInfo.totalProducts :<p className='text-lg font-semibold'>N/A</p> }</div>
-              <p>Items</p>
+          {/* Total Items */}
+          <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex  gap-3 justify-between items-center '>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><Layers /></div>
+            <div className='text-end text-gray-600'>
+              <p className='text-lg'>Total Items</p>
+              <div className='font-semibold text-2xl text-black'>{stockInfo.totalProducts ? stockInfo.totalProducts : <p className='text-lg font-semibold'>N/A</p>}</div>
             </div>
           </div>
-          {/* Number of categories bg-yellow-100 text-yellow-400 */}
-          {/* <div className='lg:w-1/4 w-5/12 py-5 bg-white rounded-lg flex flex-col gap-3 justify-center items-center '>
-            <div className='w-10 h-10 rounded-lg bg-blue-500 text-white flex justify-center items-center'><Folder fill='white'/></div>
-            <div className='text-center text-gray-500'>
-              <div className='font-semibold text-xl text-black'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</div>
-              <p>Categories</p>
-            </div>
-          </div> */}
+          {/* total categories */}
           <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex justify-between gap-3 items-center '>
             <div className='w-10 h-10 rounded-lg bg-blue-500 text-white flex justify-center items-center'><Folder fill='white'/></div>
             <div className='text-end text-gray-600'>
@@ -75,15 +62,7 @@ function AdminHomePage() {
               <div className='font-semibold text-2xl text-black'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</div>
             </div>
           </div>
-          {/* Total Quantity bg-purple-100 text-purple-600 */}
-          <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex  gap-3 justify-between items-center '>
-            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><Layers /></div>
-            <div className='text-end text-gray-600'>
-              <p className='text-lg'>Total Quantity</p>
-              <div className='font-semibold text-2xl text-black'>{stockInfo.totalItems ? stockInfo.totalItems : <p className='text-lg font-semibold'>N/A</p>}</div>
-            </div>
-          </div>
-          {/* Total Value bg-green-100 text-green-600 */}
+          {/* Total Value*/}
           <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex gap-3 justify-between items-center '>
             <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><Wallet /></div>
             <div className='text-end text-gray-600 w-11/12'>
@@ -91,7 +70,7 @@ function AdminHomePage() {
               <div className='font-semibold text-2xl text-black'>{stockInfo.totalValue ? stockInfo.totalValue.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
             </div>
           </div>
-          {/* awaiting payment bg-orange-100 text-orange-600 */}
+          {/* awaiting payment*/}
           <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex gap-3 justify-between items-center '>
             <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><NotebookPen /></div>
             <div className='text-end text-gray-600 '>
@@ -101,18 +80,10 @@ function AdminHomePage() {
           </div>
         </div>
       </section>
-      {/* recent orders */}
-      <section className='mt-7 '>
-        <RecentOrders/>
-      </section>
-      {/* <section className='mt-14'>
-        <div className="">
-          <DashboardOrders/>
-        </div>
-      </section> */}
+
       {/* reports */}
-      <section className='flex flex-col mt-14 '>
-        <h1 className='lg:ml-0 ml-3 text-2xl font-bold text-gray-900'>Reports</h1>
+      <section className='flex flex-col mt-9 '>
+        {/* <h1 className='lg:ml-0 ml-3 text-2xl font-bold text-gray-900'>Reports</h1> */}
         <div className='lg:flex gap-5 '>
           <div className='lg:w-1/2 w-11/12 m-auto lg:mx-0'>
             <h1 className='text-xl font-semibold pb-3'>Income tracker</h1>
@@ -126,6 +97,15 @@ function AdminHomePage() {
           </div>
         </div>
       </section>
+      {/* recent orders */}
+      <section className='mt-9 '>
+        <RecentOrders/>
+      </section>
+      {/* <section className='mt-14'>
+        <div className="">
+          <DashboardOrders/>
+        </div>
+      </section> */}
 
       <section className='lg:flex lg:mt-14 mt-9 gap-6 '>
         {/* Recent Activity */}

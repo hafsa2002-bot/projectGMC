@@ -2,14 +2,18 @@ import React from 'react'
 import axios from 'axios'
 import { Info } from 'lucide-react'
 
-function DeleteRequestedProduct({setShowDelete, name, id}) {
+function DeleteRequestedProduct({setShowDelete, name, id, products, setProducts}) {
     const deleteRequestedProduct = (productID) => {
             axios.delete(`http://localhost:3003/admin/dashboard/delete-requested-product/${productID}`,
                 {headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 
                 }}
             )
-                .then((response) => console.log("requested product deleted:", response.data))
+                .then((response) => {
+                    const deletedProduct = response.data
+                    console.log("requested product deleted:", deletedProduct)
+                    setProducts(products.filter(produit => produit._id !== id))
+                })
                 .catch(error => console.log("error: ", error))
         }
   return (

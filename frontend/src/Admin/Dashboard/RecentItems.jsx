@@ -9,7 +9,7 @@ function RecentItems() {
         axios.get("http://localhost:3003/admin/items/list")
             .then(response => setRecentItems(response.data))
             .catch(error => console.log("Error: ", error))
-    }, [recentItems])
+    }, [])
   return (
     <div className=''>
         <div className='flex justify-between items-center mt-9 mb-4 lg:px0 px-3'>

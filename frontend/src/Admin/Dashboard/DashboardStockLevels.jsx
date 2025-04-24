@@ -6,13 +6,12 @@ import PopUp from '../ItemsPage/PopUp'
 
 function DashboardStockLevels() {
     const [dashboardProducts, setDashboardProducts] = useState([])
-    const [showOptions, setShowOptions] = useState(false)
-    const [popUp, setPopUp] = useState(false)
+
     useEffect(() => {
         axios.get("http://localhost:3003/stockLevel")
             .then(response => setDashboardProducts(response.data))
             .catch(error => console.log("Error: ", error))
-    }, [dashboardProducts])
+    }, [])
   return (
     <div className=''>
         <div className='sticky top-0 z-10 bg-gray-50 px-4 pb-2'>
