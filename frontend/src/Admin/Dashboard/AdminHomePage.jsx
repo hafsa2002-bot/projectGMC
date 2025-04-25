@@ -123,7 +123,7 @@ function AdminHomePage() {
       </section>
       
       {/* recent Items added */}
-      <section className='mb-32  '>
+      <section className='mb-10  '>
         <RecentItems/>
       </section>
     </div>

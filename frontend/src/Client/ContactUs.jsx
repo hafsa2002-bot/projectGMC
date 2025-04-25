@@ -3,8 +3,15 @@ import {Link} from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import Footer from './Footer'
 import Nav from './NavBar/Nav'
+import emailjs from '@emailjs/browser'
 
 function ContactUs() {
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs.sendForm('service_fxfe5fd', 'template_id', e.target, 'public_key')
+
+    }
   return (
     <div>
         <Nav details={false} />
@@ -25,19 +32,20 @@ function ContactUs() {
             </div>
 
             {/* Right: Contact Form */}
-            <form className="flex-1 bg-zinc-900 text-white rounded-xl shadow-md p-8 space-y-5">
+            <form onSubmit={sendEmail} className="flex-1 bg-zinc-900 text-white rounded-xl shadow-md p-8 space-y-5">
                 <div className="flex flex-col">
-                        <label className="text-sm mb-1 text-stone-300">Name</label>
-                        <input 
-                            type="text" 
-                            placeholder="Your Name"
-                            className="bg-black border border-stone-600 rounded-md px-4 py-2 focus:outline-none focus:border-white"
-                        />
+                    <label className="text-sm mb-1 text-stone-300">Name</label>
+                    <input 
+                        type="text"
+                        placeholder="Your Name"
+                        className="bg-black border border-stone-600 rounded-md px-4 py-2 focus:outline-none focus:border-white"
+                    />
                 </div>
                 <div className="flex flex-col">
                     <label className="text-sm mb-1 text-stone-300">Email</label>
                     <input 
-                        type="email" 
+                        type="email"
+                        name="email_from" 
                         placeholder="you@example.com"
                         className="bg-black border border-stone-600 rounded-md px-4 py-2 focus:outline-none focus:border-white"
                     />

@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {useCart} from '../../CartContext'
 import axios from 'axios'
 import { Check, Heart, Plus, ShoppingCart, X } from 'lucide-react'
-function FavoriteElement({product}) {
+import { Link } from 'react-router-dom'
+function FavoriteElement({product, setShowFavorite}) {
     const {cart, favorites, setFavorites, addToCart} = useCart()
     const [productById, setProductById] = useState({})
     const [showMessage, setShowMessage] = useState(false)
@@ -41,11 +42,18 @@ function FavoriteElement({product}) {
             product && (
                 <div className='flex justify-between  lg:gap-0 gap-4 py-5'>
                     <div className='flex lg:w-9/12 gap-5  items-center'>
-                        <div className='w-24 h-24 rounded-lg border border-gray-300 mt-2'>
+                        <Link 
+                            onClick={() => {
+                                setShowFavorite(false)
+                                window.scrollTo(0,0)
+                            }}  
+                            to={`/products/${product._id}`} 
+                            className='w-24 h-24 rounded-lg border border-gray-300 mt-2'
+                        >
                             {product.productPhoto && (
                                 <img src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} className='w-full h-full' />
                             )}
-                        </div>
+                        </Link>
                         <div className='flex flex-col justify-start items-start w-9/12 gap-2 h-full'>
                             <p className='text-lg font-medium text-gray-700 w-11/12'>{product.productName}</p>
                             <div className='font-mono font-semibold text-end'>{(product.price).toFixed(2)} MAD</div>

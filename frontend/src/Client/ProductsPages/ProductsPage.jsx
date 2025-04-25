@@ -5,21 +5,18 @@ import ProductItem from './ProductItem'
 import SpinnerLoader from '../../SpinnerLoader'
 import Footer from '../Footer'
 import { ArrowRight, ChevronDown } from 'lucide-react'
+import CategoriesSection from './CategoriesSection'
 
 function ProductsPage() {
     const [categories, setCategories] = useState({})
     const [products, setProducts] = useState([])
     const [displayedProducts, setDisplayedProducts] = useState([])
-    const [itemsToShow, setItemsToShow] = useState(12)
-    const [loading, setLoading] = useState(true)
+    const [itemsToShow, setItemsToShow] = useState(48)
+    const [loadingProducts , setLoadingProducts ] = useState(true)
+    const [loadingCategories , setLoadingCategories ] = useState(true)
     const scrollRef = useRef();
 
-    const scrollRight = () => {
-        scrollRef.current.scrollBy({
-            left: 200,
-            behavior: 'smooth'
-        });
-    };
+    
     
     const shuffleArray = (arr) => {
         // Make a copy of the array to avoid direct mutation of state
@@ -44,96 +41,44 @@ function ProductsPage() {
                 // const shuffleProducts = response.data
                 setProducts(shuffleProducts)
                 setDisplayedProducts(shuffleProducts.slice(0, itemsToShow))
-                setLoading(false)
+                setLoadingProducts(false)
             })
             .catch(error => {
                 console.log("Error: ",error)
-                setLoading(false)
+                setLoadingProducts (false)
             })
-    }
-    const getCategories = () => {
-        axios.get("http://localhost:3003/admin/items/categories-with-Products")
-            .then(response => setCategories(response.data))
-            .catch(error => console.log("Error: ", error))
     }
     useEffect(() => {
         console.log("call effect...")
         let mounted = true;
         if (mounted) {
             fetchData();
-            getCategories();
         }
         return () => { mounted = false };
     }, []);
     
 
     const loadMoreProducts = () => {
-            const newItemsToShow = itemsToShow + 8;
+            const newItemsToShow = itemsToShow + 48;
             setItemsToShow(newItemsToShow)
             setDisplayedProducts(products.slice(0, newItemsToShow))
         }
     
-    const firstLetterToUpperCase = (str) => {
-        const result =   str[0].toUpperCase() + str.slice(1,str.length)
-        return result;
-    }
+    
   return (
     <div className='mt-28'>
         <div className=' w-full'>
+            <CategoriesSection setLoadingCategories={setLoadingCategories} />
+
             {
-                loading
+                loadingProducts || loadingCategories
                 ? (
                     <SpinnerLoader/>
                 )
                 : (
                     <>
-                        {/* categories */}
-                        <div className="relative w-full">
-                            <div 
-                                ref={scrollRef}
-                                className="flex pt-3 px-8 gap-16 overflow-x-scroll w-full hide-scrollbar scroll-smooth"
-                            >
-                                {categories.length > 0 
-                                    ? categories.map((category, index) => (
-                                    <Link 
-                                        to={`/products/category/${category.categoryName}`}  
-                                        key={index} 
-                                        className="flex flex-col items-center text-center hover:scale-105 transition-transform duration-300"
-                                    >
-                                        <div className="w-24 h-24 p-3 rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
-                                            {(category.products.length > 0 && category.products[0]?.productPhoto) && (
-                                                <img 
-                                                    src={`http://localhost:3003${category.products[0]?.productPhoto}`}
-                                                    className="w-full h-full object-cover"
-                                                    alt={category.categoryName}
-                                                />
-                                            )}
-                                        </div>
-                                        <p className="font-semibold text-lg mt-3 capitalize text-gray-700 break-words max-h-16 max-w-40 truncate">
-                                            {firstLetterToUpperCase(category.categoryName)}
-                                        </p>
-                                    </Link>
-                                )):(
-                                    <div className='w-full h-[80vh] flex justify-center items-center'>
-                                        <img className='w-[440px] h-[370px]' src='/images/noProducts.png' />
-                                    </div>
-                                )}
-                            </div>
-
-                        {/* Right-side Gradient Shadow (behind the button) */}
-                        <div className="absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-                            {/* Scroll Arrow Button */}
-                            <button 
-                                onClick={scrollRight}
-                                className="absolute right-2 top-2/5 -translate-y-1/2 bg-gray-100 border border-gray-400 rounded-full p-2 shadow-md hover:bg-gray-200 transition-all z-20"
-                            >
-                                <ArrowRight className="text-gray-600" />
-                            </button>
-                        </div>
-
-
                         {/* items-baseline */}
-                        <div className=' flex flex-wrap lg:gap-9 gap-x-2 gap-y-9 justify-between mt-16  lg:px-10 px-6 '>
+                        <div className='grid lg:grid-cols-5 grid-cols-2  lg:gap-9 gap-x-2 gap-y-9 mt-16  lg:px-10 px-6 '>
                             {
                                 displayedProducts.map((product, index) => (
                                     <ProductItem product = {product} key={index}  />
@@ -141,7 +86,7 @@ function ProductsPage() {
                             }
                         </div>
                         {
-                            displayedProducts.length < products.length && (
+                            displayedProducts.length < products.length ? (
                                 <div className='flex justify-center mt-12'>
                                     <button 
                                         onClick={loadMoreProducts} 
@@ -154,14 +99,19 @@ function ProductsPage() {
                                         </span>
                                     </button>
                                 </div>
+                            ):(
+                                <div className='w-full h-[80vh] flex justify-center items-center'>
+                                    <img className='w-[440px] h-[370px]' src='/images/noProducts.png' />
+                                </div>
                             )
                         }
                     </>
                 )
-                
         }
         </div>
-        <Footer/>
+        <div className='mt-20'>
+            <Footer/>
+        </div>
     </div>
   )
 }

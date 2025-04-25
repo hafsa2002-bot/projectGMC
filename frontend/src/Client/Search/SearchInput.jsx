@@ -53,7 +53,7 @@ function SearchInput({setShowSearch}) {
                     name="searchValue"
                     id="searchValue"
                     value={searchValue}
-                    autoComplete='false'
+                    autoComplete="off"
                     onChange={(event) => {
                         setSearchValue(event.target.value)
                         if(event.target.value != ""){

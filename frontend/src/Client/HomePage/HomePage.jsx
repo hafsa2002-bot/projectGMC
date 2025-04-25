@@ -141,6 +141,11 @@ function HomePage() {
                             alt="Shopping Guy"
                             className="w-[360px] h-[360px] object-contain"
                         />
+                        {/* <img
+                            src="/images/home1.png"
+                            alt="Shopping Guy"
+                            className="w-[360px] h-[360px] object-contain"
+                        /> */}
                     </div>
                 </div>
             </section>
@@ -296,7 +301,9 @@ function HomePage() {
             </section>
             <AboutUs/>
         </main>
-        <Footer/>
+        <div className='mt-20'>
+            <Footer/>
+        </div>
     </>
   )
 }

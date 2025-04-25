@@ -69,6 +69,7 @@ function AddItem() {
             }
             const result = await response.json()
             console.log("Item added: ", result)
+            scrollTo(0, 0)
             navigate("/admin/items")
         }catch(error){
             console.log("Error: ", error)
@@ -286,7 +287,7 @@ function AddItem() {
                         </div>
                         {showCategories && 
                             (
-                                <div className='absolute z-20 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden w-96'>
+                                <div className='absolute z-50 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden w-96'>
                                     {/* list of categories */}
                                     <div>
                                         <ListOfCategories setSelectedCategory={setSelectedCategory}  setShowCategories={setShowCategories} />
@@ -315,17 +316,24 @@ function AddItem() {
                         <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
                         <div
                             onClick={handleDivClick} 
-                            className='flex justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'>
-                            <DatePicker
+                            className='flex  justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'>
+                            {/* <DatePicker
                                 selected={expirationDate}
                                 onChange={(date) => setExpirationDate(date)}
                                 dateFormat="yyyy-MM-dd"
                                 className=' p-2.5 outline-none '
                                 placeholderText='Select Date'
                                 ref={datePickerRef}
+                            /> */}
+                            <input
+                                type="date"
+                                className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
+                                value={expirationDate}
+                                onChange={(e) => setExpirationDate(e.target.value)}
+                                placeholder="Select Date"
                             />
                             <div >
-                                <CalendarDays className='text-gray-500' />
+                                {/* <CalendarDays className='text-gray-500' /> */}
                             </div>
                         </div>
                     </div>

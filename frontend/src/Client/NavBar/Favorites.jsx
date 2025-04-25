@@ -20,7 +20,7 @@ function Favorites({setShowFavorite}) {
       {favorites.length > 0
         ?(
           favorites.map((product, index) => (
-            <FavoriteElement product={product} key={index} />
+            <FavoriteElement product={product} setShowFavorite={setShowFavorite} key={index} />
           ))
         ):(
           <div className=' flex flex-col justify-center items-center gap-6 h-[73vh]'>

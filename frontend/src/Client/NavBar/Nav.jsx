@@ -9,17 +9,16 @@ import Favorites from './Favorites'
 import SearchInput from '../Search/SearchInput'
 
 function Nav(props) {
-    const [categories, setCategories] = useState([])
-    const [showLogin, setShowLogin] = useState(false)
-    const [showMenu, setShowMenu] = useState(false)
+    // const [categories, setCategories] = useState([])
+    // const [showLogin, setShowLogin] = useState(false)
+    // const [showMenu, setShowMenu] = useState(false)
     const [showCart, setShowCart] = useState(false)
     const [showFavorite, setShowFavorite] = useState(false)
     const [showSearch, setShowSearch] = useState(false)
     const {cart, favorites} = useCart()
     const navigate = useNavigate()
-
+    /*
     const fetchData = () => {
-        // fetch categories
         axios.get("http://localhost:3003/admin/items/categories")
             .then(response => setCategories(response.data))
             .catch(error => console.log("Error: ", error))
@@ -27,6 +26,7 @@ function Nav(props) {
     useEffect(() => {
         fetchData()
     }, []);
+    */
 
   return (
     <div>
@@ -44,13 +44,14 @@ function Nav(props) {
                         >
                             <div className="lg:h-12 lg:w-12 w-9 h-9 overflow-hidden">
                             {/* <img src="/images/N1.png" className="w-full h-full object-cover" alt="Logo" /> */}
-                            <img src="/images/newLogo.png" className="w-full h-full object-cover" alt="Logo" />
+                            <img src="/images/newLogo4.png" className="w-full h-full object-cover" alt="Logo" />
                             </div>
                             {/* <h2 className="text-3xl font-poppins font-bold bg-gradient-to-r from-white via-stone-400 to-stone-500 bg-clip-text text-transparent">
                             Novexa
                             </h2> */}
                             <h2 className="text-4xl font-semibold tracking-wide text-white font-sans">
                                 Novexa
+                                {/* NOVEXA */}
                             </h2>
                         </Link>
                         {/* NavLinks - Desktop */}
@@ -65,7 +66,13 @@ function Nav(props) {
                                 to="/products"
                                 onClick={() => window.scrollTo(0, 0)}  
                                 className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
-                                Products
+                                Magasin
+                            </NavLink>
+                            <NavLink 
+                                to="/categories"
+                                onClick={() => window.scrollTo(0, 0)}  
+                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
+                                Categories
                             </NavLink>
                             <NavLink 
                                 to="/ContactUs"
@@ -88,7 +95,7 @@ function Nav(props) {
                                         setShowSearch(true)
                                         setShowFavorite(false);
                                         setShowCart(false);
-                                        setShowMenu(false);
+                                        // setShowMenu(false);
                                     }}
                                 >
                                     <Search size={24}/>
@@ -99,7 +106,7 @@ function Nav(props) {
                                     onClick={() => {
                                         setShowFavorite(!showFavorite);
                                         setShowCart(false);
-                                        setShowMenu(false);
+                                        // setShowMenu(false);
                                         setShowSearch(false);
                                     }}
                                     className="cursor-pointer relative"
@@ -116,7 +123,7 @@ function Nav(props) {
                                 <div 
                                     onClick={() => {
                                         setShowCart(!showCart);
-                                        setShowMenu(false);
+                                        // setShowMenu(false);
                                         setShowFavorite(false);
                                         setShowSearch(false);
                                     }}
@@ -128,7 +135,7 @@ function Nav(props) {
                                     </span>
                                 </div>
                                 {showCart && <Cart setShowCart={setShowCart} />}
-                                {/* Menu */}
+                                {/* Menu
                                 <div className="realtive">
                                     <button onClick={() => {
                                         setShowMenu(!showMenu);
@@ -139,7 +146,7 @@ function Nav(props) {
                                         <Menu size={30} />
                                     </button>
                                     {showMenu && <CategoriesMenu categories={categories} setShowMenu={setShowMenu} />}
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     )}
