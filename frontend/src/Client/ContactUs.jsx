@@ -1,15 +1,30 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState } from 'react'
+import {Link, useNavigate} from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import Footer from './Footer'
 import Nav from './NavBar/Nav'
 import emailjs from '@emailjs/browser'
+import SucessMessage from '../Admin/SucessMessage'
 
 function ContactUs() {
+    const [message, setMessage] = useState(false)
+    const navigate = useNavigate()
     const sendEmail = (e) => {
         e.preventDefault();
 
-        emailjs.sendForm('service_fxfe5fd', 'template_id', e.target, 'public_key')
+        // emailjs.sendForm('service_fxfe5fd', 'template_a683oom', e.target, 'Lcg2d9RcX-okS49vi')
+        emailjs.sendForm('service_fxfe5fd', 'template_a683oom', e.target, 'Lcg2d9RcX-okS49vi')
+            .then((result) => {
+                setMessage(true)
+                setTimeout(() => setMessage(false), 2000)
+                console.log('Email successfully sent:', result.text);
+                navigate('/'); 
+                window.scrollTo(0, 0)
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error.text);
+                // alert("Failed to send message. Please try again.");
+            });
 
     }
   return (
@@ -38,6 +53,7 @@ function ContactUs() {
                     <input 
                         type="text"
                         placeholder="Your Name"
+                        name="userName"
                         className="bg-black border border-stone-600 rounded-md px-4 py-2 focus:outline-none focus:border-white"
                     />
                 </div>
@@ -55,6 +71,8 @@ function ContactUs() {
                     <textarea 
                         rows="4" 
                         placeholder="Type your message..."
+                        name="message"
+                        id="message"
                         className="bg-black border border-stone-600 rounded-md px-4 py-2 focus:outline-none focus:border-white"
                     ></textarea>
                 </div>
@@ -68,6 +86,9 @@ function ContactUs() {
 
         </div>
         </section>
+        {message && (
+            <SucessMessage message="Email successfully sent" />
+        )}
     </div>
 
 

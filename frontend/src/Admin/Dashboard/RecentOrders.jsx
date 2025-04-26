@@ -38,7 +38,7 @@ function RecentOrders() {
         fetchData()
         calculateNumber()
         // console.log("orders: ", orders)
-    }, [orders])
+    }, [])
     
     
   return (
