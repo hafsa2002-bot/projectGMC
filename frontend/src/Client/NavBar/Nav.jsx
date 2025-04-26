@@ -69,12 +69,6 @@ function Nav(props) {
                                 Magasin
                             </NavLink>
                             <NavLink 
-                                to="/categories"
-                                onClick={() => window.scrollTo(0, 0)}  
-                                className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
-                                Categories
-                            </NavLink>
-                            <NavLink 
                                 to="/ContactUs"
                                 onClick={() => window.scrollTo(0, 0)}  
                                 className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>

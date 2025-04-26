@@ -9,10 +9,11 @@ function ProductItem({product}) {
     const [heartHover, setHeartHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
     const {addToCart, addToFavorites, favorites, setFavorites} = useCart()
-    const [productById, setProductById] = useState({})
+    // const [productById, setProductById] = useState({})
     const [showMessage, setShowMessage] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
     
+    /*
     const fetchData = (productId) => {
         axios.get(`http://localhost:3003/admin/items/view/${productId}`)
             .then(response => setProductById(response.data))
@@ -22,13 +23,14 @@ function ProductItem({product}) {
     useEffect(() => {
         fetchData(product._id)
     }, [productById])
+    */
 
     const addToCartFunction = () => {
-        if(productById.qty > 0){
+        if(product.qty > 0){
             addToCart(product)
             setSuccessMessage(true);
             setTimeout(() => setSuccessMessage(false), 3000)
-        }else if(productById.qty === 0){
+        }else if(product.qty === 0){
             setShowMessage(true)
             setTimeout(() => setShowMessage(false), 3000)
         }

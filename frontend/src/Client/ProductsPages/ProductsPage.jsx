@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import ProductItem from './ProductItem'
 import SpinnerLoader from '../../SpinnerLoader'
 import Footer from '../Footer'
-import { ArrowRight, ChevronDown } from 'lucide-react'
+import { ArrowRight, ChevronDown, ChevronRight } from 'lucide-react'
 import CategoriesSection from './CategoriesSection'
 
 function ProductsPage() {
@@ -77,12 +77,25 @@ function ProductsPage() {
                 )
                 : (
                     <>
-                        <div className='w-full border'>
-                            <p>All {products.length} </p>
-                            <p></p>
+                        <div className='w-full mt-7 flex justify-between'>
+                            {/* <p className='text-2xl font-semibold px-10 font-outfit'>All {products.length} </p>
+                            <div className='bg-gray-100 flex'>
+                                <p>Filter</p>
+                            </div> */}
+                            <div className=' px-10'>
+                                <div className='flex text-sm items-center text-gray-500'>
+                                    Home 
+                                    <ChevronRight size={20}/>
+                                    Products
+                                </div>
+                                <div className='flex text-yellow-400'>
+                                    <h1 className='text-4xl font-poppins font-semibold mb-10 mt-4'> All </h1>
+                                    <div className='relative top-3 left-1.5'> ({products?.length}) </div>
+                                </div>
+                            </div>
                         </div>
                         {/* items-baseline */}
-                        <div className='grid lg:grid-cols-5 grid-cols-2  lg:gap-9 gap-x-2 gap-y-9 mt-16  lg:px-10 px-6 '>
+                        <div className='grid lg:grid-cols-5 grid-cols-2  lg:gap-9 gap-x-2 gap-y-9 lg:px-10 px-6  '>
                             {
                                 displayedProducts.map((product, index) => (
                                     <ProductItem product = {product} key={index}  />
@@ -90,25 +103,29 @@ function ProductsPage() {
                             }
                         </div>
                         {
-                            displayedProducts.length < products.length ? (
-                                <div className='flex justify-center mt-12'>
-                                    <button 
-                                        onClick={loadMoreProducts} 
-                                        className="px-9 py-2 text-lg btn relative lg:w-72 inline-flex items-center justify-start overflow-hidden font-semibold transition-all bg-white text-black border-2 border-black rounded-full shadow-md hover:shadow-lg group"
-                                    >
-                                        <span className="w-72 h-48 rounded bg-black absolute bottom-0 left-0 translate-x-full translate-y-full mb-9 ml-9 transition-all duration-500 ease-out group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                                        <span className="relative flex justify-center items-end w-full text-center transition-colors duration-300 ease-in-out group-hover:text-white">
-                                            <span>View More</span>
-                                            <ChevronDown size={30} className="pt-2" />
-                                        </span>
-                                    </button>
-                                </div>
+                            products.length > 0 ? (
+                                displayedProducts.length < products.length && (
+                                    <div className='flex justify-center mt-12'>
+                                        <button 
+                                            onClick={loadMoreProducts} 
+                                            className="px-9 py-2 text-lg btn relative lg:w-72 inline-flex items-center justify-start overflow-hidden font-semibold transition-all bg-white text-black border-2 border-black rounded-full shadow-md hover:shadow-lg group"
+                                        >
+                                            <span className="w-72 h-48 rounded bg-black absolute bottom-0 left-0 translate-x-full translate-y-full mb-9 ml-9 transition-all duration-500 ease-out group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                                            <span className="relative flex justify-center items-end w-full text-center transition-colors duration-300 ease-in-out group-hover:text-white">
+                                                <span>View More</span>
+                                                <ChevronDown size={30} className="pt-2" />
+                                            </span>
+                                        </button>
+                                    </div>
+                                )
                             ):(
                                 <div className='w-full h-[80vh] flex justify-center items-center'>
                                     <img className='w-[440px] h-[370px]' src='/images/noProducts.png' />
                                 </div>
                             )
                         }
+                        
+                        
                     </>
                 )
         }

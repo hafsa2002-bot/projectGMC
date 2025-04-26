@@ -4,6 +4,7 @@ import ProductItem from './ProductItem'
 import axios from 'axios'
 import SpinnerLoader from '../../SpinnerLoader';
 import Footer from '../Footer';
+import { ChevronRight } from 'lucide-react';
 
 function CategoryPage() {
     const {category} = useParams();
@@ -31,15 +32,27 @@ function CategoryPage() {
     
 
   return (
-    <div className='lg:mt-24 mt-32'>
-        <h1 className='text-4xl text-center font-semibold mb-10'> {firstLetterToUpperCase(category)} </h1>
+    <div className='lg:mt-26 mt-32 '>
+        <div className=' px-10'>
+            <div className='flex text-sm items-center text-gray-500'>
+                Home 
+                <ChevronRight size={20} />
+                Categories
+                <ChevronRight size={20}/>
+                {firstLetterToUpperCase(category)}
+            </div>
+            <div className='flex text-yellow-400'>
+                <h1 className='text-4xl font-poppins font-semibold mb-10 mt-4'> {firstLetterToUpperCase(category)} </h1>
+                <div className='relative top-3 left-1.5'> ({listOfProducts?.products?.length}) </div>
+            </div>
+        </div>
         {
             isLoading 
             ? (
                 <SpinnerLoader/>
             )
             :(
-                <div className=' flex flex-wrap lg:gap-9 gap-x-2 gap-y-9 justify-between lg:justify-start lg:w-11/12 m-auto lg:px-10 px-6'>
+                <div className=' grid lg:grid-cols-5 grid-cols-2 lg:gap-9 gap-x-2 gap-y-9 lg:px-10 px-6'>
                     {
                         listOfProducts.products?.map((product, index) => (
                             <ProductItem product = {product} key={index} />

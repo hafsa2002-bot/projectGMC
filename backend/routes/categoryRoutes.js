@@ -138,7 +138,7 @@ router.get("/category/:categoryName", async(req, res) => {
     try{
         const category = await Category.findOne({categoryName: req.params.categoryName})
         if(!category){
-            res.status(404).json({error: "Category not found"})
+            return res.status(404).json({error: "Category not found"})
         }
         // console.log("category id: ", category._id)
         const productsByCategory = await Product.find({categoryId: category._id})

@@ -143,7 +143,7 @@ function HomePage() {
                             <div className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 hover:from-yellow-500 hover:via-orange-500 hover:to-orange-600 text-black hover:text-white px-8 py-3 rounded-full font-bold shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                 <div className="flex items-center justify-center gap-2">
                                 <p className="group-hover:translate-x-[-10px] transition-transform duration-300">
-                                    Browse Products
+                                    Commandez
                                 </p>
                                 <ShoppingCart 
                                     className="w-6 h-6 absolute opacity-0 group-hover:opacity-100 transition-all duration-300" 
@@ -153,6 +153,7 @@ function HomePage() {
                                 </div>
                             </div>
                         </Link>
+                        
                     </div>
 
                     {/* Right Image */}
