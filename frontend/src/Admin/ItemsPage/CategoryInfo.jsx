@@ -32,7 +32,7 @@ function CategoryInfo() {
                 console.log("Error: ", error)
                 setLoading(false)
             })
-    }, [categoryInfo])
+    }, [])
 
   return (
     <div className='pb-20'>
@@ -46,7 +46,7 @@ function CategoryInfo() {
             ? (
                 <SpinnerBlue/>
             ):(
-            <div className=" bg-white border border-gray-300 mt-8   shadow-md sm:rounded-lg">
+            <div className=" bg-white border border-gray-300 mt-8  shadow-md sm:rounded-lg">
                 {
                     (categoryInfo.products && categoryInfo.products.length > 0 )
                     ?(
@@ -78,9 +78,9 @@ function CategoryInfo() {
                                 (Array.isArray(categoryInfo.products) && categoryInfo.products.length > 0)
                                 ?(
                                     categoryInfo.products.map((item, index) => (
-                                        <tr key={index} className=" bg-white border-b border-gray-200">
-                                            <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                <Link to={`/admin/items/view/${item._id}`} className='flex items-center gap-4 '>
+                                        <tr key={index} className=" bg-white border-b border-gray-200 w-full">
+                                            <td scope="row" className="px-6 py-4 font-medium text-gray-900  ">
+                                                <Link to={`/admin/items/view/${item._id}`} className='flex  items-center gap-4'>
                                                     <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
                                                         {
                                                             item.productPhoto 
@@ -90,12 +90,12 @@ function CategoryInfo() {
                                                                 </div>
                                                         }
                                                     </div>
-                                                    <div>
-                                                        <p className='text-base'>{item.productName}</p>
+                                                    <div >
+                                                        <p className='text-base max-w-60  truncate'>{item.productName}</p>
                                                     </div>
                                                 </Link>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-6 py-4  ">
                                                 {item.qty}
                                             </td>
                                             <td className="px-6 py-4 ">
@@ -104,14 +104,14 @@ function CategoryInfo() {
                                             <td className="px-6 py-4">
                                                 {item.price} <span className='text-black'>MAD</span>
                                             </td>
-                                            <td className="px-6 py-4 text-base ">
+                                            <td className="px-6 py-4 text-base  ">
                                                 {
                                                 item.expirationDate  
                                                 ? (item.expirationDate.slice(0,10))
                                                 : (<p>-</p>)
                                                 }
                                             </td>
-                                            <td className="relative px-6 py-4 ">
+                                            <td className="relative px-4 py-4">
                                                 {
                                                     userRole == "admin" 
                                                     ?(

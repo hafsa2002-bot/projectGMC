@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
-function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOptions, setMessage}) {
+function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOptions, setMessage, categories, setCategories}) {
     const [updatedCategoryName, setUpdatedCategoryName] = useState(categoryName);
     const [errorMessage, setErrorMessage] = useState(false)
     // const [message, setMessage] = useState(false)
@@ -22,11 +22,18 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
                     }
                 }
             )
-            setUpdateCategory(false)
-            setShowOptions(false)
+            setCategories(categories.map(category => {
+                if(category._id == categoryId){
+                    // category.categoryName = updatedCategoryName
+                    return {...category, categoryName: updatedCategoryName}
+                }
+                return category
+            }))
             setMessage(true)
-            setTimeout(() => setMessage(false), 3000) 
-            navigate("/admin/items/categories")
+            setTimeout(() => setMessage(false), 3000)
+            setUpdateCategory(false)
+            setShowOptions(false) 
+            // navigate("/admin/items/categories")
             console.log('category updated: ', response.data)
         }catch(error){
             console.log('Error updating category: ', error)
@@ -67,7 +74,9 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
                     />
                 </div>
             <div 
-                onClick={() => handleUpdateCategory(categoryId, categoryName)}
+                onClick={() => {
+                    handleUpdateCategory(categoryId, categoryName)
+                }}
                 className='cursor-pointer text-white font-semibold text-center bg-blue-600 bordertext-white rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500' 
             >
                 Update category

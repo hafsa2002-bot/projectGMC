@@ -66,7 +66,7 @@ function ProductsPage() {
     
     
   return (
-    <div className='mt-28'>
+    <div className='mt-20'>
         <div className=' w-full'>
             <CategoriesSection setLoadingCategories={setLoadingCategories} />
 
@@ -77,6 +77,10 @@ function ProductsPage() {
                 )
                 : (
                     <>
+                        <div className='w-full border'>
+                            <p>All {products.length} </p>
+                            <p></p>
+                        </div>
                         {/* items-baseline */}
                         <div className='grid lg:grid-cols-5 grid-cols-2  lg:gap-9 gap-x-2 gap-y-9 mt-16  lg:px-10 px-6 '>
                             {

@@ -1,4 +1,4 @@
-import { ChevronDown, FileClock, House, LogOut, Menu, Package, Search, Settings, ShoppingCart, SquareKanban, UsersRound, CircleUserRound } from 'lucide-react'
+import { ChevronDown, FileClock, House, LogOut, Menu, Package, Search, Settings, ShoppingCart, SquareKanban, UsersRound, CircleUserRound, UserRound } from 'lucide-react'
 import { Link, NavLink, useNavigate} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
 import Notifications from './Dashboard/Notifications'
@@ -13,7 +13,7 @@ function Navbar({firstLetters, userName}) {
             onClick={() => setShowMenu(!showMenu)}
             className="relative px-4"
         >
-            <Menu size={37} color="white" />
+            <Menu size={35} color="white" />
             {showMenu && (
                 <div
                     onClick={(e) => e.stopPropagation()}
@@ -24,7 +24,7 @@ function Navbar({firstLetters, userName}) {
                             to="/admin"
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive && window.location.pathname === "/admin" ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}>
-                            <div><House size={30}/></div>
+                            <div><House size={28}/></div>
                             <div>Home</div>
                         </NavLink>
                         <NavLink
@@ -32,23 +32,23 @@ function Navbar({firstLetters, userName}) {
                             onClick={() => setShowMenu(false)} 
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><Package size={30}/> </div>
+                            <div><Package size={28}/> </div>
                             <div>Items</div>
                         </NavLink>
-                        <NavLink
+                        {/* <NavLink
                             to="/admin/search"
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
                             <div><Search size={30}/></div>
                             <div>Search</div>
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink
                             to="/admin/orders" 
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><ShoppingCart size={30}/></div>
+                            <div><ShoppingCart size={28}/></div>
                             <div>Orders</div>
                         </NavLink>
                         <NavLink
@@ -64,7 +64,7 @@ function Navbar({firstLetters, userName}) {
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><FileClock size={30}/></div>
+                            <div><FileClock size={28}/></div>
                             <div>Activity Log</div>
                         </NavLink>
                         <NavLink
@@ -72,15 +72,26 @@ function Navbar({firstLetters, userName}) {
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><UsersRound size={30}/></div>
+                            <div><UsersRound size={28}/></div>
                             <div>Members</div>
                         </NavLink>
-                        <div
-                            className='flex items-center gap-3 px-4 py-3'
+                        {/* <NavLink
+                            to="/admin/profile"
+                            onClick={() => setShowMenu(false)}
+                            className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
+                        >
+                            <div><UserRound size={28}/></div>
+                            <div>Profile</div>
+                        </NavLink> */}
+                        <NavLink
+                            to="/admin/profile"
+                            onClick={() => setShowMenu(false)}
+                            // className='flex items-center gap-3 px-4 py-3'
+                            className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
                             <div><Settings size={30}/></div>
                             <div>Settings</div>
-                        </div>
+                        </NavLink>
                         
                     </div>
                     <div>

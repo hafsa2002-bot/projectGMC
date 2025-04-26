@@ -36,7 +36,7 @@ function CategoriesSection({setLoadingCategories}) {
         getCategories()
     }, [])
   return (
-    <div className="relative w-full">
+    <div className="relative w-full bg-gray-50 border-b border-gray-300 py-3">
         <div 
             ref={scrollRef}
             className="flex pt-3 px-8 gap-8 overflow-x-scroll w-full hide-scrollbar scroll-smooth"

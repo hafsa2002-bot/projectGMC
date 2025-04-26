@@ -61,20 +61,32 @@ function SideBar() {
     }
     
   return (
-    <div className='flex  bg-gray-100 min-h-screen'>
+    <div className='flex font-roboto bg-gray-100 min-h-screen'>
         {/* sidebar for laptop */}
         <nav 
             onMouseEnter={() => setShowSideBar(true)}
             onMouseLeave={() => setShowSideBar(false)}
             className={`lg:flex hidden fixed  text-neutral-500 left-0 flex-col justify-between items-center bg-white h-screen border-r border-gray-300 shadow-lg ${showSideBar ? 'w-48' : 'w-20'}`}>
-            <Link  to={"/admin"} onClick={() => setShowSettings(false)} className='outline-none'>
+            <Link  
+                to={"/admin"} 
+                onClick={() => {
+                    setShowSettings(false)
+                    window.scrollTo(0, 0)
+                }} 
+                className='outline-none'
+            >
                 {showSideBar
                 ?(<div className='flex items-center gap-2'><img className='h-8 mt-4' src='/images/N2.png' alt='logo' /><p className='text-black font-poppins text-3xl mt-4'>Nov<span className='text-blue-500'>exa</span></p></div>)
                 :(<img className='h-10 mt-4' src='/images/N2.png' alt='logo' />)}
             </Link>
             <div className='flex flex-col gap-4'>
                 {/* dashboard */}
-                <NavLink to="/admin" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative  px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin" 
+                onClick={() => {
+                    setShowSettings(false)
+                    window.scrollTo(0, 0)
+                }} 
+                className={({ isActive }) => isActive && window.location.pathname === "/admin" ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative  px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center'>
@@ -85,7 +97,13 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* items */}
-                <NavLink to="/admin/items" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative  cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink 
+                    to="/admin/items" 
+                    onClick={() => {
+                        setShowSettings(false)
+                        window.scrollTo(0, 0)
+                    }} 
+                    className={({ isActive }) => isActive ? 'relative  cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center '>
@@ -95,19 +113,14 @@ function SideBar() {
                         ):(<Package className='m-auto'/>)
                     }
                 </NavLink>
-                {/* Search */}
-                {/* <NavLink to="/admin/search" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
-                    {
-                        showSideBar ? (
-                            <div className='flex justify-start gap-3 items-center'>
-                                <Search/>
-                                <p className='font-poppins '>Search</p>
-                            </div>
-                        ):(<Search className='m-auto'/>)
-                    }
-                </NavLink> */}
                 {/* Orders */}
-                <NavLink to="/admin/orders" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive || location.pathname.includes("order") ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/orders" 
+                    onClick={() => {
+                        setShowSettings(false)
+                        window.scrollTo(0, 0)
+                    }} 
+                    className={({ isActive }) => isActive || location.pathname.includes("order") ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}
+                >
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center '>
@@ -118,7 +131,12 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Reports */}
-                <NavLink to="/admin/reports" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/reports" 
+                    onClick={() => {
+                        setShowSettings(false)
+                        window.scrollTo(0, 0)
+                    }} 
+                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center'>
@@ -129,7 +147,12 @@ function SideBar() {
                     }
                 </NavLink>
                 {/* Activity Log */}
-                <NavLink to="/admin/activities" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                <NavLink to="/admin/activities" 
+                    onClick={() => {
+                        setShowSettings(false)
+                        window.scrollTo(0, 0)
+                    }} 
+                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3 cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                     {
                         showSideBar ? (
                             <div className='flex justify-start gap-3 items-center '>
@@ -141,7 +164,12 @@ function SideBar() {
                 </NavLink>
                 {/* Members */}
                 {userRole === "admin" && (
-                    <NavLink to="/admin/members" onClick={() => setShowSettings(false)} className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
+                    <NavLink to="/admin/members" 
+                    onClick={() => {
+                        setShowSettings(false)
+                        window.scrollTo(0, 0)
+                    }} 
+                    className={({ isActive }) => isActive ? 'relative cursor-pointer text-white bg-blue-500 px-3 py-3 rounded-lg font-medium ' : 'relative px-3 py-3  cursor-pointer text-gray-500 hover:bg-gray-100 rounded-lg'}>
                         {
                             showSideBar ? (
                                 <div className='flex justify-start gap-3 items-center '>
@@ -183,7 +211,8 @@ function SideBar() {
                             </div>
                         </div>
                         <Link 
-                            to="/admin/profile" 
+                            to="/admin/profile"
+                            onClick={() => window.scrollTo(0, 0)} 
                             className='flex items-center gap-3 hover:bg-gray-100 py-2 pt-2 px-3'
                         >
                             <div><UserRound size={20}  /></div>

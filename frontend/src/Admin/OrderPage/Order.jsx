@@ -26,7 +26,7 @@ function Order() {
         getStockInfo()
     }, [stockInfo])
   return (
-    <div className='font-poppins'>
+    <div className=''>
         <div className=' bg-gray-100 border-b border-gray-400 flex justify-between items-center my-5 '>
             <div className='flex  gap-5 text-3xl '>
                 <Link

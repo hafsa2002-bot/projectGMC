@@ -53,7 +53,7 @@ function ContactUs() {
                     <input 
                         type="text"
                         placeholder="Your Name"
-                        name="userName"
+                        name="user_name"
                         className="bg-black border border-stone-600 rounded-md px-4 py-2 focus:outline-none focus:border-white"
                     />
                 </div>

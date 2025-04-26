@@ -28,7 +28,7 @@ function AdminHomePage() {
   }, [])
   
   return (
-    <div className='lg:px-0  px-0 font-poppins'>
+    <div className='lg:px-0  px-0'>
       <div className='lg:pl-0 pl-3 pr-10 bg-gray-100  border-gray-400 flex justify-between items-center pt-5'>
         <div className='text-3xl pb-5 text-blue-600 border-b-3 font-semibold font-poppins'>
             <p>Dashboard</p>

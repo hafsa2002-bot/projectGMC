@@ -82,7 +82,7 @@ function ViewOrder() {
                             </button>
                         </div>
                     </div>
-                    <div ref={pdfRef} id="pdf-content"  style={{ backgroundColor: "white", width: "90%", margin: "auto", marginTop: "40px", marginBottom: "40px", paddingBottom: "80px", fontFamily: "poppins"}}>
+                    <div ref={pdfRef} id="pdf-content"  style={{ backgroundColor: "white", width: "90%", margin: "auto", marginTop: "40px", marginBottom: "40px", paddingBottom: "80px", fontFamily: "roboto"}}>
                         <div style={{ borderBottom: "1px solid #D1D5DB", paddingLeft: "32px", paddingRight: "32px", paddingBottom:"20px", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
                             <div style={{ color: "#57534E" }}>
                                 <p style={{ color: "#2563EB", fontSize: "20px", fontWeight: "600", marginBottom: "4px" }}>Novexa</p>

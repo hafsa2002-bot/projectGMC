@@ -10,6 +10,7 @@ import "swiper/css/pagination";
 import Footer from '../Footer';
 import SpinnerLoader from '../../SpinnerLoader';
 import AboutUs from './AboutUs';
+import { ShoppingCart } from 'lucide-react';
 
 
 function HomePage() {
@@ -126,11 +127,31 @@ function HomePage() {
                         <p className="text-base text-gray-200 font-poppins">
                             Shop smart. Shop fast. Everything you need — snacks, drinks, and more — delivered with care and convenience.
                         </p>
-                        <Link
+                        {/* <Link
                             to="/products"
                             className="w-fit bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
                         >
                             Browse Products
+                        </Link> */}
+                        {/* <Link to="/products" className=" group w-fit">
+                            <div className="w-fit bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 hover:from-yellow-500 hover:via-orange-500 hover:to-orange-600 text-black hover:text-white px-6 py-3 rounded-full font-bold shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2">
+                                <p>Browse Products</p>
+                                <ShoppingCart className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300" strokeWidth={2}  />
+                            </div>
+                        </Link> */}
+                        <Link to="/products" className="group w-fit inline-block">
+                            <div className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 hover:from-yellow-500 hover:via-orange-500 hover:to-orange-600 text-black hover:text-white px-8 py-3 rounded-full font-bold shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                <div className="flex items-center justify-center gap-2">
+                                <p className="group-hover:translate-x-[-10px] transition-transform duration-300">
+                                    Browse Products
+                                </p>
+                                <ShoppingCart 
+                                    className="w-6 h-6 absolute opacity-0 group-hover:opacity-100 transition-all duration-300" 
+                                    strokeWidth={2}
+                                    style={{ right: '12px' }} // Adjust this value to fine-tune icon position
+                                />
+                                </div>
+                            </div>
                         </Link>
                     </div>
 

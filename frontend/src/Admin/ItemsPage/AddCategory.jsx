@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { Info, X } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
+import SucessMessage from '../SucessMessage'
 
 function AddCategory({setAddCategory}) {
   const [categoryName, setCategoryName] = useState("")
-  const [submitCategory, setSubmitCategory] = useState(false)
   const [categoriesFromDB, setCategoriesFromDB] = useState([])
   const [categoryExists, setCategoryExists] = useState(false)
+  const [messgae, setMessage] = useState(false)
 
   const getCategories = () => {
     axios.get("http://localhost:3003/admin/items/categories")
@@ -21,17 +22,16 @@ function AddCategory({setAddCategory}) {
   }
 
   useEffect(() => {
-    if (submitCategory && !categoryExists) {
-      setAddCategory(false); // Close modal after successful category add
-    }
-  }, [submitCategory, categoryExists, setAddCategory]);
-
-  useEffect(() => {
     getCategories()
   }, [])
 
   const isCategoryExist = (categName) => {
-    return categoriesFromDB.includes(categName)
+    if(categoriesFromDB.includes(categName)){
+      setCategoryExists(true)
+      return true
+    }
+    setCategoryExists(false)
+    return false
   }
 
   const handleAddCategory = async(event) => {
@@ -39,8 +39,6 @@ function AddCategory({setAddCategory}) {
 
     if(isCategoryExist(categoryName)){
       console.log(`this category ${categoryName} alreday exists`)
-      setCategoryExists(true)
-      setSubmitCategory(true)
       return 
     }else{
       try{
@@ -52,19 +50,17 @@ function AddCategory({setAddCategory}) {
           }}
         )
         console.log("category added: ", response.data)
-        setSubmitCategory(true)
-        setCategoryExists(false)
-        setAddCategory(false)
+        setMessage(true)
+        setTimeout(() => {
+          setMessage(false)
+          setAddCategory(false)
+        }, 1200)
+        setTimeout(() => window.location.reload(), 1500)
       }catch(error){
         console.log("Error: ", error)
-        setSubmitCategory(true)
-        setCategoryExists(false)
       }
     }
   }
-
-
-  // console.log("setAddCategory: ", setAddCategory)
 
   return (
     <div className='bg-black  w-screen h-screen fixed z-50 top-0 right-0 flex justify-center items-center' style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
@@ -93,9 +89,8 @@ function AddCategory({setAddCategory}) {
                 type="text" 
                 name="categoryName" 
                 id="categoryName"
+                autoComplete='off'
                 className='bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none  border-gray-300 focus:ring-blue-500 focus:border-blue-500'
-
-                // className={`bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((qty==="" || qty == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
               />
             </div>
             <div 
@@ -103,11 +98,15 @@ function AddCategory({setAddCategory}) {
               className='cursor-pointer text-white font-semibold text-center bg-blue-600 bordertext-white rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500' >
               Add category
             </div>
-            {(submitCategory && categoryExists) && (
+            {/* in case the category name already exist */}
+            {(categoryExists) && (
               <div className='  text-red-700 bg-red-100 rounded-lg px-3 py-1 flex gap-2 w-full border'>
                 <div className=''><Info/></div>
                 <p className=''> this category already exist</p>
               </div>
+            )}
+            {messgae && (
+              <SucessMessage message="category added successfully" />
             )}
           </div>
         </div>

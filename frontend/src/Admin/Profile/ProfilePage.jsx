@@ -5,7 +5,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 
 function ProfilePage() {
   return (
-    <div className='flex font-poppins min-h-[93vh] bg-white border border-gray-300 rounded-lg'>
+    <div className='flex  min-h-[93vh] bg-white border border-gray-300 rounded-lg'>
         <div className='w-4/12 flex flex-col gap-4  border-r border-gray-300 '>
             <p className='text-3xl font-medium mb-5 pb-2 px-2 mx-6 mt-5 text-blue-500 font-poppins border-b-2 border-blue-500 '>Profile</p>
             <p className='text-gray-600 text-sm px-2 mx-6 -mt-2 mb-4'>
