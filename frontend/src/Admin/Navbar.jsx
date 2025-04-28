@@ -130,7 +130,8 @@ function Navbar({firstLetters, userName}) {
                 </div>
             )}
         </div>
-        <div className='text-white font-semibold text-3xl '>
+        <div className='text-white flex justify-center items-center gap-2 font-semibold text-3xl '>
+            <img className='h-12' src="/images/newLogo4.png" alt="" />
             <p>Novexa</p>
         </div>
         {/* <Link to={"/admin"} className='px-4 flex justify-center items-center   text-blue-500 font-semibold'>

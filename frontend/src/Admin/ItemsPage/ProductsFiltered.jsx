@@ -6,7 +6,7 @@ import SpinnerLoader from '../../SpinnerLoader'
 import PopUp from './PopUp'
 import { jwtDecode } from 'jwt-decode'
 
-function ProductsFiltered({items}) {
+function ProductsFiltered({items, setItems}) {
     const [showOptions, setShowOptions] = useState(false);
     const [popUp, setPopUp] = useState(false)
     const token = localStorage.getItem("token");
@@ -103,7 +103,7 @@ function ProductsFiltered({items}) {
                                                                         <p>Delete</p>
                                                                     </Link>
                                                                     {/* a Component <PopUp/> to confirm the delete or cancel */}
-                                                                    {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />}
+                                                                    {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} products={items} setProducts={setItems}  />}
                                                                 </div>
                                                             )
                                                         }

@@ -18,7 +18,7 @@ function ExpiredProducts() {
                 console.log("Error: ", error)
                 setLoading(false)
             })
-    }, [expiredProducts])
+    }, [])
   return (
     <div className='my-3'>
         {loading ? (

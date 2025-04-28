@@ -6,7 +6,7 @@ import PopUp from './PopUp'
 import { jwtDecode } from 'jwt-decode'
 import SpinnerLoader from '../../SpinnerLoader'
 
-function ProductsArray({products, loading}) {
+function ProductsArray({products, loading, setProducts}) {
     const [showOptions, setShowOptions] = useState(false);
     const [popUp, setPopUp] = useState(false)
     const token = localStorage.getItem("token");
@@ -98,7 +98,7 @@ function ProductsArray({products, loading}) {
                                                             <div><Trash2 /></div>
                                                             <p>Delete</p>
                                                         </Link>
-                                                        {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} />}
+                                                        {popUp && <PopUp setPopUp={setPopUp} name={item.productName} id={item._id} setShowOptions={setShowOptions} products={products} setProducts={setProducts} />}
                                                     </div>
                                                 )
                                             }

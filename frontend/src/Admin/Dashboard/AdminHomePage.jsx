@@ -12,9 +12,29 @@ import RecentOrders from './RecentOrders'
 import DashboardOrders from './DashboardOrders'
 import WeekReport from '../Reports/WeekReport'
 import IncomeReports from './IncomeReports'
+import { jwtDecode } from 'jwt-decode'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
+  const [user, setUser] = useState({})
+  const token = localStorage.getItem("token");
+  const today = new Date().toLocaleDateString();
+
+  const fetchData = () => {
+      axios.get("http://localhost:3003/users/data", {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      })
+          .then(response => setUser(response.data))
+          .catch(error => {
+              console.log("Error: ", error)
+              if (error.response && error.response.status === 401) {
+                  // Unauthorized, likely token expired or invalid
+                  handleLogout()
+              }
+          })
+  }
   
   const getStockInfo = () => {
     axios.get("http://localhost:3003/admin/stock")
@@ -25,6 +45,7 @@ function AdminHomePage() {
   }
   useEffect(() => {
     getStockInfo();
+    fetchData()
   }, [])
   
   return (
@@ -38,12 +59,15 @@ function AdminHomePage() {
         </div>
       </div>
       <hr className='lg:w-full w-11/12 lg:m-0 m-auto mb-5 lg:pl-0 text-gray-400'/>
-      <div className=' mt-7 text-xl  text-red-600'>
-        <p>Hello, Hafsa Barhoud</p>
-        <p>Welcome back</p>
+      {/* hello section */}
+      <div className="py-4 px-2  mt-2 ">
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          Hello, {user?.name} 👋
+        </h1>
+        <p className="text-gray-600">Today is {today}</p>
       </div>
       {/*Inventory Summary */}
-      <section className=' mt-7'>
+      <section className=' mt-4'>
         {/* <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4 lg:pl-0 pl-3'>Inventory Summary</p> */}
         <div className='flex lg:flex-nowrap flex-wrap lg:gap-10 gap-8 lg:justify-between justify-center '>
           {/* Total Items */}

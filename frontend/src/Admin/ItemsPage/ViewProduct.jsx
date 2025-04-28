@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { ArrowLeft, Image } from 'lucide-react'
+import { ArrowLeft, Check, Image } from 'lucide-react'
 import SpinnerBlue from '../SpinnerBlue'
 import UpdateQuantity from './UpdateQuantity'
 import { jwtDecode } from 'jwt-decode'
@@ -84,6 +84,10 @@ function ViewProduct() {
                                     <p className='w-2/3'>{product._id}</p>
                                 </div>
                                 <div className='flex w-96'>
+                                    <p className='w-1/3 text-gray-500'>Barcode</p>
+                                    <p className='w-2/3'>{product.barcode}</p>
+                                </div>
+                                <div className='flex w-96'>
                                     <p className='w-1/3 text-gray-500'>Price</p>
                                     <p className='w-2/3'>{product.price} <span className='font-semibold'>MAD</span></p>
                                 </div>
@@ -112,7 +116,7 @@ function ViewProduct() {
         {message && (
             <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
                 <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
-                <p>Category updated successfully</p> 
+                <p>Quantity updated successfully</p> 
             </div>
         )}
     </div>

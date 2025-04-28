@@ -11,6 +11,7 @@ function BusinessInfo() {
     const [currency, setCurrency] = useState("")
     const [message, setMessage] = useState(false)
     const [loading, setLaoding] = useState(true)
+    const [showSubmitInfo, setShowSubmitInfo] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
 
@@ -130,14 +131,35 @@ function BusinessInfo() {
                         </select>
                     </div>
                     <div className='w-full flex justify-end mt-8'>
-                        <button className='text-white font-semibold bg-blue-500 px-4 py-2 rounded-lg'>
-                            Save changes
-                        </button>
+                        {
+                            userRole === "admin" 
+                            ?(
+                                <button className='text-white font-semibold bg-blue-500 px-4 py-2 rounded-lg'>
+                                    Save changes
+                                </button>
+                            ):(
+                                <div 
+                                    className='text-white font-semibold bg-gray-400 px-4 py-2 rounded-lg'
+                                    onClick={() => {
+                                        setShowSubmitInfo(true)
+                                        setTimeout(() => setShowSubmitInfo(false), 2500)
+                                    }}
+                                    // onMouseLeave={() => setShowSubmitInfo(false)}
+                                >
+                                    Save changes
+                                </div>
+                            )
+                        }
                     </div>
                     {message && 
                         <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
                             <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
                             <p>profile updated successfully</p> 
+                        </div>
+                    }
+                    {showSubmitInfo && 
+                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full bg-red-300 text-white text-center py-2 z-50">
+                            <p className="font-semibold">Only administrators can update this information.</p>
                         </div>
                     }
                 </form>

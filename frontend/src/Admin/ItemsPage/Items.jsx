@@ -14,6 +14,8 @@ import HightToLowProducts from './HightToLowProducts'
 import LowToHighProducts from './LowToHighProducts'
 import BestSellingProducts from './BestSellingProducts'
 import TopEarning from './TopEarning'
+import FilterButton from './FilterButton'
+import SortButton from './SortButton'
 
 function Items() {
     const [items, setItems] = useState([])
@@ -24,6 +26,8 @@ function Items() {
     const [typeOfItems, setTypeOfItems] = useState("")
     const [productName, setProductName] = useState("")
     const [filteredProducts, setFilteredProducts] = useState([])
+    const [selectedOption, setSelectedOption] = useState("all-items")
+    
     
     const getItems = () => {
         axios.get("http://localhost:3003/admin/items/list")
@@ -48,11 +52,16 @@ function Items() {
         const result = items?.filter(product => product.productName.toLowerCase().includes(name.toLowerCase()))
         setFilteredProducts(result)
     }
-    
+    /*
     useEffect(() => {
         getItems()
         stockInfo()
     }, [stock, items])
+    */
+    useEffect(() => {
+        getItems()
+        stockInfo()
+    }, [])
     
     useEffect(() => {
         if (productName !== "") {
@@ -105,21 +114,22 @@ function Items() {
                             to="/admin/items"
                             className={({isActive}) => isActive && window.location.pathname === "/admin/items"  ?  'text-blue-600 border-b-2 text-sm  pb-1 border-blue-600 flex items-center justify-center gap-3 px-3': ' text-sm px-3 pb-1 text-gray-600  flex items-center justify-center gap-3'} >
                             <p className='font-semibold '>
-                                {/* All */}
-                                {typeOfItems ===  "all-items" 
-                                ? "All" : (typeOfItems === "out-of-stock")
-                                ? "Out of stock" : (typeOfItems === "low-in-stock")
-                                ? "Low in stock" : (typeOfItems === "expired")
-                                ? "expired" : productName 
-                                ? "all" : "all"}
+                                {
+                                    selectedOption ===  "all-items" ? "All" 
+                                    : (selectedOption === "out-of-stock") ? "Out of stock" 
+                                    : (selectedOption === "low-in-stock") ? "Low in stock" 
+                                    : (selectedOption === "expired") ? "expired" 
+                                    : selectedOption ? "All" 
+                                    : "All"
+                                }
                             </p>
                             <NavLink to="/admin/items" className={({isActive}) => isActive && window.location.pathname === "/admin/items" ? 'bg-blue-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' : 'bg-gray-100 px-2 py-0.5 flex justify-center items-center rounded-2xl font-semibold' }>
-                                {typeOfItems ===  "all-items" 
-                                ? items.length : (typeOfItems === "out-of-stock")
-                                ? stock.totalOutOfStock : (typeOfItems === "low-in-stock")
-                                ? stock.totalLowInStock : (typeOfItems === "expired")
+                                {selectedOption ===  "all-items" 
+                                ? items.length : (selectedOption === "out-of-stock")
+                                ? stock.totalOutOfStock : (selectedOption === "low-in-stock")
+                                ? stock.totalLowInStock : (selectedOption === "expired")
                                 ? stock.totalExpiredProducts : productName
-                                ?filteredProducts.length : items.length }
+                                ? filteredProducts.length : items.length }
                             </NavLink>
                         </NavLink>
                     </div>
@@ -134,103 +144,39 @@ function Items() {
                                     else setFilteredProducts(items)
                                 }}
                                 value={productName} 
+                                autoComplete='off'
                                 type="search" name="producName" id="productName"
                                 placeholder='Search to find items'
                                 className="outline-none text-black placeholder:text-gray-400 w-11/12  py-2.5" 
                             />
                         </div>
                         {/* filter products : by out of stock, low in stock, expired, all of them */}
-                        <div
-                            onClick={() => {
-                                setShowFilter(!showFilter)
-                                if(showSortOptions) setShowSortOptions(false)
-                            }} 
-                            className='border border-gray-400 relative cursor-pointer bg-gray-100 flex items-center justify-center gap-2 w-2/12 rounded-lg px-3 py-2.5 text-gray-700'
-                        >
-                            <SlidersHorizontal size={20} />
-                            <p>
-                                {(typeOfItems === "all-items")
-                                ? "All items" : (typeOfItems === "out-of-stock")
-                                ? "Out Of Stock" : (typeOfItems === "low-in-stock")
-                                ? "Low in stock" : (typeOfItems === "expired")
-                                ? "Expired items" : "Filter"}
-                            </p>
-                            {showFilter && (
-                                <div className='w-full font-semibold bg-white text-gray-800 absolute top-12 z-10 shadow-xl border border-gray-200 rounded-lg'>
-                                    <div 
-                                        onClick={() => setTypeOfItems("all-items")}
-                                        className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'
-                                    >All Items</div>
-                                    <div 
-                                        onClick={() => setTypeOfItems("out-of-stock")}
-                                        className='border-b hover:bg-gray-100 border-gray-300 px-2.5 py-2 cursor-pointer'
-                                    >Out of stock items</div>
-                                    <div
-                                        onClick={() => setTypeOfItems("low-in-stock")}
-                                        className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'
-                                    >Low in stock items</div>
-                                    <div
-                                        onClick={() => setTypeOfItems("expired")}
-                                        className='hover:bg-gray-100 px-2.5 py-2 cursor-pointer'
-                                    >Expired items</div>
-                                </div>
-                            )}
-                        </div>
+                        <FilterButton setSelectedOption={setSelectedOption}/>
                         {/* sort items */}
-                        <div 
-                            onClick={() => {
-                                setShowSortOptions(!showSortOptions)
-                                if (showFilter) setShowFilter(false)
-                            }} 
-                            className='border border-gray-400 relative w-3/12 bg-gray-100 flex justify-center items-center gap-3 text-gray-500 rounded-lg cursor-pointer'
-                        >
-                            <div>Sort by 
-                                <span className='font-semibold text-gray-700 pl-2'>
-                                    {(typeOfItems === "all-items")
-                                    ? "Most recent" : (typeOfItems === "low-to-high")
-                                    ? "Price: Low to High" : (typeOfItems === "high-to-low")
-                                    ? "Price: High to Low" : (typeOfItems === "best-selling")
-                                    ? "Best Selling" : (typeOfItems === "top-earning")
-                                    ? "Top Earning" : "Most recent"}
-                                </span>
-                            </div>
-                            <ChevronDown className='text-gray-700'/>
-                            {showSortOptions && (
-                                <div className='w-full font-semibold bg-white text-gray-800 absolute top-12 z-10 border border-gray-200 rounded-lg shadow-xl'>
-                                    <div 
-                                        onClick={() => setTypeOfItems("all-items")}
-                                        className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'
-                                    >Most Recent</div>
-                                    <div 
-                                        onClick={() => setTypeOfItems("low-to-high")}
-                                        className='border-b hover:bg-gray-100 border-gray-300 px-2.5 py-2 cursor-pointer'
-                                    >Price: (Low to High)</div>
-                                    <div
-                                        onClick={() => setTypeOfItems("high-to-low")}
-                                        className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'
-                                    >Price: (High to Low)</div>
-                                    <div
-                                        onClick={() => setTypeOfItems("best-selling")}
-                                        className='hover:bg-gray-100 border-b border-gray-300 px-2.5 py-2 cursor-pointer'
-                                    >Best selling</div>
-                                    <div
-                                        onClick={() => setTypeOfItems("top-earning")}
-                                        className='hover:bg-gray-100 px-2.5 py-2 cursor-pointer'
-                                    >Top earning products</div>
-                                </div>
-                            )}
-                        </div>
+                        <SortButton setSelectedOption={setSelectedOption} />
                     </div>
-                    {   (typeOfItems === "all-items")
-                        ? <AllItems/> : (productName !== "" )
-                        ? <ProductsFiltered items={filteredProducts} /> : (typeOfItems === "out-of-stock")
-                        ? <OutOfStockProducts/> : (typeOfItems === "low-in-stock")
-                        ? <LowInStockProducts/> : (typeOfItems === "expired")
-                        ? <ExpiredProducts/> : (typeOfItems === "low-to-high")
-                        ? <LowToHighProducts/> : (typeOfItems === "high-to-low")
-                        ? <HightToLowProducts/> : (typeOfItems === "best-selling")
-                        ? <BestSellingProducts/>  : (typeOfItems === "top-earning")
-                        ? <TopEarning/> : <AllItems/>
+                    {/* {   (selectedOption === "all-items") ? <AllItems/> 
+                        : (productName !== "" ) ? <ProductsFiltered items={filteredProducts} setItems={setFilteredProducts} /> 
+                        : (selectedOption === "out-of-stock") ? <OutOfStockProducts/> 
+                        : (selectedOption === "low-in-stock") ? <LowInStockProducts/> 
+                        : (selectedOption === "expired") ? <ExpiredProducts/> 
+                        : (selectedOption === "low-to-high") ? <LowToHighProducts/> 
+                        : (selectedOption === "high-to-low") ? <HightToLowProducts/> 
+                        : (selectedOption === "best-selling") ? <BestSellingProducts/>  
+                        : (selectedOption === "top-earning") ? <TopEarning/> 
+                        : <AllItems/>
+                    } */}
+                    { (productName !== "" ) 
+                        ? <ProductsFiltered items={filteredProducts} setItems={setFilteredProducts} /> 
+                        : (selectedOption === "all-items") ? <AllItems/> 
+                        : (selectedOption === "out-of-stock") ? <OutOfStockProducts/> 
+                        : (selectedOption === "low-in-stock") ? <LowInStockProducts/> 
+                        : (selectedOption === "expired") ? <ExpiredProducts/> 
+                        : (selectedOption === "low-to-high") ? <LowToHighProducts/> 
+                        : (selectedOption === "high-to-low") ? <HightToLowProducts/> 
+                        : (selectedOption === "best-selling") ? <BestSellingProducts/>  
+                        : (selectedOption === "top-earning") ? <TopEarning/> 
+                        : <AllItems/>
                     }
                 </div> 
             </>

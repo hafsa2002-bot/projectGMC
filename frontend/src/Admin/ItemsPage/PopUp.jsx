@@ -3,7 +3,7 @@ import { Info } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function PopUp({setPopUp, name, id, setShowOptions}) {
+function PopUp({setPopUp, name, id, setShowOptions, products, setProducts}) {
     const navigate = useNavigate()
     const deleteItem = () => {
         axios.delete(`http://localhost:3003/admin/item/${id}`,
@@ -15,7 +15,8 @@ function PopUp({setPopUp, name, id, setShowOptions}) {
                 console.log(`the product: ${response.data} deleted`)
                 setPopUp(false);
                 // window.location.reload()
-                navigate("/admin/items")
+                // navigate("/admin/items")
+                setProducts(products.filter(produit => produit._id !== id))
             }
             )
             .catch(error => console.log(error))

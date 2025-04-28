@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import SpinnerBlue from '../SpinnerBlue'
 import ProductsArray from './ProductsArray'
 
-function LowInStockProducts() {
+function LowInStockProducts({products, setProducts}) {
     const [lowInStock, setLowInStock] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -19,9 +19,9 @@ function LowInStockProducts() {
                 console.log("Error: ", error)
                 setLoading(false)
             })
-    }, [lowInStock])
+    }, [])
   return (
-    <ProductsArray products={lowInStock} loading={loading} />
+    <ProductsArray products={lowInStock} loading={loading} setProducts={setLowInStock} />
   )
 }
 

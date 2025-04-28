@@ -76,8 +76,8 @@ function SideBar() {
                 className='outline-none'
             >
                 {showSideBar
-                ?(<div className='flex items-center gap-2'><img className='h-8 mt-4' src='/images/N2.png' alt='logo' /><p className='text-black font-poppins text-3xl mt-4'>Nov<span className='text-blue-500'>exa</span></p></div>)
-                :(<img className='h-10 mt-4' src='/images/N2.png' alt='logo' />)}
+                ?(<div className='flex items-center gap-2'><img className='h-9 mt-4' src='/images/newLogo7.png' alt='logo' /><p className='text-black font-outfit text-3xl mt-4'>Nov<span className='text-blue-500'>exa</span></p></div>)
+                :(<img className='h-11 mt-4' src='/images/newLogo7.png' alt='logo' />)}
             </Link>
             <div className='flex flex-col gap-4'>
                 {/* dashboard */}

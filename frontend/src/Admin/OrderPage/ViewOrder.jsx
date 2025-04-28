@@ -194,7 +194,7 @@ function ViewOrder() {
                     <div className="w-10/12 m-auto border-t-2 border-blue-600 pt-5 pb-14 mt-20 flex justify-center items-center gap-4">
                         <p className='font-medium w-1/2 text-end'>Powered by </p>
                         <div className=" w-1/2 flex gap-2 justify-start items-center">
-                            <div className='w-7 h-7 flex justify-center items-center'><img src="/images/N2.png" alt='logo'/></div>
+                            <div className='w-10 h-10 flex justify-center items-center'><img className='w-full' src="/images/newLogo7.png" alt='logo'/></div>
                             <div className='font-poppins text-2xl font-semibold'>Nov<span className='text-blue-600'>exa</span></div>
                         </div>
                     </div>    

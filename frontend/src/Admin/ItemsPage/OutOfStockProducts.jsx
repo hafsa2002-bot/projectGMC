@@ -18,7 +18,7 @@ function OutOfStockProducts() {
             })
     }, [])
   return (
-    <ProductsArray products={outOfStockProducts} loading={loading} />
+    <ProductsArray products={outOfStockProducts} setProducts={setOutOfStockProducts} loading={loading} />
   )
 }
 

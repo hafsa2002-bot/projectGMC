@@ -55,8 +55,8 @@ function Login() {
   return (
     <>
       <div className="flex flex-col items-center justify-center lg:h-screen min-h-screen lg:gap-20 gap-16  lg:bg-[url('https://brandio.io/envato/iofrm/html/images/graphic8.svg')] lg:bg-[500px_auto] bg-[410px_auto] bg-no-repeat bg-center">
-        <div className='flex gap-4 mb-8'>
-            {/* <div className='h-10 overflow-hidden'><img src="/images/logo7.png" className='w-full h-full' alt="Logo" /></div> */}
+        <div className='flex items-center gap-2 lg:mb-2 mb-7'>
+            <div className='h-15 overflow-hidden'><img src="/images/newLogo5.png" className='w-full h-full' alt="Logo" /></div>
             <h2 className='font-bold text-5xl text-black '>Novexa</h2>
         </div>
         <div className='shadow-2xl lg:w-96 w-10/12 rounded-xl  bg-white flex flex-col items-center pb-7 lg:pb-5 relative bottom-9'>

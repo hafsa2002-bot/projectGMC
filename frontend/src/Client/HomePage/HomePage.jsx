@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import Footer from '../Footer';
 import SpinnerLoader from '../../SpinnerLoader';
 import AboutUs from './AboutUs';
-import { ShoppingCart } from 'lucide-react';
+import { ArrowRight, ChevronRight, ShoppingCart } from 'lucide-react';
 
 
 function HomePage() {
@@ -121,12 +121,12 @@ function HomePage() {
                     
                     {/* Left Content */}
                     <div className="flex flex-col gap-6 text-white max-w-xl">
-                        <h1 className="text-4xl font-extrabold font-poppins tracking-wide leading-snug">
-                            Welcome to Your <span className="text-yellow-400">Ultimate</span> Store
-                        </h1>
-                        <p className="text-base text-gray-200 font-poppins">
-                            Shop smart. Shop fast. Everything you need — snacks, drinks, and more — delivered with care and convenience.
-                        </p>
+                    <h1 className="text-4xl font-extrabold font-poppins tracking-wide leading-snug">
+                        Bienvenue dans votre <span className="text-yellow-400">Épicerie</span> en ligne
+                    </h1>
+                    <p className="text-base text-gray-200 font-poppins">
+                        Faites vos courses en toute simplicité. Tout ce dont vous avez besoin — snacks, boissons, et bien plus — livré rapidement et facilement.
+                    </p>
                         {/* <Link
                             to="/products"
                             className="w-fit bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
@@ -140,15 +140,15 @@ function HomePage() {
                             </div>
                         </Link> */}
                         <Link to="/products" className="group w-fit inline-block">
-                            <div className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 hover:from-yellow-500 hover:via-orange-500 hover:to-orange-600 text-black hover:text-white px-8 py-3 rounded-full font-bold shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            <div className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400  text-black  px-10 py-3 rounded-full font-bold shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                 <div className="flex items-center justify-center gap-2">
-                                <p className="group-hover:translate-x-[-10px] transition-transform duration-300">
-                                    Commandez
+                                <p className="group-hover:translate-x-[-10px] transition-transform duration-300 text-lg">
+                                    Découvrir
                                 </p>
                                 <ShoppingCart 
                                     className="w-6 h-6 absolute opacity-0 group-hover:opacity-100 transition-all duration-300" 
                                     strokeWidth={2}
-                                    style={{ right: '12px' }} // Adjust this value to fine-tune icon position
+                                    style={{ right: '18px' }} // Adjust this value to fine-tune icon position
                                 />
                                 </div>
                             </div>
@@ -239,30 +239,31 @@ function HomePage() {
                     </Link>
                 </div>
             </section> */}
+            {/* hero section : phone version */}
             <section className="relative top-6 pt-6  lg:hidden h-[90vh] items-center justify-center bg-cover bg-center bg-[url('/5ded84aab41bea08a7059b6f07644b1c.jpg')]">
                 {/* Blurred dark overlay */}
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
 
                 {/* Glass-like content box */}
-                    <div className="relative z-10 flex flex-col m-auto lg:flex-row  items-center justify-center w-11/12 max-w-6xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 pb-2 pt-7 md:px-12 md:py-6 shadow-xl">
+                    <div className="relative z-10 flex flex-col m-auto lg:flex-row  items-center justify-center w-11/12 max-w-6xl bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-2 pb-2 pt-7 md:px-12 md:py-6 shadow-xl">
                         {/* Left Content */}
                         <div className="flex flex-col gap-5 text-white max-w-xl text-center lg:text-left">
-                            <h1 className="text-3xl md:text-4xl font-extrabold font-poppins tracking-wide leading-snug">
-                                Welcome to Your <span className="text-yellow-400">Ultimate</span> Store
-                            </h1>
-                            <p className="text-sm md:text-base text-gray-200 font-poppins">
-                                Shop smart. Shop fast. Everything you need — snacks, drinks, and more — delivered with care and convenience.
-                            </p>
+                        <h1 className="text-3xl font-extrabold font-poppins tracking-wide leading-snug">
+                            Bienvenue dans votre <span className="text-yellow-400">Épicerie</span> en ligne
+                        </h1>
+                        <p className="text-base text-gray-200 font-poppins">
+                            Snacks, boissons et plus, livrés rapidement pour vous simplifier la vie.
+                        </p>
                             <Link
                                 to="/products"
-                                className="w-fit bg-gradient-to-r m-auto from-yellow-300 via-yellow-400 to-orange-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:brightness-110 transition"
+                                className="w-fit flex items-center justify-center  gap-2 bg-gradient-to-r m-auto from-yellow-300 via-yellow-400 to-orange-400 text-black text-lg px-6 py-3 rounded-full font-bold shadow-md hover:brightness-110 transition"
                             >
-                                Browse Products
+                                Découvrir <ArrowRight strokeWidth={2} className='w-6 h-6'/>
                             </Link>
                         </div>
 
                         {/* Right Image */}
-                        <div className="mt-6 lg:mt-0 md:hidden">
+                        <div className="mt-3 lg:mt-0 md:hidden">
                             <img
                                 src="/a-man-with-a-grocery-bag-1.png"
                                 alt="Shopping Guy"

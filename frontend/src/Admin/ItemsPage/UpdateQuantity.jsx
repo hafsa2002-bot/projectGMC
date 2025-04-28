@@ -5,7 +5,7 @@ import axios from 'axios'
 
 function UpdateQuantity({setUpdateQty, item, setMessage}) {
   const navigate = useNavigate()
-  const [updatedQty, setUpdatedQty] = useState(0)
+  const [updatedQty, setUpdatedQty] = useState("")
   const [selectedButton, setSelectedButton] = useState('increase')
   const [errorMessage, setErrorMessage] = useState(false)
   const newQty = selectedButton === "increase"
@@ -19,6 +19,11 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
       setTimeout(() => setErrorMessage(false), 3000)
       return 
     }
+    if (updatedQty > item.qty && selectedButton === 'reduce') {
+      setErrorMessage(true);
+      setTimeout(() => setErrorMessage(false), 3000)
+      return;
+    }
     
     try{
       const response = await axios.patch(`http://localhost:3003/admin/items/update/${item._id}`, 
@@ -27,13 +32,13 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
           Authorization: `Bearer ${localStorage.getItem("token")}` 
         }
       })
-      setUpdateQty(false)
       setMessage(true)
       setTimeout(() => setMessage(false), 3000)
+      setUpdateQty(false)
       window.location.reload();
       console.log('stock updated: ', response.data)
     }catch(error){
-      console.log('Error updating category: ', error)
+      console.log('Error updating quantity: ', error)
     } 
   }
   return (

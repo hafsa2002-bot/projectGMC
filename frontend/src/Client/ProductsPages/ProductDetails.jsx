@@ -41,15 +41,16 @@ function ProductDetails() {
             return;
         }
     
-        axios.get(`https://world.openfoodfacts.net/api/v2/product/${product.barcode}`)
+        axios.get(`https://world.openfoodfacts.org/api/v3/product/${product.barcode}`)
             .then(response => {
-                if (response.data.status === 1) {
+                
                     console.log(response.data)
                     setProductQty(response.data.product.quantity)
                     setProductInfo(response.data); // Save only the product part
-                } else {
-                    console.log("Product not found in Open Food Facts API");
-                }
+                    console.log("nutriscore_grade: ", response.data?.nutriscore_grade)
+                // } else {
+                //     console.log("Product not found in Open Food Facts API");
+                // }
             })
             .catch(error => console.log("Failed to get data from Open Food API:", error));
     }
@@ -97,13 +98,19 @@ function ProductDetails() {
         <div className="lg:mt-24 font-roboto mt-32 lg:px-8 px-4">
             <div
                 // onClick={() => navigate(-1)}
-                className="flex text-gray-400 font-semibold gap-1 items-center cursor-pointer py-3 "
+                className="flex text-gray-500 font-semibold gap-1 items-center cursor-pointer py-3 "
                 >
                     {/* <ArrowLeft />
                     <p className="underline hover:text-yellow-500">Retour</p> */}
-                    <Link to="/" className='hover:text-yellow-400 transition-all duration-300 flex items-center gap-1'><Home size={21} className='mb-[3px]' /> Home </Link>
-                    <ChevronRight/> <Link to="/products" className='hover:text-yellow-400 transition-all duration-300'>Products </Link>
-                    <ChevronRight/><div className='hover:text-yellow-400 text-black transition-all duration-300'>{product?.productName}</div>
+                    <Link to="/" className='hover:text-yellow-400  hover:underline transition-all duration-300 flex items-center gap-1'><Home size={21} className='mb-[3px]' /> Home </Link>
+                    <ChevronRight/> <Link to="/products" className='hover:text-yellow-400  hover:underline transition-all duration-300'>Products </Link>
+                    {
+                        product?.categoryId && 
+                        <>
+                            <ChevronRight/> 
+                            <Link to={`/products/category/${product?.categoryId?.categoryName}`} className='hover:text-yellow-400  hover:underline transition-all duration-300'>{product?.categoryId?.categoryName} </Link>
+                        </>}
+                    <ChevronRight/><div className='hover:text-yellow-400 hover:underline transition-all duration-300'>{product?.productName}</div>
                     
             </div>
             {loading ? (
@@ -155,7 +162,7 @@ function ProductDetails() {
                             {product.categoryId && (
                                 <Link
                                     to={`/products/category/${product.categoryId.categoryName}`}
-                                    className="text-lg underline flex items-center gap-2"
+                                    className="text-lg underline hover:font-semibold flex items-center gap-1"
                                 >
                                     Category: {product.categoryId.categoryName}
                                     <ChevronRight size={16} />

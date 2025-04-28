@@ -73,10 +73,10 @@ function Members() {
                   members.length > 0 
                   ?(
                     members.map((user, index) => (
-                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl pb-6 pt-3 shadow-md border border-gray-300">
-                        <div className='w-full flex justify-end pr-2 py-2'>
+                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl pb-6 pt-5 shadow-md border border-gray-300">
+                        {/* <div className='w-full flex justify-end pr-2 py-2'>
                           <Link className='flex gap-1 items-center px-2 hover:text-white rounded-full hover:bg-gray-400'>Activity Log <ArrowRight size={18} /></Link>
-                        </div>
+                        </div> */}
                         <div className="bg-gray-200 overflow-hidden mb-4 w-20 h-20 m-auto flex justify-center items-center  rounded-full">
                           {
                             user.photo 

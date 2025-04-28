@@ -32,7 +32,8 @@ function LowInStock() {
                 console.log("Error: ", error)
                 setLoading(false)
             })
-    }, [lowInStock])
+    // }, [lowInStock])
+}, [])
 
     const handleUpdateQty = (item) => {
         setSelectedItem(item);

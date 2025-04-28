@@ -21,7 +21,8 @@ function ExpiredItems() {
                 console.log("Error: ", error)
                 setLoading(false)
             })
-    }, [expiredProducts])
+    // }, [expiredProducts])
+}, [])
   return (
     <div className='my-3'>
         <div className=''>
