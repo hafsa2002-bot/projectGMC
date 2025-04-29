@@ -11,7 +11,9 @@ function BarCode({setBarcode, setProductName}) {
     const [cameraInitializing, setCameraInitializing] = useState(true);
     const readerRef = useRef(null);
     const html5QrCodeRef = useRef(null);
-
+    const videoRef = useRef(null);
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    /*
     useEffect(() => {
         const warmUpCamera = async () => {
         const warmupElementId = "reader_warmup";
@@ -54,24 +56,16 @@ function BarCode({setBarcode, setProductName}) {
                 Html5QrcodeSupportedFormats.UPC_E,
             ],
         };
-        /*
+        //
         html5QrCodeRef.current
             .start(
                 // { facingMode: "environment" },
-                // { deviceId: { exact: "4ac1ae70f7bfd23141d860e8be03e6cdf9eda0cd5a4251c932bc441094e96d5a" } },
-                // { deviceId: { exact: "1789331f4a057afd6e7bdcbf561d2ed539016c5effafdbdb7a528c87812ef21a" } },
-                // { deviceId: { exact: "e546ec0c1fb4da69393e08e0cb036bed6ceeeab1fe2da10452de9ea76d7228b6" } },
-                { deviceId: { exact: "08adca2c207a64d5e05661a016431fe5413466cc87f6dc741a3ff208e5276928" } },
                 config,
                 (decodedText) => {
                     html5QrCodeRef.current.stop().then(() => {
                     setScannedCode(decodedText);
                     setBarcode(decodedText)
                     fetchProductInfo(decodedText);
-                    // setProductName(productInfo?.product_name ||
-                    //     productInfo?.ecoscore_data?.agribalyse?.name_fr ||
-                    //     " "
-                    // )
                     setScanning(false);
                     setShouldStart(false);
                     });
@@ -93,17 +87,17 @@ function BarCode({setBarcode, setProductName}) {
                 setScanning(false);
                 setShouldStart(false);
             });
-            */
+            *
             Html5Qrcode.getCameras().then((devices) => {
                 const droidCam = devices.find((device) =>
                     device.label.toLowerCase().includes("droidcam")
                 );
               
                 if (!droidCam) {
-                  alert("DroidCam not found.");
-                  setScanning(false);
-                  setShouldStart(false);
-                  return;
+                    alert("DroidCam not found.");
+                    setScanning(false);
+                    setShouldStart(false);
+                    return;
                 }
               
                 html5QrCodeRef.current
@@ -178,7 +172,121 @@ function BarCode({setBarcode, setProductName}) {
     Html5Qrcode.getCameras().then(devices => {
         console.log("devices: ", devices); // Logs all available cameras (including DroidCam)
     });
+    */
+    
+  useEffect(() => {
+    // Warm up camera to avoid slow loading later
+    const warmUpCamera = async () => {
+      const warmupElementId = "reader_warmup";
+      const html5QrCode = new Html5Qrcode(warmupElementId);
+      try {
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          { fps: 5, qrbox: { width: 100, height: 100 } },
+          () => {},
+          () => {}
+        );
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await html5QrCode.stop();
+      } catch (error) {
+        console.warn("Warm-up failed:", error);
+      } finally {
+        document.getElementById(warmupElementId).innerHTML = "";
+        setCameraInitializing(false);
+      }
+    };
+    warmUpCamera();
+  }, []);
 
+  const startScanner = async () => {
+    if (scanning || cameraInitializing) return;
+
+    setScanning(true);
+    setScannedCode(null);
+    setProductInfo(null);
+
+    const config = {
+      fps: 10,
+      qrbox: { width: 250, height: 150 },
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.CODE_128,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+      ],
+    };
+
+    try {
+      const cameras = await Html5Qrcode.getCameras();
+      if (!cameras || cameras.length === 0) {
+        alert("No cameras found.");
+        setScanning(false);
+        return;
+      }
+
+      // Prefer DroidCam on laptop; use first camera on mobile
+      let selectedCamera = isMobile
+        ? cameras[0]
+        : cameras.find((device) =>
+            device.label.toLowerCase().includes("droidcam")
+          ) || cameras[0];
+
+      html5QrCodeRef.current = new Html5Qrcode("reader_2");
+
+      await html5QrCodeRef.current.start(
+        { deviceId: { exact: selectedCamera.id } },
+        config,
+        async (decodedText) => {
+          await html5QrCodeRef.current.stop();
+          setScannedCode(decodedText);
+          setBarcode(decodedText);
+          fetchProductInfo(decodedText);
+          setScanning(false);
+        },
+        (errorMessage) => {
+          if (!errorMessage.includes("NotFoundException")) {
+            console.warn("Scanning error:", errorMessage);
+          }
+        }
+      );
+    } catch (error) {
+      console.error("Camera start error:", error);
+      setScanning(false);
+    }
+  };
+
+  const fetchProductInfo = (barcode) => {
+    fetch(`https://world.openfoodfacts.org/api/v3/product/${barcode}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const product = data.product;
+        setProductInfo(product);
+        setProductName(
+            product?.product_name ||
+            product?.product_name_fr ||
+            product?.ecoscore_data?.agribalyse?.name_fr ||
+            ""
+        );
+      })
+      .catch((err) =>
+        console.error("Failed to fetch product info:", err)
+      );
+  };
+
+  const stopScanner = async () => {
+    if (html5QrCodeRef.current) {
+      await html5QrCodeRef.current.stop().catch(() => {});
+      html5QrCodeRef.current.clear();
+    }
+    setScanning(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      stopScanner();
+    };
+  }, []);
+      
   return (
     <div className="relative flex flex-col items-center text-center">
         <div
