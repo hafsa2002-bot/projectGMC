@@ -234,7 +234,8 @@ function BarCode({setBarcode, setProductName}) {
       html5QrCodeRef.current = new Html5Qrcode("reader_2");
 
       await html5QrCodeRef.current.start(
-        { deviceId: { exact: selectedCamera.id } },
+        // { deviceId: { exact: selectedCamera.id } },
+        { facingMode: "environment" },
         config,
         async (decodedText) => {
           await html5QrCodeRef.current.stop();
