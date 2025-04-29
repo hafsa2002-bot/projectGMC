@@ -55,7 +55,9 @@ function AddCategory({setAddCategory}) {
           setMessage(false)
           setAddCategory(false)
         }, 1200)
-        setTimeout(() => window.location.reload(), 1500)
+        if(window.location.pathname !== "/admin/items/add-item"){
+          setTimeout(() => window.location.reload(), 1500)
+        }
       }catch(error){
         console.log("Error: ", error)
       }

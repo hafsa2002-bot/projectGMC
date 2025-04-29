@@ -6,6 +6,7 @@ import SpinnerLoader from '../../SpinnerLoader'
 import {useCart} from '../../CartContext'
 import Sante from './Sante'
 import Footer from '../Footer'
+import Ingredients from './Ingredients'
 
 
 function ProductDetails() {
@@ -45,7 +46,7 @@ function ProductDetails() {
             .then(response => {
                 
                     console.log(response.data)
-                    setProductQty(response.data.product.quantity)
+                    // setProductQty(response.data.product.quantity)
                     setProductInfo(response.data); // Save only the product part
                     console.log("nutriscore_grade: ", response.data?.nutriscore_grade)
                 // } else {
@@ -95,7 +96,7 @@ function ProductDetails() {
     }, [product.barcode])
   return (
     <>
-        <div className="lg:mt-24 font-roboto mt-32 lg:px-8 px-4">
+        <div className="lg:mt-24 font-roboto mt-32 mb-16 lg:px-8 px-4">
             <div
                 // onClick={() => navigate(-1)}
                 className="flex text-gray-500 font-semibold gap-1 items-center cursor-pointer py-3 "
@@ -119,76 +120,79 @@ function ProductDetails() {
                     <>
                         <div className="lg:flex gap-16 justify-center items-center mt-6 px-6">
                         {/* Image Section */}
-                        <div className="lg:w-4/12 w-full">
-                            <img className="w-full h-[75vh] rounded-lg" src={`http://localhost:3003${product.productPhoto}`} alt={product.productName} />
-                        </div>
+                            <div className="lg:w-4/12 w-full">
+                                <img className="w-full h-[75vh] rounded-lg" src={`http://localhost:3003${product.productPhoto}`} alt={product.productName} />
+                            </div>
 
-                        {/* Product Info Section */}
-                        <div className="lg:w-5/12 w-full flex flex-col space-y-6">
-                            {/* Product Name */}
-                            <h1 className="text-4xl font-bold text-gray-900">{product.productName}</h1>
+                            {/* Product Info Section */}
+                            <div className="lg:w-5/12 w-full flex flex-col space-y-6">
+                                {/* Product Name */}
+                                <h1 className="text-4xl font-bold text-gray-900">{product.productName}</h1>
 
-                            {/* Price */}
-                            <p className="text-3xl font-semibold text-gray-800">{product.price} <span className="text-xl text-gray-600">MAD</span></p>
-                            {/* <p className="text-3xl font-semibold text-yellow-500">{product.price} <span className="text-2xl text-yellow-500">MAD</span></p> */}
+                                {/* Price */}
+                                <p className="text-3xl font-semibold text-gray-800">{product.price} <span className="text-xl text-gray-600">MAD</span></p>
+                                {/* <p className="text-3xl font-semibold text-yellow-500">{product.price} <span className="text-2xl text-yellow-500">MAD</span></p> */}
 
-                            {/* Stock Status */}
-                            <div className="w-full space-y-6">
-                                {product.qty === 0 ? (
-                                    <div className="bg-red-100 w-1/2 text-red-700 font-semibold text-center py-1 rounded-full shadow-md">Out of stock</div>
-                                ) : (
-                                    <div>
-                                        <p className="text-lg text-gray-700">{product.qty} Items left</p>
-                                        <div className="bg-gray-200 rounded-full h-3 w-10/12 overflow-hidden">
-                                            <div
-                                                className={`h-full transition-all duration-500 ${product.qty < product.minLevel ? 'bg-red-600' : 'bg-yellow-500'}`}
-                                                style={{ width: `${soldPercentage}%` }}
-                                            />
+                                {/* Stock Status */}
+                                <div className="w-full space-y-6">
+                                    {product.qty === 0 ? (
+                                        <div className="bg-red-100 w-1/2 text-red-700 font-semibold text-center py-1 rounded-full shadow-md">Out of stock</div>
+                                    ) : (
+                                        <div>
+                                            <p className="text-lg text-gray-700">{product.qty} Items left</p>
+                                            <div className="bg-gray-200 rounded-full h-3 w-10/12 overflow-hidden">
+                                                <div
+                                                    className={`h-full transition-all duration-500 ${product.qty < product.minLevel ? 'bg-red-600' : 'bg-yellow-500'}`}
+                                                    style={{ width: `${soldPercentage}%` }}
+                                                />
+                                            </div>
                                         </div>
+                                    )}
+                                </div>
+
+                                {/* Product Info */}
+                                {product.barcode && productInfo.product && (
+                                    <div className="text-lg text-gray-700 space-y-2">
+                                        <p><span className="font-semibold">Produit:</span> {productInfo.product.product_name}</p>
+                                        <p><span className="font-semibold">Quantité:</span> {productInfo.product.quantity}</p>
+                                        <p><span className="font-semibold">Marque:</span> {productInfo.product.brands}</p>
                                     </div>
                                 )}
-                            </div>
 
-                            {/* Product Info */}
-                            {product.barcode && productInfo.product && (
-                                <div className="text-lg text-gray-700 space-y-2">
-                                    <p><span className="font-semibold">Produit:</span> {productInfo.product.product_name}</p>
-                                    <p><span className="font-semibold">Quantité:</span> {productInfo.product.quantity}</p>
-                                    <p><span className="font-semibold">Marque:</span> {productInfo.product.brands}</p>
-                                </div>
-                            )}
+                                {/* Category */}
+                                {product.categoryId && (
+                                    <Link
+                                        to={`/products/category/${product.categoryId.categoryName}`}
+                                        className="text-lg underline hover:font-semibold flex items-center gap-1"
+                                    >
+                                        Category: {product.categoryId.categoryName}
+                                        <ChevronRight size={16} />
+                                    </Link>
+                                )}
 
-                            {/* Category */}
-                            {product.categoryId && (
-                                <Link
-                                    to={`/products/category/${product.categoryId.categoryName}`}
-                                    className="text-lg underline hover:font-semibold flex items-center gap-1"
+                                {/* Add to Cart and Favorite */}
+                                <div className="flex gap-8 mt-6">
+                                <div
+                                    onClick={() => addToCartFunction()}
+                                    className="bg-black text-white text-xl font-semibold py-2 w-8/12 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer flex justify-center items-center gap-2"
                                 >
-                                    Category: {product.categoryId.categoryName}
-                                    <ChevronRight size={16} />
-                                </Link>
-                            )}
+                                    Add to Cart <ShoppingCart/>
+                                </div>
+                                <div
+                                    onClick={() => addToFavoritesFunction(!favorite)}
+                                    className="bg-white border border-gray-300 rounded-full p-2 hover:bg-gray-100 transition-all cursor-pointer flex justify-center items-center"
+                                >
+                                    <Heart fill={favorite ? 'rgb(41, 37, 36)' : 'white'} strokeWidth={favorite ? '0' : '1'} stroke="rgb(41, 37, 36)" size={32} />
+                                </div>
+                                </div>
+                            </div>
+                        </div>
 
-                            {/* Add to Cart and Favorite */}
-                            <div className="flex gap-8 mt-6">
-                            <div
-                                onClick={() => addToCartFunction()}
-                                className="bg-black text-white text-xl font-semibold py-2 w-8/12 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer flex justify-center items-center gap-2"
-                            >
-                                Add to Cart <ShoppingCart/>
-                            </div>
-                            <div
-                                onClick={() => addToFavoritesFunction(!favorite)}
-                                className="bg-white border border-gray-300 rounded-full p-2 hover:bg-gray-100 transition-all cursor-pointer flex justify-center items-center"
-                            >
-                                <Heart fill={favorite ? 'rgb(41, 37, 36)' : 'white'} strokeWidth={favorite ? '0' : '1'} stroke="rgb(41, 37, 36)" size={32} />
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div>
-                            <Sante product={productInfo.product} />
-                        </div>
+                        {/* nutrition section */}
+                        <Sante product={productInfo.product} />
+                        
+                        {/* ingredients section */}
+                        <Ingredients  product={productInfo.product} barcode={product.barcode} />
                     </>
                 )}
 

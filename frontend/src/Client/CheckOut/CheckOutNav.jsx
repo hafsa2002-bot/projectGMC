@@ -9,7 +9,8 @@ function CheckOutNav() {
     <div className='flex justify-between items-center py-3 border-b border-gray-300 shadow'>
         <div className='w-1/3 '></div>
         <div className='w-1/3'>
-            <Link to="/" className=' gap-1.5 flex justify-center  items-center outline-none '>
+            <Link to="/" className=' gap-2 flex justify-center  items-center outline-none '>
+                <img className='w-1ß h-10' src="/images/newLogo5.png" alt="" />
                 <h2 className='text-4xl lg:text-5xl font-mono font-bold '>Novexa</h2>
             </Link>
         </div>

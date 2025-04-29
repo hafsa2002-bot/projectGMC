@@ -14,42 +14,17 @@ import { ArrowRight, ChevronRight, ShoppingCart } from 'lucide-react';
 
 
 function HomePage() {
-    const [categories, setCategories] = useState([]);
+    const [products, setProducts] = useState([]);
     const [category, setCategory] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true)
 
-    // Fetch Categories and Random Products
-    /*
-    const fetchData = async () => {
-        try {
-            // Fetch categories
-            const categoriesResponse = await axios.get(
-                "https://dummyjson.com/products/categories"
-            );
-            const categorieList = categoriesResponse.data;
-            setCategories(categorieList);
-        
-            console.log("Categories:", categoriesResponse.data);
-        
-            // Fetch products from the 'mobile-accessories' category
-            const productsResponse = await axios.get(
-                "https://dummyjson.com/products/category/mobile-accessories?limit=10&select=title,price,images"
-            );
-            setProducts(productsResponse.data.products);
-        
-            console.log("Mobile Accessories Products:", productsResponse.data.products);
-        } catch (error) {
-            console.log("Error fetching data: ", error);
-        }
-    };
-    */
     const fetchData = () => {
         const categoryName = "Mobile Accessories"
         
-        axios.get(`http://localhost:3003/category/${encodeURIComponent(categoryName)}`)
+        axios.get(`http://localhost:3003/admin/items/sort-best-selling`)
             .then(response => {
-                setCategory(response.data)
+                setProducts(response.data)
                 setLoading(false)
             })
             .catch(error => {
@@ -282,11 +257,11 @@ function HomePage() {
                     Featured Products
                 </h2> */}
                 <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-10 mb-4 drop-shadow-sm font-poppins">
-                    Featured Products
+                    Produits populaires
                 </h2>
 
 
-                {category.products && category.products.length > 4 ? (
+                {products && products.length > 4 ? (
                 <Swiper
                     slidesPerView={2}
                     spaceBetween={20}
@@ -305,7 +280,7 @@ function HomePage() {
                     className="w-full"
                     onSwiper={(swiper) => swiper.autoplay.start()}
                 >
-                    {category.products.map((product) => (
+                    {products?.map((product) => (
                     <SwiperSlide key={product._id} className="text-center flex flex-col  items-center py-6 pb-8">
                         <Link to={`/products/${product._id}`} className="border border-stone-300 bg-white p-4 shadow-lg rounded-lg flex flex-col justify-between h-full">
                             <img
