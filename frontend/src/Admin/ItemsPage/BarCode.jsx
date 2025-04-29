@@ -54,10 +54,14 @@ function BarCode({setBarcode, setProductName}) {
                 Html5QrcodeSupportedFormats.UPC_E,
             ],
         };
-    
+        /*
         html5QrCodeRef.current
             .start(
-                { facingMode: "environment" },
+                // { facingMode: "environment" },
+                // { deviceId: { exact: "4ac1ae70f7bfd23141d860e8be03e6cdf9eda0cd5a4251c932bc441094e96d5a" } },
+                // { deviceId: { exact: "1789331f4a057afd6e7bdcbf561d2ed539016c5effafdbdb7a528c87812ef21a" } },
+                // { deviceId: { exact: "e546ec0c1fb4da69393e08e0cb036bed6ceeeab1fe2da10452de9ea76d7228b6" } },
+                { deviceId: { exact: "08adca2c207a64d5e05661a016431fe5413466cc87f6dc741a3ff208e5276928" } },
                 config,
                 (decodedText) => {
                     html5QrCodeRef.current.stop().then(() => {
@@ -89,6 +93,51 @@ function BarCode({setBarcode, setProductName}) {
                 setScanning(false);
                 setShouldStart(false);
             });
+            */
+            Html5Qrcode.getCameras().then((devices) => {
+                const droidCam = devices.find((device) =>
+                    device.label.toLowerCase().includes("droidcam")
+                );
+              
+                if (!droidCam) {
+                  alert("DroidCam not found.");
+                  setScanning(false);
+                  setShouldStart(false);
+                  return;
+                }
+              
+                html5QrCodeRef.current
+                  .start(
+                    { deviceId: { exact: droidCam.id } },
+                    config,
+                    (decodedText) => {
+                      html5QrCodeRef.current.stop().then(() => {
+                        setScannedCode(decodedText);
+                        setBarcode(decodedText);
+                        fetchProductInfo(decodedText);
+                        setScanning(false);
+                        setShouldStart(false);
+                      });
+                    },
+                    (errorMessage) => {
+                      if (!errorMessage.includes("NotFoundException")) {
+                        console.warn("Scanning error:", errorMessage);
+                      }
+                    }
+                  )
+                  .then(() => {
+                    const videoElement = document.querySelector("#reader_2 video");
+                    if (videoElement) {
+                      videoElement.style.transform = "scaleX(1)";
+                    }
+                  })
+                  .catch((err) => {
+                    console.error("Camera error:", err);
+                    setScanning(false);
+                    setShouldStart(false);
+                  });
+              });
+              
         }
     }, [shouldStart]);
 
@@ -125,6 +174,10 @@ function BarCode({setBarcode, setProductName}) {
             }
         };
     }, []);
+
+    Html5Qrcode.getCameras().then(devices => {
+        console.log("devices: ", devices); // Logs all available cameras (including DroidCam)
+    });
 
   return (
     <div className="relative flex flex-col items-center text-center">
