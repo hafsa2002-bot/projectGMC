@@ -75,7 +75,7 @@ function AddItem() {
     }
 
   return (
-    <div className='my-3'>
+    <div className='lg:my-3 mt-5 lg:px-0 px-3'>
         <div className=' mb-9'>
             <Link to="/admin/items" className='flex gap-2 items-center text-gray-600 w-52'>
                 <div><ArrowLeft/></div>
@@ -88,9 +88,9 @@ function AddItem() {
                 <p className='text-gray-500'>Add your product to make invoicing and cost management easier (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
-                <div className='flex gap-8 w-full '>
+                <div className='lg:flex gap-8 w-full '>
                     {/* product Name */}
-                    <div className='w-1/2'>
+                    <div className='lg:w-1/2 w-10/12 lg:mb-0 mb-4'>
                         <label htmlFor="productName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
                         <input 
                             className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
@@ -104,7 +104,7 @@ function AddItem() {
                         />
                     </div>
                     {/* Barcode Number */}
-                    <div className='w-1/2'>
+                    <div className='lg:w-1/2'>
                         <label htmlFor="barcode" className="block mb-2 font-medium text-gray-900">Barcode Number </label>
                         <div className='flex justify-between items-center gap-3'>
                             <input 

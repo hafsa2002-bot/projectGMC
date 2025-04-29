@@ -20,7 +20,7 @@ function BarCode({setBarcode}) {
         try {
             await html5QrCode.start(
                 { facingMode: "environment" },
-                { fps: 5, qrbox: { width: 100, height: 100 } },
+                { fps: 5, qrbox: { width: 200, height: 200 } },
                 () => {},
                 () => {}
             );
@@ -134,7 +134,7 @@ function BarCode({setBarcode}) {
         {scanning && (
             <>
                 <div className='bg-black  w-screen h-screen fixed z-50 top-0 right-0 flex justify-center items-center' style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
-                    <div className='bg-white flex flex-col rounded-lg p-6 gap-4 w-4/12 mx-auto'>
+                    <div className='bg-white flex flex-col rounded-lg p-6 gap-4 lg:w-4/12 w-9/12 mx-auto'>
                         <div className="px-3 flex justify-between items-center">
                             <h2 className="text-xl font-semibold text-start">Scan a Product</h2>
                             <div
@@ -150,8 +150,8 @@ function BarCode({setBarcode}) {
                                 <X className=""/>
                             </div>
                         </div>
-                        <div className="mt-4 w-full max-w-sm  border border-red-600 mx-auto">
-                            <div id="reader_2" ref={readerRef}></div>
+                        <div className="mt-4 w-full max-w-sm flex flex-col justify-center  mx-auto">
+                            <div className="m-auto" id="reader_2" ref={readerRef}></div>
                             <button
                                 onClick={async () => {
                                 if (html5QrCodeRef.current) {
