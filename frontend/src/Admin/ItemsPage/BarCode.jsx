@@ -20,7 +20,8 @@ function BarCode({setBarcode}) {
         try {
             await html5QrCode.start(
                 { facingMode: "environment" },
-                { fps: 5, qrbox: { width: 200, height: 200 } },
+                // { fps: 5, qrbox: { width: 200, height: 200 } },
+                { fps: 5, qrbox: { width: 100, height: 100 } },
                 () => {},
                 () => {}
             );
@@ -87,6 +88,85 @@ function BarCode({setBarcode}) {
         }
     }, [shouldStart]);
 
+    /*
+    useEffect(() => {
+        if (shouldStart && readerRef.current) {
+            if (!html5QrCodeRef.current) {
+                html5QrCodeRef.current = new Html5Qrcode("reader_2");
+            }
+    
+            const config = {
+                fps: 10,
+                qrbox: { width: 200, height: 200 }, // smaller box for small screen
+                formatsToSupport: [
+                    Html5QrcodeSupportedFormats.EAN_13,
+                    Html5QrcodeSupportedFormats.CODE_128,
+                    Html5QrcodeSupportedFormats.UPC_A,
+                    Html5QrcodeSupportedFormats.UPC_E,
+                ],
+            };
+    
+            const waitForVideoReady = () => {
+                return new Promise((resolve, reject) => {
+                    const maxTries = 20;
+                    let tries = 0;
+    
+                    const checkVideo = () => {
+                        const video = document.querySelector("#reader_2 video");
+                        if (video && video.videoWidth > 0 && video.videoHeight > 0) {
+                            resolve();
+                        } else {
+                            tries++;
+                            if (tries > maxTries) {
+                                reject("Video not ready after several attempts.");
+                            } else {
+                                setTimeout(checkVideo, 200);
+                            }
+                        }
+                    };
+    
+                    checkVideo();
+                });
+            };
+    
+            (async () => {
+                try {
+                    await html5QrCodeRef.current.start(
+                        { facingMode: "environment" },
+                        config,
+                        (decodedText) => {
+                            html5QrCodeRef.current.stop().then(() => {
+                                setScannedCode(decodedText);
+                                setBarcode(decodedText);
+                                fetchProductInfo(decodedText);
+                                setScanning(false);
+                                setShouldStart(false);
+                            });
+                        },
+                        (errorMessage) => {
+                            if (!errorMessage.includes("NotFoundException")) {
+                                console.warn("Scanning error:", errorMessage);
+                            }
+                        }
+                    );
+    
+                    await waitForVideoReady();
+    
+                    const videoElement = document.querySelector("#reader_2 video");
+                    if (videoElement) {
+                        videoElement.style.transform = "scaleX(1)";
+                    }
+                } catch (err) {
+                    console.error("Camera error or video not ready:", err);
+                    setScanning(false);
+                    setShouldStart(false);
+                }
+            })();
+        }
+    }, [shouldStart]);
+    */
+    
+
     const startScanner = () => {
         if (scanning || cameraInitializing) return;
         setScannedCode(null);
@@ -151,7 +231,7 @@ function BarCode({setBarcode}) {
                             </div>
                         </div>
                         <div className="mt-4 w-full max-w-sm flex flex-col justify-center  mx-auto">
-                            <div className="m-auto" id="reader_2" ref={readerRef}></div>
+                            <div id="reader_2" ref={readerRef}></div>
                             <button
                                 onClick={async () => {
                                 if (html5QrCodeRef.current) {
