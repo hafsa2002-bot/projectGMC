@@ -3,7 +3,7 @@ import { Html5QrcodeSupportedFormats, Html5Qrcode } from "html5-qrcode";
 import { ScanBarcode, X } from "lucide-react";
 import axios from "axios";
 
-function BarCode({setBarcode}) {
+function BarCode({setBarcode, setProductName}) {
     const [scannedCode, setScannedCode] = useState(null);
     const [productInfo, setProductInfo] = useState(null);
     const [scanning, setScanning] = useState(false);
@@ -64,6 +64,10 @@ function BarCode({setBarcode}) {
                     setScannedCode(decodedText);
                     setBarcode(decodedText)
                     fetchProductInfo(decodedText);
+                    // setProductName(productInfo?.product_name ||
+                    //     productInfo?.ecoscore_data?.agribalyse?.name_fr ||
+                    //     " "
+                    // )
                     setScanning(false);
                     setShouldStart(false);
                     });
@@ -88,84 +92,6 @@ function BarCode({setBarcode}) {
         }
     }, [shouldStart]);
 
-    /*
-    useEffect(() => {
-        if (shouldStart && readerRef.current) {
-            if (!html5QrCodeRef.current) {
-                html5QrCodeRef.current = new Html5Qrcode("reader_2");
-            }
-    
-            const config = {
-                fps: 10,
-                qrbox: { width: 200, height: 200 }, // smaller box for small screen
-                formatsToSupport: [
-                    Html5QrcodeSupportedFormats.EAN_13,
-                    Html5QrcodeSupportedFormats.CODE_128,
-                    Html5QrcodeSupportedFormats.UPC_A,
-                    Html5QrcodeSupportedFormats.UPC_E,
-                ],
-            };
-    
-            const waitForVideoReady = () => {
-                return new Promise((resolve, reject) => {
-                    const maxTries = 20;
-                    let tries = 0;
-    
-                    const checkVideo = () => {
-                        const video = document.querySelector("#reader_2 video");
-                        if (video && video.videoWidth > 0 && video.videoHeight > 0) {
-                            resolve();
-                        } else {
-                            tries++;
-                            if (tries > maxTries) {
-                                reject("Video not ready after several attempts.");
-                            } else {
-                                setTimeout(checkVideo, 200);
-                            }
-                        }
-                    };
-    
-                    checkVideo();
-                });
-            };
-    
-            (async () => {
-                try {
-                    await html5QrCodeRef.current.start(
-                        { facingMode: "environment" },
-                        config,
-                        (decodedText) => {
-                            html5QrCodeRef.current.stop().then(() => {
-                                setScannedCode(decodedText);
-                                setBarcode(decodedText);
-                                fetchProductInfo(decodedText);
-                                setScanning(false);
-                                setShouldStart(false);
-                            });
-                        },
-                        (errorMessage) => {
-                            if (!errorMessage.includes("NotFoundException")) {
-                                console.warn("Scanning error:", errorMessage);
-                            }
-                        }
-                    );
-    
-                    await waitForVideoReady();
-    
-                    const videoElement = document.querySelector("#reader_2 video");
-                    if (videoElement) {
-                        videoElement.style.transform = "scaleX(1)";
-                    }
-                } catch (err) {
-                    console.error("Camera error or video not ready:", err);
-                    setScanning(false);
-                    setShouldStart(false);
-                }
-            })();
-        }
-    }, [shouldStart]);
-    */
-    
 
     const startScanner = () => {
         if (scanning || cameraInitializing) return;
@@ -178,7 +104,14 @@ function BarCode({setBarcode}) {
     const fetchProductInfo = (barcode) => {
         axios.get(`https://world.openfoodfacts.org/api/v3/product/${barcode}`)
             .then((response) => {
-                setProductInfo(response.data.product);
+                // setProductInfo(response.data.product);
+                const product = response.data.product;
+                setProductInfo(product);
+                setProductName(
+                    product?.product_name ||
+                    product?.ecoscore_data?.agribalyse?.name_fr ||
+                    " "
+                );
             })
             .catch((error) =>
                 console.log("Failed to get data from Open Food API:", error)
@@ -250,13 +183,13 @@ function BarCode({setBarcode}) {
             </>
         )}
 
-        {scannedCode && (
+        {/* {scannedCode && (
             <p className="text-orange-600 font-semibold mt-4">
             ✅ Scanned Code: {scannedCode}
             </p>
-        )}
+        )} */}
 
-        {productInfo && (
+        {/* {productInfo && (
             <div className="text-black mt-4 bg-gray-100 p-4 rounded shadow-sm w-full max-w-sm">
                 <h2 className="font-bold text-lg mb-2">
                     {productInfo?.product_name ||
@@ -273,7 +206,7 @@ function BarCode({setBarcode}) {
                     />
                 )}
             </div>
-        )}
+        )} */}
     </div>
   )
 }

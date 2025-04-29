@@ -116,7 +116,7 @@ function AddItem() {
                                 onChange={(e) => setBarcode(e.target.value)} 
                                 className="[appearance:textfield] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none" 
                             />
-                            <BarCode setBarcode={setBarcode} />
+                            <BarCode setBarcode={setBarcode} setProductName={setProductName} />
                         </div>
                     </div>
                 </div>
