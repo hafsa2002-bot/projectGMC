@@ -82,7 +82,7 @@ function Checkout() {
         
         
     }
-
+    
     useEffect(() => {
         setContact({customerMail: customerMail})
         setShipping({firstName: firstName, lastName: lastName, address: address, postalCode: postalCode, city: city, phoneNumber: phoneNumber, shippingPrice: shippingPrice})

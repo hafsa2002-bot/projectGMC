@@ -141,7 +141,7 @@ function AllOrders({setNumberOfOrders}) {
                                                         )}
                                                     </td>
                                                     <td className="px-4 py-7 font-mono">
-                                                        {order.totalAmount} <span className='text-black '>MAD</span>
+                                                        {order.totalAmount.toFixed(2)} <span className='text-black '>MAD</span>
                                                     </td>
                                                     <td className="px-4 py-7 text-base ">
                                                         <PaymentStatus paymentStatus={order.paymentStatus} orderId={order._id} />

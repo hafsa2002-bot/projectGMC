@@ -30,7 +30,7 @@ function AddItem() {
     };
 
     let totalValue = () => {
-        if (price || qty) return `${price * qty} `;
+        if (price || qty) return `${(price * qty).toFixed(2)} `;
         else return `0`
     }
     const handleFileChange = (event) => {
@@ -97,6 +97,7 @@ function AddItem() {
                             type="text" 
                             name="productName" 
                             id="productName"
+                            autoComplete='off'
                             value={productName} 
                             onChange={(e) => setProductName(e.target.value)} 
                             placeholder='Product name'
@@ -110,7 +111,8 @@ function AddItem() {
                             <input 
                                 placeholder='x xxxxxx xxxxxx'
                                 type="number" 
-                                name="barcode" 
+                                name="barcode"
+                                autoComplete='off' 
                                 id="barcode"
                                 value={barcode}
                                 onChange={(e) => setBarcode(e.target.value)} 
@@ -129,6 +131,7 @@ function AddItem() {
                             min="1"
                             name="qty" 
                             id="qty"
+                            autoComplete='off'
                             value={qty}
                             onChange={(e) => setQty(e.target.value) }
                             placeholder="1" 
@@ -144,7 +147,8 @@ function AddItem() {
                                 <input 
                                     type="number"
                                     min="1" 
-                                    name="minLevel" 
+                                    name="minLevel"
+                                    autoComplete='off' 
                                     id="minLevel" 
                                     value={minLevel}
                                     onChange={(e) => setMinLevel(e.target.value)}
@@ -182,6 +186,8 @@ function AddItem() {
                                 min="1"
                                 name="price" 
                                 id="price"
+                                step="any"
+                                autoComplete='off'
                                 placeholder='100'
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
@@ -201,6 +207,7 @@ function AddItem() {
                                 type="number" 
                                 name="total" 
                                 id="total"
+                                autoComplete='off'
                                 placeholder={totalValue()}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none cursor-not-allowed" 
                                 disabled 
@@ -260,6 +267,7 @@ function AddItem() {
                                 type="date"
                                 className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
                                 value={expirationDate}
+                                autoComplete='off'
                                 onChange={(e) => setExpirationDate(e.target.value)}
                                 placeholder="Select Date"
                             />

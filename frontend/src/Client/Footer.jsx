@@ -26,7 +26,7 @@ function Footer() {
             <div className='flex lg:gap-28 gap-12 px-4 lg:px-0'>
                 <div>
                     <h3 className="text-yellow-300 text-2xl font-semibold mb-4">Contactez-nous</h3>
-                    <ul className='footerList flex flex-col gap-1 text-stone-400'>
+                    <ul className='footerList flex flex-col gap-1 text-stone-300'>
                         <li>Email: <a href='' className='no-underline text-[rgb(105, 105, 105)] hover:text-white'>support@novexa.com</a></li>
                         <li>Phone: <br className='flex lg:hidden '/> <span className='hover:text-white'>+212 123-456-789</span> </li>
                     </ul>
@@ -34,13 +34,14 @@ function Footer() {
                 <div>
                     <h3 className="text-yellow-300 text-2xl font-semibold mb-4">Suivez-nous</h3>
                     <div className='footerList flex socialMediaList  justify-startr gap-4 text-stone-400'>
-                        <a href="https://www.instagram.com/hafssa_4748/?hl=fr" target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-yellow-300 transition-all">
+                        <a href="https://www.instagram.com/hafssa_4748/?hl=fr" target="_blank" rel="noopener noreferrer" className="text-white w-10 h-10 rounded-full flex justify-center items-center bg-gray-700 hover:text-yellow-300 transition-all">
                             <FontAwesomeIcon icon={faInstagram} size="xl" />
                         </a>
-                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-yellow-300 transition-all">
-                            <FontAwesomeIcon icon={faFacebook} size="xl" />
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="text-white w-10 h-10 rounded-full flex justify-center items-center bg-gray-700 hover:text-yellow-300 transition-all">
+                            {/* <FontAwesomeIcon icon={faFacebook} size="xl" /> */}
+                            <Facebook fill='white' strokeWidth="0" />
                         </a>
-                        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-yellow-300 transition-all">
+                        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="text-white w-10 h-10 rounded-full flex justify-center items-center bg-gray-700 hover:text-yellow-300 transition-all">
                             <FontAwesomeIcon icon={faTwitter} size="xl" />
                         </a>
                     </div>

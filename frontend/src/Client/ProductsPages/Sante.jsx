@@ -56,9 +56,9 @@ function Sante({product}) {
           },
       ];
 
-    const hasPerPortion = nutritionArray.some(
-      (item) => item.perPortion && item.perPortion !== "-" && item.perPortion !== "0 %" && item.perPortion !== "0 % vol"
-    );
+    // const hasPerPortion = nutritionArray.some(
+    //   (item) => item.perPortion && item.perPortion !== "-" && item.perPortion !== "0 %" && item.perPortion !== "0 % vol"
+    // );
 
     const isPerPortionExist = () => (
       product?.nutriments?.["energy-kj_serving"] ||

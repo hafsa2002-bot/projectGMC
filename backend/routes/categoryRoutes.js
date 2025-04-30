@@ -6,13 +6,47 @@ import Product from '../models/Product.js'
 import { logActivity } from './ActivityLogRoutes.js'
 import { protect } from "../middlewares/protect.js";
 
+import multer from 'multer'
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
 const router = express.Router()
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+//configure multer for files uploads 
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, "../uploads"),
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+})
+const upload = multer({storage})
 
 // add category
-router.post("/admin/items/addCategory", protect, async(req, res) => {
+/*
+router.post("/admin/items/addCategory", protect , async(req, res) => {
     try{
         const {categoryName} = req.body;
         const newCategory = new Category({categoryName, userId: req.user._id})
+        await newCategory.save()
+        await StoreStock.updateStoreStock()
+
+         // log activity
+        await logActivity(req.user._id, req.user.name, "Category added", `${newCategory.categoryName}`)
+        res.json({message: "category added successfully", categoryName})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, Failed to add category"})
+    }
+})
+    */
+router.post("/admin/items/addCategory", protect, upload.single("photo") , async(req, res) => {
+    try{
+        const {categoryName} = req.body;
+        const photo = req.file ? `/uploads/${req.file.filename}` : null
+        const newCategory = new Category({categoryName, photo, userId: req.user._id})
         await newCategory.save()
         await StoreStock.updateStoreStock()
 
@@ -97,10 +131,31 @@ router.get("/admin/items/category/:categoryId", async (req, res) => {
 })
 
 // update category name
+/*
 router.patch("/update/category/:id", protect,  async (req, res) => {
     try{
         const oldCategory = await Category.findById({_id: req.params.id})
         const category = await Category.findByIdAndUpdate(req.params.id, { categoryName: req.body.categoryName }, {new: true})
+
+        // log activity
+        await logActivity(req.user._id, req.user.name, "Category updated", `${oldCategory.categoryName}`)
+        if(!category) return res.status(404).json({message: 'Product not found'})
+        res.json(category)
+    }catch(error){
+        res.status(500).json({error: error.message})
+    }
+})
+*/
+router.patch("/update/category/:id", protect, upload.single("photo"),  async (req, res) => {
+    try{
+        const { categoryName } = req.body;
+        const photo = req.file ? `/uploads/${req.file.filename}` : null;
+        const oldCategory = await Category.findById({_id: req.params.id})
+
+        const updatedFields = { categoryName };
+        if (photo) updatedFields.photo = photo;
+
+        const category = await Category.findByIdAndUpdate(req.params.id, updatedFields, {new: true})
 
         // log activity
         await logActivity(req.user._id, req.user.name, "Category updated", `${oldCategory.categoryName}`)

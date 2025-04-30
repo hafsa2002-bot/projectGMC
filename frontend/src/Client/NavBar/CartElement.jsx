@@ -77,6 +77,7 @@ function CartElement({product, setShowCart}) {
                             >
                                 {product.productName}
                             </Link>
+                            {productById?.qty === 0 && (<div className='bg-red-50 border border-red-200 font-semibold w-10/12 flex rounded-full text-red-800  px-2 items-center gap-2 text-sm py-0.5 my-1'><div className='w-1.5 h-1.5 bg-red-500 rounded-full flex'></div>RUPTURE DE STOCK</div>)}
                             <p className='text-gray-700'>unit Price: <span className='text-gray-700 font-semibold'>{product.price} MAD</span></p>
                         </div>
                         <div className='bg-white text-black rounded-full flex justify-between shadow border border-gray-300 w-32 text-lg font-semibold overflow-hidden'>

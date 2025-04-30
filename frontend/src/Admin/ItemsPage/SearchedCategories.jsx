@@ -18,7 +18,7 @@ function SearchedCategories({categories}) {
                 <div  key={category._id} className='border-3 border-white  rounded-lg hover:shadow-xl cursor-pointer'>
                     <div onClick={() => navigate(`/admin/items/categories/${category._id}`)} className=''>
                         <div className=''>
-                            {(category.products && category.products.length > 0)
+                            {/* {(category.products && category.products.length > 0)
                             ?(
                             <div className='flex w-60 h-40 '>
                                 <div className='w-1/2 border-r-3 border-b-3 border-white flex justify-center items-center'>
@@ -59,8 +59,20 @@ function SearchedCategories({categories}) {
                                 <div className='w-60 h-40 bg-gray-300 text-gray-800 rounded-md flex justify-center items-center'>
                                     <FolderOpen size={50} />
                                 </div>
-                            )}
+                            )} */}
+                            {
+                                category.photo
+                                ?(
+                                    <div className='w-full lg:h-56 overflow-hidden rounded-lg'>
+                                        <img className='w-full h-full' src={`http://localhost:3003${category.photo}`} />
+                                    </div>
                             
+                                ):(
+                                    <div className='w-full h-56 bg-gray-300 text-gray-800 rounded-md flex justify-center items-center'>
+                                        <FolderOpen size={60} />
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                     <div className='bg-white flex justify-between items-center  pl-3 pr-2 py-1'>
@@ -73,7 +85,7 @@ function SearchedCategories({categories}) {
                                     <hr className='rotate-90 w-2 mr-1'/>
                                 </div>
                                 <div>
-                                    <p>{category.totalValue} MAD</p>
+                                    <p>{category.totalValue.toFixed(2)} MAD</p>
                                 </div>
                             </div>
                         </div>

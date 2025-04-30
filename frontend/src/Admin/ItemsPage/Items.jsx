@@ -21,9 +21,6 @@ function Items() {
     const [items, setItems] = useState([])
     const [stock, setStock] = useState({})
     const [loading, setLoading] = useState(true)
-    const [showFilter, setShowFilter] = useState(false)
-    const [showSortOptions, setShowSortOptions] = useState(false)
-    const [typeOfItems, setTypeOfItems] = useState("")
     const [productName, setProductName] = useState("")
     const [filteredProducts, setFilteredProducts] = useState([])
     const [selectedOption, setSelectedOption] = useState("all-items")
@@ -69,8 +66,9 @@ function Items() {
         } else {
             setFilteredProducts(items)
         }
-    }, [productName, items])
-    // if(!items) return <SpinnerLoader/>
+    // }, [productName, items])
+    }, [])
+
   return (
     <div className='mb-32'>
         {
@@ -155,17 +153,6 @@ function Items() {
                         {/* sort items */}
                         <SortButton setSelectedOption={setSelectedOption} />
                     </div>
-                    {/* {   (selectedOption === "all-items") ? <AllItems/> 
-                        : (productName !== "" ) ? <ProductsFiltered items={filteredProducts} setItems={setFilteredProducts} /> 
-                        : (selectedOption === "out-of-stock") ? <OutOfStockProducts/> 
-                        : (selectedOption === "low-in-stock") ? <LowInStockProducts/> 
-                        : (selectedOption === "expired") ? <ExpiredProducts/> 
-                        : (selectedOption === "low-to-high") ? <LowToHighProducts/> 
-                        : (selectedOption === "high-to-low") ? <HightToLowProducts/> 
-                        : (selectedOption === "best-selling") ? <BestSellingProducts/>  
-                        : (selectedOption === "top-earning") ? <TopEarning/> 
-                        : <AllItems/>
-                    } */}
                     { (productName !== "" ) 
                         ? <ProductsFiltered items={filteredProducts} setItems={setFilteredProducts} /> 
                         : (selectedOption === "all-items") ? <AllItems/> 

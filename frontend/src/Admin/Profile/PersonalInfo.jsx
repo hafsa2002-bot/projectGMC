@@ -104,7 +104,7 @@ function PersonalInfo() {
                                 {
                                     user.photo  
                                     ?(
-                                        <div className='w-16 h-16 overflow-hidden rounded-full border border-gray-300'>
+                                        <div className='w-20 h-20 overflow-hidden rounded-full border border-gray-300'>
                                             <img className='w-full h-full' src={`http://localhost:3003${user.photo}`} alt="" />
                                         </div>
                                     ):(
@@ -115,7 +115,7 @@ function PersonalInfo() {
                                 }
                             </div>
                             <div className='flex items-center gap-2'>
-                                <label  htmlFor="photo" className='text-white bg-blue-500 text-sm px-2.5 py-1 rounded-lg '>Change picture</label>
+                                <label  htmlFor="photo" className='text-white bg-blue-500 text-sm px-2.5 py-1 rounded-lg '>update picture</label>
                                 <input id='photo' name='photo' className='hidden' accept='image/*' type="file" onChange={(e) => setPhoto(e.target.files[0])} />
                                 <div onClick={() => deletePicture()} className='text-red-600 cursor-default bg-gray-100 text-sm rounded-lg px-2.5 py-1 border border-gray-300'>Delete picture</div>
                             </div>

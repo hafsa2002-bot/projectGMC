@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Check } from 'lucide-react'
 import SpinnerLoader from '../../SpinnerLoader'
+import { jwtDecode } from 'jwt-decode'
 
 function BusinessInfo() {
     const [store, setStore] = useState({})
@@ -14,6 +15,10 @@ function BusinessInfo() {
     const [showSubmitInfo, setShowSubmitInfo] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     const fetchData = () => {
         axios.get("http://localhost:3003/store-infos")
@@ -144,7 +149,6 @@ function BusinessInfo() {
                                         setShowSubmitInfo(true)
                                         setTimeout(() => setShowSubmitInfo(false), 2500)
                                     }}
-                                    // onMouseLeave={() => setShowSubmitInfo(false)}
                                 >
                                     Save changes
                                 </div>

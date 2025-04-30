@@ -140,7 +140,7 @@ function ViewOrder() {
                                                 <td style={{ padding: '12px 32px' }}>{product.name}</td>
                                                 <td style={{ padding: '12px 32px' }}>{product.quantity}</td>
                                                 <td style={{ padding: '12px 32px' }}>{product.price} MAD</td>
-                                                <td style={{ padding: '12px 32px' }}>{product.quantity * product.price} MAD</td>
+                                                <td style={{ padding: '12px 32px' }}>{(product.quantity * product.price).toFixed(2)} MAD</td>
                                             </tr>
                                         ))}
                                 </tbody>
@@ -161,7 +161,7 @@ function ViewOrder() {
                                             <p>Total (MAD)</p>
                                             <p style={{ fontSize: '0.75rem', color: '#6B7280' }}>Excl. Shipping</p>
                                         </div>
-                                        <div>{order.totalAmount} MAD</div>
+                                        <div>{order.totalAmount.toFixed(2)} MAD</div>
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#374151', fontSize: '0.875rem' }}>
                                         <div><p>Shipping Fee</p></div>
@@ -176,7 +176,7 @@ function ViewOrder() {
                                         <div>
                                             <p>Total Due (MAD)</p>
                                         </div>
-                                        <div>{order.totalAmount + order.shipping.shippingPrice} MAD</div>
+                                        <div>{(order.totalAmount + order.shipping.shippingPrice).toFixed(2)} MAD</div>
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#1F2937', fontSize: '0.875rem' }}>
                                         <div><p>Paid (MAD)</p></div>

@@ -53,9 +53,9 @@ function App() {
 
           {/* Admin pages */}
           <Route path="/admin" element={
-            // <ProtectedRoute>
+            <ProtectedRoute>
               <SideBar/>
-            // </ProtectedRoute>
+            </ProtectedRoute>
           }>
             {/* dashboard */}
             <Route index element={<AdminHomePage/>} />

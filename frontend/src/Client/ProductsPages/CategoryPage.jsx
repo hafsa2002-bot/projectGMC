@@ -53,12 +53,53 @@ function CategoryPage() {
   return (
     <div className='lg:mt-26 mt-32 '>
         <div className=' px-10'>
-            <div className='flex  pt-5 text-sm items-center text-gray-500'>
+            {/* <div className='flex  pt-5 text-sm items-center text-gray-500'>
                 <Link  className='hover:text-yellow-400 hover:underline hover:font-semibold transition-all duration-300 flex items-center gap-1' to="/"><Home size={16} /> Home</Link> 
                 <ChevronRight size={20} />
                 <Link  className='hover:text-yellow-400 hover:underline hover:font-semibold transition-all duration-300' to="/products">Products</Link>
                 <ChevronRight size={20}/>
                 <Link className='hover:text-yellow-400 hover:underline hover:font-semibold transition-all duration-300' to={`/products/category/${category}`}>{firstLetterToUpperCase(category)}</Link>
+            </div> */}
+            <div className='flex items-center pt-4 text-sm text-gray-600'>
+                <nav aria-label="Breadcrumb">
+                    <ol className="flex items-center space-x-2">
+                        <li>
+                            <Link 
+                                to="/" 
+                                className='flex items-center gap-1 transition-colors duration-200 hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded'
+                            >
+                                <Home size={16} className="flex-shrink-0" />
+                                <span className="hover:underline">Home</span>
+                            </Link>
+                        </li>
+                        
+                        <li>
+                            <ChevronRight size={20} className="text-gray-400" aria-hidden="true" />
+                        </li>
+                        
+                        <li>
+                            <Link 
+                                to="/products" 
+                                className='transition-colors duration-200 hover:text-yellow-500 hover:underline focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded'
+                            >
+                                Products
+                            </Link>
+                        </li>
+                        
+                        <li>
+                            <ChevronRight size={20} className="text-gray-400" aria-hidden="true" />
+                        </li>
+                        
+                        <li aria-current="page">
+                            <Link 
+                                to={`/products/category/${category}`}
+                                className='font-medium text-yellow-600 transition-colors duration-200 hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded'
+                            >
+                                {firstLetterToUpperCase(category)}
+                            </Link>
+                        </li>
+                    </ol>
+                </nav>
             </div>
             <div className='w-full flex mt-3 justify-between'>
                 <div className=' pb-12  w-full flex justify-between items-center'>

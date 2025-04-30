@@ -97,28 +97,62 @@ function ProductDetails() {
   return (
     <>
         <div className="lg:mt-24 font-roboto mt-32 mb-16 lg:px-8 px-4">
-            <div
-                // onClick={() => navigate(-1)}
-                className="flex text-gray-500 font-semibold gap-1 items-center cursor-pointer py-3 "
-                >
-                    {/* <ArrowLeft />
-                    <p className="underline hover:text-yellow-500">Retour</p> */}
-                    <Link to="/" className='hover:text-yellow-400  hover:underline transition-all duration-300 flex items-center gap-1'><Home size={21} className='mb-[3px]' /> Home </Link>
-                    <ChevronRight/> <Link to="/products" className='hover:text-yellow-400  hover:underline transition-all duration-300'>Products </Link>
-                    {
-                        product?.categoryId && 
-                        <>
-                            <ChevronRight/> 
-                            <Link to={`/products/category/${product?.categoryId?.categoryName}`} className='hover:text-yellow-400  hover:underline transition-all duration-300'>{product?.categoryId?.categoryName} </Link>
-                        </>}
-                    <ChevronRight/><div className='hover:text-yellow-400 hover:underline transition-all duration-300'>{product?.productName}</div>
-                    
+            <div className="flex items-center text-sm py-4 px-2 text-gray-600">
+                <nav aria-label="Breadcrumb ">
+                    <ol className="flex items-center space-x-2">
+                        <li>
+                            <Link 
+                                to="/" 
+                                className="flex items-center gap-1 transition-colors duration-200 hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded"
+                            >
+                                <Home size={16} className="flex-shrink-0 mb-0.5" />
+                                <span className="hover:underline">Home</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <ChevronRight size={20} className="text-gray-400" aria-hidden="true" />
+                        </li>
+                        <li>
+                            <Link 
+                                to="/products" 
+                                className="transition-colors duration-200 hover:text-yellow-500 hover:underline focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded"
+                            >
+                                Products
+                            </Link>
+                        </li>
+                        {product?.categoryId && (
+                            <>
+                                <li>
+                                    <ChevronRight size={20} className="text-gray-400" aria-hidden="true" />
+                                </li>
+                                <li>
+                                    <Link 
+                                        to={`/products/category/${product?.categoryId?.categoryName}`}
+                                        className="transition-colors duration-200 hover:text-yellow-500 hover:underline focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded"
+                                    >
+                                        {product?.categoryId?.categoryName}
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                        
+                        <li>
+                            <ChevronRight size={20} className="text-gray-400" aria-hidden="true" />
+                        </li>
+                        
+                        <li aria-current="page">
+                            <div className="text-yellow-600 transition-colors duration-200 hover:text-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded">
+                                {product?.productName}
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
             </div>
             {loading ? (
                 <SpinnerLoader />
                 ) : (
                     <>
-                        <div className="lg:flex gap-16 justify-center items-center mt-6 px-6">
+                        <div className="lg:flex gap-16 justify-center items-center mt-3 px-6">
                         {/* Image Section */}
                             <div className="lg:w-4/12 w-full">
                                 <img className="w-full h-[75vh] rounded-lg" src={`http://localhost:3003${product.productPhoto}`} alt={product.productName} />
@@ -126,14 +160,13 @@ function ProductDetails() {
 
                             {/* Product Info Section */}
                             <div className="lg:w-5/12 w-full flex flex-col space-y-6">
-                                {/* Product Name */}
+                                {/* Product Name 
                                 <h1 className="text-4xl font-bold text-gray-900">{product.productName}</h1>
-
-                                {/* Price */}
+                                */}
+                                {/* Price 
                                 <p className="text-3xl font-semibold text-gray-800">{product.price} <span className="text-xl text-gray-600">MAD</span></p>
-                                {/* <p className="text-3xl font-semibold text-yellow-500">{product.price} <span className="text-2xl text-yellow-500">MAD</span></p> */}
-
-                                {/* Stock Status */}
+                                */}
+                                {/* Stock Status 
                                 <div className="w-full space-y-6">
                                     {product.qty === 0 ? (
                                         <div className="bg-red-100 w-1/2 text-red-700 font-semibold text-center py-1 rounded-full shadow-md">Out of stock</div>
@@ -149,17 +182,20 @@ function ProductDetails() {
                                         </div>
                                     )}
                                 </div>
+                                */}
 
-                                {/* Product Info */}
+                                {/* Product Info 
                                 {product.barcode && productInfo.product && (
-                                    <div className="text-lg text-gray-700 space-y-2">
-                                        <p><span className="font-semibold">Produit:</span> {productInfo.product.product_name}</p>
-                                        <p><span className="font-semibold">Quantité:</span> {productInfo.product.quantity}</p>
-                                        <p><span className="font-semibold">Marque:</span> {productInfo.product.brands}</p>
-                                    </div>
-                                )}
+                                    <>
+                                        <div className="text-lg text-gray-700 space-y-2">
+                                            <p><span className="font-semibold">Produit:</span> {productInfo.product.product_name}</p>
+                                            <p><span className="font-semibold">Quantité:</span> {productInfo.product.quantity}</p>
+                                            <p><span className="font-semibold">Marque:</span> {productInfo.product.brands}</p>
+                                        </div>
+                                    </>
+                                )} */}
 
-                                {/* Category */}
+                                {/* Category 
                                 {product.categoryId && (
                                     <Link
                                         to={`/products/category/${product.categoryId.categoryName}`}
@@ -168,22 +204,107 @@ function ProductDetails() {
                                         Category: {product.categoryId.categoryName}
                                         <ChevronRight size={16} />
                                     </Link>
+                                )} */}
+                                {/* Product Header */}
+                                <div className="mb-4">
+                                    <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.productName}</h1>
+                                    
+                                    {/* Price - Elegant presentation */}
+                                    <div className="flex items-baseline gap-2">
+                                        <span className="text-4xl font-semibold text-gray-900">{product.price}</span>
+                                        <span className="text-lg text-gray-500">MAD</span>
+                                    </div>
+                                </div>
+
+                                {/* Stock Status - Clean indicator */}
+                                <div className="py-3 space-y-2">
+                                    {product.qty === 0 ? (
+                                        <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-50 border border-red-100">
+                                            <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                                            <span className="text-sm font-medium text-red-700">RUPTURE DE STOCK</span>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between text-sm">
+                                                <span className="font-medium text-gray-700">Disponibilité</span>
+                                                <span className="font-semibold text-gray-900">{product.qty} en stock</span>
+                                            </div>
+                                            <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                                                <div 
+                                                    className={`h-full ${
+                                                        product.qty < product.minLevel ? 'bg-yellow-500' : 'bg-gray-900'
+                                                    }`} 
+                                                    style={{ width: `${soldPercentage}%` }}
+                                                />
+                                            </div>
+                                            {product.qty < product.minLevel && (
+                                                <p className="text-xs text-yellow-600">Stock limité - commandez rapidement</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                {/* Product Details - Minimalist card */}
+                                {productInfo.product && (
+                                    <div className="pt-4 mt-4 border-t border-gray-100">
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-3">Détails du produit</h3>
+                                        <div className="space-y-2.5 text-sm">
+                                            <div className="flex">
+                                                <span className="w-24 text-gray-600">Produit</span>
+                                                <span className="font-medium">{productInfo.product.product_name}</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="w-24 text-gray-600">Contenu</span>
+                                                <span className="font-medium">{productInfo.product.quantity}</span>
+                                            </div>
+                                            <div className="flex">
+                                                <span className="w-24 text-gray-600">Marque</span>
+                                                <span className="font-medium">{productInfo.product.brands}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 )}
 
                                 {/* Add to Cart and Favorite */}
-                                <div className="flex gap-8 mt-6">
-                                <div
-                                    onClick={() => addToCartFunction()}
-                                    className="bg-black text-white text-xl font-semibold py-2 w-8/12 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer flex justify-center items-center gap-2"
-                                >
-                                    Add to Cart <ShoppingCart/>
-                                </div>
-                                <div
-                                    onClick={() => addToFavoritesFunction(!favorite)}
-                                    className="bg-white border border-gray-300 rounded-full p-2 hover:bg-gray-100 transition-all cursor-pointer flex justify-center items-center"
-                                >
-                                    <Heart fill={favorite ? 'rgb(41, 37, 36)' : 'white'} strokeWidth={favorite ? '0' : '1'} stroke="rgb(41, 37, 36)" size={32} />
-                                </div>
+                                {/* <div className="flex gap-8 mt-6">
+                                    <div
+                                        onClick={() => addToCartFunction()}
+                                        className="bg-black text-white text-xl font-semibold py-2 w-8/12 rounded-lg hover:bg-yellow-300 hover:text-black transition-colors cursor-pointer flex justify-center items-center gap-2"
+                                    >
+                                        Add to Cart <ShoppingCart/>
+                                    </div>
+                                    <div
+                                        onClick={() => addToFavoritesFunction(!favorite)}
+                                        className="bg-white border border-gray-300 rounded-full p-2 hover:bg-gray-100 transition-all cursor-pointer flex justify-center items-center"
+                                    >
+                                        <Heart fill={favorite ? 'red' : 'white'} strokeWidth={favorite ? '0' : '1'} stroke="rgb(41, 37, 36)" size={32} />
+                                    </div>
+                                </div> */}
+                                <div className="flex gap-4 mt-8">
+                                    {/* Add to Cart Button - Primary Action */}
+                                    <button
+                                        onClick={() => addToCartFunction()}
+                                        className="flex-1 bg-gray-900 hover:bg-yellow-400 hover:text-black text-white cursor-pointer text-lg font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-3"
+                                    >
+                                        <ShoppingCart size={20} className="" />
+                                        <span>Ajouter au panier</span>
+                                    </button>
+
+                                    {/* Favorite Button - Secondary Action */}
+                                    <button
+                                        onClick={() => addToFavoritesFunction(!favorite)}
+                                        className={`p-3 cursor-pointer rounded-full border transition-all duration-300 flex items-center justify-center ${
+                                            favorite 
+                                                ? 'bg-red-50 border-red-200 text-red-600 shadow-inner' 
+                                                : 'bg-white border-gray-300 hover:border-gray-400 text-gray-700'
+                                        }`}
+                                    >
+                                        <Heart 
+                                            fill={favorite ? 'red' : 'transparent'} 
+                                            stroke={favorite ? 'red' : 'currentColor'} 
+                                            strokeWidth="1.5" 
+                                            size={24} 
+                                        />
+                                    </button>
                                 </div>
                             </div>
                         </div>

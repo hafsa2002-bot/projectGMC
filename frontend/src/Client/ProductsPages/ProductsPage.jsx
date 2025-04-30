@@ -13,7 +13,7 @@ function ProductsPage() {
     const [categories, setCategories] = useState({})
     const [products, setProducts] = useState([])
     const [displayedProducts, setDisplayedProducts] = useState([])
-    const [itemsToShow, setItemsToShow] = useState(40)
+    const [itemsToShow, setItemsToShow] = useState(30)
     const [loadingProducts , setLoadingProducts ] = useState(true)
     const [loadingCategories , setLoadingCategories ] = useState(true)
     const [selectedOption, setSelectedOption] = useState("default")

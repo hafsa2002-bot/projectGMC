@@ -2,7 +2,7 @@ import React , {useState, useEffect, useRef} from 'react'
 import { Link } from 'react-router-dom'
 
 import axios from 'axios';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Camera, Image } from 'lucide-react';
 
 function CategoriesSection({setLoadingCategories}) {
     const [categories, setCategories] = useState({})
@@ -50,13 +50,18 @@ function CategoriesSection({setLoadingCategories}) {
                         className="flex max-w-24  flex-col items-center text-center hover:scale-105 transition-transform duration-300"
                     >
                         <div className="w-20 h-20 bg-white rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
-                            {(category.products.length > 0 && category.products[0]?.productPhoto) && (
-                                <img 
-                                    src={`http://localhost:3003${category.products[0]?.productPhoto}`}
-                                    className="w-full h-full object-cover"
-                                    alt={category.categoryName}
-                                />
-                            )}
+                            {
+                                (category.photo)
+                                ?(
+                                    <img 
+                                        src={`http://localhost:3003${category.photo}`}
+                                        className="w-full h-full object-cover"
+                                        alt={category.categoryName}
+                                    />
+                                ):(
+                                    <div className='w-full h-full flex justify-center items-center text-gray-400 bg-gray-100'><Image size={30} /></div>
+                                )
+                            }
                         </div>
                         <p className="font-semibold text-xs mt-3 capitalize text-gray-700 break-words max-h-16 max-w-24 ">
                             {firstLetterToUpperCase(category.categoryName)}

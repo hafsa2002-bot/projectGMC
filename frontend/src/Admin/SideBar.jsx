@@ -31,12 +31,12 @@ function SideBar() {
             .catch(error => {
                 console.log("Error: ", error)
                 /*************/
-                /*
+                
                 if (error.response && error.response.status === 401) {
                     // Unauthorized, likely token expired or invalid
                     handleLogout()
                 }
-                */
+                
             })
     }
 

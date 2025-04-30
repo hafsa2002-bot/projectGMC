@@ -2,28 +2,14 @@ import { Check, Heart, ImageOff, ShoppingCart, X } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import {useCart} from '../../CartContext'
-import axios from 'axios'
 
 function ProductItem({product}) {
     const [favorite, setFavorite] = useState(false)
     const [heartHover, setHeartHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
     const {addToCart, addToFavorites, favorites, setFavorites} = useCart()
-    // const [productById, setProductById] = useState({})
     const [showMessage, setShowMessage] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
-    
-    /*
-    const fetchData = (productId) => {
-        axios.get(`http://localhost:3003/admin/items/view/${productId}`)
-            .then(response => setProductById(response.data))
-            .catch(error => console.log("error: ", error))
-    }
-
-    useEffect(() => {
-        fetchData(product._id)
-    }, [productById])
-    */
 
     const addToCartFunction = () => {
         if(product.qty > 0){
@@ -59,19 +45,19 @@ function ProductItem({product}) {
   return (
     <>
         <div
-            className='lg:w-60 w-40  overflow-hidden hover:shadow-lg hover:shadow-gray-400 border border-gray-300 rounded-md pb-3 group'
+            className='lg:w-60 w-40 shadow-lg  overflow-hidden hover:shadow-lg hover:shadow-gray-500 border border-gray-300 rounded-xl pb-3 group'
         >
-            <Link to={`/products/${product._id}`} className='relative '>
+            <Link onClick={() => window.scrollTo(0, 0)} to={`/products/${product._id}`} className='relative'>
                 {
                     product.productPhoto 
                         ?(
-                            <div className='lg:h-72 h-56 w-full lg:p-0 p-5'>
+                            <div className='lg:h-64 h-56 w-full lg:p-7 p-5'>
                                 <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} />
                             </div>
                         )
                         :(
-                            // in case the image doesn't exist
-                            <div className='lg:h-72 h-56 w-full bg-gray-50 relative'>
+                            // in case the image doesn't exist : h-72
+                            <div className='lg:h-64 h-56 w-full bg-gray-50 relative'>
                                 <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
                                     <ImageOff size={60} color='rgb(156, 163, 175)' />
                                 </div>
@@ -101,9 +87,9 @@ function ProductItem({product}) {
                     </div>
                 </div>
             </Link>
-            <div className='text-center px-2'>
-                <h2 className=' pt-2 font-bold text-gray-700 h-9 overflow-hidden truncate'>{product.productName}</h2>
-                <h2 className='font-semibold text-yellow-0 px-2'><span className='text-xl '>{product.price} <span className='text-lg'>MAD</span></span> </h2>
+            <div className='text-center px-2 flex flex-col gap-1.5'>
+                <h2 className='font-semibold text-xl text-yellow-400 text-start px-2'><span className='text-xl '>{product.price} <span className='text-lg'>MAD</span></span> </h2>
+                <h2 className='font-bold text-gray-700 text-start px-2 h-13 overflow-hidden '>{product.productName}</h2>
             </div>
         </div>
         {/* a message in case someone trying to add a product to the cart and it already sold out */}

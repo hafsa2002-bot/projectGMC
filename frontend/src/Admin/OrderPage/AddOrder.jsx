@@ -273,7 +273,7 @@ function AddOrder() {
                                         <input 
                                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                             type="number" name="" id=""
-                                            value={row.quantity * row.price}
+                                            value={(row.quantity * row.price).toFixed(2)}
                                             disabled 
                                         />
                                     </td>
@@ -299,7 +299,7 @@ function AddOrder() {
                 <div className='text-xl w-full mt-7'>
                     <div className='w-full flex text-lg py-4 justify-between border-b border-gray-300'>
                         <p>Total (MAD)</p>
-                        <p>{totalAmount}</p>
+                        <p>{totalAmount.toFixed(2)}</p>
                     </div>
                     <div className='w-full flex py-4 justify-between items-center border-b text-gray-600 text-base border-gray-300'>
                         <p>Amount Paid (MAD)</p>
@@ -312,7 +312,7 @@ function AddOrder() {
                     </div>
                     <div className='w-full flex py-4 justify-between border-b border-gray-300'>
                         <p>Rest (MAD)</p>
-                        <p>{totalAmount-amountPaid}</p>
+                        <p>{(totalAmount-amountPaid).toFixed(2)}</p>
                     </div>
                 </div>
                 <div className='py-5 flex  gap-4 items-center'>
