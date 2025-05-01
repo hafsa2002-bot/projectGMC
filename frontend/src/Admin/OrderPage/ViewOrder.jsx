@@ -184,7 +184,7 @@ function ViewOrder() {
                                     </div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                         <div><p>Balance (MAD)</p></div>
-                                        <div><p>{order.rest} MAD</p></div>
+                                        <div><p>{order.rest.toFixed(2)} MAD</p></div>
                                     </div>
                                 </div>
                             </div>

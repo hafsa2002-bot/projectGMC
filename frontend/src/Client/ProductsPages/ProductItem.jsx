@@ -47,23 +47,25 @@ function ProductItem({product}) {
         <div
             className='lg:w-60 w-40 shadow-lg  overflow-hidden hover:shadow-lg hover:shadow-gray-500 border border-gray-300 rounded-xl pb-3 group'
         >
-            <Link onClick={() => window.scrollTo(0, 0)} to={`/products/${product._id}`} className='relative'>
-                {
-                    product.productPhoto 
-                        ?(
-                            <div className='lg:h-64 h-56 w-full lg:p-7 p-5'>
-                                <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} />
-                            </div>
-                        )
-                        :(
-                            // in case the image doesn't exist : h-72
-                            <div className='lg:h-64 h-56 w-full bg-gray-50 relative'>
-                                <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                                    <ImageOff size={60} color='rgb(156, 163, 175)' />
+            <div className='relative'>
+                <Link onClick={() => window.scrollTo(0, 0)} to={`/products/${product._id}`} className='relative'>
+                    {
+                        product.productPhoto 
+                            ?(
+                                <div className='lg:h-64 h-56 w-full lg:p-7 p-5'>
+                                    <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} />
                                 </div>
-                            </div>
-                        )
-                }
+                            )
+                            :(
+                                // in case the image doesn't exist : h-72
+                                <div className='lg:h-64 h-56 w-full bg-gray-50 relative'>
+                                    <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+                                        <ImageOff size={60} color='rgb(156, 163, 175)' />
+                                    </div>
+                                </div>
+                            )
+                    }
+                </Link>
                 <div className='absolute flex gap-2 bottom-3 right-4 '>
                     <div
                         onClick={(e) => {
@@ -86,9 +88,9 @@ function ProductItem({product}) {
                         <ShoppingCart fill={cartHover ? 'black' : '#f3f4f6'} size={21}/> 
                     </div>
                 </div>
-            </Link>
+            </div>
             <div className='text-center px-2 flex flex-col gap-1.5'>
-                <h2 className='font-semibold text-xl text-yellow-400 text-start px-2'><span className='text-xl '>{product.price} <span className='text-lg'>MAD</span></span> </h2>
+                <h2 className='font-semibold text-2xl text-yellow-400 text-start px-2'><span className=''>{product.price.toFixed(2)} <span className='text-base'>MAD</span></span> </h2>
                 <h2 className='font-bold text-gray-700 text-start px-2 h-13 overflow-hidden '>{product.productName}</h2>
             </div>
         </div>
@@ -104,8 +106,8 @@ function ProductItem({product}) {
          {/* success message */}
         {
             successMessage && (
-                <div className=' py-2 px-3 fixed lg:top-20 top-32 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg lg:bg-white bg-green-50 flex justify-center items-center gap-3 border border-gray-200'>
-                    <div className='w-4 h-4 bg-green-800 rounded-full flex justify-center items-center'><Check className='text-white' size={12} /></div>
+                <div className=' py-2 px-2 lg:px-6 text-lg fixed lg:top-22 top-32 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg lg:bg-green-50 bg-green-50 flex justify-center items-center gap-3 border border-gray-300 shadow '>
+                    <div className='w-6 h-6 bg-green-800 rounded-full flex justify-center items-center'><Check className='text-white' size={15} /></div>
                     <p>Added to cart!</p> 
                 </div>
             )

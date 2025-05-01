@@ -24,6 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
 // add new item
+/*
 router.post("/items/add-item", protect, upload.single("productPhoto"), async(req, res) => {
     try{
         let {productName, barcode, qty, itemsSold, minLevel, price, expirationDate, categoryId} = req.body;
@@ -33,6 +34,38 @@ router.post("/items/add-item", protect, upload.single("productPhoto"), async(req
         
         // console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
         const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId, userId: req.user._id})
+        await newItem.save();
+        
+        // update Stock Status
+        await newItem.updateStockStatus();
+        
+        // check expiration
+        await newItem.updateExpirationStatus()
+        
+        // update Store Stock
+        await StoreStock.updateStoreStock();
+        
+        // log activity
+        await logActivity(req.user._id, req.user.name, "Product Added", `${productName}`)
+        
+        res.json({message: "Product added successfully", productPhoto})
+    } catch(error){
+        console.log("error: ", error);
+        res.status(500).json({message: "Error when adding product"})
+    }
+})
+*/
+
+// add new item
+router.post("/items/add-item", protect, upload.single("productPhoto"), async(req, res) => {
+    try{
+        let {productName, barcode, qty, itemsSold, minLevel, price, expirationDate, categoryId, batches} = req.body;
+        const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
+        const parsedBatches = batches ? JSON.parse(batches) : [];
+        if(!categoryId || categoryId === "") categoryId = null;
+        
+        // console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
+        const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId, userId: req.user._id, batches: parsedBatches})
         await newItem.save();
         
         // update Stock Status

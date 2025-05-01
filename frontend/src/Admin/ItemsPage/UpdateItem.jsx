@@ -7,6 +7,7 @@ import AddCategory from './AddCategory'
 import ListOfCategories from './ListOfCategories'
 import axios from 'axios'
 import UpdateQuantity from './UpdateQuantity'
+import BarCode from './BarCode'
 
 function UpdateItem() {
     const {id} = useParams()
@@ -97,28 +98,13 @@ function UpdateItem() {
                     {id: data.categoryId?._id || "",
                     name: data.categoryId?.categoryName || ""}
                 )
-                setUpdatedExpirationDate(data.expirationDate)
+                // setUpdatedExpirationDate(data.expirationDate)
+                setUpdatedExpirationDate(data.expirationDate.slice(0, 10));
                 setUpdatedProductPhoto(data.productPhoto)
                 console.log("Product By ID: ", response.data)
             })
             .catch(error => console.log("error: ", error))
     }, [])
-
-    useEffect(() => {
-            if(submitted  && (!updatedQty || updatedQty < 1 || updatedPrice < 1 || !updatedPrice || updatedProductName == "" || updatedMinLevel < 1)){
-                setErrorMessage(true)
-                setTimeout(() => setErrorMessage(false), 10000)
-                setShowRequired(true)
-                setSubmitted(false)
-            }
-            else if(submitted && updatedQty > 1 && updatedPrice > 1 && updatedProductName !== "" && updatedMinLevel > 1 ) {
-                setErrorMessage(false)
-                setShowRequired(false)
-            }
-            if(showRequired){
-                scrollTo(0, 0)
-            }
-        }, [submitted, updatedProductName, updatedQty, updatedPrice, updatedMinLevel])
   return (
     <div className='my-3'>
         <div className=' mb-9'>
@@ -129,8 +115,8 @@ function UpdateItem() {
         </div>
         <div className='bg-white p-5 mt-5  rounded-lg mb-24'>
             <div className='mb-3'>
-                <p className='text-xl font-semibold'>Product Details</p>
-                <p className='text-gray-500'>Add your product to make invoicing and cost management easier (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
+                <p className='text-xl font-semibold'> Update Product Details</p>
+                <p className='text-gray-500'>Update your product information to keep invoicing and cost management accurate (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
                 <div className='flex gap-8 w-full'>
@@ -138,38 +124,36 @@ function UpdateItem() {
                     <div className='w-1/2'>
                         <label htmlFor="updatedProductName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
                         <input 
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${(updatedProductName === "" && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500  `   }
                             type="text" 
                             name="updatedProductName" 
                             id="updatedProductName"
                             onChange={(e) => setUpdatedProductName(e.target.value)} 
                             value={updatedProductName} 
                             placeholder='Product name'
+                            autoComplete='off'
+                            required
                         />
-                        {(updatedProductName === "" && showRequired ) && (
-                            <div className='absolute text-red-600 text-sm'>Required</div>
-                        )}
                     </div>
                     {/* Barcode Number */}
                     <div className='w-1/2'>
                         <label htmlFor="updatedBarcode" className="block mb-2 font-medium text-gray-900">Barcode Number </label>
-                        <div className='relative'>
+                        <div className='flex justify-between items-center gap-3'>
                             <input 
-                                placeholder='56034-25020'
+                                placeholder='x xxxxxx xxxxxx'
                                 type="number" 
                                 name="updatedBarcode" 
+                                autoComplete='off'
                                 id="updatedBarcode"
                                 value={updatedBarcode}
                                 onChange={(e) => setUpdatedBarcode(e.target.value)} 
                                 className="[appearance:textfield] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" 
                                 
                             />
-                            <Link className='absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 '>
-                                <ScanBarcode className='text-blue-600'/>
-                            </Link>
+                            <BarCode setBarcode={setUpdatedBarcode} setProductName={setUpdatedProductName} />
                         </div>
                     </div>
-                    <div className='w-2/12'></div>
+                    {/* <div className='w-2/12'></div> */}
                 </div>
                 <div className='flex gap-8  w-full items-start'>
                     {/* Quantity */}
@@ -180,51 +164,50 @@ function UpdateItem() {
                             name="updatedQty" 
                             id="updatedQty"
                             value={updatedQty}
-                            placeholder="1" 
-                            className={` bg-gray-200 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((updatedQty ==="" || updatedQty == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                            placeholder="1"
+                            // min="1" 
+                            className={` bg-gray-200 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
                             disabled
                         />
                         <div className='flex gap-1 mt-2 font-semibold'>To adjust this quantity, <div onClick={() => setUpdateQuantity(true)} className='text-blue-500 cursor-pointer'>click here</div></div>
                         {updateQuantity && <UpdateQuantity setUpdateQty={setUpdateQuantity} item ={product} setMessage={setMessage} />}
                     </div>
                     {/* Min level */}
-                    <div className='w-1/2'>
-                        <label htmlFor="updatedMinLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
-                        <div className='flex'>
-                            <input 
-                                type="number"
-                                name="updatedMinLevel" 
-                                id="updatedMinLevel" 
-                                value={updatedMinLevel}
-                                onChange={(e) => setUpdatedMinLevel(e.target.value)}
-                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((updatedMinLevel ==="" || updatedMinLevel == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
-                            />
+                    <div className='w-1/2 flex justify-between items-center'>
+                        <div className=' w-11/12 '>
+                            <label htmlFor="updatedMinLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
+                            <div className='flex'>
+                                <input 
+                                    type="number"
+                                    name="updatedMinLevel" 
+                                    id="updatedMinLevel"
+                                    min="1"
+                                    autoComplete='off'
+                                    required  
+                                    value={updatedMinLevel}
+                                    onChange={(e) => setUpdatedMinLevel(e.target.value)}
+                                    className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
+                                />
+                            </div>
                         </div>
-                        {((updatedMinLevel === "") && showRequired) && (
-                            <div className='absolute text-red-600 text-sm'>Required</div>
-                        )}
-                        {((Number(updatedMinLevel) < 1 && updatedMinLevel !== "") && showRequired) && (
-                            <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
-                        )}
-                    </div>
-                    {/* min level infos */}
-                    <div className=' w-2/12 relative pt-7 right-5'>
-                        <div>
-                            <CircleHelp
-                                color='gray'
-                                className='relative'
-                                onMouseEnter={() => setShowMinLevelDetails(true)} 
-                                onMouseLeave={() => setShowMinLevelDetails(false)}
-                            />
-                            {
-                                showMinLevelDetails && (
-                                    <div className='absolute bg-gray-400 text-white p-2.5 rounded-md bottom-7 left-0'>
-                                        <p className=''>The min. number of quantity before a low stock alert</p>
-                                    </div>
-                                )
-                            }
+                        {/* min level infos */}
+                        <div className=' relative pt-7 '>
+                            <div>
+                                <CircleHelp
+                                    color='gray'
+                                    className='relative'
+                                    onMouseEnter={() => setShowMinLevelDetails(true)} 
+                                    onMouseLeave={() => setShowMinLevelDetails(false)}
+                                />
+                                {
+                                    showMinLevelDetails && (
+                                        <div className='w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 right-0'>
+                                            <p className=''>The min. number of quantity before a low stock alert</p>
+                                        </div>
+                                    )
+                                }
+                            </div>
                         </div>
-                        
                     </div>
                 </div>
                 <div className='flex gap-8  w-full items-center'>
@@ -237,16 +220,14 @@ function UpdateItem() {
                                 name="updatedPrice" 
                                 id="updatedPrice"
                                 placeholder='100'
+                                required
+                                min="1"
+                                step="any"
+                                autoComplete='off'
                                 onChange={(e) => setUpdatedPrice(e.target.value)}
                                 value={updatedPrice}
-                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none ${((updatedPrice ==="" || updatedPrice == 0) && showRequired) ? ' border-red-600 ': 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}  `   }
+                                className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500`   }
                             />
-                            {(updatedPrice === "" && showRequired) && (
-                                <div className='absolute text-red-600 text-sm'>Required</div>
-                            )}
-                            {(Number(updatedPrice) < 1  && showRequired && price !== "") && (
-                                <div className='absolute text-red-600 text-sm'>Enter a number greater than 0</div>
-                            )}
                             <div className=' absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 '>
                                 <p className='font-medium'>{updatedCurrency}</p>
                             </div>
@@ -269,30 +250,10 @@ function UpdateItem() {
                             </div>
                         </div>
                     </div>
-                    {/* Currency */}
-                    <div className='w-2/12'>
-                        {/* select units of price MAD, $, Euro */}
-                        <p  className="block mb-2 text-sm font-medium text-gray-900">Currency</p>
-                        <select 
-                            className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                            value={updatedCurrency}
-                            onChange={(e) => setUpdatedCurrency(e.target.value)}
-                        >
-                            <option value="USD">USD - US Dollar</option>
-                            <option value="MAD">MAD - Moroccan Dirham</option>
-                            <option value="EUR">EUR - Euro</option>
-                            <option value="GBP">GBP - British Pound</option>
-                            <option value="CAD">CAD - Canadian Dollar</option>
-                            <option value="AUD">AUD - Australian Dollar</option>
-                            <option value="JPY">JPY - Japanese Yen</option>
-                            <option value="CNY">CNY - Chinese Yuan</option>
-                            <option value="INR">INR - Indian Rupee</option>
-                        </select>
-                    </div>
                 </div>
                 {/* Category */}
                 <div className=' w-full flex gap-8'>
-                    <div className='relative w-1/2'>
+                    <div className='relative z-10  w-1/2'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
                         <div  
                             onClick={() => setShowCategories(!showCategories)} 
@@ -329,7 +290,6 @@ function UpdateItem() {
                             )}
                     </div>
                     <div className='w-1/2'></div>
-                    <div className='w-2/12'></div>
                 </div>
                 {/* Expire date */}
                 <div className=' w-full flex gap-8'>
@@ -339,7 +299,16 @@ function UpdateItem() {
                             onClick={handleDivClick} 
                             className='flex justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'
                         >
-                            <DatePicker
+                            <input
+                                type="date"
+                                className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
+                                value={updatedExpirationDate}
+                                autoComplete='off'
+                                onChange={(e) => setUpdatedExpirationDate(e.target.value)}
+                                placeholder="Select Date"
+                                disabled
+                            />
+                            {/* <DatePicker
                                 selected={updatedExpirationDate}
                                 onChange={(date) => setUpdatedExpirationDate(date)}
                                 dateFormat="yyyy-MM-dd"
@@ -348,17 +317,17 @@ function UpdateItem() {
                             />
                             <div className="">
                                 <CalendarDays className='text-gray-500' />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <div className='w-1/2'></div>
-                    <div className='w-2/12'></div>
+                    {/* <div className='w-2/12'></div> */}
                 </div>
                 <div>
                     {/* image input */}
                     <p className="block mb-2  font-medium text-gray-900 ">Product Image</p>
                     <div className="flex items-center  w-full">
-                        <label htmlFor="updatedProductPhoto" className="flex w-10/12 flex-col items-center  h-32 border-1 border-gray-300  rounded-lg cursor-pointer bg-gray-50   hover:bg-gray-100   ">
+                        <label htmlFor="updatedProductPhoto" className="flex w-full flex-col items-center  h-32 border-1 border-gray-300  rounded-lg cursor-pointer bg-gray-50   hover:bg-gray-100   ">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                 <div className="mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 16">
                                     <ImageUp size={30} className='text-blue-600'/>                               

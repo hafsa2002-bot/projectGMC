@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const productSchema = new mongoose.Schema({
     productName: {type: String, required: true},
     price: {type: Number, required: true, min: 1},
-    qty: {type:Number, required: true, min: 0},
+    qty: {type:Number, required: false, min: 0},
     itemsSold: {type:Number, required: false, default: 0},
 
     // required:true, unique: true
@@ -19,25 +19,41 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Category", 
         required: false, 
-        default: null },
+        default: null 
+    },
     expirationDate: {type: Date, required: false},
     isExpired: {type: Boolean, default: false},
     lastUpdated: {type: Date, default: Date.now},  // track last status update
-    isExpiringSoon: { type: Boolean, default: false }
+    isExpiringSoon: { type: Boolean, default: false },
+    batches: [
+        {
+            // batchId: { type: String, required: true },
+            qty: { type: Number, required: true, min: 0 },
+            expirationDate: { type: Date, required: true },
+            isExpired: { type: Boolean, default: false },
+            isExpiringSoon: { type: Boolean, default: false }
+        }
+    ]
 })
 
-// to calculate the the total stock value in StoreStock collection
-productSchema.methods.calculateTotalStockValue = async function(){
-    const totalStockValue = this.price * this.stockQty;
-    return totalStockValue;
-}
-
+/*
 productSchema.methods.updateStockStatus = async function(){
     this.outOfStock = this.qty === 0
     this.lowInStock = this.qty < this.minLevel
     this.lastUpdated = new Date(); // Update timestamp
     await this.save();
 }
+*/
+productSchema.methods.updateStockStatus = async function() {
+    const totalQty = this.batches?.reduce((acc, batch) => acc + batch.qty, 0) || 0;
+    
+    this.qty = totalQty; 
+    this.outOfStock = totalQty === 0;
+    this.lowInStock = totalQty < this.minLevel;
+    this.lastUpdated = new Date();
+
+    await this.save();
+};
 
 productSchema.methods.updateExpirationStatus = async function () {
     const now = new Date();

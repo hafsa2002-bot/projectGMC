@@ -1,10 +1,11 @@
-import { ArrowLeft, Barcode, CalendarDays, Check, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode, X } from 'lucide-react'
+import { AlertCircle, ArrowLeft, Barcode, CalendarDays, Check, ChevronDown, CircleHelp, CirclePlus, ImageUp, PrinterCheckIcon, ScanBarcode, X } from 'lucide-react'
 import React, { useState, useEffect, useRef } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import "react-datepicker/dist/react-datepicker.css"
 import AddCategory from './AddCategory'
 import ListOfCategories from './ListOfCategories'
 import BarCode from './BarCode'
+import BatchForm from './BatchForm'
 
 function AddItem() {
     const [productName, setProductName] = useState("")
@@ -20,6 +21,8 @@ function AddItem() {
     const [productPhoto, setProductPhoto] = useState(null)
     const [successMessage, setSuccessMessage] = useState(false)
     const [showMinLevelDetails, setShowMinLevelDetails ] = useState(false)
+    const [batches, setBatches] = useState([{ id: 1, qty: 0, expirationDate: "" }]);
+    const [errorMessage, setErrorMessage] = useState(false)
     const navigate = useNavigate()
     const datePickerRef = useRef(null);
 
@@ -30,8 +33,15 @@ function AddItem() {
     };
 
     let totalValue = () => {
-        if (price || qty) return `${(price * qty).toFixed(2)} `;
-        else return `0`
+        // if (price || qty) return `${(price * qty).toFixed(2)} `;
+        // else return `0`
+        
+        let total = batches.reduce((acc, batch) => {
+            return acc + (price * batch.qty);
+        }, 0);
+        
+          // Return the formatted total value (rounded to two decimals)
+        return total.toFixed(2);
     }
     const handleFileChange = (event) => {
         if(event.target.files.length > 0)
@@ -40,6 +50,16 @@ function AddItem() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const validBatches = batches.filter(batch => batch.qty > 0 && batch.expirationDate !== "");
+
+        // Optional: check if at least one valid batch exists
+        if (validBatches.length === 0) {
+            console.log("No valid batches to submit.");
+            setErrorMessage(true);
+            setTimeout(() => setErrorMessage(false), 2400)
+            return;
+        }
         
         const formData = new FormData();
         formData.append("productName", productName)
@@ -51,6 +71,7 @@ function AddItem() {
         formData.append("productPhoto", productPhoto)
         formData.append("expirationDate", expirationDate)
         formData.append("categoryId", selectedCategory.id)
+        formData.append("batches", JSON.stringify(validBatches));
 
         try{
             const response = await fetch("http://localhost:3003/admin/items/add-item", {
@@ -88,7 +109,7 @@ function AddItem() {
                 <p className='text-gray-500'>Add your product to make invoicing and cost management easier (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
-                <div className='lg:flex gap-8 w-full '>
+                <div className='lg:flex gap-8 w-11/12 '>
                     {/* product Name */}
                     <div className='lg:w-1/2 w-10/12 lg:mb-0 mb-4'>
                         <label htmlFor="productName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
@@ -107,7 +128,7 @@ function AddItem() {
                     {/* Barcode Number */}
                     <div className='lg:w-1/2'>
                         <label htmlFor="barcode" className="block mb-2 font-medium text-gray-900">Barcode Number </label>
-                        <div className='flex justify-between items-center gap-3'>
+                        <div className='w-full flex justify-between items-center gap-3'>
                             <input 
                                 placeholder='x xxxxxx xxxxxx'
                                 type="number" 
@@ -122,9 +143,46 @@ function AddItem() {
                         </div>
                     </div>
                 </div>
-                <div className='flex gap-8  w-full items-center '>
+                {/* Category */}
+                <div className=' w-11/12 flex gap-8'>
+                    <div className='relative z-10 w-1/2'>
+                        <p className="block mb-2 font-medium text-gray-900">Category</p>
+                        <div  onClick={() => setShowCategories(!showCategories)} className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
+                            <p className={selectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{selectedCategory.name || "Choose category"}</p>
+                            {   
+                                showCategories 
+                                ? (<ChevronDown className='rotate-180 cursor-pointer' onClick={() => setShowCategories(false)} />)
+                                : (<ChevronDown className='cursor-pointer' onClick={() => setShowCategories(true)} />)
+                            }
+                            
+                        </div>
+                        {showCategories && 
+                            (
+                                <div className='absolute z-50 bg-white text-gray-700 border border-gray-400 rounded-lg mt-3 overflow-hidden w-full shadow-lg'>
+                                    {/* list of categories */}
+                                    <div>
+                                        <ListOfCategories setSelectedCategory={setSelectedCategory}  setShowCategories={setShowCategories} />
+                                    </div>
+                                    {/* add new category */}
+                                    <div>
+                                        <div 
+                                            onClick={() => setAddCategory(true)}
+                                            className='text-blue-600 border-t border-gray-400 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
+                                            <CirclePlus size={20} />
+                                            <p>Add new category</p> 
+                                        </div>
+                                        {addCategory && (
+                                            <AddCategory setAddCategory={setAddCategory}/>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                    </div>
+                    <div className='w-1/2'></div>
+                </div>
+                <div className=' w-full flex gap-8'>
                     {/* Quantity */}
-                    <div className='relative w-1/2'>
+                    {/* <div className='relative w-1/2'>
                         <label htmlFor="qty" className="block mb-2 font-medium text-gray-900">Quantity <span className='text-red-500'>*</span></label>
                         <input 
                             type="number" 
@@ -138,45 +196,28 @@ function AddItem() {
                             className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
                             required 
                         />
-                    </div>
-                    {/* Min level */}
-                    <div className='w-1/2 flex justify-between items-center '>
-                        <div className=' w-11/12 '>
-                            <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
-                            <div className='flex '>
-                                <input 
-                                    type="number"
-                                    min="1" 
-                                    name="minLevel"
-                                    autoComplete='off' 
-                                    id="minLevel" 
-                                    value={minLevel}
-                                    onChange={(e) => setMinLevel(e.target.value)}
-                                    className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
-                                    required
-                                />
-                            </div>
-                        </div>
-                        {/* min level infos */}
-                        <div className='  relative pt-7 '>
-                            <CircleHelp
-                                color='gray'
-                                className='relative'
-                                onMouseEnter={() => setShowMinLevelDetails(true)} 
-                                onMouseLeave={() => setShowMinLevelDetails(false)}
+                    </div> */}
+                    {/* Expire date */}
+                    {/* <div className='w-1/2 '>
+                        <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
+                        <div
+                            onClick={handleDivClick} 
+                            className='flex  justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'
+                        >
+                            <input
+                                type="date"
+                                className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
+                                value={expirationDate}
+                                autoComplete='off'
+                                onChange={(e) => setExpirationDate(e.target.value)}
+                                placeholder="Select Date"
                             />
-                            {
-                                showMinLevelDetails && (
-                                    <div className=' w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 right-0'>
-                                        <p className=''>The min. number of quantity before a low stock alert</p>
-                                    </div>
-                                )
-                            }
                         </div>
-                    </div>
+                    </div> */}
+                    {/* <div className='w-1/2'></div> */}
                 </div>
-
-                <div className='flex gap-8  w-full items-center'>
+                <BatchForm rows={batches} setRows={setBatches}  />
+                <div className='flex gap-8  w-11/12 items-center'>
                     {/* Price */}
                     <div className='w-1/2'>
                         <label htmlFor="price" className="block mb-2 font-medium text-gray-900">Price <span className='text-red-500'>*</span></label>
@@ -218,67 +259,47 @@ function AddItem() {
                         </div>
                     </div>
                 </div>
-                {/* Category */}
-                <div className=' w-full flex gap-8'>
-                    <div className='relative z-10 w-1/2'>
-                        <p className="block mb-2 font-medium text-gray-900">Category</p>
-                        <div  onClick={() => setShowCategories(!showCategories)} className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
-                            <p className={selectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{selectedCategory.name || "Choose category"}</p>
-                            {   
-                                showCategories 
-                                ? (<ChevronDown className='rotate-180 cursor-pointer' onClick={() => setShowCategories(false)} />)
-                                : (<ChevronDown className='cursor-pointer' onClick={() => setShowCategories(true)} />)
-                            }
-                            
+                <div className='flex gap-8 w-11/12 items-center '>
+                    {/* Min level */}
+                    <div className='w-1/2 flex justify-between items-center '>
+                        <div className=' w-full'>
+                            <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
+                            <div className='flex '>
+                                <input 
+                                    type="number"
+                                    min="1" 
+                                    name="minLevel"
+                                    autoComplete='off' 
+                                    id="minLevel" 
+                                    value={minLevel}
+                                    onChange={(e) => setMinLevel(e.target.value)}
+                                    className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
+                                    required
+                                />
+                            </div>
                         </div>
-                        {showCategories && 
-                            (
-                                <div className='absolute z-50 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden w-96'>
-                                    {/* list of categories */}
-                                    <div>
-                                        <ListOfCategories setSelectedCategory={setSelectedCategory}  setShowCategories={setShowCategories} />
-                                    </div>
-                                    {/* add new category */}
-                                    <div>
-                                        <div 
-                                            onClick={() => setAddCategory(true)}
-                                            className='text-blue-600 border-t border-gray-500 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
-                                            <CirclePlus size={20} />
-                                            <p>Add new category</p> 
-                                        </div>
-                                        {addCategory && (
-                                            <AddCategory setAddCategory={setAddCategory}/>
-                                        )}
-                                    </div>
+                    </div>
+                    {/* min level infos */}
+                    <div className=' w-1/2 relative pt-7 right-5 '>
+                        <CircleHelp
+                            color='gray'
+                            className='relative'
+                            onMouseEnter={() => setShowMinLevelDetails(true)} 
+                            onMouseLeave={() => setShowMinLevelDetails(false)}
+                        />
+                        {
+                            showMinLevelDetails && (
+                                <div className=' w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 left-0'>
+                                    <p className=''>The min. number of quantity before a low stock alert</p>
                                 </div>
-                            )}
+                            )
+                        }
                     </div>
-                    <div className='w-1/2'></div>
-                </div>
-                {/* Expire date */}
-                <div className=' w-full flex gap-8'>
-                    <div className='w-1/2 '>
-                        <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
-                        <div
-                            onClick={handleDivClick} 
-                            className='flex  justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'
-                        >
-                            <input
-                                type="date"
-                                className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
-                                value={expirationDate}
-                                autoComplete='off'
-                                onChange={(e) => setExpirationDate(e.target.value)}
-                                placeholder="Select Date"
-                            />
-                        </div>
-                    </div>
-                    <div className='w-1/2'></div>
                 </div>
                 <div>
                     {/* image input */}
                     <p className="block mb-2  font-medium text-gray-900 ">Product Image</p>
-                    <div className="flex items-center  w-full">
+                    <div className="flex items-center  w-11/12">
                         <label htmlFor="productPhoto" className="flex w-full flex-col items-center  h-32 border-1 border-gray-300  rounded-lg cursor-pointer bg-gray-50   hover:bg-gray-100   ">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                 <div className="mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 16">
@@ -325,6 +346,13 @@ function AddItem() {
                 </div>
             </form>
         </div>
+        {
+            errorMessage && 
+            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-6 py-3 rounded-xl shadow-md flex items-center gap-3 z-50">
+                <AlertCircle className="w-5 h-5 text-red-500" />
+                <span>Please fill in at least one valid batch</span>
+            </div>
+        }
     </div>
   )
 }
