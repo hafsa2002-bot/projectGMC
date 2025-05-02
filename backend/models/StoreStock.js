@@ -43,7 +43,23 @@ storeStockSchema.statics.updateStoreStock = async function(){
         totalValue += product.price * product.qty;
         if (product.outOfStock) totalOutOfStock += 1;
         if (product.lowInStock) totalLowInStock += 1;
-        if (product.isExpired) totalExpiredProducts += 1;
+        // Check for expired batches within the product
+        /*
+        let expiredBatchCount = 0;
+        product.batches.forEach(batch => {
+            // Check if the batch is expired
+            if (batch.isExpired || new Date(batch.expirationDate) < new Date()) {
+                expiredBatchCount += batch.qty;
+            }
+        });
+
+        // If there are any expired batches, count the product as expired
+        if (expiredBatchCount > 0) {
+            totalExpiredProducts += 1;
+            console.log(`Expired Product: ${product.productName} - expiredQty: ${expiredBatchCount}`);
+        }
+            */
+        if (product.expiredQty > 0) totalExpiredProducts += 1;
     })
 
     let totalProducts = products.length;

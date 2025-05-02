@@ -35,13 +35,10 @@ function ExpiredProducts() {
                             Product
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Expiry Date
+                            Expired Quantity
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Available Stock
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                            Minimum Quantity
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Quantity Sold
@@ -66,17 +63,13 @@ function ExpiredProducts() {
                                 </Link>
                             </td>
                             <td className="px-6 py-4">
-                                {item.expirationDate.slice(0, 10)}
+                                <span className='font-semibold mr-1'>{item.expiredQty}</span> items
                             </td>
                             <td className="px-6 py-4">
-                                {item.qty}
+                                <span className='font-semibold mr-1'>{item.qty}</span> items
                             </td>
                             <td className="px-6 py-4">
-                                {/* <EllipsisVertical /> */}
-                                {item.minLevel}
-                            </td>
-                            <td className="px-6 py-4 ">
-                                <p>{item.itemsSold}</p>
+                                <span className='font-semibold mr-1'>{item.itemsSold}</span> items
                             </td>
                         </tr>
                     ))}

@@ -21,19 +21,24 @@ const productSchema = new mongoose.Schema({
         required: false, 
         default: null 
     },
-    expirationDate: {type: Date, required: false},
-    isExpired: {type: Boolean, default: false},
-    lastUpdated: {type: Date, default: Date.now},  // track last status update
-    isExpiringSoon: { type: Boolean, default: false },
+    // expirationDate: {type: Date, required: false},
+    // isExpired: {type: Boolean, default: false},
+    // lastUpdated: {type: Date, default: Date.now},  // track last status update
+    // isExpiringSoon: { type: Boolean, default: false },
     batches: [
         {
             // batchId: { type: String, required: true },
             qty: { type: Number, required: true, min: 0 },
-            expirationDate: { type: Date, required: true },
+            expirationDate: { type: Date, required: false},
             isExpired: { type: Boolean, default: false },
-            isExpiringSoon: { type: Boolean, default: false }
+            isExpiringSoon: { type: Boolean, default: false },
+            notifiedExpired: { type: Boolean, default: false },
+            notifiedExpiringSoon: { type: Boolean, default: false }
         }
-    ]
+    ],
+    expiredQty: { type: Number, required: false},
+    expiringSoonQty: { type: Number, required: false},
+    earliestExpiration: {type: Date, required: false}
 })
 
 /*
@@ -50,11 +55,11 @@ productSchema.methods.updateStockStatus = async function() {
     this.qty = totalQty; 
     this.outOfStock = totalQty === 0;
     this.lowInStock = totalQty < this.minLevel;
-    this.lastUpdated = new Date();
+    // this.lastUpdated = new Date();
 
     await this.save();
 };
-
+/*
 productSchema.methods.updateExpirationStatus = async function () {
     const now = new Date();
     
@@ -63,17 +68,18 @@ productSchema.methods.updateExpirationStatus = async function () {
 
         // Mark as expired if expiration date has passed
         if (daysLeft <= 0) {
-            this.lastUpdated = new Date(); 
-            this.isExpired = true;
+            // this.lastUpdated = new Date(); 
+            // this.isExpired = true;
         }
         
         // Mark as "expiring soon" only once when exactly 10 day are left
         if (daysLeft <= 10 && daysLeft > 0 && !this.isExpiringSoon) {
-            this.lastUpdated = new Date(); 
-            this.isExpiringSoon = true;
+            // this.lastUpdated = new Date(); 
+            // this.isExpiringSoon = true;
             await this.save();  
         }
     }
 };
+*/
 
 export default mongoose.model('Product', productSchema)

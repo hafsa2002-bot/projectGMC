@@ -51,7 +51,7 @@ function AddItem() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const validBatches = batches.filter(batch => batch.qty > 0 && batch.expirationDate !== "");
+        const validBatches = batches.filter(batch => batch.qty > 0);
 
         // Optional: check if at least one valid batch exists
         if (validBatches.length === 0) {
@@ -180,42 +180,7 @@ function AddItem() {
                     </div>
                     <div className='w-1/2'></div>
                 </div>
-                <div className=' w-full flex gap-8'>
-                    {/* Quantity */}
-                    {/* <div className='relative w-1/2'>
-                        <label htmlFor="qty" className="block mb-2 font-medium text-gray-900">Quantity <span className='text-red-500'>*</span></label>
-                        <input 
-                            type="number" 
-                            min="1"
-                            name="qty" 
-                            id="qty"
-                            autoComplete='off'
-                            value={qty}
-                            onChange={(e) => setQty(e.target.value) }
-                            placeholder="1" 
-                            className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
-                            required 
-                        />
-                    </div> */}
-                    {/* Expire date */}
-                    {/* <div className='w-1/2 '>
-                        <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
-                        <div
-                            onClick={handleDivClick} 
-                            className='flex  justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'
-                        >
-                            <input
-                                type="date"
-                                className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
-                                value={expirationDate}
-                                autoComplete='off'
-                                onChange={(e) => setExpirationDate(e.target.value)}
-                                placeholder="Select Date"
-                            />
-                        </div>
-                    </div> */}
-                    {/* <div className='w-1/2'></div> */}
-                </div>
+                {/* Batches */}
                 <BatchForm rows={batches} setRows={setBatches}  />
                 <div className='flex gap-8  w-11/12 items-center'>
                     {/* Price */}

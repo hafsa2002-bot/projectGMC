@@ -5,6 +5,7 @@ import { ArrowLeft, Check, Image } from 'lucide-react'
 import SpinnerBlue from '../SpinnerBlue'
 import UpdateQuantity from './UpdateQuantity'
 import { jwtDecode } from 'jwt-decode'
+import BatchTable from './BatchTable'
 
 function ViewProduct() {
     const {product_id} = useParams()
@@ -68,7 +69,7 @@ function ViewProduct() {
                             <div className=''>
                                 {
                                     product.productPhoto 
-                                    ?   <img src={`http://localhost:3003${product.productPhoto}`} className='w-60 h-60 border-gray-300 border rounded-lg my-5'/>
+                                    ?   <img src={`http://localhost:3003${product.productPhoto}`} className='w-60 h-60 border-gray-300 border rounded-lg my-5 p-4'/>
                                     :   <div className='relative w-60 h-60 bg-gray-300 rounded-lg text-gray-600'>
                                             <Image className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' size={60} />
                                         </div>
@@ -85,7 +86,7 @@ function ViewProduct() {
                                 </div>
                                 <div className='flex w-96'>
                                     <p className='w-1/3 text-gray-500'>Barcode</p>
-                                    <p className='w-2/3'>{product.barcode}</p>
+                                    <p className='w-2/3'>{product.barcode ? (product.barcode) : '_'}</p>
                                 </div>
                                 <div className='flex w-96'>
                                     <p className='w-1/3 text-gray-500'>Price</p>
@@ -103,10 +104,8 @@ function ViewProduct() {
                                     <p className='w-1/3 text-gray-500'>Category</p>
                                     <p className='w-2/3 '>{product.categoryId ? product.categoryId.categoryName : '_'}</p>
                                 </div>
-                                <div className='flex w-96'>
-                                    <p className='w-1/3 text-gray-500'>Expire date</p>
-                                    <p className='w-2/3 '>{product.expirationDate ? product.expirationDate.slice(0, 10) : '_'}</p>
-                                </div>
+                                <h3 className="text-lg font-semibold text-gray-500 mt-2 ">Stock Batches</h3>
+                                <BatchTable batches={product.batches} />
                             </div>
                         </div>
                     </div>

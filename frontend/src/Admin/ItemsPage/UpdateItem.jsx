@@ -8,6 +8,7 @@ import ListOfCategories from './ListOfCategories'
 import axios from 'axios'
 import UpdateQuantity from './UpdateQuantity'
 import BarCode from './BarCode'
+import UpdateBatchForm from './UpdateBatchForm'
 
 function UpdateItem() {
     const {id} = useParams()
@@ -29,7 +30,9 @@ function UpdateItem() {
     const [showRequired, setShowRequired] = useState(false)
     const [showMinLevelDetails, setShowMinLevelDetails ] = useState(false)
     const [updateQuantity, setUpdateQuantity] = useState(false)
+    const [batches, setBatches] = useState([]);
     const [message, setMessage] = useState(false)
+    // const [errorMessage, setErrorMessage] = useState(false)
     const navigate = useNavigate()
     const datePickerRef = useRef(null);
 
@@ -50,6 +53,16 @@ function UpdateItem() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        const validBatches = batches.filter(batch => batch.qty > 0);
+
+        // Optional: check if at least one valid batch exists
+        if (validBatches.length === 0) {
+            console.log("No valid batches to submit.");
+            setErrorMessage(true);
+            setTimeout(() => setErrorMessage(false), 2400)
+            return;
+        }
         
         setSubmitted(true)
         console.log("updatedSelectedCategory: ", updatedSelectedCategory)
@@ -59,10 +72,11 @@ function UpdateItem() {
             formData.append("price", updatedPrice);
             formData.append("barcode", updatedBarcode);
             formData.append("minLevel", updatedMinLevel);
-            if (updatedExpirationDate) {
-                formData.append("expirationDate", updatedExpirationDate.toString()); 
-            }
+            // if (updatedExpirationDate) {
+            //     formData.append("expirationDate", updatedExpirationDate.toString()); 
+            // }
             formData.append("updatedCategoryId", updatedSelectedCategory.id);
+            formData.append("batches", JSON.stringify(batches));
             if (updatedProductPhoto instanceof File) {
                 formData.append("updatedProductPhoto", updatedProductPhoto);
             }
@@ -98,8 +112,9 @@ function UpdateItem() {
                     {id: data.categoryId?._id || "",
                     name: data.categoryId?.categoryName || ""}
                 )
+                setBatches(data.batches)
                 // setUpdatedExpirationDate(data.expirationDate)
-                setUpdatedExpirationDate(data.expirationDate.slice(0, 10));
+                setUpdatedExpirationDate(data.expirationDate?.slice(0, 10));
                 setUpdatedProductPhoto(data.productPhoto)
                 console.log("Product By ID: ", response.data)
             })
@@ -119,7 +134,7 @@ function UpdateItem() {
                 <p className='text-gray-500'>Update your product information to keep invoicing and cost management accurate (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
             </div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
-                <div className='flex gap-8 w-full'>
+                <div className='flex gap-8 w-11/12'>
                     {/* product Name */}
                     <div className='w-1/2'>
                         <label htmlFor="updatedProductName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
@@ -153,64 +168,50 @@ function UpdateItem() {
                             <BarCode setBarcode={setUpdatedBarcode} setProductName={setUpdatedProductName} />
                         </div>
                     </div>
-                    {/* <div className='w-2/12'></div> */}
                 </div>
-                <div className='flex gap-8  w-full items-start'>
-                    {/* Quantity */}
-                    <div className='relative w-1/2'>
-                        <label htmlFor="updatedQty" className="block mb-2 font-medium text-gray-900">Quantity <span className='text-red-500'>*</span></label>
-                        <input 
-                            type="number" 
-                            name="updatedQty" 
-                            id="updatedQty"
-                            value={updatedQty}
-                            placeholder="1"
-                            // min="1" 
-                            className={` bg-gray-200 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
-                            disabled
-                        />
-                        <div className='flex gap-1 mt-2 font-semibold'>To adjust this quantity, <div onClick={() => setUpdateQuantity(true)} className='text-blue-500 cursor-pointer'>click here</div></div>
-                        {updateQuantity && <UpdateQuantity setUpdateQty={setUpdateQuantity} item ={product} setMessage={setMessage} />}
-                    </div>
-                    {/* Min level */}
-                    <div className='w-1/2 flex justify-between items-center'>
-                        <div className=' w-11/12 '>
-                            <label htmlFor="updatedMinLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
-                            <div className='flex'>
-                                <input 
-                                    type="number"
-                                    name="updatedMinLevel" 
-                                    id="updatedMinLevel"
-                                    min="1"
-                                    autoComplete='off'
-                                    required  
-                                    value={updatedMinLevel}
-                                    onChange={(e) => setUpdatedMinLevel(e.target.value)}
-                                    className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
-                                />
-                            </div>
+                {/* Category */}
+                <div className=' w-11/12 flex gap-8'>
+                    <div className='relative z-10  w-1/2'>
+                        <p className="block mb-2 font-medium text-gray-900">Category</p>
+                        <div  
+                            onClick={() => setShowCategories(!showCategories)} 
+                            className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" 
+                        >
+                            <p className={updatedSelectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{updatedSelectedCategory.name || "Choose category"}</p>
+                            {   
+                                showCategories 
+                                ? (<ChevronDown className='rotate-180 cursor-pointer' onClick={() => setShowCategories(false)} />)
+                                : (<ChevronDown className='cursor-pointer' onClick={() => setShowCategories(true)} />)
+                            }
+                            
                         </div>
-                        {/* min level infos */}
-                        <div className=' relative pt-7 '>
-                            <div>
-                                <CircleHelp
-                                    color='gray'
-                                    className='relative'
-                                    onMouseEnter={() => setShowMinLevelDetails(true)} 
-                                    onMouseLeave={() => setShowMinLevelDetails(false)}
-                                />
-                                {
-                                    showMinLevelDetails && (
-                                        <div className='w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 right-0'>
-                                            <p className=''>The min. number of quantity before a low stock alert</p>
+                        {showCategories && 
+                            (
+                                <div className='absolute z-20 bg-white text-gray-700 border border-gray-400 rounded-lg mt-3 overflow-hidden w-full shadow-lg'>
+                                    {/* list of categories */}
+                                    <div>
+                                        <ListOfCategories setSelectedCategory={setUpdatedSelectedCategory}  setShowCategories={setShowCategories} />
+                                    </div>
+                                    {/* add new category */}
+                                    <div>
+                                        <div 
+                                            onClick={() => setAddCategory(true)}
+                                            className='text-blue-600 border-t border-gray-400 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
+                                            <CirclePlus size={20} />
+                                            <p>Add new category</p> 
                                         </div>
-                                    )
-                                }
-                            </div>
-                        </div>
+                                        {addCategory && (
+                                            <AddCategory setAddCategory={setAddCategory}/>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
                     </div>
+                    <div className='w-1/2'></div>
                 </div>
-                <div className='flex gap-8  w-full items-center'>
+                {/* update batches */}
+                <UpdateBatchForm rows={batches} setRows={setBatches} />
+                <div className='flex gap-8  w-11/12 items-center'>
                     {/* Price */}
                     <div className='w-1/2'>
                         <label htmlFor="updatedPrice" className="block mb-2 font-medium text-gray-900">Price <span className='text-red-500'>*</span></label>
@@ -251,48 +252,48 @@ function UpdateItem() {
                         </div>
                     </div>
                 </div>
-                {/* Category */}
-                <div className=' w-full flex gap-8'>
-                    <div className='relative z-10  w-1/2'>
-                        <p className="block mb-2 font-medium text-gray-900">Category</p>
-                        <div  
-                            onClick={() => setShowCategories(!showCategories)} 
-                            className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" 
-                        >
-                            <p className={updatedSelectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{updatedSelectedCategory.name || "Choose category"}</p>
-                            {   
-                                showCategories 
-                                ? (<ChevronDown className='rotate-180 cursor-pointer' onClick={() => setShowCategories(false)} />)
-                                : (<ChevronDown className='cursor-pointer' onClick={() => setShowCategories(true)} />)
-                            }
-                            
+                <div className='flex gap-8  w-11/12 items-center'>
+                    {/* Min level */}
+                    <div className='w-1/2 flex justify-between items-center'>
+                        <div className=' w-full '>
+                            <label htmlFor="updatedMinLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
+                            <div className='flex'>
+                                <input 
+                                    type="number"
+                                    name="updatedMinLevel" 
+                                    id="updatedMinLevel"
+                                    min="1"
+                                    autoComplete='off'
+                                    required  
+                                    value={updatedMinLevel}
+                                    onChange={(e) => setUpdatedMinLevel(e.target.value)}
+                                    className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
+                                />
+                            </div>
                         </div>
-                        {showCategories && 
-                            (
-                                <div className='absolute z-20 bg-white border border-gray-300 rounded-lg mt-3 overflow-hidden w-96'>
-                                    {/* list of categories */}
-                                    <div>
-                                        <ListOfCategories setSelectedCategory={setUpdatedSelectedCategory}  setShowCategories={setShowCategories} />
-                                    </div>
-                                    {/* add new category */}
-                                    <div>
-                                        <div 
-                                            onClick={() => setAddCategory(true)}
-                                            className='text-blue-600 border-t border-gray-500 flex gap-3 py-2.5 px-2 items-center cursor-pointer'>
-                                            <CirclePlus size={20} />
-                                            <p>Add new category</p> 
-                                        </div>
-                                        {addCategory && (
-                                            <AddCategory setAddCategory={setAddCategory}/>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
                     </div>
-                    <div className='w-1/2'></div>
+                    {/* min level infos */}
+                    <div className='w-1/2 relative pt-7 right-5  '>
+                        <div>
+                            <CircleHelp
+                                color='gray'
+                                className='relative'
+                                onMouseEnter={() => setShowMinLevelDetails(true)} 
+                                onMouseLeave={() => setShowMinLevelDetails(false)}
+                            />
+                            {
+                                showMinLevelDetails && (
+                                    <div className='w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 left-0'>
+                                        <p className=''>The min. number of quantity before a low stock alert</p>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
                 </div>
+                
                 {/* Expire date */}
-                <div className=' w-full flex gap-8'>
+                {/* <div className=' w-full flex gap-8'>
                     <div className='w-1/2 '>
                         <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
                         <div
@@ -308,25 +309,24 @@ function UpdateItem() {
                                 placeholder="Select Date"
                                 disabled
                             />
-                            {/* <DatePicker
-                                selected={updatedExpirationDate}
-                                onChange={(date) => setUpdatedExpirationDate(date)}
-                                dateFormat="yyyy-MM-dd"
-                                className=' p-2.5 outline-none '
-                                placeholderText='Select Date'
-                            />
-                            <div className="">
-                                <CalendarDays className='text-gray-500' />
-                            </div> */}
+                            // <DatePicker
+                            //     selected={updatedExpirationDate}
+                            //     onChange={(date) => setUpdatedExpirationDate(date)}
+                            //     dateFormat="yyyy-MM-dd"
+                            //     className=' p-2.5 outline-none '
+                            //     placeholderText='Select Date'
+                            // />
+                            // <div className="">
+                            //     <CalendarDays className='text-gray-500' />
+                            // </div> 
                         </div>
                     </div>
                     <div className='w-1/2'></div>
-                    {/* <div className='w-2/12'></div> */}
-                </div>
+                </div> */}
                 <div>
                     {/* image input */}
                     <p className="block mb-2  font-medium text-gray-900 ">Product Image</p>
-                    <div className="flex items-center  w-full">
+                    <div className="flex items-center  w-11/12">
                         <label htmlFor="updatedProductPhoto" className="flex w-full flex-col items-center  h-32 border-1 border-gray-300  rounded-lg cursor-pointer bg-gray-50   hover:bg-gray-100   ">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                 <div className="mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="none" viewBox="0 0 20 16">
@@ -359,17 +359,11 @@ function UpdateItem() {
                         <button className='cursor-pointer h-full p-2.5 w-full' >Save Product</button>
                     </div>
                     {errorMessage && (
-                        <div className='w-1/4 py-2 flex justify-center items-center gap-2 px-3 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-100 border border-gray-200 '>
+                        <div className='w-1/4 py-2 flex justify-center items-center gap-2 px-3 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-100 border border-gray-200 z-50 '>
                             <div className='w-5 h-5 bg-red-600   rounded-full flex justify-center items-center'><X size={14} className='text-white' /></div>
                             <p>Please fill in all required fields</p> 
                         </div>
                     )}
-                    {/* {(submitted && ((qty > 1) && (productName != "") && (price > 1 ) && (minLevel > 1))  ) && (
-                        <div className='w-1/4 flex gap-2 justify-center items-center py-2 fixed top-2 left-1/2 transform -translate-x-1/2 text-black text-center rounded-lg bg-white border border-gray-300  '>
-                            <div className='w-5 h-5 bg-green-600 text-white rounded-full flex justify-center items-center' ><Check size={14} /></div>
-                            <p>Item added successfully</p> 
-                        </div>
-                    )} */}
                     <div className='cursor-pointer text-red-500 font-medium'>
                         <div onClick={() => navigate(-1)}>Cancel</div>
                     </div>

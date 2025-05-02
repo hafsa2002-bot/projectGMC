@@ -37,4 +37,14 @@ app.use("/", reportsRoutes)
 app.use("/", userRoutes)
 app.use("/", storeRoutes)
 
+import cron from "node-cron"
+// import { updateExpiredStatus } from "./utils/updateExpirations.js";
+import {updateExpiredStatus} from './utils/updateExpirations.js'
+
+// Run every day at midnight (00:00)
+cron.schedule("0 0 * * *", async () => {
+  console.log("Running expiration check...");
+  await updateExpiredStatus();
+});
+
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

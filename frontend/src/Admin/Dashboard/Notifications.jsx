@@ -161,9 +161,9 @@ function Notifications() {
                                                                     <p><span className='font-semibold'>Product out of stock: </span>{element.productName} </p>
                                                                     <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
                                                                         <div className=''><Calendar size={17}/></div>
-                                                                        {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>}
+                                                                        {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>}
                                                                         <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                        {element.lastUpdated.slice(11,16)}
+                                                                        {element.lastUpdated?.slice(11,16)}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -177,9 +177,9 @@ function Notifications() {
                                                                     <p><span className='font-semibold'>Product low in stock: </span>{element.productName} </p>
                                                                     <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
                                                                         <div className='mr-1'><Calendar size={17}/></div>
-                                                                        {element.lastUpdated.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated.slice(0, 10)}</p>} 
+                                                                        {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>} 
                                                                         <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                        {element.lastUpdated.slice(11,16)}
+                                                                        {element.lastUpdated?.slice(11,16)}
                                                                     </div>
                                                                 </div>
                                                             </div>

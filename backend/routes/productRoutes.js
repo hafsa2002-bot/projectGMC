@@ -8,6 +8,7 @@ import Product from '../models/Product.js'
 import StoreStock from '../models/StoreStock.js'
 import { logActivity } from './ActivityLogRoutes.js'
 import { protect } from "../middlewares/protect.js";
+import {updateExpiredStatus} from '../utils/updateExpirations.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -23,71 +24,91 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage})
 
-// add new item
-/*
-router.post("/items/add-item", protect, upload.single("productPhoto"), async(req, res) => {
-    try{
-        let {productName, barcode, qty, itemsSold, minLevel, price, expirationDate, categoryId} = req.body;
-        const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
-        
-        if(!categoryId || categoryId === "") categoryId = null;
-        
-        // console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
-        const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId, userId: req.user._id})
-        await newItem.save();
-        
-        // update Stock Status
-        await newItem.updateStockStatus();
-        
-        // check expiration
-        await newItem.updateExpirationStatus()
-        
-        // update Store Stock
-        await StoreStock.updateStoreStock();
-        
-        // log activity
-        await logActivity(req.user._id, req.user.name, "Product Added", `${productName}`)
-        
-        res.json({message: "Product added successfully", productPhoto})
-    } catch(error){
-        console.log("error: ", error);
-        res.status(500).json({message: "Error when adding product"})
-    }
-})
-*/
+router.post("/items/add-item", protect, upload.single("productPhoto"), async (req, res) => {
+    try {
+        let {
+            productName,
+            barcode,
+            qty,
+            itemsSold,
+            minLevel,
+            price,
+            expirationDate,
+            categoryId,
+            batches,
+        } = req.body;
 
-// add new item
-router.post("/items/add-item", protect, upload.single("productPhoto"), async(req, res) => {
-    try{
-        let {productName, barcode, qty, itemsSold, minLevel, price, expirationDate, categoryId, batches} = req.body;
         const productPhoto = req.file ? `/uploads/${req.file.filename}` : null;
         const parsedBatches = batches ? JSON.parse(batches) : [];
-        if(!categoryId || categoryId === "") categoryId = null;
-        
-        // console.log({productName, price, qty, itemsSold, barcode, minLevel, productPhoto, expirationDate, categoryId})
-        const newItem = new Product({productName, price, barcode, qty, itemsSold, minLevel, productPhoto, expirationDate, categoryId, userId: req.user._id, batches: parsedBatches})
+
+        if (!categoryId || categoryId === "") categoryId = null;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        let expiredQty = 0;
+        let expiringSoonQty = 0;
+
+        // Add expiration flags to batches and compute expiration quantities
+        for (const batch of parsedBatches) {
+            const expDate = new Date(batch.expirationDate);
+            expDate.setHours(0, 0, 0, 0);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const qty = Number(batch.qty); // make sure it's a number
+            if (isNaN(qty)) continue;
+
+            if (expDate <= today) {
+                batch.isExpired = true;
+                batch.isExpiringSoon = false;
+                expiredQty += qty;
+            } else {
+                const diffDays = (expDate - today) / (1000 * 60 * 60 * 24);
+                if (diffDays <= 7) {
+                    batch.isExpired = false;
+                    batch.isExpiringSoon = true;
+                    expiringSoonQty += qty;
+                } else {
+                    batch.isExpired = false;
+                    batch.isExpiringSoon = false;
+                }
+            }
+        }
+
+        const newItem = new Product({
+            productName,
+            price,
+            barcode,
+            qty,
+            itemsSold,
+            minLevel,
+            productPhoto,
+            expirationDate,
+            categoryId,
+            userId: req.user._id,
+            batches: parsedBatches,
+            expiredQty,
+            expiringSoonQty
+        });
+
         await newItem.save();
-        
-        // update Stock Status
+
         await newItem.updateStockStatus();
-        
-        // check expiration
-        await newItem.updateExpirationStatus()
-        
-        // update Store Stock
         await StoreStock.updateStoreStock();
-        
-        // log activity
-        await logActivity(req.user._id, req.user.name, "Product Added", `${productName}`)
-        
-        res.json({message: "Product added successfully", productPhoto})
-    } catch(error){
+
+        await logActivity(req.user._id, req.user.name, "Product Added", `${productName}`);
+
+        res.json({ message: "Product added successfully", productPhoto });
+    } catch (error) {
         console.log("error: ", error);
-        res.status(500).json({message: "Error when adding product"})
+        res.status(500).json({ message: "Error when adding product" });
     }
-})
+});
+
 
 // list of products
+/*
 router.get("/items/list", async(req, res) => {
     try{
         const listProducts = await Product.find()
@@ -100,15 +121,15 @@ router.get("/items/list", async(req, res) => {
         }
 
         //update the expiration status
-        /*
-        const products = await Product.find({ 
-            isExpired: false,
-            isExpiringSoon: false 
-        });
-        for (const product of products) {
-            await product.updateExpirationStatus();
-        }
-        */
+        
+        // const products = await Product.find({ 
+        //     isExpired: false,
+        //     isExpiringSoon: false 
+        // });
+        // for (const product of products) {
+        //     await product.updateExpirationStatus();
+        // }
+        
 
         //find expired products
         const expired = await Product.find({ expirationDate: { $lte: new Date() } });
@@ -130,7 +151,83 @@ router.get("/items/list", async(req, res) => {
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server error: get list of products"})
     }
-})
+})*/
+/*
+router.get("/items/list", async (req, res) => {
+    try {
+        const products = await Product.find();
+
+        // Set today using UTC
+        const now = new Date();
+        const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+
+        for (const product of products) {
+            let expiredQty = 0;
+            let expiringSoonQty = 0;
+            let upcomingExpirations = [];
+            let expiredExpirations = [];
+
+            for (const batch of product.batches || []) {
+                const rawExpDate = new Date(batch.expirationDate);
+                const expDate = new Date(Date.UTC(
+                    rawExpDate.getUTCFullYear(),
+                    rawExpDate.getUTCMonth(),
+                    rawExpDate.getUTCDate()
+                ));
+
+                if (expDate <= today) {
+                    batch.isExpired = true;
+                    batch.isExpiringSoon = false;
+                    expiredQty += batch.qty;
+                    expiredExpirations.push(expDate.getTime());
+                } else {
+                    const diffDays = (expDate - today) / (1000 * 60 * 60 * 24);
+                    if (diffDays <= 7) {
+                        batch.isExpired = false;
+                        batch.isExpiringSoon = true;
+                        expiringSoonQty += batch.qty;
+                    } else {
+                        batch.isExpired = false;
+                        batch.isExpiringSoon = false;
+                    }
+                    upcomingExpirations.push(expDate.getTime());
+                }
+            }
+
+            let earliestExpiration = null;
+            if (upcomingExpirations.length > 0) {
+                earliestExpiration = new Date(Math.min(...upcomingExpirations));
+            } else if (expiredExpirations.length > 0) {
+                earliestExpiration = new Date(Math.max(...expiredExpirations));
+            }
+
+            // Save values to the database
+            product.expiredQty = expiredQty;
+            product.expiringSoonQty = expiringSoonQty;
+            product.earliestExpiration = earliestExpiration;
+            await product.save();
+        }
+
+        // Re-fetch the updated products
+        const updatedProducts = await Product.find();
+        res.json(updatedProducts);
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "Internal server error: get list of products" });
+    }
+});
+*/
+
+router.get("/items/list", async (req, res) => {
+    try {
+      const products = await Product.find();
+      res.json(products);
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
 
 // delete item by Id
 router.delete("/item/:id", protect, async(req, res) => {
@@ -260,17 +357,31 @@ router.patch("/items/updateProduct/:id", protect, upload.single("updatedProductP
             { new: true }
         );
 
+        let parsedBatches = [];
+        if (req.body.batches) {
+            try {
+                parsedBatches = JSON.parse(req.body.batches);
+            } catch (err) {
+                return res.status(400).json({ error: "Invalid batches format" });
+            }
+        }
+
+        // Save parsed batches depending on your setup
+        if (parsedBatches.length > 0) {
+            product.batches = parsedBatches; // only if embedded!
+            await product.save();
+        }
         
-            //log activity
-            await logActivity(req.user._id, req.user.name, "Product updated", req.body.productName)
-    
-            // update Store Stock
-            await StoreStock.updateStoreStock();
-    
-            // update product status 
-            await product.updateStockStatus();
-    
-            res.json(product)
+        //log activity
+        await logActivity(req.user._id, req.user.name, "Product updated", req.body.productName)
+
+        // update Store Stock
+        await StoreStock.updateStoreStock();
+
+        // update product status 
+        await product.updateStockStatus();
+        await updateExpiredStatus();
+        res.json(product)
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server error"})

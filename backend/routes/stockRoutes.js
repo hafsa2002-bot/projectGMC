@@ -32,21 +32,8 @@ router.get("/admin/stock", async(req, res) => {
 router.get("/admin/items/expiredItems", async (req, res) => {
     try{
         //find expired products
-        const expired = await Product.find({ expirationDate: { $lte: new Date() } });
-
-        // Go through each expired product and update only if needed
-        for (const product of expired) {
-            // Only update if the product was not already marked as expired
-            if (!product.isExpired) {
-                product.isExpired = true;
-                product.lastUpdated = new Date();  // Update lastUpdated when expired
-
-                // Save the updated product
-                await product.save();
-            }
-        }
-
-        res.send(expired)
+        const expiredProducts = await Product.find({ expiredQty: { $gt: 0 } });
+        res.json(expiredProducts);
     }catch(error){
         console.log("Error: ", error)
         res.status(500).json({error: "Internal server error: get expired Items"})

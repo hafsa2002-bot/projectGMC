@@ -105,19 +105,19 @@ function TopEarning() {
                                             <td className="px-6 py-4">
                                                 {item.price} <span className='text-black'>MAD</span>
                                             </td>
-                                            <td className="px-6 py-4 text-base ">
+                                            <td className="px-6 py-4  ">
                                                 {
-                                                item.expirationDate  
-                                                ? (item.expirationDate.slice(0,10))
+                                                item.earliestExpiration 
+                                                ? (item.earliestExpiration.slice(0,10))
                                                 : (<p>-</p>)
                                                 }
                                             </td>
                                             {item.earnings ? (
-                                                <td className="px-6 py-4 text-base">
-                                                    {item.earnings} <span className='text-black'>MAD</span> 
+                                                <td className="px-6 py-4 ">
+                                                    {item.earnings.toFixed(2)} <span className='text-black'>MAD</span> 
                                                 </td>
                                             ):(
-                                                <td className="px-6 py-4 text-base">
+                                                <td className="px-6 py-4 ">
                                                     0 <span className='text-black'>MAD</span> 
                                                 </td>
                                             )} 

@@ -79,7 +79,7 @@ function SideBar() {
                 className='outline-none'
             >
                 {showSideBar
-                ?(<div className='flex items-center gap-2'><img className='h-9 mt-4' src='/images/newLogo7.png' alt='logo' /><p className='text-black font-outfit text-3xl mt-4'>Nov<span className='text-blue-500'>exa</span></p></div>)
+                ?(<div className='flex items-center gap-1 font-semibold '><img className='h-9 mt-4' src='/images/newLogo7.png' alt='logo' /><p className='text-black font-outfit text-3xl mt-4'>Nov<span className='text-blue-600'>exa</span></p></div>)
                 :(<img className='h-11 mt-4' src='/images/newLogo7.png' alt='logo' />)}
             </Link>
             <div className='flex flex-col gap-4'>

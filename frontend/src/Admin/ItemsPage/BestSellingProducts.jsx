@@ -98,8 +98,8 @@ function BestSellingProducts() {
                                             </td>
                                             <td className="px-6 py-4 text-base ">
                                                 {
-                                                item.expirationDate  
-                                                ? (item.expirationDate.slice(0,10))
+                                                item.earliestExpiration  
+                                                ? (item.earliestExpiration.slice(0,10))
                                                 : (<p>-</p>)
                                                 }
                                             </td>

@@ -17,11 +17,11 @@ function BatchForm({rows, setRows}) {
     }
   return (
     <div className='w-11/12'>
-        <h2 className='font-semibold text-lg'>Add Batches (Quantity & Expiration Date)</h2>
+        <h2 className='font-semibold text-base'>Add Batches (Quantity & Expiration Date)</h2>
         {/* batch array */}
         <div className='w-full border border-gray-300 rounded-lg overflow-hidden mt-4 '>
             <table className='w-full'>
-                <thead className='py-2 bg-gray-50  text-left border-b border-gray-300'>
+                <thead className='py-2 bg-gray-50 text-sm  text-left border-b border-gray-300'>
                     <tr>
                         <th scope="col" className="pl-6  py-3 border-r border-gray-300">#</th>
                         <th scope="col" className="px-6 font-normal py-3 border-r border-gray-300">Quantity</th>
@@ -47,6 +47,7 @@ function BatchForm({rows, setRows}) {
                                         id="qty" 
                                         placeholder="1" 
                                         value={row.qty}
+                                        required
                                         onChange={(e) => {
                                             const newRows = [...rows]
                                             newRows[index].qty = e.target.value

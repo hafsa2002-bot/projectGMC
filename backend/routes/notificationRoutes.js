@@ -6,6 +6,8 @@ import Notification from '../models/Notification.js'
 const router = express.Router()
 
 // create new notification
+
+
 const createNotification = async (productId, notificationName) => {
     try{
         if(notificationName !== "expiring soon"){
@@ -22,10 +24,12 @@ const createNotification = async (productId, notificationName) => {
         console.log("Failed to add new Notification: ", error)
     }
 }
+    
 
 // fetch and sort data by lastUpdated
 router.get("/notifications", async (req, res) => {
     try {
+        /*
         const products = await Product.find({
             // $or: [{ lowInStock: true }, { outOfStock: true }, { isExpired: true }, { isExpiringSoon: true }]
             $or: [{ lowInStock: true }, { outOfStock: true }]
@@ -52,6 +56,10 @@ router.get("/notifications", async (req, res) => {
             const dateB = b.lastUpdated || b.createdAt;
             return new Date(dateB) - new Date(dateA); 
         });
+
+        res.json(notifications);
+        */
+        const notifications = await Notification.find().sort({ createdAt: -1 });
 
         res.json(notifications);
     } catch (error) {
