@@ -29,7 +29,7 @@ export const updateExpiredStatus = async () => {
         continue; // Skip this batch
       }
       const expDate = new Date(batch.expirationDate);
-      expDate.setHours(0, 0, 0, 0);
+      // expDate.setHours(0, 0, 0, 0);
 
       if (expDate <= today) {
         batch.isExpired = true;

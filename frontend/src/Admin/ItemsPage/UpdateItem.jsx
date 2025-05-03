@@ -43,7 +43,7 @@ function UpdateItem() {
     };
 
     let totalValue = () => {
-        if (updatedPrice || updatedQty) return `${updatedPrice * updatedQty} `;
+        if (updatedPrice || updatedQty) return `${(updatedPrice * updatedQty).toFixed(2)} `;
         else return `0`
     }
     const handleFileChange = (event) => {
@@ -72,9 +72,6 @@ function UpdateItem() {
             formData.append("price", updatedPrice);
             formData.append("barcode", updatedBarcode);
             formData.append("minLevel", updatedMinLevel);
-            // if (updatedExpirationDate) {
-            //     formData.append("expirationDate", updatedExpirationDate.toString()); 
-            // }
             formData.append("updatedCategoryId", updatedSelectedCategory.id);
             formData.append("batches", JSON.stringify(batches));
             if (updatedProductPhoto instanceof File) {
@@ -291,38 +288,6 @@ function UpdateItem() {
                         </div>
                     </div>
                 </div>
-                
-                {/* Expire date */}
-                {/* <div className=' w-full flex gap-8'>
-                    <div className='w-1/2 '>
-                        <p className=' block mb-2 font-medium text-gray-900'>Expiry Date</p>
-                        <div
-                            onClick={handleDivClick} 
-                            className='flex justify-between items-center pr-2 w-full bg-gray-50 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-sm rounded-lg'
-                        >
-                            <input
-                                type="date"
-                                className="w-full bg-transparent p-2.5 outline-none text-gray-900 rounded-lg"
-                                value={updatedExpirationDate}
-                                autoComplete='off'
-                                onChange={(e) => setUpdatedExpirationDate(e.target.value)}
-                                placeholder="Select Date"
-                                disabled
-                            />
-                            // <DatePicker
-                            //     selected={updatedExpirationDate}
-                            //     onChange={(date) => setUpdatedExpirationDate(date)}
-                            //     dateFormat="yyyy-MM-dd"
-                            //     className=' p-2.5 outline-none '
-                            //     placeholderText='Select Date'
-                            // />
-                            // <div className="">
-                            //     <CalendarDays className='text-gray-500' />
-                            // </div> 
-                        </div>
-                    </div>
-                    <div className='w-1/2'></div>
-                </div> */}
                 <div>
                     {/* image input */}
                     <p className="block mb-2  font-medium text-gray-900 ">Product Image</p>

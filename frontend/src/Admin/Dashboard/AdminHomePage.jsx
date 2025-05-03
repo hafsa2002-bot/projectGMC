@@ -18,7 +18,7 @@ function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
   const [user, setUser] = useState({})
   const token = localStorage.getItem("token");
-  const today = new Date().toLocaleDateString();
+  const today = new Date();
 
   const fetchData = () => {
       axios.get("http://localhost:3003/users/data", {
@@ -64,7 +64,7 @@ function AdminHomePage() {
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
           Hello, {user?.name} 👋
         </h1>
-        <p className="text-gray-600">Today is {today}</p>
+        <p className="text-gray-600">Today is: {today.toDateString()}</p>
       </div>
       {/*Inventory Summary */}
       <section className=' mt-4'>

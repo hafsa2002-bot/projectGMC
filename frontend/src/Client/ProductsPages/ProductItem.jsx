@@ -12,11 +12,11 @@ function ProductItem({product}) {
     const [successMessage, setSuccessMessage] = useState(false)
 
     const addToCartFunction = () => {
-        if(product.qty > 0){
+        if(product.qty - product.expiredQty > 0){
             addToCart(product)
             setSuccessMessage(true);
             setTimeout(() => setSuccessMessage(false), 3000)
-        }else if(product.qty === 0){
+        }else if(product.qty === 0 || product.qty-product.expiredQty <= 0){
             setShowMessage(true)
             setTimeout(() => setShowMessage(false), 3000)
         }

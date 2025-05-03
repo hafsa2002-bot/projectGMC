@@ -106,125 +106,14 @@ router.post("/items/add-item", protect, upload.single("productPhoto"), async (re
     }
 });
 
-
-// list of products
-/*
-router.get("/items/list", async(req, res) => {
-    try{
-        const listProducts = await Product.find()
-
-        // Update expiration status only if not already marked
-        for (let product of listProducts) {
-            if (!product.isExpiringSoon && product.expirationDate) {
-                await product.updateExpirationStatus();
-            }
-        }
-
-        //update the expiration status
-        
-        // const products = await Product.find({ 
-        //     isExpired: false,
-        //     isExpiringSoon: false 
-        // });
-        // for (const product of products) {
-        //     await product.updateExpirationStatus();
-        // }
-        
-
-        //find expired products
-        const expired = await Product.find({ expirationDate: { $lte: new Date() } });
-
-        // Go through each expired product and update only if needed
-        for (const product of expired) {
-            // Only update if the product was not already marked as expired
-            if (!product.isExpired) {
-                product.isExpired = true;
-                product.lastUpdated = new Date();  // Update lastUpdated when expired
-
-                // Save the updated product
-                await product.save();
-            }
-        }
-
-        res.send(listProducts)
-    }catch(error){
-        console.log("Error: ", error)
-        res.status(500).json({error: "Internal server error: get list of products"})
-    }
-})*/
-/*
 router.get("/items/list", async (req, res) => {
     try {
         const products = await Product.find();
-
-        // Set today using UTC
-        const now = new Date();
-        const today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-
-        for (const product of products) {
-            let expiredQty = 0;
-            let expiringSoonQty = 0;
-            let upcomingExpirations = [];
-            let expiredExpirations = [];
-
-            for (const batch of product.batches || []) {
-                const rawExpDate = new Date(batch.expirationDate);
-                const expDate = new Date(Date.UTC(
-                    rawExpDate.getUTCFullYear(),
-                    rawExpDate.getUTCMonth(),
-                    rawExpDate.getUTCDate()
-                ));
-
-                if (expDate <= today) {
-                    batch.isExpired = true;
-                    batch.isExpiringSoon = false;
-                    expiredQty += batch.qty;
-                    expiredExpirations.push(expDate.getTime());
-                } else {
-                    const diffDays = (expDate - today) / (1000 * 60 * 60 * 24);
-                    if (diffDays <= 7) {
-                        batch.isExpired = false;
-                        batch.isExpiringSoon = true;
-                        expiringSoonQty += batch.qty;
-                    } else {
-                        batch.isExpired = false;
-                        batch.isExpiringSoon = false;
-                    }
-                    upcomingExpirations.push(expDate.getTime());
-                }
-            }
-
-            let earliestExpiration = null;
-            if (upcomingExpirations.length > 0) {
-                earliestExpiration = new Date(Math.min(...upcomingExpirations));
-            } else if (expiredExpirations.length > 0) {
-                earliestExpiration = new Date(Math.max(...expiredExpirations));
-            }
-
-            // Save values to the database
-            product.expiredQty = expiredQty;
-            product.expiringSoonQty = expiringSoonQty;
-            product.earliestExpiration = earliestExpiration;
-            await product.save();
-        }
-
-        // Re-fetch the updated products
-        const updatedProducts = await Product.find();
-        res.json(updatedProducts);
+        // await updateExpiredStatus();
+        res.json(products);
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).json({ error: "Internal server error: get list of products" });
-    }
-});
-*/
-
-router.get("/items/list", async (req, res) => {
-    try {
-      const products = await Product.find();
-      res.json(products);
-    } catch (error) {
-      console.error("Error:", error);
-      res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Internal server error" });
     }
   });
   
@@ -313,6 +202,7 @@ router.get("/items/sort-top-earning-products", async (req, res) => {
 })
 
 // update quantity 
+/*
 router.patch("/items/update/:id", protect, async(req, res) => {
     try{  
         // to get the product name for activty log  
@@ -334,6 +224,7 @@ router.patch("/items/update/:id", protect, async(req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
 })
+    */
 
 // update a product
 router.patch("/items/updateProduct/:id", protect, upload.single("updatedProductPhoto"), async(req, res) => {

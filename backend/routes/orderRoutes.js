@@ -32,8 +32,11 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
             if(!product){
                 return res.status(400).json({error: "Product not found"})
             }
-            if (item.quantity > product.qty){
-                return res.status(400).json({error: `Not enough stock for product: ${item.productId}`})
+            if (product.qty - product.expiredQty <= 0) {
+                return res.status(400).json({ error: `Product is expired or fully out of stock: ${item.productId}` });
+            }
+            if (item.quantity > product.qty - product.expiredQty){
+                return res.status(400).json({error: `Not enough stock for product: ${item.name}`})
             }
             await Product.updateOne(
                 {_id: item.productId},

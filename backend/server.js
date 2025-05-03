@@ -43,8 +43,17 @@ import {updateExpiredStatus} from './utils/updateExpirations.js'
 
 // Run every day at midnight (00:00)
 cron.schedule("0 0 * * *", async () => {
-  console.log("Running expiration check...");
-  await updateExpiredStatus();
+    try {
+      console.log("Running expiration check...");
+      await updateExpiredStatus();
+      console.log("Expiration update finished.");
+    } catch (error) {
+      console.error("Cron job failed:", error);
+    }
+  }, {
+    timezone: "Africa/Casablanca"
+  // console.log("Running expiration check...");
+  // await updateExpiredStatus();
 });
 
 app.listen(port, () => console.log(`server running : http://localhost:${port}`))

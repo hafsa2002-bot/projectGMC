@@ -28,7 +28,7 @@ function ProductDetails() {
             .then(response => {
                 setProduct(response.data)
                 setLoading(false)
-                setSoldPercentage(response.data.qty > 0 ? (response.data.qty / (response.data.qty + response.data.itemsSold)) * 100 : 0);
+                setSoldPercentage((response.data.qty-response.data.expiredQty) > 0 ? ((response.data.qty-response.data.expiredQty) / ((response.data.qty-response.data.expiredQty) + response.data.itemsSold)) * 100 : 0);
             })
             .catch(error => {
                 console.log("Error: ", error)
@@ -218,7 +218,7 @@ function ProductDetails() {
 
                                 {/* Stock Status - Clean indicator */}
                                 <div className="py-3 space-y-2">
-                                    {product.qty === 0 ? (
+                                    {(product.qty - product.expiredQty) === 0 ? (
                                         <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-50 border border-red-100">
                                             <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
                                             <span className="text-sm font-medium text-red-700">RUPTURE DE STOCK</span>
@@ -227,17 +227,17 @@ function ProductDetails() {
                                         <div className="space-y-2">
                                             <div className="flex justify-between text-sm">
                                                 <span className="font-medium text-gray-700">Disponibilité</span>
-                                                <span className="font-semibold text-gray-900">{product.qty} en stock</span>
+                                                <span className="font-semibold text-gray-900">{(product.qty-product.expiredQty)} en stock</span>
                                             </div>
                                             <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
                                                 <div 
                                                     className={`h-full ${
-                                                        product.qty < product.minLevel ? 'bg-yellow-500' : 'bg-gray-900'
+                                                        (product.qty-product.expiredQty) < product.minLevel ? 'bg-yellow-500' : 'bg-gray-900'
                                                     }`} 
                                                     style={{ width: `${soldPercentage}%` }}
                                                 />
                                             </div>
-                                            {product.qty < product.minLevel && (
+                                            {(product.qty-product.expiredQty) < product.minLevel && (
                                                 <p className="text-xs text-yellow-600">Stock limité - commandez rapidement</p>
                                             )}
                                         </div>

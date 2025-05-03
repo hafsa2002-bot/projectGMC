@@ -19,7 +19,7 @@ function PhoneCheckOut({cart, totalAmount, totalQty}) {
     }
     useEffect(() => {
         cart.forEach(item => chechIfOutOfStock(item._id))
-    }, [productById])
+    }, [])
   return (
     <div className='lg:hidden w-full mx-auto mb-16 '>
         <div className='flex justify-between items-center m-auto'>

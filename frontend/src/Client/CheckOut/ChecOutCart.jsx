@@ -10,7 +10,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
         axios.get(`http://localhost:3003/admin/items/view/${productId}`)
             .then(response => {
                 setProductById(response.data)
-                if(response.data.qty === 0){
+                if(response.data.qty - response.data.expiredQty === 0){
                     setOutOfStockProducts(prevState => [...prevState, productId])
                 }
             })
@@ -18,7 +18,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
     }
     useEffect(() => {
         cart.forEach(item => chechIfOutOfStock(item._id))
-    }, [productById])
+    }, [])
   return (
     <>
         {/* laptop version */}
@@ -27,8 +27,8 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                 {
                     cart.map((product, index) => (
                         <div key={index} className='flex items-center justify-between'>
-                            <div className='flex items-center gap-2'>
-                                <div className='relative w-16 h-16 border border-gray-300 rounded-lg'>
+                            <div className='flex items-center w-9/12 gap-2'>
+                                <div className='relative w-16 h-16 p-1.5 bg-white border border-gray-300 rounded-lg'>
                                     {
                                         product.productPhoto 
                                         ?(
@@ -37,14 +37,14 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                                             <div className='w-full h-full  text-gray-700 flex justify-center items-center'><ImageOff /></div>
                                         )
                                     }
-                                    <div className='absolute -top-1 -right-1 w-5 h-5 bg-gray-700 flex justify-center items-center rounded-full text-white'>{product.quantity}</div>
+                                    <div className='absolute z-20 -top-1 -right-1 w-5 h-5 bg-gray-700 flex justify-center items-center rounded-full text-white'>{product.quantity}</div>
                                 </div>
                                 <div>
                                     <p>{product.productName}</p>
                                     {outOfStockProducts.includes(product._id) && (<p className='text-white bg-gradient-to-r from-red-700  to-red-800 rounded-full text-sm w-24 text-center mt-1'>Out of stock!</p>)}                            </div>
                             </div>
-                            <div className=' font-mono  '>
-                                <span>{product.price}</span> MAD
+                            <div className=' font-mono w-3/12 text-end '>
+                                <span className='text-end'>{product.price}</span> MAD
                             </div>
                         </div>
                     ))
@@ -57,7 +57,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                         <span className='border rounded-full p-[0.5px] bg-black'></span>
                         <p>{totalQty} Articles</p> 
                     </div>
-                    <div className=''>{totalAmount} MAD</div> 
+                    <div className=''>{totalAmount.toFixed(2)} MAD</div> 
                 </div>
                 <div className='flex justify-between mt-2'>
                     <div>Shipping</div>
@@ -65,7 +65,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                 </div>
                 <div className=' font-semibold text-xl flex justify-between items-center mt-8'>
                     <div>Total</div>
-                    <div className='font-mono'>{totalAmount + shipping} MAD</div> 
+                    <div className='font-mono'>{(totalAmount + shipping).toFixed(2)} MAD</div> 
                 </div>
             </div>
         </div>

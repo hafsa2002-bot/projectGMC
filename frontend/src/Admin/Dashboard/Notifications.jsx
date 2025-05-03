@@ -128,10 +128,11 @@ function Notifications() {
                                     notifications.length > 0 
                                     ?(
                                         // element can be an order or a product
-                                        notifications.map((element, index) => (
-                                            //if it contains a contact object so it's an order
-                                            element.contact 
-                                            ?(
+                                        notifications.map((notif, index) => (
+                                            <>
+                                            {/* notification: new rder received */}
+                                            {notif.type == "new order received"
+                                            &&(
                                                 <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
                                                     <div className='flex justify-center items-center border-2 border-green-300 text-green-500 w-9 h-9 p-1 rounded-full'><ShoppingCart size={22} /></div>
                                                     <div className='flex flex-col juctify-between gap-2 w-full'>
@@ -150,43 +151,41 @@ function Notifications() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ):(
-                                                // <div className={`flex  ${(element.outOfStock && !element.isExpired) && 'bg-blue-400'} ${(element.lowInStock && !element.outOfStock) && 'bg-orange-400'} ${element.isExpired && 'bg-red-400'}`} >
-                                                <div>
-                                                    {(element.outOfStock && !element.isExpired) 
-                                                        && (
-                                                            <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
-                                                                <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'><PackageX size={22} /></div>
-                                                                <div className='flex flex-col juctify-between gap-1.5 w-full'>
-                                                                    <p><span className='font-semibold'>Product out of stock: </span>{element.productName} </p>
-                                                                    <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
-                                                                        <div className=''><Calendar size={17}/></div>
-                                                                        {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>}
-                                                                        <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                        {element.lastUpdated?.slice(11,16)}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    }
-                                                    {(element.lowInStock && !element.outOfStock ) 
-                                                        &&(
-                                                            <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
-                                                                <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-9 h-9 p-1 rounded-full'><TrendingDown size={22}  /></div>
-                                                                <div className='flex flex-col juctify-between gap-1.5 w-full '>
-                                                                    <p><span className='font-semibold'>Product low in stock: </span>{element.productName} </p>
-                                                                    <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
-                                                                        <div className='mr-1'><Calendar size={17}/></div>
-                                                                        {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>} 
-                                                                        <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                        {element.lastUpdated?.slice(11,16)}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    }
+                                            )}
+                                            {/* out of stock notification */}
+                                            {notif.type=="out of stock" && (
+                                                <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                    <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'><PackageX size={22} /></div>
+                                                    <div className='flex flex-col juctify-between gap-1.5 w-full'>
+                                                        <p><span className='font-semibold'>Product out of stock: </span>{element.productName} </p>
+                                                        <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                            <div className=''><Calendar size={17}/></div>
+                                                            {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>}
+                                                            <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                            {element.lastUpdated?.slice(11,16)}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            )
+                                            )}
+                                            {
+                                                (notif.type =="low in stock") && (
+                                                    <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                        <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-9 h-9 p-1 rounded-full'><TrendingDown size={22}  /></div>
+                                                        <div className='flex flex-col juctify-between gap-1.5 w-full '>
+                                                            <p><span className='font-semibold'>Product low in stock: </span>{element.productName} </p>
+                                                            <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                                <div className='mr-1'><Calendar size={17}/></div>
+                                                                {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>} 
+                                                                <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                                {element.lastUpdated?.slice(11,16)}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            } 
+                                            
+                                            </>
+                                            
                                         ))
                                     )
                                     :(
@@ -197,18 +196,9 @@ function Notifications() {
                                     )
                                 }
                             </div>
-                   
                         </div>
                     )} 
-           
-           
-        </div>
-           
-            
-      
-        
-
-    
+        </div>   
   )
 }
 

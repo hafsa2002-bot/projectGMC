@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {useCart} from '../../CartContext'
-import { CircleHelp, ShoppingCart } from 'lucide-react'
+import { CircleHelp, ShoppingCart, X } from 'lucide-react'
 import CheckOutNav from './CheckOutNav'
 import ChecOutCart from './ChecOutCart'
 import axios from 'axios'
@@ -27,13 +27,14 @@ function Checkout() {
     const [amountPaid, setAmountPaid] = useState(0)
     const [showMessage, setShowMessage] = useState(false)
     const [outOfStockMessage, setOutOfStockMessage] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate()
 
 
     const handleSubmit = async(event) => {
         event.preventDefault();
 
-        const outOfStockItems = cart.filter(item => item.qty == 0)
+        const outOfStockItems = cart.filter(item => (item.qty-item.expiredQty) == 0)
         if(outOfStockItems.length > 0){
             setOutOfStockMessage(true)
             return
@@ -70,14 +71,27 @@ function Checkout() {
                 localStorage.removeItem("cart")
                 setCart([])
                 setTimeout(() => navigate("/products"), 2400)
-            }else{
-                console.log("failed")
             }
+            // }else{
+            //     setErrorMessage("failed")
+            //     console.log("failed")
+            // }
         
             const data = await response.json()
             console.log("Response received: ", data)
+            setErrorMessage(data.error)
+            setTimeout(() => setErrorMessage(""), 2000); 
         }catch(error){
-            console.log("Error: ", error)
+            // console.log("Error: ", error)
+            if (error.response && error.response.data && error.response.data.error) {
+                setErrorMessage(error.response.data.error);
+                console.log("hi")
+            } else {
+                setErrorMessage("An unexpected error occurred.");
+                console.log("hello")
+            }
+    
+            setTimeout(() => setErrorMessage(""), 2000); 
         }
         
         
@@ -220,8 +234,15 @@ function Checkout() {
                     </button>
                     <PhoneCheckOut cart={cart} totalAmount={totalAmount} totalQty={totalQty} />
                 </form>
-                {outOfStockMessage && (
+                {/* {outOfStockMessage && (
                     <div className='text-red-500 bg-white shadow absolute top-0 p-2'>One or more items in your cart are out of stock!</div>
+                )} */}
+                {(errorMessage !== "" || outOfStockMessage )&& (
+                    <div className='px-3 py-2 fixed top-5 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center lg:w-auto w-11/12  gap-3 border border-gray-300 '>
+                        {/* One or more items in your cart are out of stock! */}
+                        <div className='w-4 h-4 bg-red-700 rounded-full flex justify-center items-center'><X className='text-white' size={12}/></div>
+                        {errorMessage}
+                    </div>
                 )}
                 {showMessage && <SucessMessage message="Your order has been successfully passed!" />}
             </div>

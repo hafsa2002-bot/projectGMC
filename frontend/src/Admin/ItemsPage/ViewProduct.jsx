@@ -48,15 +48,15 @@ function ViewProduct() {
                         </div>
                         {userRole == "admin" && (
                             <div className='flex gap-3'>
-                                <Link to={`/admin/items/update-item/${product_id}`} className='border border-blue-600 text-blue-600 bg-white px-4 py-1.5 font-semibold text-lg rounded-lg'>
-                                    <p>Edit Item</p>
+                                <Link to={`/admin/items/update-item/${product_id}`} 
+                                    className='bg-blue-500 cursor-pointer text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>                                    <p>Edit Item</p>
                                 </Link>
-                                <div
+                                {/* <div
                                     onClick={() => setUpdateQty(true)} 
                                     className='bg-blue-500 cursor-pointer text-white  px-4 py-1.5 font-semibold text-lg rounded-lg'>
                                     <p>Update quantity</p>
                                 </div>
-                                {updateQty && <UpdateQuantity setUpdateQty={setUpdateQty} item={product} setMessage={setMessage} />}
+                                {updateQty && <UpdateQuantity setUpdateQty={setUpdateQty} item={product} setMessage={setMessage} />} */}
                             </div>
                         )}
                     </div>
