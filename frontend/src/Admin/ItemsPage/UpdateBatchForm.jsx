@@ -1,13 +1,16 @@
 import { CirclePlus, Trash2 } from 'lucide-react'
 import React from 'react'
-import mongoose from 'mongoose';
+// import mongoose from 'mongoose';
 
 function UpdateBatchForm({rows, setRows}) {
-
+    const generateObjectId = () => {
+        return Math.floor(Math.random() * 1e16).toString(16).padStart(24, '0');
+    };
     const addNewRow = () => {
         const newRow = {
             // _id: Date.now().toString(),
-            _id: new mongoose.Types.ObjectId(),
+            // _id: new mongoose.Types.ObjectId(),
+            _id: generateObjectId(),
             qty: '',
             expirationDate: ''
         };
