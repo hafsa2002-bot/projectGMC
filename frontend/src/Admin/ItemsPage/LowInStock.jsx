@@ -77,9 +77,9 @@ function LowInStock() {
                             <th scope="col" className="px-6 py-3">
                                 Unit price
                             </th>
-                            <th scope="col" className="px-6 py-3">
+                            {/* <th scope="col" className="px-6 py-3">
                                 
-                            </th>
+                            </th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -111,18 +111,11 @@ function LowInStock() {
                                 <td className="px-6 py-4 text-base ">
                                     {item.price  } <span className='text-black'>MAD</span>
                                 </td>
-                                <td className="px-6 py-4">
-                                    {userRole == "admin" ? (
-                                        <PenLine
-                                            className='cursor-pointer'
-                                            onClick={() => handleUpdateQty(item)}
-                                        />
-                                    ):(
-                                        <Link to={`/admin/items/view/${item._id}`} className='hover:text-black underline text-blue-500 '>
-                                            View
-                                        </Link>
-                                    )}
-                                </td>
+                                {/* <td className="px-6 py-4">
+                                    <Link to={`/admin/items/view/${item._id}`} className='hover:text-black underline text-blue-500 '>
+                                        View
+                                    </Link>
+                                </td> */}
                             </tr>
                         ))}
                         {updateQty && selectedItem && <UpdateQuantity setUpdateQty={setUpdateQty} item={selectedItem} setMessage={setMessage} />}

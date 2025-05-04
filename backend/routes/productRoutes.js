@@ -6,9 +6,11 @@ import { dirname } from 'path';
 
 import Product from '../models/Product.js'
 import StoreStock from '../models/StoreStock.js'
+import Notification from '../models/Notification.js';
 import { logActivity } from './ActivityLogRoutes.js'
 import { protect } from "../middlewares/protect.js";
 import {updateExpiredStatus} from '../utils/updateExpirations.js'
+import { checkStockAndNotify } from './notificationRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,11 +31,11 @@ router.post("/items/add-item", protect, upload.single("productPhoto"), async (re
         let {
             productName,
             barcode,
-            qty,
+            // qty,
             itemsSold,
             minLevel,
             price,
-            expirationDate,
+            // expirationDate,
             categoryId,
             batches,
         } = req.body;
@@ -80,11 +82,11 @@ router.post("/items/add-item", protect, upload.single("productPhoto"), async (re
             productName,
             price,
             barcode,
-            qty,
+            // qty,
             itemsSold,
             minLevel,
             productPhoto,
-            expirationDate,
+            // expirationDate,
             categoryId,
             userId: req.user._id,
             batches: parsedBatches,
@@ -92,12 +94,20 @@ router.post("/items/add-item", protect, upload.single("productPhoto"), async (re
             expiringSoonQty
         });
 
-        await newItem.save();
+        let totalStock = 0;
+        for (const batch of parsedBatches) {
+            const qty = Number(batch.qty);
+            if (!isNaN(qty)) totalStock += qty;
+        }
 
+        await newItem.save();
+        
         await newItem.updateStockStatus();
         await StoreStock.updateStoreStock();
-
+        
         await logActivity(req.user._id, req.user.name, "Product Added", `${productName}`);
+        await checkStockAndNotify(newItem, 0);
+        await updateExpiredStatus();
 
         res.json({ message: "Product added successfully", productPhoto });
     } catch (error) {
@@ -129,6 +139,9 @@ router.delete("/item/:id", protect, async(req, res) => {
         
         // log activity
         await logActivity(req.user._id, req.user.name, "Product deleted", `${deletedProduct.productName}`)
+
+        // Delete all related notifications
+        await Notification.deleteMany({ productId: req.params.id });
         res.status(200).json({message: "Product deleted successfully", deletedProduct})
     }catch(error){
         console.log("error: ", error)
@@ -242,6 +255,9 @@ router.patch("/items/updateProduct/:id", protect, upload.single("updatedProductP
             updateFields.productPhoto = `/uploads/${req.file.filename}`;
         }
 
+        const produit = await Product.findById(req.params.id);
+        const oldStock = produit.qty; 
+
         const product = await Product.findByIdAndUpdate(
             req.params.id,
             updateFields,
@@ -272,6 +288,7 @@ router.patch("/items/updateProduct/:id", protect, upload.single("updatedProductP
         // update product status 
         await product.updateStockStatus();
         await updateExpiredStatus();
+        await checkStockAndNotify(product, oldStock);
         res.json(product)
     }catch(error){
         console.log("Error: ", error)

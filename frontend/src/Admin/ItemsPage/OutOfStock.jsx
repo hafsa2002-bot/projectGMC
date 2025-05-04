@@ -76,9 +76,9 @@ function OutOfStock() {
                         <th scope="col" className="px-6 py-3">
                             Unit price
                         </th>
-                        <th scope="col" className="px-6 py-3">
+                        {/* <th scope="col" className="px-6 py-3">
                             
-                        </th>
+                        </th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +110,7 @@ function OutOfStock() {
                             <td className="px-6 py-4 text-base ">
                                 {item.price  } <span className='text-black'>MAD</span>
                             </td>
-                            <td className="px-6 py-4" >
+                            {/* <td className="px-6 py-4" >
                                 {userRole == "admin" ? (
                                     <PenLine
                                         className='cursor-pointer'
@@ -121,10 +121,10 @@ function OutOfStock() {
                                         View
                                     </Link>
                                 )}
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
-                    {updateQty && selectedItem && <UpdateQuantity setUpdateQty={setUpdateQty} item={selectedItem} setMessage={setMessage} />}
+                    {/* {updateQty && selectedItem && <UpdateQuantity setUpdateQty={setUpdateQty} item={selectedItem} setMessage={setMessage} />} */}
                 </tbody>
             </table>
             )

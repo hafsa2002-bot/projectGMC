@@ -37,7 +37,6 @@ function Items() {
         .then(response => {
             setStock(response.data)
             setLoading(false)
-            //console.log("stock: ", response.data)
         })
         .catch(error => {
             console.log("Error: ", error)
@@ -58,7 +57,7 @@ function Items() {
     useEffect(() => {
         getItems()
         stockInfo()
-    }, [])
+    }, [stock])
     
     useEffect(() => {
         if (productName !== "") {

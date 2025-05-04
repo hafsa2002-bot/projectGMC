@@ -1,13 +1,24 @@
-import { ArrowRight, Bell, Calendar, CalendarX2, Package, PackageX, ShoppingCart, TrendingDown, TriangleAlert, X } from 'lucide-react'
+import { ArrowRight, Bell, Calendar, CalendarClock, CalendarX2, Package, PackageX, ShoppingCart, TrendingDown, TriangleAlert, X } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import DeleteNotificationPopUp from './DeleteNotificationPopUp'
+import { jwtDecode } from 'jwt-decode'
 
 function Notifications() {
     const [notifications, setNotifications] = useState([])
     const [showNotifications, setShowNotifications] = useState(false)
     const [showNotificationTitle, setShowNotifiactionTitle] = useState(false)
+    // const [showDeleteNotificationPopUp, setShowDeleteNotificationPopUp] = useState(false)
+    const [activeNotificationId, setActiveNotificationId] = useState(null);
     const currentDate = new Date().toLocaleDateString('en-CA');
+    const token = localStorage.getItem("token");
+    let userRole = null;
+    
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
 
     const fetchData = () => {
         axios.get("http://localhost:3003/notifications")
@@ -17,77 +28,7 @@ function Notifications() {
     useEffect(() => { 
         fetchData()
     }, [])
-    /*
-    // const [orders, setOrders]
-    const [stockInfo, setStockInfo] = useState({})
-    const [showNotifications, setShowNotifications] = useState(false)
-    const [showNotificationTitle, setShowNotifiactionTitle] = useState(false)
-    const [showNotificationOutOfStock, setShowNotificationOutOfStock]= useState(false)
-    const [showNotificationLowInStock, setShowNotificationLowInStock]= useState(false)
-    const [showNotificationExpired, setShowNotificationExpired]= useState(false)
-    const [numberOfNotifications, setNumberOfNotifications] = useState(0)
-    const [loading, setLoading] = useState(true)
-    const getStockInfo = () => {
-        axios.get("http://localhost:3003/admin/stock")
-            .then(response => {
-                setStockInfo(response.data)
-                setLoading(false)
-            })
-            .catch(error => {
-                console.log("error: ", error)
-                setLoading(false)
-            })
-    }
 
-    const showOutOfStock = () => {
-        if(stockInfo.totalOutOfStock > 0 ){
-            setShowNotificationOutOfStock(true)
-        } 
-        else setShowNotificationOutOfStock(false)
-    }
-
-    const showLowInStock = () => {
-        if(stockInfo.totalLowInStock > 0 ){
-            setShowNotificationLowInStock(true)
-        } 
-        else setShowNotificationLowInStock(false)
-    }
-
-    const showExpired = () => {
-        if(stockInfo.totalExpiredProducts > 0 ){
-            setShowNotificationExpired(true)
-        } 
-        else setShowNotificationExpired(false)
-    }
-
-    const calculateNumberOfNotifications = () => {
-        let count = 0;
-        if(stockInfo.totalOutOfStock > 0) count ++;
-        if(stockInfo.totalLowInStock > 0) count ++;
-        if(stockInfo.totalExpiredProducts > 0 ) count ++;
-        setNumberOfNotifications(count)
-    }
-
-    useEffect(() => {
-        getStockInfo();
-    }, [stockInfo])
-
-    useEffect(() => {
-        calculateNumberOfNotifications()
-        // chech if there is some out of stock products to show
-        if(stockInfo.totalOutOfStock !== undefined){
-            showOutOfStock()
-        }
-        // chech if there is some low in stock products to show
-        if(stockInfo.totalLowInStock !== undefined){
-            showLowInStock()
-        }
-        // chech if there is some expired products to show
-        if(stockInfo.totalExpiredProducts !== undefined){
-            showExpired()
-        }
-    }, [stockInfo])
-  */
     return (
         <div className='relative cursor-pointer px-4 '>
             <div 
@@ -133,21 +74,31 @@ function Notifications() {
                                             {/* notification: new rder received */}
                                             {notif.type == "new order received"
                                             &&(
-                                                <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
-                                                    <div className='flex justify-center items-center border-2 border-green-300 text-green-500 w-9 h-9 p-1 rounded-full'><ShoppingCart size={22} /></div>
-                                                    <div className='flex flex-col juctify-between gap-2 w-full'>
-                                                        <div className='flex justify-between items-start'>
-                                                            <p className='font-semibold'>New Order Received! </p>
-                                                            <Link to={`/admin/view_order/${element._id}`} className="cursor-pointer flex gap-1 justify-center items-center py-1 px-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-400 " >
-                                                                View Order
-                                                                <ArrowRight size={17} />
-                                                            </Link>
+                                                <div className='flex  gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                    <div className='flex justify-center items-center border-2 border-green-300 text-green-500 w-10 h-10 p-1 mt-1.5 rounded-full'><ShoppingCart size={22} /></div>
+                                                    <div className='flex flex-col justify-between gap-2 w-10/12'>
+                                                        <div className='flex justify-between'>
+                                                            <div className='w-10/12'>
+                                                                <p className=''>{notif.message} </p>
+                                                                <Link to={`/admin/view_order/${notif._id}`} className="cursor-pointer flex gap-1 justify-center items-center py-1 px-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-400 w-1/2 mt-2" >
+                                                                    View Order 
+                                                                    <ArrowRight size={17} />
+                                                                </Link>
+                                                            </div>
+                                                            {userRole == "admin" && (
+                                                                <div 
+                                                                    onClick={() => setActiveNotificationId(notif._id)}
+                                                                    // onClick={() => {setShowDeleteNotificationPopUp(true) }}
+                                                                    className='w-7 h-7 bg-gray-50  flex justify-center items-center rounded-full'>
+                                                                    <X size={18} />
+                                                                </div>
+                                                            )}
                                                         </div>
                                                         <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
                                                             <div className=''><Calendar size={17}/></div>
-                                                            {element.createdAt.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.createdAt.slice(0, 10)}</p>}
+                                                            {notif.createdAt.slice(0, 10) === currentDate ? <p>Today</p> : <p>{notif.createdAt.slice(0, 10)}</p>}
                                                             <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                            {element.createdAt.slice(11,16)}
+                                                            {notif.createdAt.slice(11,16)}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -155,41 +106,126 @@ function Notifications() {
                                             {/* out of stock notification */}
                                             {notif.type=="out of stock" && (
                                                 <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
-                                                    <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-9 h-9 p-1 rounded-full'><PackageX size={22} /></div>
-                                                    <div className='flex flex-col juctify-between gap-1.5 w-full'>
-                                                        <p><span className='font-semibold'>Product out of stock: </span>{element.productName} </p>
+                                                    <div className='flex justify-center items-center border-2 border-red-300 text-red-500 w-10 h-10 p-1 rounded-full'>
+                                                        <PackageX size={22} />
+                                                    </div>
+                                                    <div className='flex flex-col justify-between gap-2 w-10/12'>
+                                                        <div className='flex justify-between'>
+                                                            <p className='w-10/12'>{notif.message}</p>
+                                                            {userRole == "admin" && (
+                                                                <div 
+                                                                    onClick={() => setActiveNotificationId(notif._id)}
+                                                                    // onClick={() => {setShowDeleteNotificationPopUp(true)}}
+                                                                    className='w-7 h-7 bg-gray-50  flex justify-center items-center rounded-full'>
+                                                                    <X size={18} />
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                         <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
                                                             <div className=''><Calendar size={17}/></div>
-                                                            {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>}
+                                                            {notif.createdAt?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{notif.createdAt?.slice(0, 10)}</p>}
                                                             <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                            {element.lastUpdated?.slice(11,16)}
+                                                            {notif.createdAt?.slice(11,16)}
                                                         </div>
                                                     </div>
                                                 </div>
                                             )}
-                                            {
-                                                (notif.type =="low in stock") && (
-                                                    <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
-                                                        <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-9 h-9 p-1 rounded-full'><TrendingDown size={22}  /></div>
-                                                        <div className='flex flex-col juctify-between gap-1.5 w-full '>
-                                                            <p><span className='font-semibold'>Product low in stock: </span>{element.productName} </p>
-                                                            <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
-                                                                <div className='mr-1'><Calendar size={17}/></div>
-                                                                {element.lastUpdated?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{element.lastUpdated?.slice(0, 10)}</p>} 
-                                                                <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
-                                                                {element.lastUpdated?.slice(11,16)}
-                                                            </div>
+                                            {/* low in stock */}
+                                            {notif.type =="low in stock" && (
+                                                <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                    <div className='flex justify-center items-center border-2 border-orange-300 text-orange-500 w-10 h-10 p-1 rounded-full'>
+                                                        <TrendingDown size={22}  />
+                                                    </div>
+                                                    <div className='flex flex-col justify-between gap-2 w-10/12 '>
+                                                        <div className='flex justify-between '>
+                                                            <p className='w-10/12'>{notif.message}</p>
+                                                            {userRole == "admin" && (
+                                                                <div 
+                                                                    onClick={() => setActiveNotificationId(notif._id)}
+                                                                    // onClick={() => {setShowDeleteNotificationPopUp(true)}}
+                                                                    className='w-7 h-7 bg-gray-50  flex justify-center items-center rounded-full'>
+                                                                    <X size={18} />
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                            <div className='mr-1'><Calendar size={17}/></div>
+                                                            {notif.createdAt?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{notif.createdAt?.slice(0, 10)}</p>} 
+                                                            <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                            {notif.createdAt?.slice(11,16)}
                                                         </div>
                                                     </div>
-                                                )
-                                            } 
-                                            
+                                                </div>
+                                            )} 
+                                            {/* expired */}
+                                            {notif.type=="expired" && (
+                                                <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                    <div className='flex justify-center items-center border-2  border-gray-400 text-gray-500 w-10 h-10 p-1 rounded-full'>
+                                                        <CalendarX2 size={22} />
+                                                    </div>
+                                                    <div className='flex flex-col justify-between gap-2 w-10/12 '>
+                                                        <div className='flex justify-between'>
+                                                            <p className='w-10/12'>{notif.message}</p>
+                                                            {userRole == "admin" && (
+                                                                <div 
+                                                                    onClick={() => setActiveNotificationId(notif._id)}
+                                                                    // onClick={() => {setShowDeleteNotificationPopUp(true)}}
+                                                                    className='w-7 h-7 bg-gray-50  flex justify-center items-center rounded-full'>
+                                                                    <X size={18} />
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                            <div className='mr-1'><Calendar size={17}/></div>
+                                                            {notif.createdAt?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{notif.createdAt?.slice(0, 10)}</p>} 
+                                                            <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                            {notif.createdAt?.slice(11,16)}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {/* expiring soon */}
+                                            {notif.type=="expiring soon" && (
+                                                <div className='flex items-center gap-3 bg-white border-b border-gray-200 py-2 px-3'>
+                                                    <div className='flex justify-center items-center border-2 border-blue-300 text-blue-500 w-10 h-10 p-1 rounded-full'>
+                                                        <CalendarClock size={22} />
+                                                    </div>
+                                                    <div className='flex flex-col juctify-between gap-2 w-10/12 '>
+                                                        <div className='flex justify-between'>
+                                                            <p className='w-10/12'>{notif.message}</p>
+                                                            {userRole == "admin" && (
+                                                                <div
+                                                                    onClick={() => setActiveNotificationId(notif._id)}
+                                                                    // onClick={() => {setShowDeleteNotificationPopUp(true)}}
+                                                                    className='w-7 h-7 bg-gray-50  flex justify-center items-center rounded-full'>
+                                                                    <X size={18} />
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className='flex justify-end items-center gap-1 mr-2 text-gray-600'>
+                                                            <div className='mr-1'><Calendar size={17}/></div>
+                                                            {notif.createdAt?.slice(0, 10) === currentDate ? <p>Today</p> : <p>{notif.createdAt?.slice(0, 10)}</p>} 
+                                                            <span className='border p-[0.5px] bg-black rounded-full mt-1'> </span> 
+                                                            {notif.createdAt?.slice(11,16)}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {activeNotificationId === notif._id && (
+                                                <DeleteNotificationPopUp
+                                                    notificationId={notif._id}
+                                                    setShowDeleteNotificationPopUp={() => setActiveNotificationId(null)}
+                                                    notifications={notifications}
+                                                    setNotifications={setNotifications}
+                                                />
+                                            )}
+                                            {/* {showDeleteNotificationPopUp && <DeleteNotificationPopUp notificationId={notif._id} setShowDeleteNotificationPopUp={setShowDeleteNotificationPopUp} />} */}
                                             </>
                                             
                                         ))
                                     )
                                     :(
-                                        <div className=' flex flex-col gap-3 text-gray-500 justify-center items-center h-[75vh]'>
+                                        <div className=' flex flex-col gap-2 text-gray-500 justify-center items-center h-[75vh]'>
                                             <div><Bell size={50}/></div> 
                                             <div><p>All products are in stock and up to date!</p></div>
                                         </div>

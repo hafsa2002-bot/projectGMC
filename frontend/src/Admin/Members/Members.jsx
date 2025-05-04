@@ -56,7 +56,7 @@ function Members() {
             <div>
               <div className='flex justify-between items-center'>
                 <div className='flex'>
-                  <p className='text-3xl font-medium mb-7 ml-7 mt-5 text-blue-500 font-poppins '>Members</p>
+                  <p className='text-3xl font-medium mb-5 ml-1 mt-5 text-blue-500 font-poppins '>Members</p>
                   <p className='relative top-3 left-1 text-blue-500 font-semibold font-poppins'>{members.length} </p>
                 </div>
                 <div 

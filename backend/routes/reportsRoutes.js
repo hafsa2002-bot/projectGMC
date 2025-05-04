@@ -1,5 +1,6 @@
 import express from 'express'
 import Order from '../models/Order.js'
+import Product from '../models/Product.js'
 
 const router = express.Router()
 
@@ -7,7 +8,7 @@ const router = express.Router()
 router.get("/reports/weekly-income", async (req, res) => {
     try{
         const now = new Date();
-        console.log("today is : ", now)
+        // console.log("today is : ", now)
         now.setHours(23, 59, 59, 999)
 
         // get the strat of 7days ago
@@ -344,5 +345,30 @@ router.get("/reports/yearly-income", async (req, res) => {
     }
 });
 
+// popular products
+router.get('/popular-products', async (req, res) => {
+    try {
+      // Get all products sorted by itemsSold descending
+        const products = await Product.find().sort({ itemsSold: -1 });
+  
+        const top4 = products.slice(0, 4).map(product => ({
+            name: product.productName,
+            value: product.itemsSold
+        }));
+  
+        const otherProducts = products.slice(4);
+    
+        const otherTotal = otherProducts.reduce((sum, product) => sum + product.itemsSold, 0);
+    
+        if (otherTotal > 0) {
+            top4.push({ name: 'Other Products', value: otherTotal });
+        }
+
+        res.json(top4);
+    } catch (err) {
+        console.error('Error fetching popular products:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+  });
 
 export default router

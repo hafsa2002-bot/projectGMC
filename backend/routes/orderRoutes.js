@@ -2,8 +2,10 @@ import express from 'express'
 import StoreStock from '../models/StoreStock.js'
 import Product from '../models/Product.js'
 import Order from '../models/Order.js'
+import Notification from '../models/Notification.js'
 import { logActivity } from './ActivityLogRoutes.js'
 import { protect } from "../middlewares/protect.js";
+import { checkStockAndNotify } from './notificationRoutes.js';
 
 
 const router = express.Router()
@@ -38,6 +40,7 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
             if (item.quantity > product.qty - product.expiredQty){
                 return res.status(400).json({error: `Not enough stock for product: ${item.name}`})
             }
+            /*
             await Product.updateOne(
                 {_id: item.productId},
                 {$inc: {qty: -item.quantity}}
@@ -46,6 +49,21 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
                 {_id: item.productId},
                 {$inc: {itemsSold: item.quantity}}
             )
+                */
+            const oldStock = product.qty;
+
+            // Update quantity and sold count
+            await Product.updateOne(
+                { _id: item.productId },
+                { $inc: { qty: -item.quantity, itemsSold: item.quantity } }
+            );
+            
+            // Fetch the updated product
+            const updatedProduct = await Product.findById(item.productId);
+            
+            // Check stock and notify
+            await checkStockAndNotify(updatedProduct, oldStock);
+
             // await product.save()
 
             console.log("product quantity equal:", product.qty)
@@ -72,6 +90,13 @@ router.post("/orders/addOnlineOrder", async(req, res) => {
         const newOrder = new Order ({contact, shipping, products, totalAmount, amountPaid, rest, paymentStatus, status})
         await newOrder.save()
         console.log("new order: ", newOrder)
+
+        await Notification.create({
+            type: "new order received",
+            message: `New order received from ${newOrder.shipping?.lastName + " " + newOrder.shipping?.firstName || 'a client'}`,
+            orderId: newOrder._id, 
+            createdAt: new Date()
+        });
 
         // update store stock
         await StoreStock.updateStoreStock();
@@ -111,6 +136,7 @@ router.post("/orders/addOrder", protect, async(req, res) => {
             if (item.quantity > product.qty){
                 return res.status(400).json({error: `Not enough stock for product: ${item.productId}`})
             }
+            /*
             await Product.updateOne(
                 {_id: item.productId},
                 {$inc: {qty: -item.quantity}}
@@ -119,6 +145,21 @@ router.post("/orders/addOrder", protect, async(req, res) => {
                 {_id: item.productId},
                 {$inc: {itemsSold: item.quantity}}
             )
+                */
+            const oldStock = product.qty;
+
+            // Update quantity and sold count
+            await Product.updateOne(
+                { _id: item.productId },
+                { $inc: { qty: -item.quantity, itemsSold: item.quantity } }
+            );
+            
+            // Fetch the updated product
+            const updatedProduct = await Product.findById(item.productId);
+            
+            // Check stock and notify
+            await checkStockAndNotify(updatedProduct, oldStock);
+
             // await product.save()
 
             console.log("product quantity equal:", product.qty)
@@ -217,6 +258,7 @@ router.get("/orders/payment-status/pending", async  (req, res) => {
 })
 
 // update order status
+/*
 router.patch("/orders/update-status/:id", protect, async (req, res) => {
     try{
         const {OrderStatus} = req.body
@@ -225,31 +267,31 @@ router.patch("/orders/update-status/:id", protect, async (req, res) => {
         if(!order) return res.status(404).json({message: 'Order not found'})
 
         // if order canceled it means products are restocked but payment status is still the same 
-        /*
-        if(OrderStatus === "canceled" && order.status !=="canceled"){
-            for (const item of order.products){
-                const product = await Product.findByIdAndUpdate(item.productId)
+        
+        // if(OrderStatus === "canceled" && order.status !=="canceled"){
+        //     for (const item of order.products){
+        //         const product = await Product.findByIdAndUpdate(item.productId)
                 
-                if(!product) continue
-                product.qty += item.quantity,
-                product.itemsSold -= item.quantity
-                // await product.updateStockStatus()
-            }
+        //         if(!product) continue
+        //         product.qty += item.quantity,
+        //         product.itemsSold -= item.quantity
+        //         // await product.updateStockStatus()
+        //     }
                 
-                ///
-                if(updatedProduct.qty === 0){
-                    console.log("product was out of stock")
-                    await Product.updateOne(
-                        {_id: item.productId},
-                        {$set: {outOfStock: false}}
-                    )
-                }
-                ///
-                order.status = "canceled"
-                await order.save()
+                
+        //         if(updatedProduct.qty === 0){
+        //             console.log("product was out of stock")
+        //             await Product.updateOne(
+        //                 {_id: item.productId},
+        //                 {$set: {outOfStock: false}}
+        //             )
+        //         }
+                
+        //         order.status = "canceled"
+        //         await order.save()
 
-        }
-        */
+        // }
+        
         if(OrderStatus === "canceled" && order.status !=="canceled"){
             for (const item of order.products){
                 const product = await Product.findByIdAndUpdate(item.productId, {
@@ -279,6 +321,82 @@ router.patch("/orders/update-status/:id", protect, async (req, res) => {
             order.status = "canceled"
             await order.save()
 
+        }
+        else {
+            order.status = OrderStatus;
+            await order.save()
+        }
+        
+        // update store stock
+        await StoreStock.updateStoreStock();
+        
+        //log activity
+        await logActivity(req.user._id, req.user.name, "Order status updated",  `${order._id}, new status: ${OrderStatus}`)
+        res.json(order)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error"})
+    }
+})
+*/
+
+router.patch("/orders/update-status/:id", protect, async (req, res) => {
+    try{
+        const {OrderStatus} = req.body
+        const order = await Order.findById(req.params.id)
+
+        if(!order) return res.status(404).json({message: 'Order not found'})
+        
+        if(OrderStatus === "canceled" && order.status !=="canceled"){
+            for (const item of order.products){
+                const product = await Product.findById(item.productId);
+                if (!product) continue;
+                const oldStock = product.qty;
+                /*
+                const product = await Product.findByIdAndUpdate(item.productId, {
+                    $inc: {
+                        qty: item.quantity,
+                        itemsSold: -item.quantity
+                    }
+                })
+                // in case he was out of stock
+                if(product.qty === 0){
+                    console.log("product was out of stock")
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {outOfStock: false}}
+                    )
+                }
+                //in case he was low in stock 
+                if(product.qty + item.quantity > product.minLevel){
+                    console.log("product was low in stock")
+                    await Product.updateOne(
+                        {_id: item.productId},
+                        {$set: {lowInStock: false}}
+                    )
+                }
+                //await product.updateStockStatus()
+                */
+
+                product.qty += item.quantity;
+                product.itemsSold -= item.quantity;
+               // Reset flags based on new qty
+                if (oldStock === 0) {
+                    console.log("product was out of stock");
+                    product.outOfStock = false;
+                }
+                if (oldStock < product.minLevel && product.qty > product.minLevel) {
+                    console.log("product was low in stock");
+                    product.lowInStock = false;
+                }
+
+                await product.save();
+
+                // Check stock and notify
+                await checkStockAndNotify(product, oldStock);
+            }
+            order.status = "canceled"
+            await order.save()
         }
         else {
             order.status = OrderStatus;
@@ -341,12 +459,20 @@ router.delete("/orders/delete/:id",protect , async (req, res) => {
                     console.log(`Product with ID ${item.productId} not found.`);
                     continue; // Skip this product if not found
                 }
+                /*
                 const updatedProduct = await Product.findByIdAndUpdate(item.productId, {
                     $inc: {
                         qty: item.quantity,
                         itemsSold: -item.quantity
                     }
                 })
+                    */
+                const oldStock = product.qty;
+
+                // Restore stock
+                product.qty += item.quantity;
+                product.itemsSold -= item.quantity;
+                /*
                 if(updatedProduct.qty === 0){
                     console.log("product was out of stock")
                     await Product.updateOne(
@@ -362,6 +488,19 @@ router.delete("/orders/delete/:id",protect , async (req, res) => {
                         {$set: {lowInStock: false}}
                     )
                 }
+                    */
+                   // Reset outOfStock and lowInStock flags if needed
+                if (oldStock === 0) {
+                    product.outOfStock = false;
+                }
+                if (oldStock <= product.minLevel && product.qty > product.minLevel) {
+                    product.lowInStock = false;
+                }
+
+                await product.save();
+
+                //  Check and notify if needed
+                await checkStockAndNotify(product, oldStock);
             }
             await order.save()
             await Order.findByIdAndDelete({_id: req.params.id})

@@ -13,6 +13,7 @@ import DashboardOrders from './DashboardOrders'
 import WeekReport from '../Reports/WeekReport'
 import IncomeReports from './IncomeReports'
 import { jwtDecode } from 'jwt-decode'
+import MostPopularCharts from '../Reports/MostPopularCharts'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
@@ -106,9 +107,9 @@ function AdminHomePage() {
       </section>
 
       {/* reports */}
-      <section className='flex flex-col mt-9 '>
+      <section className='mt-9 '>
         {/* <h1 className='lg:ml-0 ml-3 text-2xl font-bold text-gray-900'>Reports</h1> */}
-        <div className='lg:flex gap-5 '>
+        <div className='lg:flex items-center justify-between gap-5 '>
           <div className='lg:w-1/2 w-11/12 m-auto lg:mx-0'>
             <h1 className='text-xl font-semibold pb-3'>Income tracker</h1>
             <div className=' bg-white rounded-xl border border-gray-300 lg:py-7 py-4'>
@@ -116,8 +117,11 @@ function AdminHomePage() {
             </div>
 
           </div>
-          <div className='h-1/2 bg-green-100'>
-            <p>Pipe line charts : popular products</p>
+          <div className=''>
+          <h1 className='text-xl font-semibold pb-3'>Most Popular Products</h1>
+            <div className='bg-white p-2 flex justify-center rounded-lg border border-gray-300'>
+              <MostPopularCharts h={240} w={600} outerRad={90} layout="vertical" align="right" verticalAlign="middle" fontSize={12} />
+            </div>
           </div>
         </div>
       </section>

@@ -2,12 +2,11 @@ import express from 'express'
 import Product from '../models/Product.js'
 import Order from '../models/Order.js'
 import Notification from '../models/Notification.js'
-
+import { logActivity } from './ActivityLogRoutes.js'
+import { protect } from "../middlewares/protect.js";
 const router = express.Router()
 
 // create new notification
-
-
 const createNotification = async (productId, notificationName) => {
     try{
         if(notificationName !== "expiring soon"){
@@ -24,6 +23,48 @@ const createNotification = async (productId, notificationName) => {
         console.log("Failed to add new Notification: ", error)
     }
 }
+
+async function checkStockAndNotify(product, oldStock) {
+    const newStock = product.qty;
+    console.log("newStock = ", newStock)
+    console.log("minLevel = ", product.minLevel)
+
+    // If stock didn't change, don't do anything
+    if (oldStock === newStock) return;
+
+    if (newStock <= 0) {
+        await Notification.findOneAndUpdate(
+            { productId: product._id, type: 'out of stock' },
+            {
+                productId: product._id,
+                type: 'out of stock',
+                message: `${product.productName} is out of stock.`,
+                createdAt: new Date()
+            },
+            { upsert: true, new: true }
+        );
+    } else if (newStock < product.minLevel) {
+        await Notification.findOneAndUpdate(
+            { productId: product._id, type: 'low in stock' },
+            {
+                productId: product._id,
+                type: 'low in stock',
+                message: `${product.productName} is low in stock.`,
+                createdAt: new Date()
+            },
+            { upsert: true, new: true }
+        );
+        // Remove "out of stock" if it existed
+        await Notification.deleteOne({ productId: product._id, type: 'out of stock' });
+    }else {
+        // Stock is healthy — clean up both low and out-of-stock notifications
+        await Notification.deleteMany({
+            productId: product._id,
+            type: { $in: ['out of stock', 'low in stock'] }
+        });
+    }
+}
+
     
 
 // fetch and sort data by lastUpdated
@@ -68,5 +109,20 @@ router.get("/notifications", async (req, res) => {
     }
 });
 
+router.delete("/delete-notification/:id", async(req, res) => {
+    try{
+        const deletedNotification = await Notification.findByIdAndDelete({_id: req.params.id})
+        if(!deletedNotification){
+            return res.status(404).json({error: "notification not found"})
+        }
+        console.log("deleted notification: ", deletedNotification)
+        res.json({message: "notification deleted successfully", deletedNotification})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, failed to delete notification"})
+    }
+})
+
 export {createNotification}
+export {checkStockAndNotify}
 export default router
