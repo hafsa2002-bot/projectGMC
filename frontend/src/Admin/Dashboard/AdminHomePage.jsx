@@ -72,35 +72,35 @@ function AdminHomePage() {
         {/* <p className='text-2xl font-semibold text-gray-700 mt-7 mb-4 lg:pl-0 pl-3'>Inventory Summary</p> */}
         <div className='flex lg:flex-nowrap flex-wrap lg:gap-10 gap-8 lg:justify-between justify-center '>
           {/* Total Items */}
-          <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex  gap-3 justify-between items-center '>
-            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><Layers /></div>
-            <div className='text-end text-gray-600'>
+          <div className='lg:w-1/4 w-5/12 border border-gray-300 lg:py-5 py-3 px-4 bg-white rounded-lg  lg:flex lg:flex-row flex-col gap-3 lg:justify-between justify-center items-center '>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center lg:mx-0 mx-auto '><Layers /></div>
+            <div className='lg:text-end text-center lg:mt-0 mt-2 text-gray-600'>
               <p className='text-lg'>Total Items</p>
-              <div className='font-semibold text-2xl text-black'>{stockInfo.totalProducts ? stockInfo.totalProducts : <p className='text-lg font-semibold'>N/A</p>}</div>
+              <div className='font-semibold  lg:text-2xl text-lg text-black'>{stockInfo.totalProducts ? stockInfo.totalProducts : <p className='text-lg font-semibold'>N/A</p>}</div>
             </div>
           </div>
           {/* total categories */}
-          <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex justify-between gap-3 items-center '>
-            <div className='w-10 h-10 rounded-lg bg-blue-500 text-white flex justify-center items-center'><Folder fill='white'/></div>
-            <div className='text-end text-gray-600'>
+          <div className='lg:w-1/4 w-5/12 border border-gray-300 lg:py-5 py-3 px-4 bg-white rounded-lg  lg:flex lg:flex-row flex-col gap-3 lg:justify-between justify-center items-center '>
+            <div className='w-10 h-10 rounded-lg bg-blue-500 text-white flex justify-center items-center lg:mx-0 mx-auto '><Folder fill='white'/></div>
+            <div className='lg:text-end text-center lg:mt-0 mt-2 text-gray-600'>
               <p className='text-lg'>Categories</p>
-              <div className='font-semibold text-2xl text-black'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</div>
+              <div className='font-semibold  lg:text-2xl text-lg text-black'>{stockInfo.totalCategories ? stockInfo.totalCategories : <p className='text-lg font-semibold'>N/A</p>}</div>
             </div>
           </div>
           {/* Total Value*/}
-          <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex gap-3 justify-between items-center '>
-            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><Wallet /></div>
-            <div className='text-end text-gray-600 w-11/12'>
+          <div className='lg:w-1/4 w-5/12  border border-gray-300 lg:py-5 py-3 px-4 bg-white rounded-lg lg:flex lg:flex-row flex-col gap-3 lg:justify-between justify-center  items-center '>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center lg:mx-0 mx-auto '><Wallet /></div>
+            <div className='lg:text-end text-center lg:mt-0 mt-2 text-gray-600 w-11/12  '>
               <p className='text-lg'>Total Value</p>
-              <div className='font-semibold text-2xl text-black'>{stockInfo.totalValue ? stockInfo.totalValue.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
+              <div className='font-semibold lg:text-2xl text-lg text-black'>{stockInfo.totalValue ? stockInfo.totalValue.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
             </div>
           </div>
           {/* awaiting payment*/}
-          <div className='lg:w-1/4 w-5/12 border border-gray-300 py-5 px-4 bg-white rounded-lg flex gap-3 justify-between items-center '>
-            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center'><NotebookPen /></div>
-            <div className='text-end text-gray-600 '>
+          <div className='lg:w-1/4 w-5/12 border border-gray-300 lg:py-5 py-3 px-4 bg-white rounded-lg  lg:flex lg:flex-row flex-col gap-3 justify-between items-center '>
+            <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center lg:mx-0 mx-auto '><NotebookPen /></div>
+            <div className='lg:text-end text-center lg:mt-0 mt-2 text-gray-600 '>
               <p className='text-lg'>Awaiting Payment</p>
-              <div className='font-semibold text-2xl text-black'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
+              <div className='font-semibold  lg:text-2xl text-lg text-black'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
             </div>
           </div>
         </div>
@@ -117,10 +117,13 @@ function AdminHomePage() {
             </div>
 
           </div>
-          <div className=''>
-          <h1 className='text-xl font-semibold pb-3'>Most Popular Products</h1>
-            <div className='bg-white p-2 flex justify-center rounded-lg border border-gray-300'>
+          <div className='lg:w-1/2 w-11/12 lg:mx-0 m-auto lg:mt-0 mt-7'>
+            <h1 className='text-xl font-semibold pb-3'>Most Popular Products</h1>
+            <div className='hidden bg-white p-2 lg:flex justify-center rounded-lg border border-gray-300'>
               <MostPopularCharts h={240} w={600} outerRad={90} layout="vertical" align="right" verticalAlign="middle" fontSize={12} />
+            </div>
+            <div className='lg:hidden bg-white flex justify-center px-3 py-4 items-center rounded-lg border border-gray-300 '>
+              <MostPopularCharts h={320} w={400} outerRad={120} layout="horizontal" align="left" verticalAlign="bottom" fontSize={14} />
             </div>
           </div>
         </div>

@@ -17,22 +17,22 @@ function Footer() {
                     <p className='font-mono text-lg pt-3 text-gray-200'>Où vos courses deviennent <br/> simples et rapides.</p>
                 </div>
             </div>
-            <div className='flex mb-7 px-4'>
+            <div className='flex mb-7 lg:px-4 px-3'>
                 <div>
                     <p className='text-4xl font-extrabold'>Novexa</p>
                     <p className='font-mono text-lg lg:pt-3 pt-1 text-gray-200'>Où vos courses deviennent simples et rapides.</p>
                 </div>
             </div>
-            <div className='flex lg:gap-28 gap-12 px-4 lg:px-0'>
+            <div className='lg:flex lg:gap-28 gap-12 px-4 lg:px-0'>
                 <div>
-                    <h3 className="text-yellow-300 text-2xl font-semibold mb-4">Contactez-nous</h3>
+                    <h3 className="text-yellow-300 text-2xl font-semibold lg:mb-4 mb-2">Contactez-nous</h3>
                     <ul className='footerList flex flex-col gap-1 text-stone-300'>
                         <li>Email: <a href='' className='no-underline text-[rgb(105, 105, 105)] hover:text-white'>support@novexa.com</a></li>
-                        <li>Phone: <br className='flex lg:hidden '/> <span className='hover:text-white'>+212 123-456-789</span> </li>
+                        <li>Phone: <span className='hover:text-white'>+212 123-456-789</span> </li>
                     </ul>
                 </div>
-                <div>
-                    <h3 className="text-yellow-300 text-2xl font-semibold mb-4">Suivez-nous</h3>
+                <div className='mt-3 lg:mt-0'>
+                    <h3 className="text-yellow-300 text-2xl font-semibold lg:mb-4 mb-2">Suivez-nous</h3>
                     <div className='footerList flex socialMediaList  justify-startr gap-4 text-stone-400'>
                         <a href="https://www.instagram.com/hafssa_4748/?hl=fr" target="_blank" rel="noopener noreferrer" className="text-white w-10 h-10 rounded-full flex justify-center items-center bg-gray-700 hover:text-yellow-300 transition-all">
                             <FontAwesomeIcon icon={faInstagram} size="xl" />

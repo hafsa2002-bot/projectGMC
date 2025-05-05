@@ -100,24 +100,24 @@ function ProductDetails() {
             <div className="flex items-center text-sm py-4 px-2 text-gray-600">
                 <nav aria-label="Breadcrumb ">
                     <ol className="flex items-center space-x-2">
-                        <li>
+                        <li className='lg:flex  hidden'>
                             <Link 
                                 to="/" 
                                 className="flex items-center gap-1 transition-colors duration-200 hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded"
                             >
                                 <Home size={16} className="flex-shrink-0 mb-0.5" />
-                                <span className="hover:underline">Home</span>
+                                <span className="hover:underline">Accueil</span>
                             </Link>
                         </li>
-                        <li>
+                        <li className='lg:flex  hidden'>
                             <ChevronRight size={20} className="text-gray-400" aria-hidden="true" />
                         </li>
                         <li>
                             <Link 
                                 to="/products" 
-                                className="transition-colors duration-200 hover:text-yellow-500 hover:underline focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded"
+                                className=" transition-colors duration-200 hover:text-yellow-500 hover:underline focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 rounded"
                             >
-                                Products
+                                Produits
                             </Link>
                         </li>
                         {product?.categoryId && (
@@ -155,7 +155,7 @@ function ProductDetails() {
                         <div className="lg:flex gap-16 justify-center items-center mt-3 px-6">
                         {/* Image Section */}
                             <div className="lg:w-4/12 w-full">
-                                <img className="w-full h-[75vh] rounded-lg" src={`http://localhost:3003${product.productPhoto}`} alt={product.productName} />
+                                <img className="w-full lg:h-[75vh] lg:mb-0 mb-7 rounded-lg" src={`http://localhost:3003${product.productPhoto}`} alt={product.productName} />
                             </div>
 
                             {/* Product Info Section */}
@@ -211,7 +211,7 @@ function ProductDetails() {
                                     
                                     {/* Price - Elegant presentation */}
                                     <div className="flex items-baseline gap-2">
-                                        <span className="text-4xl font-semibold text-gray-900">{product.price}</span>
+                                        <span className="text-4xl font-semibold lg:text-gray-900 text-yellow-400">{product.price}</span>
                                         <span className="text-lg text-gray-500">MAD</span>
                                     </div>
                                 </div>

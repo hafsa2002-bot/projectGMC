@@ -60,19 +60,19 @@ function Nav(props) {
                                 to="/"
                                 onClick={() => window.scrollTo(0, 0)}  
                                 className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
-                                Home
+                                Accueil
                             </NavLink>
                             <NavLink 
                                 to="/products"
                                 onClick={() => window.scrollTo(0, 0)}  
                                 className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
-                                Products
+                                Produits
                             </NavLink>
                             <NavLink 
                                 to="/ContactUs"
                                 onClick={() => window.scrollTo(0, 0)}  
                                 className={({ isActive }) => isActive ? "text-yellow-300 border-b-2 border-yellow-300 pb-1 text-lg" : "text-white hover:text-yellow-300  text-lg"}>
-                                Contact Us
+                                Contact
                             </NavLink>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ function Nav(props) {
                         className={({ isActive }) => isActive 
                             ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
                             : "text-white hover:text-yellow-300"}>
-                        Home
+                        Accueil
                     </NavLink>
                     <NavLink 
                         to="/products"
@@ -162,7 +162,7 @@ function Nav(props) {
                         className={({ isActive }) => isActive 
                             ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
                             : "text-white hover:text-text-yellow-300"}>
-                        Products
+                        Produits
                     </NavLink>
                     <NavLink 
                         to="/ContactUs"
@@ -170,7 +170,7 @@ function Nav(props) {
                         className={({ isActive }) => isActive 
                             ? "text-yellow-300 border-b-2 border-yellow-300 pb-1" 
                             : "text-white hover:text-yellow-300"}>
-                        Contact Us
+                        Contact
                     </NavLink>
                 </div>
             </nav>

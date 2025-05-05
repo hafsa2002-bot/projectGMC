@@ -1,4 +1,4 @@
-import { ChevronDown, FileClock, House, LogOut, Menu, Package, Search, Settings, ShoppingCart, SquareKanban, UsersRound, CircleUserRound, UserRound } from 'lucide-react'
+import { ChevronDown, FileClock, House, LogOut, Menu, Package, Search, Settings, ShoppingCart, SquareKanban, UsersRound, CircleUserRound, UserRound, User } from 'lucide-react'
 import { Link, NavLink, useNavigate} from 'react-router-dom'
 import React, {useState, useEffect} from 'react'
 import Notifications from './Dashboard/Notifications'
@@ -6,6 +6,11 @@ import Notifications from './Dashboard/Notifications'
 function Navbar({firstLetters, userName}) {
     const [showSignOut, setShowSignOut] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
+    const navigate = useNavigate()
+    const handleLogout = () => {
+        localStorage.removeItem('token')  
+        navigate('/')                
+    }
   return (
     <nav className='lg:hidden z-50   flex justify-between items-center bg-blue-500 w-full fixed top-0 py-4'>
         {/* navbar for mobile phone */}
@@ -18,13 +23,13 @@ function Navbar({firstLetters, userName}) {
                 <div
                     onClick={(e) => e.stopPropagation()}
                     // h-[91vh]
-                    className='absolute overflow-y-scroll   bg-white border border-gray-200 shadow-lg top-[53px] left-0  w-64 h-[91vh] text-gray-600 text-xl font-semibold px-4  flex flex-col justify-between'>
-                    <div className='flex flex-col  gap-3 py-3'>
+                    className='absolute overflow-y-scroll   bg-white border border-gray-200 shadow-lg top-[53px] left-0  w-64 h-[91vh] text-gray-600 text-xl font-poppins px-4  flex flex-col justify-between'>
+                    <div className='flex flex-col  gap-3 py-3 mt-4'>
                         <NavLink 
                             to="/admin"
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive && window.location.pathname === "/admin" ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}>
-                            <div><House size={28}/></div>
+                            <div><House size={27}/></div>
                             <div>Home</div>
                         </NavLink>
                         <NavLink
@@ -32,7 +37,7 @@ function Navbar({firstLetters, userName}) {
                             onClick={() => setShowMenu(false)} 
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><Package size={28}/> </div>
+                            <div><Package size={27}/> </div>
                             <div>Items</div>
                         </NavLink>
                         {/* <NavLink
@@ -48,7 +53,7 @@ function Navbar({firstLetters, userName}) {
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><ShoppingCart size={28}/></div>
+                            <div><ShoppingCart size={27}/></div>
                             <div>Orders</div>
                         </NavLink>
                         <NavLink
@@ -72,7 +77,7 @@ function Navbar({firstLetters, userName}) {
                             onClick={() => setShowMenu(false)}
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><UsersRound size={28}/></div>
+                            <div><UsersRound size={27}/></div>
                             <div>Members</div>
                         </NavLink>
                         {/* <NavLink
@@ -89,8 +94,8 @@ function Navbar({firstLetters, userName}) {
                             // className='flex items-center gap-3 px-4 py-3'
                             className={({isActive}) => isActive ? 'flex items-center gap-3 px-4 py-3 bg-blue-100 text-blue-500 rounded-lg' : 'flex items-center gap-3 px-4 py-3 '}
                         >
-                            <div><Settings size={30}/></div>
-                            <div>Settings</div>
+                            <div><UserRound size={27}/></div>
+                            <div>Profile</div>
                         </NavLink>
                         
                     </div>
@@ -110,21 +115,22 @@ function Navbar({firstLetters, userName}) {
                                     onClick={() => setShowSignOut(!showSignOut)}
                                     className=''
                                 >
-                                    <ChevronDown size={28} />
+                                    {/* <ChevronDown size={27} /> */}
                                 </div>
                             </div> 
-                                {showSignOut && (
-                                    <div
-                                        onClick={(e) => e.stopPropagation()}
-                                        className='text-red-600 text-base  flex items-center justify-center gap-3 py-3 '>
-                                        <div>
-                                            <LogOut  size={23} />
-                                        </div>
-                                        <div>
-                                            <p>Sign Out</p>
-                                        </div>
-                                    </div>
-                                )}
+                            <div
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleLogout()
+                                }}
+                                className='text-red-600 text-base  flex items-center  gap-4 pt-5 pb-3 px-3 '>
+                                <div>
+                                    <LogOut  size={23} />
+                                </div>
+                                <div>
+                                    <p>Sign Out</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

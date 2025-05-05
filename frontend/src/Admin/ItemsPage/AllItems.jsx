@@ -36,7 +36,7 @@ function AllItems() {
     }, [])
 
   return (
-    <div className=" bg-white border border-gray-300 mt-8    shadow-md sm:rounded-lg">
+    <div className=" bg-white border overflow-x-scroll border-gray-300 mt-8    shadow-md sm:rounded-lg">
         {
             loading 
             ?(
@@ -45,25 +45,25 @@ function AllItems() {
                 <>
                 { items.length > 0 
                     ?(
-                        <table className=" w-full text-sm text-left rtl:text-right text-gray-500 mb-20">
+                        <table className=" lg:w-full  overflow-x-scroll text-sm text-left rtl:text-right text-gray-500 mb-20">
                             <thead className=" text-gray-700  bg-gray-50 ">
                                 <tr>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="lg:px-6 px-3 py-3">
                                         Product
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="lg:px-6 px-3 py-3">
                                         Qty available
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="lg:px-6 px-3 py-3">
                                         Items sold
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="lg:px-6 px-3 py-3">
                                         Unit price
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="lg:px-6 px-3 py-3">
                                         Expiry Date
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="lg:px-6 px-3 py-3">
                                             
                                     </th>
                                 </tr>
@@ -74,7 +74,7 @@ function AllItems() {
                                 ?(
                                     [...items].reverse().map((item, index) => (
                                         <tr key={index} className=" bg-white border-b border-gray-200 w-full">
-                                            <td scope="row" className=" px-6 py-4 font-medium text-gray-900  dark:text-white">
+                                            <td scope="row" className=" lg:px-6 px-3 py-4 font-medium text-gray-900  dark:text-white">
                                                 <Link to={`/admin/items/view/${item._id}`} className='flex items-center gap-4 '>
                                                     <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
                                                         {
@@ -85,34 +85,34 @@ function AllItems() {
                                                         }
                                                     </div>
                                                     <div>
-                                                        <p className='text-base max-w-60 truncate'>{item.productName}</p>
+                                                        <p className='text-base lg:max-w-60 max-w-32 truncate'>{item.productName}</p>
                                                     </div>
                                                 </Link>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="lg:px-6 px-3 py-4">
                                                 {item.qty} items
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="lg:px-6 px-3 py-4">
                                                 {item.itemsSold && (<p>{item.itemsSold} items</p>)}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="lg:px-6 px-3 py-4">
                                                 {item.price} <span className='text-black'>MAD</span>
                                             </td>
-                                            <td className="px-6 py-4 text-base ">
+                                            <td className="lg:px-6 px-3 py-4 text-base ">
                                                 {
                                                 item.expirationDate ? (item.expirationDate.slice(0,10))
                                                 : item.earliestExpiration ? (item.earliestExpiration.slice(0,10))
                                                 :(<p>-</p>)
                                                 }
                                             </td>
-                                            <td className="relative px-6 py-4">
+                                            <td className="relative lg:px-6 px-3 py-4">
                                                 {userRole == "admin" 
                                                     ?(
                                                         <>
                                                         <EllipsisVertical onClick={() => setShowOptions(index === showOptions ? null : index)} className='cursor-pointer' />
                                                         {
                                                             showOptions === index && (
-                                                                <div className=' z-30 absolute right-12 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
+                                                                <div className=' z-30 absolute lg:right-12 right-6 top-16 bg-white shadow-md border border-gray-200 rounded-lg text-black w-32'>
                                                                     {/* view product details  */}
                                                                     <Link to={`/admin/items/view/${item._id}`} className='hover:bg-gray-100 px-4 py-2.5 gap-3 text-base font-semibold flex items-center border-b border-gray-200'>
                                                                         <div><Eye /></div>

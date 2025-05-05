@@ -61,7 +61,7 @@ function SearchInput({setShowSearch}) {
                             filterProducts(event.target.value)
                         }
                     }}
-                    placeholder="Search"
+                    placeholder="Recherche"
                     className="w-full bg-transparent focus:outline-none text-sm text-gray-700 placeholder:text-gray-400"
                 />
                 <button>
@@ -76,7 +76,7 @@ function SearchInput({setShowSearch}) {
                                     categoriesSearched.length > 0 
                                     && (
                                         <div className='lg:w-2/5 px-2'>
-                                            <p className='border-b border-gray-300 text-gray-500 text-sm pb-1 mb-1.5'>SUGGESTIONS</p>
+                                            <p className='border-b border-gray-300 text-gray-500 text-sm pb-1 mb-1.5'>CATEGORIES</p>
                                             <ul className=''>
                                                 {
                                                     categoriesSearched.slice(0, 7).map((category, index) => (
@@ -99,7 +99,7 @@ function SearchInput({setShowSearch}) {
                                     productsSearched.length > 0 
                                     && (
                                         <div className='lg:w-3/5 px-2 '>
-                                            <p className='border-b border-gray-300 text-gray-500 text-sm pb-1 mb-1.5 lg:pt-0 pt-5'>PRODUCTS</p>
+                                            <p className='border-b border-gray-300 text-gray-500 text-sm pb-1 mb-1.5 lg:pt-0 pt-5'>PRODUITS</p>
                                             <ul className='w-full '>
                                                 {
                                                     productsSearched.slice(0, 7).map((product, index) => (

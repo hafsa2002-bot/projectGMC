@@ -41,7 +41,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                                 </div>
                                 <div>
                                     <p>{product.productName}</p>
-                                    {outOfStockProducts.includes(product._id) && (<p className='text-white bg-gradient-to-r from-red-700  to-red-800 rounded-full text-sm w-24 text-center mt-1'>Out of stock!</p>)}                            </div>
+                                    {outOfStockProducts.includes(product._id) && (<p className='text-white bg-gradient-to-r from-red-700  to-red-800 rounded-full text-sm w-24 text-center mt-1'>Rupture de stock !</p>)}                            </div>
                             </div>
                             <div className=' font-mono w-3/12 text-end '>
                                 <span className='text-end'>{product.price}</span> MAD
@@ -53,15 +53,15 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
             <div className='w-10/12 m-auto mt-9 '>
                 <div className='flex justify-between'>
                     <div className='flex items-center gap-1'>
-                        <p>Subtotal </p>
+                        <p>Sous-total</p>
                         <span className='border rounded-full p-[0.5px] bg-black'></span>
-                        <p>{totalQty} Articles</p> 
+                        <p>{totalQty == 1 ? <span> {totalQty} Article</span> : <span> {totalQty} Articles</span>} </p> 
                     </div>
                     <div className=''>{totalAmount.toFixed(2)} MAD</div> 
                 </div>
                 <div className='flex justify-between mt-2'>
-                    <div>Shipping</div>
-                    <div>{shipping == 0 ? (<p>FREE</p>) : (<p>{shipping} MAD</p>)}</div>
+                    <div>Livarison</div>
+                    <div>{shipping == 0 ? (<p>GRATUITE</p>) : (<p>{shipping} MAD</p>)}</div>
                 </div>
                 <div className=' font-semibold text-xl flex justify-between items-center mt-8'>
                     <div>Total</div>

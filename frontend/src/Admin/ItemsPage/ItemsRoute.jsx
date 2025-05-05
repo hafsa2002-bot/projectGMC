@@ -10,7 +10,7 @@ function ItemsRoute() {
     <div className=''>
     { (!location.pathname.startsWith("/admin/items/view")) && (
       <div className={`${(location.pathname == "/admin/items/out-of-stock" || location.pathname == "/admin/items/low-in-stock" || location.pathname == "/admin/items/expired-items" || location.pathname === "/admin/items/add-item" || location.pathname.startsWith("/admin/items/update-item" )) ? 'hidden' :' bg-gray-100 border-b border-gray-400 flex justify-between items-center my-5 '}`} >
-        <div className='flex  gap-5 text-3xl '>
+        <div className='flex  gap-5 lg:text-3xl text-2xl '>
             <NavLink
               className={({isActive}) => (isActive && (location.pathname === "/admin/items" )) ? 'text-blue-600 border-b-3 border-blue-700 pb-5 font-semibold px-3 ' : 'px-2 text-gray-500 font-semibold' } 
               to="/admin/items">

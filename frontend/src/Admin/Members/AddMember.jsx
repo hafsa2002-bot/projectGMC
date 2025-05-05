@@ -62,8 +62,8 @@ function AddMember({setAddNewUser}) {
         fetchData()
     }, [email])
   return (
-    <div className='w-screen h-screen z-50 top-0 right-0 fixed flex justify-center items-center  bg-black/30 ' >
-        <div className=' w-7/12 h-[80vh] bg-white rounded-xl shadow-md border border-gray-200'>
+    <div className='w-screen h-screen z-50 top-0 right-0 fixed flex justify-center items-center  bg-black/40 ' >
+        <div className=' lg:w-7/12 w-11/12 lg:h-[80vh] h-[90vh] bg-white rounded-xl shadow-md border border-gray-200'>
         {/* Title */}
         <div className='my-4 mx-2 flex justify-between items-center'>
             <h2 onClick={() => navigate(-1)} className="text-xl cursor-pointer font-semibold text-gray-800 flex items-center ml-7 gap-1"> <ArrowLeft/>Add New Member</h2>
@@ -71,11 +71,11 @@ function AddMember({setAddNewUser}) {
         </div>
             <form
                 onSubmit={handleSubmit} 
-                className="mx-5 mt-10 p-6  font-poppins"
+                className="lg:mx-5 mt-10 p-6  font-poppins"
             >
-                <div className='flex justify-between gap-6'>
+                <div className='lg:flex justify-between gap-6'>
                     {/* Name */}
-                    <div className="mb-4 w-1/2">
+                    <div className="mb-4 lg:w-1/2">
                         <label htmlFor="name" className="block  font-medium text-gray-700">Name</label>
                         <input 
                         type="text" 
@@ -91,7 +91,7 @@ function AddMember({setAddNewUser}) {
                     </div>
 
                     {/* Email */}
-                    <div className="mb-4 w-1/2">
+                    <div className="mb-4 lg:w-1/2">
                         <label htmlFor="email" className="block  font-medium text-gray-700">Email</label>
                         <input 
                         type="email" 
@@ -105,9 +105,9 @@ function AddMember({setAddNewUser}) {
                         />
                     </div>
                 </div>
-                <div className='flex justify-between gap-6'>
+                <div className='lg:flex justify-between gap-6'>
                     {/* password */}
-                    <div className="mb-4 w-1/2">
+                    <div className="mb-4 lg:w-1/2">
                         <label htmlFor="password" className="block  font-medium text-gray-700">Password</label>
                         <input 
                         type="password" 
@@ -123,7 +123,7 @@ function AddMember({setAddNewUser}) {
                     </div>
 
                     {/* password cofirmation */}
-                    <div className="mb-4 w-1/2">
+                    <div className="mb-4 lg:w-1/2">
                         <label htmlFor="email" className="block  font-medium text-gray-700">Password Confirmation</label>
                         <input 
                         type="password" 
@@ -139,7 +139,7 @@ function AddMember({setAddNewUser}) {
                 </div>
 
                 {/* Role */}
-                <div className="mb-4 w-1/2">
+                <div className="mb-4 lg:w-1/2">
                     <label htmlFor="role" className="block  font-medium text-gray-700">Role</label>
                     <select 
                     id="role" 
@@ -158,7 +158,7 @@ function AddMember({setAddNewUser}) {
                 <div className="flex justify-end">
                     <button 
                     type="submit" 
-                    className="bg-blue-600 text-white px-6 w-4/12 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="bg-blue-600 text-white px-6 lg:w-4/12 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                     Add Member
                     </button>

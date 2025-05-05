@@ -16,7 +16,7 @@ function SortButton({setSelectedOption}) {
             setShowSortOptions(!showSortOptions)
             // if (showFilter) setShowFilter(false)
         }} 
-        className='border border-gray-400 relative w-3/12 bg-gray-100 flex justify-center items-center gap-3 text-gray-500 rounded-lg cursor-pointer'
+        className='border h-full border-gray-400 relative px-3 bg-gray-100 flex justify-center items-center gap-3 text-gray-500 rounded-lg cursor-pointer'
     >
         <div>Sort by 
             <span className='font-semibold text-gray-700 pl-2'>

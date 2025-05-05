@@ -37,7 +37,7 @@ function CategoriesSection({setLoadingCategories}) {
     }, [])
   return (
     <>
-        <div className="relative w-full border-b border-gray-300 shadow-lg pt-5 pb-3  ">
+        <div className="relative w-full border-b border-gray-300 shadow-lg lg:pt-5 pt-9 pb-3  ">
             <div 
                 ref={scrollRef}
                 className="flex pt-3 px-8 gap-8 overflow-x-scroll w-full hide-scrollbar scroll-smooth"
@@ -49,7 +49,7 @@ function CategoriesSection({setLoadingCategories}) {
                         key={index} 
                         className="flex max-w-24  flex-col items-center text-center hover:scale-105 transition-transform duration-300"
                     >
-                        <div className="w-20 h-20 bg-white rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
+                        <div className="lg:w-20 lg:h-20 w-16 h-16 bg-white rounded-full overflow-hidden border-2 border-gray-300 shadow-md">
                             {
                                 (category.photo)
                                 ?(

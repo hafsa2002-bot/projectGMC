@@ -68,16 +68,16 @@ function Members() {
                 </div>
                 {addNewUser && <AddMember setAddNewUser={setAddNewUser} />}
               </div>
-              <div className='grid grid-cols-4 gap-5 w-full mt-7 '>
+              <div className='grid lg:grid-cols-4 grid-cols-2 gap-5 w-full mt-7 '>
                 {
                   members.length > 0 
                   ?(
                     members.map((user, index) => (
-                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl pb-6 pt-5 shadow-md border border-gray-300">
+                      <div key={index} className="bg-white hover:bg-gray-50 text-gray-500 hover:text-gray-800 cursor-pointer hover:shadow-xl rounded-2xl pb-6 pt-5 shadow-md border border-gray-300 lg:px-0 px-2">
                         {/* <div className='w-full flex justify-end pr-2 py-2'>
                           <Link className='flex gap-1 items-center px-2 hover:text-white rounded-full hover:bg-gray-400'>Activity Log <ArrowRight size={18} /></Link>
                         </div> */}
-                        <div className="bg-gray-200 overflow-hidden mb-4 w-20 h-20 m-auto flex justify-center items-center  rounded-full">
+                        <div className="bg-gray-200 overflow-hidden mb-4 w-20 h-20  m-auto flex justify-center items-center  rounded-full">
                           {
                             user.photo 
                             ?(
@@ -89,38 +89,39 @@ function Members() {
                         </div>
                         <div>
                           {user.role === "admin" && (
-                            <div className='bg-blue-50 text-blue-600 flex justify-center items-center gap-1 rounded-xl px-1 w-1/4 m-auto mb-3 text-sm'>
+                            <div className='bg-blue-50 text-blue-600 flex justify-center items-center gap-1 rounded-xl px-1 lg:w-1/4 w-1/2 m-auto mb-3 text-sm'>
                               <div className='w-1.5 h-1.5 rounded-full bg-blue-500'></div>Admin
                             </div>
                           )}
                           {user.role === "member" && (
-                            <div className='bg-green-50 text-green-600 flex justify-center items-center gap-1 rounded-xl px-2 w-4/12 m-auto mb-3 text-sm'>
+                            <div className='bg-green-50 text-green-600 flex justify-center items-center gap-1 rounded-xl px-2 lg:w-4/12 w-1/2 m-auto mb-3 text-sm'>
                               <div className='w-1.5 h-1.5 rounded-full bg-green-600'></div>Member
                             </div>
                           )}
                           {user.role === "client" && (
-                            <div className='bg-purple-100 text-purple-600 flex justify-center items-center gap-1 rounded-xl px-2 w-1/4 m-auto mb-3 text-sm'>
+                            <div className='bg-purple-100 text-purple-600 flex justify-center items-center gap-1 rounded-xl px-2 lg:w-1/4 w-1/2 m-auto mb-3 text-sm'>
                               <div className='w-1.5 h-1.5 rounded-full bg-purple-600'></div>Client
                             </div>
                           )}
                         </div>
-                        <div className="text-center flex items-center justify-center gap-1 text-lg font-semibold text-gray-800">
+                        <div className="text-center flex items-center justify-center gap-1 lg:text-lg font-semibold text-gray-800">
                           {user.name}
                           {user.email === data.email && (<div className='text-base'>(You)</div>)}
                         </div>
                         <div className="text-center text-sm text-gray-500 mb-4">
                           {user.email}
                         </div>
-                        <div className="flex gap-3 justify-center px-4">
+                        <div className="lg:flex gap-3 justify-center px-4">
                           {user.email !== data.email && (
                             <>
                               {/* update member */}
                               <UpdateRole user={user} />
                               {/* Delete Member */}
                               <button 
-                                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl transition-all duration-200"
+                                  className="bg-red-500 hover:bg-red-600 text-white lg:px-4 lg:block flex justify-center items-center gap-1 px-2  lg:mt-0 mt-2 m-auto py-2 rounded-xl transition-all duration-200"
                                   onClick={() => setDeletePopUp(true)}
                               >
+                                  <p className='lg:hidden '>Delete user</p>
                                   <Trash2/>
                               </button>
                               {deletePopUp && <DeleteMember user={user} setDeletePopUp={setDeletePopUp} />}

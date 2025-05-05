@@ -19,7 +19,7 @@ function UpdateRole({user}) {
   return (
     <div>
         <button 
-            className="relative z-10 cursor-pointer text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-xl flex items-center gap-1 transition-all duration-200"
+            className="relative z-10 cursor-pointer text-white m-auto lg:m-0 bg-blue-500 hover:bg-blue-700 lg:px-4 px-2 text-base py-2 rounded-xl flex items-center gap-1 transition-all duration-200"
             onClick={() => setShowRoleOptions(!showRoleOptions)}
         >
             Update Role <ChevronDown className="w-5 h-5" />

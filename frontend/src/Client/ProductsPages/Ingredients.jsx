@@ -5,7 +5,7 @@ function Ingredients({product, barcode}) {
     const [showIngredients, setShowIngredients] = useState(true)
     console.log(product)
   return (
-    <div className='w-11/12 max-w-5xl mx-auto px-4'>
+    <div className='w-11/12 max-w-5xl mx-auto lg:px-4'>
         <h1  className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-2.5">Ingrédients</h1>
         <div  className="bg-white border border-gray-200 rounded-lg shadow-sm">
             <div
@@ -29,14 +29,14 @@ function Ingredients({product, barcode}) {
             </div>
 
             {showIngredients && (
-  <div className="px-6 py-6 bg-white rounded-lg shadow-md max-w-5xl mx-auto">
-    <h2 className="text-2xl font-semibold text-gray-800 mb-4">Liste des Ingrédients</h2>
+  <div className="lg:px-6 px-2 py-6 bg-white rounded-lg shadow-md max-w-5xl mx-auto">
+    <h2 className="lg:text-2xl text-lg font-semibold text-gray-800 mb-4">Liste des Ingrédients</h2>
 
     {/* Display ingredients text */}
     {product?.ingredients_text && (
       <p className="text-gray-700 mb-4">{product.ingredients_text}</p>
     )}
-    <div className='flex items-start justify-between gap-5'>
+    <div className='lg:flex items-start justify-between gap-5'>
         {product?.ingredients?.length > 0 ? (
         <ul className="space-y-1 w-full">
             {product.ingredients.map((ingredient, index) => (

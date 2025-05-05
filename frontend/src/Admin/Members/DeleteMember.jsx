@@ -14,7 +14,7 @@ function DeleteMember({user, setDeletePopUp}) {
     }
   return (
     <div className='w-screen h-screen z-50 top-0 right-0 fixed flex justify-center items-center  bg-black/30 ' >
-            <div className='bg-white px-16 py-6 w-1/3 shadow-md  rounded-md flex flex-col justify-center items-center gap-5'>
+            <div className='bg-white px-16 py-6 lg:w-1/3 w-10/12 shadow-md  rounded-md flex flex-col justify-center items-center gap-5'>
                 <div className='flex justify-center items-center  rounded-full w-12 h-12 bg-red-100 '>
                     <div className='flex justify-center items-center rounded-full bg-red-200 w-9 h-9 '>
                         <Info className="relative text-red-600 bg-transparent w-7 h-7 " />
@@ -22,7 +22,7 @@ function DeleteMember({user, setDeletePopUp}) {
                 </div>
                 <div className='text-center flex flex-col justify-center items-center '>
                     <p className='text-2xl font-semibold mb-1 '>Confirm delete</p>
-                    <p className='text-gray-500 max-w-9/12  break-words'>Are you sure you want to delete <span className='text-gray-600'>{name}</span>?</p>
+                    <p className='text-gray-500 lg:max-w-9/12  break-words'>Are you sure you want to delete <span className='text-gray-600'>{name}</span>?</p>
                 </div>
                 <div className='flex gap-4 '>
                     {/* confirm the delete */}

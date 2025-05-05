@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 import axios from 'axios'
 
-function OneMonthReports() {
+function OneMonthReports({marginRight}) {
     const [data, setData] = useState([])
     const fetchData = () => {
         axios.get("http://localhost:3003/reports/last-month-daily-income")
@@ -31,7 +31,7 @@ function OneMonthReports() {
                     height={300}
                     data={data}
                     margin={{
-                        right: 30,
+                        right: marginRight,
                         top: 10
                     }}
                 >

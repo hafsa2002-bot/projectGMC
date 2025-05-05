@@ -31,11 +31,9 @@ router.post("/items/add-item", protect, upload.single("productPhoto"), async (re
         let {
             productName,
             barcode,
-            // qty,
             itemsSold,
             minLevel,
             price,
-            // expirationDate,
             categoryId,
             batches,
         } = req.body;

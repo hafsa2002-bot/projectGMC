@@ -76,10 +76,10 @@ function Sante({product}) {
     
   return (
 
-    <div className="font-roboto w-11/12 max-w-5xl mx-auto mt-10 mb-12 px-4">
+    <div className="font-roboto w-11/12 max-w-5xl mx-auto mt-10 mb-12 lg:px-4">
         {/* Section Title */}
         <div className="border-b border-gray-300 flex items-center gap-3 pb-2">
-            <div className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+            <div className="lg:text-2xl text-lg font-semibold text-gray-800 flex items-center gap-2">
                 <Info className="text-yellow-500" />
                 Valeurs nutritionnelles et ingrédients
             </div>
@@ -171,15 +171,15 @@ function Sante({product}) {
                   <ChevronDown className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </div>
                 {isOpen && (
-                  <div className="px-4 pb-4 text-gray-700 text-sm">
+                  <div className="lg:px-4 pb-4 text-gray-700 text-sm">
                     <div className="w-full border border-gray-100 font-roboto text-sm mt-6">
                       <div className={`grid ${isPerPortionExist() ? "grid-cols-3" : "grid-cols-2"} bg-gray-100 font-semibold text-gray-800 px-4 py-3`}>
-                        <span className="px-4">Tableau nutritionnel</span>
-                        <span className="px-8">
+                        <span className="lg:px-4">Tableau nutritionnel</span>
+                        <span className="lg:px-8 px-2">
                           {product?.product_quantity_unit === "ml" ? "Pour 100ml" : "Pour 100g"}
                         </span>
                         {isPerPortionExist() && (
-                          <span className="px-8">Par portion ({product?.quantity})</span>
+                          <span className="lg:px-8 px-2">Par portion ({product?.quantity})</span>
                         )}
                       </div>
 
@@ -190,10 +190,10 @@ function Sante({product}) {
                             idx % 2 === 0 ? "bg-white" : "bg-gray-50"
                           }`}
                         >
-                          <span className="px-4">{item.label}</span>
-                          <span className="px-8">{item.per100g}</span>
+                          <span className="lg:px-4">{item.label}</span>
+                          <span className="lg:px-8 px-2">{item.per100g}</span>
                           {isPerPortionExist() && (
-                            <span className="px-8">{item.perPortion}</span>
+                            <span className="lg:px-8 px-2">{item.perPortion}</span>
                           )}
                         </div>
                       ))}

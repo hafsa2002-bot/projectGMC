@@ -16,10 +16,10 @@ function FilterButton({setSelectedOption}) {
             setShowFilter(!showFilter)
             // if(showSortOptions) setShowSortOptions(false)
         }} 
-        className='border border-gray-400 relative cursor-pointer bg-gray-100 flex items-center justify-center gap-2 w-2/12 rounded-lg px-3 py-2.5 text-gray-700'
+        className='border border-gray-400 relative cursor-pointer bg-gray-100 flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-gray-700'
     >
         <SlidersHorizontal size={20} />
-        <p>
+        <p className='lg:flex hidden'>
             {
                 (filterOption === "all-items") ? "All items" 
                 : (filterOption === "out-of-stock") ? "Out Of Stock" 
@@ -29,7 +29,7 @@ function FilterButton({setSelectedOption}) {
         </p>
         {/* dropdown */}
         {showFilter && (
-            <div className='w-full font-semibold bg-white text-gray-800 absolute top-12 z-10 shadow-xl border border-gray-200 rounded-lg'>
+            <div className='lg:w-full w-32 font-semibold bg-white text-gray-800 absolute top-12 lg:right-0 right-0 z-10 shadow-xl border border-gray-200 rounded-lg'>
                 <div 
                     onClick={() => handleSelect("all-items")}
                     className='border-b hover:bg-gray-100 border-gray-300  px-2.5 py-2 cursor-pointer'

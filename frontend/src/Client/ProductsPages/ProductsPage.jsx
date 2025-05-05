@@ -61,7 +61,7 @@ function ProductsPage() {
     
 
     const loadMoreProducts = () => {
-        const newItemsToShow = itemsToShow + 40;
+        const newItemsToShow = itemsToShow + 15;
         setItemsToShow(newItemsToShow)
         setDisplayedProducts(products.slice(0, newItemsToShow))
     }
@@ -95,12 +95,12 @@ function ProductsPage() {
                 : (
                     <>  
                         <div className='w-full mt-12 flex justify-between'>
-                            <div className=' pb-12  w-full flex justify-between items-center px-10'>
+                            <div className=' pb-12  w-full lg:flex justify-between items-center lg:px-10 px-4'>
                                 <div className='flex text-gray-700'>
-                                    <h1 className='text-4xl font-poppins font-semibold  mt-4'> All Products </h1>
+                                    <h1 className='lg:text-4xl text-3xl font-poppins font-semibold  mt-4 '> Tous les produits </h1>
                                     <div className='relative text-sm top-3 left-1.5'> ({products?.length}) </div>
                                 </div>
-                                <div>
+                                <div className='lg:mt-0 mt-4 text-end'>
                                     <FilterProducts setSelectedOption={setSelectedOption}/>
                                 </div>
                             </div>

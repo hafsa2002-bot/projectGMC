@@ -20,7 +20,7 @@ function FilterProducts({setSelectedOption}) {
                 className="inline-flex cursor-pointer items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition"
             >
                 <SlidersHorizontal className="w-5 h-5" />
-                Trier par 
+                <div className=''>Trier par</div> 
                 <div className='font-semibold'>
                     {
                         filterOption == "default" ? <p>Défaut</p>

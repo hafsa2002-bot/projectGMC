@@ -78,7 +78,7 @@ function CartElement({product, setShowCart}) {
                                 {product.productName}
                             </Link>
                             {productById?.qty - productById?.expiredQty <= 0 && (<div className='bg-red-50 border border-red-200 font-semibold w-10/12 flex rounded-full text-red-800  px-2 items-center gap-2 text-sm py-0.5 my-1'><div className='w-1.5 h-1.5 bg-red-500 rounded-full flex'></div>RUPTURE DE STOCK</div>)}
-                            <p className='text-gray-700'>unit Price: <span className='text-gray-700 font-semibold'>{product.price} MAD</span></p>
+                            <p className='text-gray-700'>Prix unitaire: <span className='text-gray-700 font-semibold'>{product.price} MAD</span></p>
                         </div>
                         <div className='bg-white text-black rounded-full flex justify-between shadow border border-gray-300 w-32 text-lg font-semibold overflow-hidden'>
                             <div
@@ -104,7 +104,7 @@ function CartElement({product, setShowCart}) {
                         onClick={() => setShowDeletePopUp(true)}
                         className='cursor-pointer text-red-500 text-lg'
                     >
-                        Remove
+                        Retirer
                     </div>
                     {showDeletePopUp && (<DeletePopUp productId={product._id} setShowDeletePopUp={setShowDeletePopUp} />)}
                 </div>
@@ -115,7 +115,7 @@ function CartElement({product, setShowCart}) {
         {message && (
             <div className='px-3 py-2 fixed top-20 left-1/2 z-50 transform -translate-x-1/2 text-black text-center rounded-lg bg-red-50 flex justify-center items-center lg:w-auto w-11/12  gap-3 border border-gray-300 '>
                 <div className='w-4 h-4 bg-red-700 rounded-full flex justify-center items-center'><X className='text-white' size={12}/></div>
-                <p>The maximum available quantity is {productById.qty - productById.expiredQty}</p> 
+                <p>La quantité maximale disponible est {productById.qty - productById.expiredQty}</p> 
             </div>
         )}
     </div>

@@ -134,7 +134,7 @@ function HomePage() {
                     className="w-full"
                     onSwiper={(swiper) => swiper.autoplay.start()}
                 >
-                    {products?.map((product) => (
+                    {products?.slice(0, 10).map((product) => (
                         <SwiperSlide key={product._id} className="text-center flex flex-col  items-center py-6 pb-8">
                             <Link to={`/products/${product._id}`} className="border border-stone-300 bg-white p-4 shadow-lg rounded-lg flex flex-col justify-between h-full">
                                 <img

@@ -128,7 +128,7 @@ function Checkout() {
                         <input
                             className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full px-2.5 py-3 outline-none  border-gray-300 focus:ring-gray-700 focus:border-gray-700 `   }
                             type="email" name="customerMail" id="customerMail"
-                            placeholder='name@example.com'
+                            placeholder='nom@example.com'
                             value={customerMail}
                             onChange={(e) => setCustomerMail(e.target.value)}
                             required
@@ -137,8 +137,8 @@ function Checkout() {
                     {/* Shipping */}
                     <div>
                         <div className='pb-4 pt-6'>
-                            <h2 className='mb-2 text-2xl font-medium text-gray-900'>Shipping</h2>
-                            <p>This address will be used as the payment address for this order.</p>
+                            <h2 className='mb-2 text-2xl font-medium text-gray-900'>Livraison</h2>
+                            <p>Cette adresse sera utilisée comme adresse de paiement pour cette commande.</p>
                         </div>
                         <div className='flex flex-col gap-6'>
                             {/* Country */}
@@ -157,7 +157,7 @@ function Checkout() {
                                         type="text" name="firstName" id="firstName"
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
-                                        placeholder='First name' required 
+                                        placeholder='Prénom' required 
                                     />
                                 </div>
                                 {/* Nom */}
@@ -167,7 +167,7 @@ function Checkout() {
                                         type="text" name="lastName" id="lastName"
                                         value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
-                                        placeholder='Last name' required 
+                                        placeholder='Nom' required 
                                     />
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ function Checkout() {
                                     type="text" name="address" id="address"
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
-                                    placeholder='Address' required 
+                                    placeholder='Addresse' required 
                                 />
                             </div>
                             <div className='flex gap-6'>
@@ -189,7 +189,7 @@ function Checkout() {
                                         type="text" name="postalCode" id="postalCode"
                                         value={postalCode}
                                         onChange={(e) => setPostalCode(e.target.value)}
-                                        placeholder='Postal code (optional)' 
+                                        placeholder='Code Postal (facultatif)' 
                                     />
                                 </div>
                                 {/* city */}
@@ -199,7 +199,7 @@ function Checkout() {
                                         type="text" name="city" id="city"
                                         value={city}
                                         onChange={(e) => setCity(e.target.value)}
-                                        placeholder='City' required 
+                                        placeholder='Ville' required 
                                     />
                                 </div>
                             </div>
@@ -211,18 +211,18 @@ function Checkout() {
                                     value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
                                     pattern="^0[67][0-9]{8}$"
-                                    placeholder='Phone number: +212xxxxxxxxx' required 
+                                    placeholder='Numéro de téléphone: 0612345678' required 
                                 />
                                 <div className='relative lg:flex hidden' onMouseEnter={() => setShowPhoneInfo(true)} onMouseLeave={() => setShowPhoneInfo(false)}>
                                     <CircleHelp className='text-gray-600' />
                                     {showPhoneInfo && (
-                                            <div className='absolute bg-gray-800 text-white w-32 bottom-7  p-2 rounded-lg'>In case we need to contact you about your order</div>
+                                            <div className='absolute bg-gray-800 text-white w-32 bottom-7  p-2 rounded-lg'>Au cas où nous aurions besoin de vous contacter à propos de votre commande</div>
                                         )}
                                 </div>
                                 <div className='relative lg:hidden' onClick={() => setShowPhoneInfo(!showPhoneInfo)}>
                                     <CircleHelp className='text-gray-600' />
                                     {showPhoneInfo && (
-                                            <div className='absolute bg-gray-800 text-white w-32 bottom-7 right-0  p-2 rounded-lg'>In case we need to contact you about your order</div>
+                                            <div className='absolute bg-gray-800 text-white w-32 bottom-7 right-0  p-2 rounded-lg'>Au cas où nous aurions besoin de vous contacter à propos de votre commande</div>
                                         )}
                                 </div>
                             </div>
@@ -230,7 +230,7 @@ function Checkout() {
                     </div>
                     <CheckOutInfo shippingPrice={shippingPrice}/>
                     <button  className='bg-black font-semibold px-2.5 py-3 lg:flex hidden justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
-                        <p className=' w-full'>Confirm the order</p> 
+                        <p className=' w-full'>Confirmer la commande</p> 
                     </button>
                     <PhoneCheckOut cart={cart} totalAmount={totalAmount} totalQty={totalQty} />
                 </form>
