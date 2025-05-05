@@ -6,7 +6,7 @@ import { X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 function CartElement({product, setShowCart}) {
-    const {cart, setCart} = useCart()
+    const {cart, setCart, currency} = useCart()
     const [showDeletePopUp, setShowDeletePopUp] = useState(false)
     const [productById, setProductById] = useState({})
     const [message, setMessage] = useState(false)
@@ -78,7 +78,7 @@ function CartElement({product, setShowCart}) {
                                 {product.productName}
                             </Link>
                             {productById?.qty - productById?.expiredQty <= 0 && (<div className='bg-red-50 border border-red-200 font-semibold w-10/12 flex rounded-full text-red-800  px-2 items-center gap-2 text-sm py-0.5 my-1'><div className='w-1.5 h-1.5 bg-red-500 rounded-full flex'></div>RUPTURE DE STOCK</div>)}
-                            <p className='text-gray-700'>Prix unitaire: <span className='text-gray-700 font-semibold'>{product.price} MAD</span></p>
+                            <p className='text-gray-700'>Prix unitaire: <span className='text-gray-700 font-semibold'>{product.price} {currency}</span></p>
                         </div>
                         <div className='bg-white text-black rounded-full flex justify-between shadow border border-gray-300 w-32 text-lg font-semibold overflow-hidden'>
                             <div
@@ -99,7 +99,7 @@ function CartElement({product, setShowCart}) {
                     </div>
                 </div>
                 <div className='flex flex-col justify-between items-end pr-2'>
-                    <div className='font-mono font-semibold text-end'>{(product.quantity * product.price).toFixed(2)} MAD</div>
+                    <div className='font-mono font-semibold text-end'>{(product.quantity * product.price).toFixed(2)} {currency}</div>
                     <div
                         onClick={() => setShowDeletePopUp(true)}
                         className='cursor-pointer text-red-500 text-lg'

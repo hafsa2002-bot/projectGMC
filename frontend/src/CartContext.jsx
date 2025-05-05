@@ -18,6 +18,11 @@ export function CartProvider({children}) {
         return savedFavorites ? JSON.parse(savedFavorites) : []
     })
 
+    const [currency, setCurrency] = useState(() => {
+        const savedCurrency = localStorage.getItem('currency')
+        return savedCurrency || 'MAD'
+    })
+
     const addToCart = (product) => {
         console.log("adding to cart: ", product)
         setCart((prevCart) => {
@@ -44,10 +49,11 @@ export function CartProvider({children}) {
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart))
         localStorage.setItem('favorites', JSON.stringify(favorites))
-    }, [cart, favorites])
+        localStorage.setItem('currency', currency)
+    }, [cart, favorites, currency])
 
     return(
-        <CartContext.Provider value={{cart, setCart, addToCart, favorites, setFavorites, addToFavorites}}>
+        <CartContext.Provider value={{cart, setCart, addToCart, favorites, setFavorites, addToFavorites, currency, setCurrency}}>
             {children}
         </CartContext.Provider>
     )

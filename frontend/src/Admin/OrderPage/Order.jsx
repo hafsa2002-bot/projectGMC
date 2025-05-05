@@ -6,6 +6,7 @@ import axios from 'axios';
 import OrdersOnProcess from './OrdersOnProcess';
 import OrdersDone from './OrdersDone';
 import OrdersUnpaid from './OrdersUnpaid';
+import { useCart } from '../../CartContext';
 
 function Order() {
     const [totalOrders, setTotalOrders] = useState(0)
@@ -15,6 +16,7 @@ function Order() {
     const [ordersOnProcessLength, setOrdersOnProcessLength] = useState(0)
     const [ordersUnpaidLength, setOrdersUnpaidLength] = useState(0)
     const [orderType,setOrderType] = useState("all")
+    const {currency} = useCart()
 
     const getStockInfo = () => {
         axios.get("http://localhost:3003/admin/stock")
@@ -80,7 +82,7 @@ function Order() {
                 <div className='text-end'>
                     <p className='text-gray-600 text-lg'>Total Income</p>
                     <div className="font-semibold text-xl flex gap-1">
-                        {stockInfo.totalIncome ? stockInfo.totalIncome : 'N/A'} DH
+                        {stockInfo.totalIncome ? stockInfo.totalIncome : 'N/A'} {currency === "MAD" ? "DH" : currency}
                     </div>                
                 </div>
             </div>

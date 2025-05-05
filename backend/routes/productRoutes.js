@@ -294,4 +294,18 @@ router.patch("/items/updateProduct/:id", protect, upload.single("updatedProductP
     }
 })
 
+// get a product by barcode
+router.get("/items/get-product-by-barCode/:barcode", async(req, res) => {
+    try{
+        const product = await Product.findOne({barcode: req.params.barcode})
+        if(!product){
+            return res.status(400).json({message: "product not found"})
+        }
+        res.send(product)
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "failed to get product by barcode"})
+    }
+})
+
 export default router

@@ -9,6 +9,7 @@ import DeleteCategory from './DeleteCategory'
 import UpdateCategory from './UpdateCategory'
 import SearchedCategories from './SearchedCategories'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function AllCategories() {
     const [categories, setCategories] = useState([])
@@ -21,6 +22,7 @@ function AllCategories() {
     const [filteredCategories, setFilteredCategories] = useState([])
     const [message, setMessage] = useState(false)
     const token = localStorage.getItem("token");
+    const {currency} = useCart()
     let userRole = null;
     
     if (token) {
@@ -153,7 +155,7 @@ function AllCategories() {
                                                     <hr className='rotate-90 w-2 mr-1'/>
                                                 </div>
                                                 <div>
-                                                    <p>{category.totalValue.toFixed(2)} MAD</p>
+                                                    <p>{category.totalValue.toFixed(2)} {currency} </p>
                                                 </div>
                                             </div>
                                         </div>

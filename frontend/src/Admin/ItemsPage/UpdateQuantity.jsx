@@ -2,12 +2,14 @@ import { Info, X } from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useCart } from '../../CartContext'
 
 function UpdateQuantity({setUpdateQty, item, setMessage}) {
   const navigate = useNavigate()
   const [updatedQty, setUpdatedQty] = useState("")
   const [selectedButton, setSelectedButton] = useState('increase')
   const [errorMessage, setErrorMessage] = useState(false)
+  const {currency} = useCart()
   const newQty = selectedButton === "increase"
     ? item.qty + updatedQty
     : item.qty - updatedQty
@@ -93,7 +95,7 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
                     <label htmlFor="" className='text-gray-700 font-medium text-lg'>Price </label>
                     <div className='bg-gray-50 w-full border flex justify-between shadow  text-gray-900 text-sm rounded-lg  p-2.5 outline-none  border-gray-300 focus:ring-blue-500 focus:border-blue-500'>
                       <p> {item.price} </p>
-                      <p className='font-semibold'>MAD</p>
+                      <p className='font-semibold'> {currency} </p>
                     </div>
                 </div>
                 {/* total */}
@@ -101,7 +103,7 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
                     <label htmlFor="" className='text-gray-700  font-medium text-lg'>total</label>
                     <div className='bg-gray-50 w-full border flex justify-between shadow  text-gray-900 text-sm rounded-lg  p-2.5 outline-none  border-gray-300 focus:ring-blue-500 focus:border-blue-500'>
                       <p> {item.price * updatedQty} </p>
-                      <p className='font-semibold'>MAD</p>
+                      <p className='font-semibold'> {currency} </p>
                     </div>
                 </div>
 

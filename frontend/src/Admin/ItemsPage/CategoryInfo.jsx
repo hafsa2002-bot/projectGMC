@@ -5,6 +5,7 @@ import { ArrowLeft, EllipsisVertical, Eye, Image, PenLine, Trash2 } from 'lucide
 import PopUp from './PopUp'
 import SpinnerBlue from '../SpinnerBlue'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function CategoryInfo() {
     const {categoryId} = useParams()
@@ -15,6 +16,7 @@ function CategoryInfo() {
     const navigate = useNavigate()
     const token = localStorage.getItem("token");
     let userRole = null;
+    const {currency} = useCart()
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -102,7 +104,7 @@ function CategoryInfo() {
                                                 {item.itemsSold}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {item.price} <span className='text-black'>MAD</span>
+                                                {item.price} <span className='text-black'> {currency} </span>
                                             </td>
                                             <td className="px-6 py-4 text-base  ">
                                                 {

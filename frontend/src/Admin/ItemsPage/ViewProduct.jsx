@@ -6,6 +6,7 @@ import SpinnerBlue from '../SpinnerBlue'
 import UpdateQuantity from './UpdateQuantity'
 import { jwtDecode } from 'jwt-decode'
 import BatchTable from './BatchTable'
+import { useCart } from '../../CartContext'
 
 function ViewProduct() {
     const {product_id} = useParams()
@@ -16,6 +17,7 @@ function ViewProduct() {
     const [message, setMessage] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
+    const {currency} = useCart()
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -90,7 +92,7 @@ function ViewProduct() {
                                 </div>
                                 <div className='flex w-96'>
                                     <p className='w-1/3 text-gray-500'>Price</p>
-                                    <p className='w-2/3'>{product.price} <span className='font-semibold'>MAD</span></p>
+                                    <p className='w-2/3'>{product.price} <span className='font-semibold'> {currency} </span></p>
                                 </div>
                                 <div className='flex w-96'>
                                     <p className='w-1/3 text-gray-500'>Items Sold</p>

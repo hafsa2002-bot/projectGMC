@@ -57,7 +57,7 @@ function RecentOrders() {
     }, [orders, number]);
     
   return (
-    <div className='bg-white border border-gray-300  rounded-lg pb-3'>
+    <div className='bg-white border border-gray-300 shadow-lg  rounded-lg pb-3'>
         <div className='flex justify-between items-center  px-2 py-2 '>
             <p className='text-2xl font-semibold text-gray-900 px-4'>Recent Orders</p>
             <Link to="/admin/orders" className='text-blue-600 font-semibold flex  items-center gap-3 py-2'>

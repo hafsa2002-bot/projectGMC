@@ -50,8 +50,15 @@ function PersonalInfo() {
         formData.append("name", name)
         formData.append("email", email)
         formData.append("phoneNumber", phoneNumber)
+        /*
         if (photo instanceof File) {
             formData.append("photo", photo) 
+        }
+            */
+        if (photo instanceof File) {
+            formData.append("photo", photo);
+        } else if (typeof photo === "string" && photo !== "") {
+            formData.append("photo", photo); // send existing photo path to retain it
         }
         axios.patch(`http://localhost:3003/update-user-info`,
             formData,

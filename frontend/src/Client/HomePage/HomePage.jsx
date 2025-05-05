@@ -11,6 +11,7 @@ import Footer from '../Footer';
 import SpinnerLoader from '../../SpinnerLoader';
 import AboutUs from './AboutUs';
 import { ArrowRight, ChevronRight, ShoppingCart } from 'lucide-react';
+import { useCart } from '../../CartContext';
 
 
 function HomePage() {
@@ -18,6 +19,7 @@ function HomePage() {
     const [category, setCategory] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true)
+    const {currency} = useCart()
 
     const fetchData = () => {
         const categoryName = "Mobile Accessories"
@@ -145,7 +147,7 @@ function HomePage() {
                                 <div className="space-y-1">
                                     <h3 className="text-lg font-semibold text-gray-800 truncate">{product.productName}</h3>
                                     <p className="text-xl font-bold text-yellow-500">
-                                        {product.price} <span className="text-base font-medium ">MAD</span>
+                                        {product.price} <span className="text-base font-medium ">{currency}</span>
                                     </p>                                
                                 </div>   
                             </Link>

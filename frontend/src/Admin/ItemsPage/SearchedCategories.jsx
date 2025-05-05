@@ -4,12 +4,14 @@ import { EllipsisVertical, Eye, FolderOpen, Layers, PenLine, Search, Trash2 } fr
 import {Link, Navigate, useNavigate} from 'react-router-dom'
 import DeleteCategory from './DeleteCategory'
 import UpdateCategory from './UpdateCategory'
+import { useCart } from '../../CartContext'
 
 function SearchedCategories({categories}) {
     const [showOptions, setShowOptions] = useState(false)
     const [showPopUp, setShowPopUp] = useState(false)
     const [updateCategory, setUpdateCategory] = useState(false)
     const navigate = useNavigate()
+    const {currency} = useCart()
   return (
     <div className='flex flex-wrap mb-32 gap-10 mt-2 w-full'>
         { (categories.length > 0)
@@ -85,7 +87,7 @@ function SearchedCategories({categories}) {
                                     <hr className='rotate-90 w-2 mr-1'/>
                                 </div>
                                 <div>
-                                    <p>{category.totalValue.toFixed(2)} MAD</p>
+                                    <p>{category.totalValue.toFixed(2)}  {currency} </p>
                                 </div>
                             </div>
                         </div>

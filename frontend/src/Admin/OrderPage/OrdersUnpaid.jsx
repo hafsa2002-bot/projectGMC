@@ -8,6 +8,7 @@ import PaymentStatus from './PaymentStatus'
 import OrderStatus from './OrderStatus'
 import DeleteOrder from './DeleteOrder'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function OrdersUnpaid({setOrdersUnpaidLength}) {
     const [orders, setOrders] = useState([])
@@ -18,6 +19,7 @@ function OrdersUnpaid({setOrdersUnpaidLength}) {
     const [filteredOrders, setFilteredOrders] = useState([])
     const token = localStorage.getItem("token");
     let userRole = null;
+    const {currency} = useCart()
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -139,7 +141,7 @@ function OrdersUnpaid({setOrdersUnpaidLength}) {
                                                             )}
                                                         </td>
                                                         <td className="px-4 py-7 font-mono">
-                                                            {order.totalAmount.toFixed(2)} <span className='text-black '>MAD</span>
+                                                            {order.totalAmount.toFixed(2)} <span className='text-black '> {currency} </span>
                                                         </td>
                                                         <td className="px-4 py-7 text-base ">
                                                             <PaymentStatus paymentStatus={order.paymentStatus} orderId={order._id} />

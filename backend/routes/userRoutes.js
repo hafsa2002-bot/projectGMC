@@ -29,13 +29,13 @@ router.post("/users/register", protect, async (req, res) => {
     try{
         const {name, email, password, role} = req.body;
         if(!name || !email || !password || !role){
-            res.status(400).json({message: "Please add all fields"})
+            return res.status(400).json({message: "Please add all fields"})
         }
 
         // check if user exists
         const userExists = await User.findOne({email})
         if(userExists){
-            res.status(400).json({message: "User already exists"})
+            return  res.status(400).json({message: "User already exists"})
         }
 
         // hash password
@@ -62,11 +62,11 @@ router.post("/users/register", protect, async (req, res) => {
             //log activity
             await logActivity(req.user._id, req.user.name, `New ${user.role} added`, `${user.name}`)
         }else{
-            res.status(400).json({message: "Invalid user data"})
+            return  res.status(400).json({message: "Invalid user data"})
         }
     }catch(error){
         console.log("Error: ", error)
-        res.status(500).json({message: "Internal server error"})
+        return res.status(500).json({message: "Internal server error"})
     }
 })
 
@@ -121,9 +121,18 @@ router.get("/get-user-byId/:id", async (req, res) => {
 router.patch("/update-user-info", protect, upload.single("photo"), async (req, res) => {
     try{
         const {name, email, phoneNumber} = req.body;
-        const photo = req.file ? `/uploads/${req.file.filename}` : null
-
-        const user = await User.findByIdAndUpdate(req.user._id, {name, email, photo, phoneNumber}, {new: true})
+        const updateData = {
+            name,
+            email,
+            phoneNumber
+        };
+        // const photo = req.file ? `/uploads/${req.file.filename}` : null
+        if (req.file) {
+            updateData.photo = `/uploads/${req.file.filename}`;
+        } else if (req.body.photo === "") {
+            updateData.photo = ""; // explicit delete
+        }
+        const user = await User.findByIdAndUpdate(req.user._id, updateData, {new: true})
 
         // log activity
         await logActivity(req.user._id, req.user.name,"profile updated", '')

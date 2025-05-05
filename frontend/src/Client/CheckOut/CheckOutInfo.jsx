@@ -1,6 +1,8 @@
 import React from 'react'
+import { useCart } from '../../CartContext'
 
 function CheckOutInfo({shippingPrice}) {
+  const {currency} = useCart()
   return (
     <div>
        <div>
@@ -8,7 +10,7 @@ function CheckOutInfo({shippingPrice}) {
             <p>Notre livreur vous contactera dans les 24 prochaines heures pour planifier la livraison à un moment qui vous convient.</p>
             <div className='bg-yellow-100 border-black px-2.5 py-3 flex justify-between items-center  border mt-3  text-gray-900 text-sm rounded-lg  w-full '>
                 <div>Frais de conditionnement + livraison</div>
-                <div className='font-semibold'>{shippingPrice} MAD</div>
+                <div className='font-semibold'>{shippingPrice} {currency}</div>
             </div>
         </div>
         <div>

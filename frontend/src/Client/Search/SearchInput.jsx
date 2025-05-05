@@ -2,6 +2,7 @@ import { ArrowRight, Search, X } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import { useCart } from '../../CartContext'
 
 function SearchInput({setShowSearch}) {
     const [searchValue, setSearchValue] = useState("")
@@ -10,6 +11,7 @@ function SearchInput({setShowSearch}) {
     const [productsSearched, setProductsSearched] = useState([])
     const [categoriesSearched, setCategoriesSearched] = useState([])
     const navigate = useNavigate()
+    const {currency} = useCart()
 
     const getProducts = () => {
         axios.get("http://localhost:3003/admin/items/list")
@@ -115,7 +117,7 @@ function SearchInput({setShowSearch}) {
                                                                 </div>
                                                                 <div className='lg:w-10/12 w-9/12'>
                                                                     <div className='font-semibold hover:underline truncate  max-w-11/12'>{product.productName}</div>
-                                                                    <div className='text-gray-500 text-sm'> {product.price} MAD </div>
+                                                                    <div className='text-gray-500 text-sm'> {product.price} {currency} </div>
                                                                 </div>
                                                             </div>
                                                         </li>

@@ -14,12 +14,14 @@ import WeekReport from '../Reports/WeekReport'
 import IncomeReports from './IncomeReports'
 import { jwtDecode } from 'jwt-decode'
 import MostPopularCharts from '../Reports/MostPopularCharts'
+import { useCart } from '../../CartContext'
 
 function AdminHomePage() {
   const [stockInfo, setStockInfo] = useState({})
   const [user, setUser] = useState({})
   const token = localStorage.getItem("token");
   const today = new Date();
+  const {currency} = useCart()
 
   const fetchData = () => {
       axios.get("http://localhost:3003/users/data", {
@@ -92,7 +94,7 @@ function AdminHomePage() {
             <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center lg:mx-0 mx-auto '><Wallet /></div>
             <div className='lg:text-end text-center lg:mt-0 mt-2 text-gray-600 w-11/12  '>
               <p className='text-lg'>Total Value</p>
-              <div className='font-semibold lg:text-2xl text-lg text-black'>{stockInfo.totalValue ? stockInfo.totalValue.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
+              <div className='font-semibold lg:text-2xl text-lg text-black'>{stockInfo.totalValue ? stockInfo.totalValue.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} {currency === "MAD" ? "DH" : currency}</div>
             </div>
           </div>
           {/* awaiting payment*/}
@@ -100,7 +102,7 @@ function AdminHomePage() {
             <div className='w-10 h-10 rounded-lg text-white bg-blue-500 flex justify-center items-center lg:mx-0 mx-auto '><NotebookPen /></div>
             <div className='lg:text-end text-center lg:mt-0 mt-2 text-gray-600 '>
               <p className='text-lg'>Awaiting Payment</p>
-              <div className='font-semibold  lg:text-2xl text-lg text-black'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} DH</div>
+              <div className='font-semibold  lg:text-2xl text-lg text-black'>{stockInfo.totalUnpaid ? stockInfo.totalUnpaid.toFixed(2) :<p className='text-lg font-semibold'>N/A</p>} {currency === "MAD" ? "DH" : currency}</div>
             </div>
           </div>
         </div>
@@ -112,24 +114,25 @@ function AdminHomePage() {
         <div className='lg:flex items-center justify-between gap-5 '>
           <div className='lg:w-1/2 w-11/12 m-auto lg:mx-0'>
             <h1 className='text-xl font-semibold pb-3'>Income tracker</h1>
-            <div className=' bg-white rounded-xl border border-gray-300 lg:py-7 py-4'>
+            <div className=' bg-white rounded-xl border border-gray-300 shadow-lg lg:py-7 py-4'>
               <IncomeReports/>
             </div>
 
           </div>
           <div className='lg:w-1/2 w-11/12 lg:mx-0 m-auto lg:mt-0 mt-7'>
             <h1 className='text-xl font-semibold pb-3'>Most Popular Products</h1>
-            <div className='hidden bg-white p-2 lg:flex justify-center rounded-lg border border-gray-300'>
-              <MostPopularCharts h={240} w={600} outerRad={90} layout="vertical" align="right" verticalAlign="middle" fontSize={12} />
+            <div className='hidden bg-white p-2 lg:flex justify-center rounded-lg shadow-lg border border-gray-300'>
+              {/* <MostPopularCharts h={240} w={600} outerRad={90} layout="vertical" align="right" verticalAlign="middle" fontSize={12} /> */}
+              <MostPopularCharts h={240} w={600} outerRad={110} layout="vertical" align="right" verticalAlign="middle" fontSize={12} />
             </div>
-            <div className='lg:hidden bg-white flex justify-center px-3 py-4 items-center rounded-lg border border-gray-300 '>
+            <div className='lg:hidden bg-white flex justify-center px-3 py-4 shadow-lg items-center rounded-lg border border-gray-300 '>
               <MostPopularCharts h={320} w={400} outerRad={120} layout="horizontal" align="left" verticalAlign="bottom" fontSize={14} />
             </div>
           </div>
         </div>
       </section>
       {/* recent orders */}
-      <section className='mt-9 '>
+      <section className='mt-9  '>
         <RecentOrders/>
       </section>
       {/* <section className='mt-14'>
@@ -140,15 +143,15 @@ function AdminHomePage() {
 
       <section className='lg:flex lg:mt-14 mt-9 gap-6 '>
         {/* Recent Activity */}
-        <div className='lg:w-2/5 w-11/12 m-auto  bg-white rounded-lg overflow-hidden'>
+        <div className='lg:w-2/5 w-11/12 m-auto  bg-white shadow-lg  border border-gray-300 rounded-lg overflow-hidden'>
             <RecentActivities/>
         </div>
         {/* Low In Stock Products */}
-        <div className='lg:w-2/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white rounded-lg overflow-hidden'>
+        <div className='lg:w-2/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white  border border-gray-300 shadow-lg rounded-lg overflow-hidden'>
           <DashboardStockLevels/>
         </div>
         {/* Requested Products */}
-        <div className='lg:w-1/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white rounded-lg overflow-hidden'>
+        <div className='lg:w-1/5 w-11/12 m-auto lg:mt-0 mt-9 bg-white  border border-gray-300 shadow-lg rounded-lg overflow-hidden'>
             <RequestedProducts/>
         </div>
       </section>

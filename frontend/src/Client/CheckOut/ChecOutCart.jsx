@@ -1,11 +1,13 @@
 import { ImageOff } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import { useCart } from '../../CartContext'
 
 function ChecOutCart({cart, totalAmount, totalQty}) {
     const [shipping, setShipping] = useState(40)
     const [outOfStockProducts, setOutOfStockProducts] = useState([])
     const [productById, setProductById] = useState({})
+    const {currency} = useCart()
     const chechIfOutOfStock = (productId) => {
         axios.get(`http://localhost:3003/admin/items/view/${productId}`)
             .then(response => {
@@ -44,7 +46,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                                     {outOfStockProducts.includes(product._id) && (<p className='text-white bg-gradient-to-r from-red-700  to-red-800 rounded-full text-sm w-24 text-center mt-1'>Rupture de stock !</p>)}                            </div>
                             </div>
                             <div className=' font-mono w-3/12 text-end '>
-                                <span className='text-end'>{product.price}</span> MAD
+                                <span className='text-end'>{product.price}</span> {currency}
                             </div>
                         </div>
                     ))
@@ -57,15 +59,15 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                         <span className='border rounded-full p-[0.5px] bg-black'></span>
                         <p>{totalQty == 1 ? <span> {totalQty} Article</span> : <span> {totalQty} Articles</span>} </p> 
                     </div>
-                    <div className=''>{totalAmount.toFixed(2)} MAD</div> 
+                    <div className=''>{totalAmount.toFixed(2)} {currency}</div> 
                 </div>
                 <div className='flex justify-between mt-2'>
                     <div>Livarison</div>
-                    <div>{shipping == 0 ? (<p>GRATUITE</p>) : (<p>{shipping} MAD</p>)}</div>
+                    <div>{shipping == 0 ? (<p>GRATUITE</p>) : (<p>{shipping} {currency}</p>)}</div>
                 </div>
                 <div className=' font-semibold text-xl flex justify-between items-center mt-8'>
                     <div>Total</div>
-                    <div className='font-mono'>{(totalAmount + shipping).toFixed(2)} MAD</div> 
+                    <div className='font-mono'>{(totalAmount + shipping).toFixed(2)} {currency}</div> 
                 </div>
             </div>
         </div>

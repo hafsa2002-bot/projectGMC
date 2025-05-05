@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Check, Heart, Plus, ShoppingCart, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 function FavoriteElement({product, setShowFavorite}) {
-    const {cart, favorites, setFavorites, addToCart} = useCart()
+    const {cart, favorites, setFavorites, addToCart, currency} = useCart()
     const [productById, setProductById] = useState({})
     const [showMessage, setShowMessage] = useState(false)
     const [isInCart, setIsInCart] = useState(false)
@@ -56,7 +56,7 @@ function FavoriteElement({product, setShowFavorite}) {
                         </Link>
                         <div className='flex flex-col justify-start items-start w-9/12 gap-2 h-full'>
                             <p className='text-lg font-medium text-gray-700 w-11/12'>{product.productName}</p>
-                            <div className='font-mono font-semibold text-end'>{(product.price).toFixed(2)} MAD</div>
+                            <div className='font-mono font-semibold text-end'>{(product.price).toFixed(2)} {currency}</div>
                         </div>
                     </div>
                     <div className='flex flex-col justify-between items-end pr-2'>

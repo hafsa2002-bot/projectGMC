@@ -2,7 +2,7 @@ import { ChevronDown } from 'lucide-react'
 import React,{useState, useEffect} from 'react'
 import axios from 'axios'
 
-function UpdateRole({user}) {
+function UpdateRole({user, members, setMembers}) {
     const [showRoleOptions, setShowRoleOptions] = useState(false)
     const updateRole = (newRole) => {
         axios.patch(`http://localhost:3003/update-role/${user._id}`,
@@ -13,7 +13,14 @@ function UpdateRole({user}) {
                 }
             }
         )
-            .then(response => console.log("role updated", response.data) )
+            .then(response => {
+                console.log("role updated", response.data)
+                const updatedMembers = members.map((m) =>
+                    m._id === user._id ? { ...m, role: newRole } : m
+                );
+
+                setMembers(updatedMembers);
+            })
             .catch(error => console.log("Error: ", error))
     }
   return (
@@ -22,7 +29,7 @@ function UpdateRole({user}) {
             className="relative z-10 cursor-pointer text-white m-auto lg:m-0 bg-blue-500 hover:bg-blue-700 lg:px-4 px-2 text-base py-2 rounded-xl flex items-center gap-1 transition-all duration-200"
             onClick={() => setShowRoleOptions(!showRoleOptions)}
         >
-            Update Role <ChevronDown className="w-5 h-5" />
+            Update <div className='lg:flex hidden'>Role </div><ChevronDown className="w-5 h-5" />
             {showRoleOptions && (
                 <div className='absolute top-10 w-full right-0 overflow-hidden rounded-lg text-gray-600 bg-white  border border-gray-300'>
                     <div

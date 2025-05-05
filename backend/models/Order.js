@@ -20,7 +20,13 @@ const orderSchema = new mongoose.Schema({
             productId:{type: mongoose.Schema.Types.ObjectId, ref:"Product", required: true},
             name: {type: String, required: true},
             quantity: {type:Number, required:true},
-            price: {type: Number, required: true}
+            price: {type: Number, required: true},
+            batchesUsed: [
+                {
+                    expirationDate: { type: Date, required: false },
+                    quantityUsed: { type: Number, required: true }
+                }
+            ]
         }
     ],
     totalAmount: {type: Number, required: true},

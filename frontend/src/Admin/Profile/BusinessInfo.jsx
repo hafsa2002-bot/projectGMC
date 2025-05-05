@@ -3,13 +3,15 @@ import axios from 'axios'
 import { Check } from 'lucide-react'
 import SpinnerLoader from '../../SpinnerLoader'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function BusinessInfo() {
     const [store, setStore] = useState({})
     const [address, setAddress] = useState("")
     const [city, setCity] = useState("")
     const [country, setCountry] = useState("")
-    const [currency, setCurrency] = useState("")
+    // const [currency, setCurrency] = useState("")
+    const { currency, setCurrency } = useCart()
     const [message, setMessage] = useState(false)
     const [loading, setLaoding] = useState(true)
     const [showSubmitInfo, setShowSubmitInfo] = useState(false)

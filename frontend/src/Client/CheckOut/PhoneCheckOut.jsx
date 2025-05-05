@@ -1,12 +1,14 @@
 import { ImageOff, ChevronDown } from 'lucide-react'
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import { useCart } from '../../CartContext'
 
 function PhoneCheckOut({cart, totalAmount, totalQty}) {
     const [shipping, setShipping] = useState(40)
     const [showOrderDetails, setShowOrderDetails] = useState(false)
     const [outOfStockProducts, setOutOfStockProducts] = useState([])
     const [productById, setProductById] = useState({})
+    const {currency} = useCart()
     const chechIfOutOfStock = (productId) => {
         axios.get(`http://localhost:3003/admin/items/view/${productId}`)
             .then(response => {
@@ -55,7 +57,7 @@ function PhoneCheckOut({cart, totalAmount, totalQty}) {
                                 </div>
                             </div>
                             <div className=' font-mono mt-2 '>
-                                <span>{product.price}</span> MAD
+                                <span>{product.price}</span> {currency}
                             </div>
                         </div>
                     ))
@@ -70,15 +72,15 @@ function PhoneCheckOut({cart, totalAmount, totalQty}) {
                     <span className='border rounded-full p-[0.5px] bg-black'></span>
                     <p>{totalQty == 1 ? <span> {totalQty} Article</span> : <span> {totalQty} Articles</span>} </p> 
                 </div>
-                <div className=''>{totalAmount} MAD</div> 
+                <div className=''>{totalAmount} {currency}</div> 
             </div>
             <div className='flex justify-between mt-2'>
                 <div>Livraison</div>
-                <div>{shipping == 0 ? (<p>FREE</p>) : (<p>{shipping} MAD</p>)}</div>
+                <div>{shipping == 0 ? (<p>FREE</p>) : (<p>{shipping} {currency}</p>)}</div>
             </div>
             <div className=' font-semibold text-xl flex justify-between items-center mt-8'>
                 <div>Total</div>
-                <div className='font-mono'>{totalAmount + shipping} MAD</div> 
+                <div className='font-mono'>{totalAmount + shipping} {currency}</div> 
             </div>
             <button  className='bg-black font-semibold px-2.5 py-3 flex justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
                 <p className=' w-full'>Confirmer la commande</p> 

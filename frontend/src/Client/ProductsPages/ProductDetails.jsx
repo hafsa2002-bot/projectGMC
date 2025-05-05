@@ -18,7 +18,7 @@ function ProductDetails() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [soldPercentage, setSoldPercentage] = useState(0)
-    const {addToFavorites, favorites, setFavorites, addToCart} = useCart()
+    const {addToFavorites, favorites, setFavorites, addToCart, currency} = useCart()
     const [favorite, setFavorite] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
@@ -164,7 +164,7 @@ function ProductDetails() {
                                 <h1 className="text-4xl font-bold text-gray-900">{product.productName}</h1>
                                 */}
                                 {/* Price 
-                                <p className="text-3xl font-semibold text-gray-800">{product.price} <span className="text-xl text-gray-600">MAD</span></p>
+                                <p className="text-3xl font-semibold text-gray-800">{product.price} <span className="text-xl text-gray-600">{currency}</span></p>
                                 */}
                                 {/* Stock Status 
                                 <div className="w-full space-y-6">
@@ -212,7 +212,7 @@ function ProductDetails() {
                                     {/* Price - Elegant presentation */}
                                     <div className="flex items-baseline gap-2">
                                         <span className="text-4xl font-semibold lg:text-gray-900 text-yellow-400">{product.price}</span>
-                                        <span className="text-lg text-gray-500">MAD</span>
+                                        <span className="text-lg text-gray-500">{currency}</span>
                                     </div>
                                 </div>
 

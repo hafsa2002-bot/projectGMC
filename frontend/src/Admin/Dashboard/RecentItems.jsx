@@ -25,7 +25,7 @@ function RecentItems() {
             {recentItems
                 ?(
                     [...recentItems].reverse().slice(0, 6).map((item, index) => (
-                        <div key={index} className=' lg:w-1/6 w-5/12 shadow-xl  bg-white rounded-lg lg:px-2 py-2 '>
+                        <div key={index} className=' lg:w-1/6 w-5/12 shadow-xl  bg-white rounded-lg lg:px-2 py-2 border border-gray-300 '>
                             <div className='lg:w-40 w-28 lg:h-40 h-28  rounded-lg overflow-hidden m-auto justify-baseline items-baseline'>
                                 {item.productPhoto 
                                     ? (
@@ -40,7 +40,7 @@ function RecentItems() {
                             </div>
                             <div className='px-3 flex flex-col mt-2'>
                                 <p className='font-semibold text-gray-800 '>{item.productName}</p>
-                                <p className='text-gray-500 font-bold '>{item.qty} Qty</p>
+                                <p className='text-gray-500 font-bold '>Quantity: {item.qty}</p>
                             </div>
                         </div>
                     ))
@@ -73,7 +73,7 @@ function RecentItems() {
                             </div>
                             <div className='px-3 flex flex-col mt-2'>
                                 <p className='font-semibold'>{item.productName}</p>
-                                <p className='text-gray-500 font-bold'>{item.qty} Qty</p>
+                                <p className='text-gray-500 font-bold'>Quantity: {item.qty}</p>
                             </div>
                         </div>
                     ))

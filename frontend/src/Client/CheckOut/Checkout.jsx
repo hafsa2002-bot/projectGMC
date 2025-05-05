@@ -70,6 +70,7 @@ function Checkout() {
                 setTimeout(() => setShowMessage(false), 2000) 
                 localStorage.removeItem("cart")
                 setCart([])
+                window.scrollTo(0, 0)
                 setTimeout(() => navigate("/products"), 2400)
             }
             // }else{

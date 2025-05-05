@@ -6,6 +6,7 @@ import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
 import UpdateQuantity from './UpdateQuantity'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function LowInStock() {
     const [lowInStock, setLowInStock] = useState([])
@@ -15,6 +16,7 @@ function LowInStock() {
     const [message, setMessage] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
+    const {currency} = useCart()
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -109,7 +111,7 @@ function LowInStock() {
                                     <p>{item.itemsSold}</p>
                                 </td>
                                 <td className="px-6 py-4 text-base ">
-                                    {item.price  } <span className='text-black'>MAD</span>
+                                    {item.price  } <span className='text-black'> {currency} </span>
                                 </td>
                                 {/* <td className="px-6 py-4">
                                     <Link to={`/admin/items/view/${item._id}`} className='hover:text-black underline text-blue-500 '>

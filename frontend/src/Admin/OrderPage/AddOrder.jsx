@@ -1,9 +1,12 @@
-import { AlertCircle, ArrowLeft, CheckCircle, ChevronDown, CirclePlus, Trash2} from 'lucide-react'
+import { AlertCircle, ArrowLeft, CheckCircle, ChevronDown, CirclePlus, QrCode, ScanBarcode, Trash2} from 'lucide-react'
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import ListOfProducts from './ListOfProducts'
 import axios from 'axios'
 import SucessMessage from '../SucessMessage'
+import { useCart } from '../../CartContext'
+import BarcodeOrder from './BarcodeOrder'
+
 function AddOrder() {
     // const [shipping, setShipping] = useState({})
     const navigate = useNavigate()
@@ -19,6 +22,7 @@ function AddOrder() {
     const [quantityError, setQuantityError] = useState({notAvailable: false, qtyAvailable: 0, productName: ""})
     const [negativeNumberMessage, setNegativeNumberMessage] = useState(false)
     const [sucessMessage, setSucessMessage] = useState(false)
+    const {currency} = useCart()
 
     const addNewRow = () => {
         setRows([...rows, {id: rows.length + 1, productId: null , productName: "", quantity: 0, price: 0, subtotal: 0}])
@@ -158,7 +162,7 @@ function AddOrder() {
                     </div>
                 </div>                
                 {/* order array */}
-                <div className='w-full border border-gray-300 rounded-lg overflow-hidden mt-10 '>
+                <div className='w-full border border-gray-300 rounded-lg  mt-10 '>
                     <table className='w-full'>
                         <thead className='py-2 bg-gray-100 font-semibold text-left border-b border-gray-300'>
                             <tr>
@@ -175,9 +179,9 @@ function AddOrder() {
                                 <tr key={row.id} className='border-b border-gray-300'>
                                     <td className="px-6 py-3 border-r border-gray-300">{index+1}</td>
                                     {/* select product name */}
-                                    <td className="px-6 py-3 border-r border-gray-300">
+                                    <td className="px-6 py-3 border-r border-gray-300 flex items-center gap-3 ">
                                         <div 
-                                            className={` flex justify-between  border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
+                                            className={`relative flex justify-between  border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
                                         >
                                             <input
                                                 className='outline-none'                            
@@ -202,29 +206,42 @@ function AddOrder() {
                                                 ? (<ChevronDown  className='rotate-180 cursor-pointer' onClick={() => setShowProducts(false)}/>)
                                                 : (<ChevronDown  className='cursor-pointer'  onClick={() => setShowProducts(index)}/>)
                                             }
+                                            {showProducts === index && (
+                                                <div className='absolute z-20 top-10 right-0 shadow-xl w-full ml-1 max-h-48 bg-white border border-gray-300 rounded-lg mt-1 overflow-y-scroll'>
+                                                    {/* <ListOfProducts products={filteredProducts} setSelectedProduct={setSelectedProduct} setProductName={setProductName} setShowProducts={setShowProducts}  /> */}
+                                                    <ListOfProducts 
+                                                        products={filteredProducts} 
+                                                        setSelectedProduct={(product) => {
+                                                            const newRows = [...rows];
+                                                            newRows[index].productName = product.productName;
+                                                            newRows[index].price = product.price; // Assuming `price` is available in `product`
+                                                            newRows[index].productId = product._id
+                                                            setRows(newRows);
+                                                        }} 
+                                                        setProductName={(name) => {
+                                                            const newRows = [...rows];
+                                                            newRows[index].productName = name;
+                                                            setRows(newRows);
+                                                        }} 
+                                                        setShowProducts={setShowProducts}   
+                                                    />
+                                                </div>
+                                            )}
                                             
                                         </div>
-                                        {showProducts === index && (
-                                            <div className='absolute z-20 w-56 ml-1 max-h-48 bg-white border border-gray-300 rounded-lg mt-1 overflow-y-scroll'>
-                                                {/* <ListOfProducts products={filteredProducts} setSelectedProduct={setSelectedProduct} setProductName={setProductName} setShowProducts={setShowProducts}  /> */}
-                                                <ListOfProducts 
-                                                    products={filteredProducts} 
-                                                    setSelectedProduct={(product) => {
-                                                        const newRows = [...rows];
-                                                        newRows[index].productName = product.productName;
-                                                        newRows[index].price = product.price; // Assuming `price` is available in `product`
-                                                        newRows[index].productId = product._id
-                                                        setRows(newRows);
-                                                    }} 
-                                                    setProductName={(name) => {
-                                                        const newRows = [...rows];
-                                                        newRows[index].productName = name;
-                                                        setRows(newRows);
-                                                    }} 
-                                                    setShowProducts={setShowProducts}   
-                                                />
-                                            </div>
-                                        )}
+                                        <div className='text-blue-500'>
+                                            <BarcodeOrder
+                                                onBarcodeScanned={(product) => {
+                                                    const newRows = [...rows];
+                                                    newRows[index].productName = product.productName;
+                                                    newRows[index].price = product.price;
+                                                    newRows[index].productId = product._id;
+                                                    newRows[index].quantity = 0;
+                                                    newRows[index].subtotal = product.price * 0;
+                                                    setRows(newRows);
+                                                }} 
+                                            />
+                                        </div>
                                     </td>
                                     {/* quantity */}
                                     <td className="px-6 py-3 border-r border-gray-300">
@@ -246,8 +263,8 @@ function AddOrder() {
                                                         */
                                                     const product = await getProductById(productId);
                                                     if (!product) return;
-                                                    if (enteredQty > product.qty) {
-                                                        setQuantityError({notAvailable: true, qtyAvailable: product.qty, productName: product.productName})
+                                                    if (enteredQty > (product.qty-product.expiredQty)) {
+                                                        setQuantityError({notAvailable: true, qtyAvailable: product.qty-product.expiredQty, productName: product.productName})
                                                         setTimeout(() => setQuantityError({notAvailable: false, qtyAvailable: 0, productName: ""}), 3000)
                                                         // alert(`Only ${product.quantityInStock} items in stock for "${product.productName}".`);
                                                         return;
@@ -298,11 +315,11 @@ function AddOrder() {
                 </div>
                 <div className='text-xl w-full mt-7'>
                     <div className='w-full flex text-lg py-4 justify-between border-b border-gray-300'>
-                        <p>Total (MAD)</p>
+                        <p>Total ({currency})</p>
                         <p>{totalAmount.toFixed(2)}</p>
                     </div>
                     <div className='w-full flex py-4 justify-between items-center border-b text-gray-600 text-base border-gray-300'>
-                        <p>Amount Paid (MAD)</p>
+                        <p>Amount Paid ({currency})</p>
                         <input 
                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg  p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                             type="number" name="AmountPaid" id="AmountPaid"
@@ -311,7 +328,7 @@ function AddOrder() {
                         />
                     </div>
                     <div className='w-full flex py-4 justify-between border-b border-gray-300'>
-                        <p>Rest (MAD)</p>
+                        <p>Rest ({currency})</p>
                         <p>{(totalAmount-amountPaid).toFixed(2)}</p>
                     </div>
                 </div>

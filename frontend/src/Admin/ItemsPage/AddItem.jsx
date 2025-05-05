@@ -6,6 +6,7 @@ import AddCategory from './AddCategory'
 import ListOfCategories from './ListOfCategories'
 import BarCode from './BarCode'
 import BatchForm from './BatchForm'
+import { useCart } from '../../CartContext'
 
 function AddItem() {
     const [productName, setProductName] = useState("")
@@ -13,7 +14,7 @@ function AddItem() {
     const [qty, setQty] = useState(0)
     const [minLevel, setMinLevel] = useState(0)
     const [price, setPrice] = useState(0)
-    const [currency, setCurrency] =  useState('MAD')
+    const {currency} = useCart()
     const [showCategories, setShowCategories] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState({id: "", name: ""})
     const [addCategory, setAddCategory] = useState(false)
@@ -89,7 +90,7 @@ function AddItem() {
             setSuccessMessage(true)
             setTimeout(() => setSuccessMessage(false), 1500)
             scrollTo(0, 0)
-            setTimeout(() => navigate("/admin/items"), 2300)
+            setTimeout(() => navigate("/admin/items"), 2000)
         }catch(error){
             console.log("Error: ", error)
         }

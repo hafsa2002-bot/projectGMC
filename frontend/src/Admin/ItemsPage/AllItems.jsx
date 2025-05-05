@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import PopUp from './PopUp'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function AllItems() {
     const [items, setItems] = useState([])
@@ -12,6 +13,7 @@ function AllItems() {
     const [popUp, setPopUp] = useState(false)
     const [loading, setLoading] = useState(true)
     const token = localStorage.getItem("token");
+    const {currency} = useCart()
     let userRole = null;
     
     if (token) {
@@ -96,7 +98,7 @@ function AllItems() {
                                                 {item.itemsSold && (<p>{item.itemsSold} items</p>)}
                                             </td>
                                             <td className="lg:px-6 px-3 py-4">
-                                                {item.price} <span className='text-black'>MAD</span>
+                                                {item.price} <span className='text-black'>{currency}</span>
                                             </td>
                                             <td className="lg:px-6 px-3 py-4 text-base ">
                                                 {

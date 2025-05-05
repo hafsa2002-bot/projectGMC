@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom'
 import SpinnerLoader from '../../SpinnerLoader'
 import PopUp from './PopUp'
 import { jwtDecode } from 'jwt-decode'
+import { useCart } from '../../CartContext'
 
 function ProductsFiltered({items, setItems}) {
     const [showOptions, setShowOptions] = useState(false);
     const [popUp, setPopUp] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
+    const {currency} = useCart()
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -70,7 +72,7 @@ function ProductsFiltered({items, setItems}) {
                                         {item.itemsSold && (<p>{item.itemsSold} items</p>)}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {item.price} <span className='text-black'>MAD</span>
+                                        {item.price} <span className='text-black'> {currency} </span>
                                     </td>
                                     <td className="px-6 py-4 text-base ">
                                         {

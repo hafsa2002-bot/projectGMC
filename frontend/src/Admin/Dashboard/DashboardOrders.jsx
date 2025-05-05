@@ -2,10 +2,12 @@ import { ArrowRight, Boxes, Calendar, Clock, Hourglass, Package2, PackageCheck, 
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useCart } from '../../CartContext'
 
 function DashboardOrders() {
     const [orders, setOrders] = useState([])
     const [number, setNumber] = useState(0)
+    const {currency} = useCart()
     
     const fetchData = async() => {
         axios.get("http://localhost:3003/orders/getOnlineOrders")
@@ -77,7 +79,7 @@ function DashboardOrders() {
                                     )} 
                                 </div>
                                 <div className='w-1/5'>{order.createdAt.slice(0, 10)}</div>
-                                <div className='w-24 truncate '> {order.totalAmount} MAD </div>
+                                <div className='w-24 truncate '> {order.totalAmount} {currency} </div>
                             </div>
                         ))
                     ):(

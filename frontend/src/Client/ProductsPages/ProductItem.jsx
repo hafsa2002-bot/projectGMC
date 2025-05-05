@@ -7,7 +7,7 @@ function ProductItem({product}) {
     const [favorite, setFavorite] = useState(false)
     const [heartHover, setHeartHover] = useState(false)
     const [cartHover, setCartHover] = useState(false)
-    const {addToCart, addToFavorites, favorites, setFavorites} = useCart()
+    const {addToCart, addToFavorites, favorites, setFavorites, currency} = useCart()
     const [showMessage, setShowMessage] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
 
@@ -90,7 +90,7 @@ function ProductItem({product}) {
                 </div>
             </div>
             <div className='text-center px-2 flex flex-col gap-1.5'>
-                <h2 className='font-semibold text-2xl text-yellow-400 text-start px-2'><span className=''>{product.price.toFixed(2)} <span className='text-base'>MAD</span></span> </h2>
+                <h2 className='font-semibold text-2xl text-yellow-400 text-start px-2'><span className=''>{product.price.toFixed(2)} <span className='text-base'>{currency}</span></span> </h2>
                 <h2 className='font-bold text-gray-700 text-start px-2 h-13 overflow-hidden '>{product.productName}</h2>
             </div>
         </div>

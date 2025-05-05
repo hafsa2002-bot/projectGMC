@@ -9,6 +9,8 @@ import axios from 'axios'
 import UpdateQuantity from './UpdateQuantity'
 import BarCode from './BarCode'
 import UpdateBatchForm from './UpdateBatchForm'
+import { useCart } from '../../CartContext'
+import SucessMessage from '../SucessMessage'
 
 function UpdateItem() {
     const {id} = useParams()
@@ -19,7 +21,7 @@ function UpdateItem() {
     const [updatedQty, setUpdatedQty] = useState(0)
     const [updatedMinLevel, setUpdatedMinLevel] = useState(0)
     const [updatedPrice, setUpdatedPrice] = useState(0)
-    const [updatedCurrency, setUpdatedCurrency] =  useState('MAD')
+    const {currency} =  useCart()
     const [showCategories, setShowCategories] = useState(false)
     const [updatedSelectedCategory, setUpdatedSelectedCategory] = useState({id: "", name: ""})
     const [addCategory, setAddCategory] = useState(false)
@@ -88,7 +90,9 @@ function UpdateItem() {
                     }
                 }
             );
-            navigate(`/admin/items/view/${id}`)
+            setMessage(true)
+            setTimeout(() => setMessage(true), 1500)
+            setTimeout(() => navigate(`/admin/items/view/${id}`), 1700)
             console.log('product updated: ', response.data)
         }catch(error){
             console.log('Error updating product: ', error)
@@ -227,7 +231,7 @@ function UpdateItem() {
                                 className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500`   }
                             />
                             <div className=' absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 '>
-                                <p className='font-medium'>{updatedCurrency}</p>
+                                <p className='font-medium'>{currency}</p>
                             </div>
                         </div>
                     </div>
@@ -244,7 +248,7 @@ function UpdateItem() {
                                 disabled 
                             />
                             <div className='text-gray-400  absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 '>
-                                <p className='font-medium'>{updatedCurrency}</p>
+                                <p className='font-medium'>{currency}</p>
                             </div>
                         </div>
                     </div>
@@ -328,6 +332,9 @@ function UpdateItem() {
                             <div className='w-5 h-5 bg-red-600   rounded-full flex justify-center items-center'><X size={14} className='text-white' /></div>
                             <p>Please fill in all required fields</p> 
                         </div>
+                    )}
+                    {message && (
+                        <SucessMessage message="Your product has been successfully updated!" />
                     )}
                     <div className='cursor-pointer text-red-500 font-medium'>
                         <div onClick={() => navigate(-1)}>Cancel</div>

@@ -29,7 +29,7 @@ function RecentActivities() {
     fetchData()
   }, [])
   return (
-    <div >
+    <div className='' >
         <div className='bg-gray-50 flex justify-between items-center px-2 '>
             <p className='text-xl font-semibold text-gray-900 px-2'>Recent Activities</p>
             <Link to="/admin/activities" className=' text-blue-600   py-2 font-semibold flex justify-center items-center gap-3'>
@@ -62,7 +62,8 @@ function RecentActivities() {
                     <div className="relative w-10/12 rounded-lg p-4  shadow-md bg-gray-100 ml-3">
                       {/* Action & Details & user name */}
                       <div className="text-sm text-gray-800 truncate">
-                        <span className='font-semibold  font-poppins '>{log.action}:</span> {log.details} 
+                        <span className="font-semibold text-gray-900">{log.action}</span>
+                        <span className="text-gray-600 ">{log.details && <span>  — {log.details} </span>} </span>
                       </div>
 
                       {/* Date-Time Info */}

@@ -22,8 +22,8 @@ function SortButton({setSelectedOption}) {
             <span className='font-semibold text-gray-700 pl-2'>
                 {
                     (sortOption === "all-items") ? "Most recent" 
-                    : (sortOption === "low-to-high") ? "Price: Low to High" 
-                    : (sortOption === "high-to-low") ? "Price: High to Low" 
+                    : (sortOption === "low-to-high") ? "Low to High" 
+                    : (sortOption === "high-to-low") ? "High to Low" 
                     : (sortOption === "best-selling") ? "Best Selling" 
                     : (sortOption === "top-earning") ? "Top Earning" 
                     : "Most recent"

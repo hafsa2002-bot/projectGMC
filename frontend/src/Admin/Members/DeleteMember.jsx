@@ -2,14 +2,17 @@ import { Info, Trash2 } from 'lucide-react'
 import React from 'react'
 import axios from 'axios'
 
-function DeleteMember({user, setDeletePopUp}) {
+function DeleteMember({user, setDeletePopUp, members, setMembers}) {
     const  deleteUser = () => {
         axios.delete(`http://localhost:3003/delete-user/${user._id}`,
             {headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}` 
             }}
         )
-            .then(response => console.log("user deleted: ", response.data))
+            .then(response => {
+                console.log("user deleted: ", response.data)
+                setMembers(members.filter(mbr => mbr._id != user._id))
+            })
             .catch(error => console.log("Error: ", error))
     }
   return (
@@ -22,7 +25,7 @@ function DeleteMember({user, setDeletePopUp}) {
                 </div>
                 <div className='text-center flex flex-col justify-center items-center '>
                     <p className='text-2xl font-semibold mb-1 '>Confirm delete</p>
-                    <p className='text-gray-500 lg:max-w-9/12  break-words'>Are you sure you want to delete <span className='text-gray-600'>{name}</span>?</p>
+                    <p className='text-gray-500 lg:max-w-9/12  break-words'>Are you sure you want to delete <span className='text-gray-600'>{user.name}</span>?</p>
                 </div>
                 <div className='flex gap-4 '>
                     {/* confirm the delete */}

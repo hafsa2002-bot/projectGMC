@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import SucessMessage from '../SucessMessage'
 
-function AddMember({setAddNewUser}) {
+function AddMember({setAddNewUser, members, setMembers}) {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -45,6 +45,10 @@ function AddMember({setAddNewUser}) {
                 }
             }
         )
+            // console.log("response: ", response)
+            // console.log("response.data : ", response.data)
+            setMembers([...members, response.data])
+            // setMembers(prev => [...prev, response.data])
             setSuccessMessage(true)
             setTimeout(() => setSuccessMessage(false), 2000)
             setTimeout(() => setAddNewUser(false), 3000)
@@ -60,7 +64,8 @@ function AddMember({setAddNewUser}) {
     }
     useEffect(() => {
         fetchData()
-    }, [email])
+    // }, [email])
+    }, [])
   return (
     <div className='w-screen h-screen z-50 top-0 right-0 fixed flex justify-center items-center  bg-black/40 ' >
         <div className=' lg:w-7/12 w-11/12 lg:h-[80vh] h-[90vh] bg-white rounded-xl shadow-md border border-gray-200'>

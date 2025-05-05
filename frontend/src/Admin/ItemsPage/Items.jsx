@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {Link, NavLink, Outlet} from 'react-router-dom'
 import axios from 'axios'
-import { ChevronDown, EllipsisVertical, Eye, Image, PackageX, PenLine, Search, SlidersHorizontal, Trash2, TrendingDown, TriangleAlert } from 'lucide-react'
+import { ArrowBigUp, ChevronDown, ChevronUp, EllipsisVertical, Eye, Image, PackageX, PenLine, Search, SlidersHorizontal, Trash2, TrendingDown, TriangleAlert } from 'lucide-react'
 import SpinnerLoader from '../../SpinnerLoader'
 import SpinnerBlue from '../SpinnerBlue'
 import AllItems from './AllItems'
@@ -169,6 +169,11 @@ function Items() {
                         : <AllItems/>
                     }
                 </div> 
+                <div
+                    onClick={() => window.scrollTo(0,0)} 
+                    className='fixed bottom-5 right-5 border  border-gray-500 cursor-pointer bg-white text-2xl font-semibold rounded-full w-12 h-12 shadow-xl text-gray-700 flex justify-center items-center'>
+                    <ChevronUp  size={28}/>
+                </div>
             </>
             )
         }
