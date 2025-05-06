@@ -13,7 +13,7 @@ import storeRoutes from './routes/storeRoutes.js'
 
 const app = express()
 // const port = 3003
-const PORT = process.env.PORT || 3003; 
+const port = process.env.PORT || 3003; 
 import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 dotenv.config();
@@ -76,4 +76,13 @@ app.get('/', (req, res) => {
   res.send('Hello from Railway!');
 });
 
-app.listen(PORT, () => console.log(`server running : http://localhost:${PORT}`))
+app.get("/test-db", async (req, res) => {
+  try {
+    const storeStock = await StoreStock.findOne({});
+    res.json(storeStock);
+} catch (err) {
+    res.status(500).json({ message: "Error connecting to DB", error: err });
+}
+});
+
+app.listen(port, () => console.log(`server running : http://localhost:${port}`))
