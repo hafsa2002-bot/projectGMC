@@ -12,7 +12,8 @@ import userRoutes from './routes/userRoutes.js'
 import storeRoutes from './routes/storeRoutes.js'
 
 const app = express()
-const port = 3003
+// const port = 3003
+const PORT = process.env.PORT || 3003; 
 import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 dotenv.config();
@@ -56,4 +57,4 @@ cron.schedule("0 0 * * *", async () => {
   // await updateExpiredStatus();
 });
 
-app.listen(port, () => console.log(`server running : http://localhost:${port}`))
+app.listen(PORT, () => console.log(`server running : http://localhost:${PORT}`))
