@@ -19,7 +19,7 @@ function Cart({setShowCart}) {
   }, [cart])
 
   return (
-    <div className='bg-white text-black lg:w-[450px] w-full absolute lg:top-20 top-28 right-0 border-l border-gray-300 shadow-2xl h-[90vh] pl-5 pr-2 pt-3 pb-10 overflow-y-scroll'>
+    <div className='bg-white text-black lg:w-[450px] w-full absolute lg:top-20 top-28 right-0 border-l border-gray-300 shadow-2xl h-[90vh] pl-5 pr-2 pt-3 lg:pb-10 pb-24 overflow-y-scroll'>
       <div className='flex justify-between items-center pt-2 pb-4'>
         <p className='text-xl font-mono'>Panier</p> 
         <div

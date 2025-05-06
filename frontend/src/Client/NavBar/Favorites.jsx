@@ -30,8 +30,8 @@ function Favorites({setShowFavorite}) {
             </div>
             <div 
               onClick={() => {
-                navigate("/products")
                 setShowFavorite(false)
+                navigate("/products")
               }}
               className=' cursor-pointer border w-8/12 text-white bg-gradient-to-tr from-gray-500 via-gray-600 to bg-gray-900 font-semibold text-center text-lg py-1.5 rounded-full'
             >

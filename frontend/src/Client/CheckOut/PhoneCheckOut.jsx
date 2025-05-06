@@ -73,7 +73,7 @@ function PhoneCheckOut({cart, totalAmount, totalQty}) {
                     <span className='border rounded-full p-[0.5px] bg-black'></span>
                     <p>{totalQty == 1 ? <span> {totalQty} Article</span> : <span> {totalQty} Articles</span>} </p> 
                 </div>
-                <div className=''>{totalAmount} {currency}</div> 
+                <div className=''>{totalAmount.toFixed(2)} {currency}</div> 
             </div>
             <div className='flex justify-between mt-2'>
                 <div>Livraison</div>
@@ -81,7 +81,7 @@ function PhoneCheckOut({cart, totalAmount, totalQty}) {
             </div>
             <div className=' font-semibold text-xl flex justify-between items-center mt-8'>
                 <div>Total</div>
-                <div className='font-mono'>{totalAmount + shipping} {currency}</div> 
+                <div className='font-mono'>{(totalAmount + shipping).toFixed(2)} {currency}</div> 
             </div>
             <button  className='bg-black font-semibold px-2.5 py-3 flex justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
                 <p className=' w-full'>Confirmer la commande</p> 

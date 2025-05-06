@@ -35,7 +35,8 @@ function Checkout() {
     const handleSubmit = async(event) => {
         event.preventDefault();
 
-        const outOfStockItems = cart.filter(item => (item.qty-item.expiredQty) == 0)
+        // const outOfStockItems = cart.filter(item => (item.qty-item.expiredQty) == 0)
+        const outOfStockItems = cart.filter(item => (item.qty - item.expiredQty) < item.quantity)
         if(outOfStockItems.length > 0){
             setOutOfStockMessage(true)
             return

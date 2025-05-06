@@ -81,7 +81,7 @@ function Notifications() {
                                                         <div className='flex justify-between'>
                                                             <div className='w-10/12'>
                                                                 <p className=''>{notif.message} </p>
-                                                                <Link to={`/admin/view_order/${notif._id}`} className="cursor-pointer flex gap-1 justify-center items-center py-1 px-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-400 w-1/2 mt-2" >
+                                                                <Link to={`/admin/view_order/${notif.orderId}`} className="cursor-pointer flex gap-1 justify-center items-center py-1 px-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-400 w-1/2 mt-2" >
                                                                     View Order 
                                                                     <ArrowRight size={17} />
                                                                 </Link>

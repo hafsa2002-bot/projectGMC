@@ -73,13 +73,13 @@ const validBatches = product.batches.filter(batch => {
       quantityUsed: usedQty
     });
   }
-  
-  if (remainingQty > 0) {
-    return res.status(400).json({ error: `Not enough valid batches for product: ${item.name}` });
-  }
-  
-  
+          /*
           if (remainingQty > 0) {
+            return res.status(400).json({ error: `Not enough valid batches for product: ${item.name}` });
+          }
+            */
+          const totalValidQty = sortedBatches.reduce((sum, batch) => sum + batch.qty, 0);
+          if (totalValidQty < item.quantity) {
             return res.status(400).json({ error: `Not enough valid batches for product: ${item.name}` });
           }
         } else {
@@ -321,8 +321,15 @@ router.get("/orders/payment-status/pending", async  (req, res) => {
           if (item.batchesUsed && item.batchesUsed.length > 0) {
             for (const batchInfo of item.batchesUsed) {
               // Find the corresponding batch for this product by matching expiration date
+
+              /*
               const batch = product.batches.find(b => b.expirationDate.toString() === batchInfo.expirationDate.toString());
-  
+              */
+              const batch = product.batches.find(b => 
+                b.expirationDate && batchInfo.expirationDate && 
+                b.expirationDate.toString() === batchInfo.expirationDate.toString()
+              );
+
               if (batch) {
                 // Restore the batch quantity
                 batch.qty += batchInfo.quantityUsed;

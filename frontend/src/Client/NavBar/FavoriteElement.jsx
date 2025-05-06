@@ -23,10 +23,10 @@ function FavoriteElement({product, setShowFavorite}) {
     }
 
     const addToCartFunction = () => {
-        if(productById.qty > 0){
+        if(productById.qty - productById.expiredQty > 0){
             addToCart(product)
             setIsInCart(true)
-        }else if(productById.qty === 0){
+        }else if(productById.qty - productById.expiredQty <= 0){
             setShowMessage(true)
             setTimeout(() => setShowMessage(false), 3000)
         }

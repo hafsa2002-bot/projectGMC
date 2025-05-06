@@ -42,10 +42,43 @@ function CartElement({product, setShowCart}) {
         setCart(updatedCart)
     }
     
+        
+       /*
+    const updateQty = (productId, action) => {
+        if (!productById || productById.qty === undefined || productById.expiredQty === undefined) {
+          return // prevent update if data not loaded
+        }
+      
+        let updatedCart = cart.map(product => {
+          if (product._id === productId) {
+            const availableQty = productById.qty - productById.expiredQty
+            if (action === "plus") {
+              if (availableQty > product.quantity) {
+                return { ...product, quantity: product.quantity + 1 }
+              } else {
+                setMessage(true)
+                setTimeout(() => setMessage(false), 3000)
+              }
+            } else if (action === "minus" && product.quantity > 1) {
+              return { ...product, quantity: product.quantity - 1 }
+            }
+          }
+          return product
+        })
+      
+        updatedCart = updatedCart.filter(product => product.quantity > 0)
+        localStorage.setItem('cart', JSON.stringify(updatedCart))
+        setCart(updatedCart)
+      }
+      
+      
     
+    
+      */
     useEffect(() => {
         fetchData(product._id)
-    }, [])
+    // }, [product._id])
+}, [product._id])
     
     
   return (
@@ -84,15 +117,34 @@ function CartElement({product, setShowCart}) {
                         <div className='bg-white text-black rounded-full flex justify-between shadow border border-gray-300 w-32 text-lg font-semibold overflow-hidden'>
                             <div
                                 onClick={() => updateQty(product._id, "minus")}
-                                className='cursor-pointer w-1/3 text-center text-xl hover:bg-gray-100'>
+                                // className='cursor-pointer w-1/3 text-center text-xl hover:bg-gray-100'
+                                className={`cursor-pointer w-1/3 text-center text-xl hover:bg-gray-100 ${product.quantity <= 1 ? 'text-gray-400 cursor-not-allowed' : ''}`}
+                            >
                                 -
                             </div>
                             <div className='border-l border-r border-gray-300 w-1/3 text-center'>{product.quantity}</div>
                             <div
+                                
                                 onClick={() => {
                                     updateQty(product._id, "plus")
                                 }}
-                                className='cursor-pointer w-1/3 text-center text-xl hover:bg-gray-100'
+                                    
+                                    
+                                
+                                   /*
+                                onClick={() => {
+                                    const availableQty = productById?.qty - productById?.expiredQty
+                                    if (product.quantity < availableQty) {
+                                      updateQty(product._id, "plus")
+                                    } else {
+                                      setMessage(true)
+                                      setTimeout(() => setMessage(false), 3000)
+                                    }
+                                }}
+                                */
+                                
+                                // className='cursor-pointer w-1/3 text-center text-xl hover:bg-gray-100'
+                                className={`cursor-pointer w-1/3 text-center text-xl hover:bg-gray-100 ${productById && product.quantity >= (productById.qty - productById.expiredQty) ? 'text-gray-400 cursor-not-allowed' : ''}`}
                             >
                                 +
                             </div>
@@ -118,7 +170,8 @@ function CartElement({product, setShowCart}) {
                 <div className='w-4 h-4 bg-red-700 rounded-full flex justify-center items-center'><X className='text-white' size={12}/></div>
                 <p>La quantité maximale disponible est {productById.qty - productById.expiredQty}</p> 
             </div>
-        )}
+        )} 
+
     </div>
   )
 }

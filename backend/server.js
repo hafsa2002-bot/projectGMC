@@ -43,10 +43,12 @@ app.use(cors())
 app.use(express.json())
 app.use("/uploads", express.static("uploads"))
 
+/*
 app.use("/", (req, res, next) => {
-  console.log('Middleware triggered for request:', req.method, req.path); // Add logging or other logic
-  next(); // Continue to the next middleware
+  console.log('Middleware triggered for request:', req.method, req.path); 
+  next(); 
 });
+*/
 
 app.use("/admin", productRoutes)
 app.use("/", ActivityLogRoutes)
