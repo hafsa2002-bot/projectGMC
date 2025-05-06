@@ -73,21 +73,21 @@ const validBatches = product.batches.filter(batch => {
       quantityUsed: usedQty
     });
   }
-          /*
-          if (remainingQty > 0) {
-            return res.status(400).json({ error: `Not enough valid batches for product: ${item.name}` });
-          }
-            */
+  if (remainingQty > 0) {
+    return res.status(400).json({ error: `Not enough valid batches for product: ${item.name}` });
+    }
+    /*
           const totalValidQty = sortedBatches.reduce((sum, batch) => sum + batch.qty, 0);
           if (totalValidQty < item.quantity) {
             return res.status(400).json({ error: `Not enough valid batches for product: ${item.name}` });
           }
+          */
         } else {
           // No batches — allow if total non-expired stock is enough
-          if (item.quantity > product.qty - product.expiredQty) {
-            return res.status(400).json({ error: `Not enough stock for product: ${item.name}` });
-          }
+        if (item.quantity > product.qty - product.expiredQty) {
+          return res.status(400).json({ error: `Not enough stock for product: ${item.name}` });
         }
+      }
   
   
         // Update product stock and itemsSold
