@@ -42,6 +42,11 @@ app.use(cors())
 app.use(express.json())
 app.use("/uploads", express.static("uploads"))
 
+app.use("/", (req, res, next) => {
+  console.log('Middleware triggered for request:', req.method, req.path); // Add logging or other logic
+  next(); // Continue to the next middleware
+});
+
 app.use("/admin", productRoutes)
 app.use("/", ActivityLogRoutes)
 app.use("/", stockRoutes)
@@ -85,4 +90,4 @@ app.get("/test-db", async (req, res) => {
 }
 });
 
-app.listen(port, () => console.log(`server running : http://localhost:${port}`))
+app.listen(port, '0.0.0.0', () => console.log(`server running : http://localhost:${port}`))
