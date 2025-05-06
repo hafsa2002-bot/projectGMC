@@ -162,24 +162,24 @@ function AddOrder() {
                     </div>
                 </div>                
                 {/* order array */}
-                <div className='w-full border border-gray-300 rounded-lg  mt-10 '>
+                <div className='w-full  border border-gray-300 rounded-lg  mt-10 '>
                     <table className='w-full'>
                         <thead className='py-2 bg-gray-100 font-semibold text-left border-b border-gray-300'>
                             <tr>
-                                <th scope="col" className="px-6 py-3 border-r border-gray-300">#</th>
-                                <th scope="col" className="px-6 py-3 border-r border-gray-300">Item Name</th>
-                                <th scope="col" className="px-6 py-3 border-r border-gray-300">Quantity</th>
-                                <th scope="col" className="px-6 py-3 border-r border-gray-300">Price</th>
-                                <th scope="col" className="px-6 py-3 border-r border-gray-300">Subtotal</th>
+                                <th scope="col" className="lg:px-6 px-3 py-3 border-r border-gray-300">#</th>
+                                <th scope="col" className="lg:px-6 px-3 py-3 border-r border-gray-300">Item Name</th>
+                                <th scope="col" className="lg:px-6 px-3 py-3 border-r border-gray-300">Quantity</th>
+                                <th scope="col" className="lg:px-6 px-3 py-3 border-r border-gray-300">Price</th>
+                                <th scope="col" className="lg:px-6 px-3 py-3 border-r border-gray-300">Subtotal</th>
                                 <th scope="col" className="px-2 py-3"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {rows?.map((row, index) => (
                                 <tr key={row.id} className='border-b border-gray-300'>
-                                    <td className="px-6 py-3 border-r border-gray-300">{index+1}</td>
+                                    <td className="lg:px-6 px-3 py-3 border-r border-gray-300">{index+1}</td>
                                     {/* select product name */}
-                                    <td className="px-6 py-3 border-r border-gray-300 flex items-center gap-3 ">
+                                    <td className="lg:px-6 px-3 py-3 border-r border-gray-300 flex items-center gap-3 ">
                                         <div 
                                             className={`relative flex justify-between  border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
                                         >
@@ -244,7 +244,7 @@ function AddOrder() {
                                         </div>
                                     </td>
                                     {/* quantity */}
-                                    <td className="px-6 py-3 border-r border-gray-300">
+                                    <td className="lg:px-6 px-3 py-3 border-r border-gray-300">
                                         <div>
                                             <input 
                                                 className={` flex justify-between border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
@@ -277,7 +277,7 @@ function AddOrder() {
                                         </div>
                                     </td>
                                     {/* price */}
-                                    <td className="px-6 py-3 border-r border-gray-300">
+                                    <td className="lg:px-6 px-3 py-3 border-r border-gray-300">
                                         <input 
                                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                             type="number" name="" id=""  min="1"
@@ -286,7 +286,7 @@ function AddOrder() {
                                         />
                                     </td>
                                     {/* subtotal */}
-                                    <td className="px-6 py-3 border-r border-gray-300">
+                                    <td className="lg:px-6 px-3 py-3 border-r border-gray-300">
                                         <input 
                                             className={` flex justify-between bg-gray-50 border  text-gray-900 text-sm rounded-lg w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   } 
                                             type="number" name="" id=""
@@ -308,7 +308,7 @@ function AddOrder() {
                 </div>
                 {/* add new line */}
                 <div 
-                    className='text-blue-600 cursor-pointer w-2/12 flex items-center gap-2 font-medium mt-4'
+                    className='text-blue-600 cursor-pointer lg:w-2/12 flex items-center gap-2 font-medium mt-4'
                     onClick={addNewRow}
                 >
                     <CirclePlus size={20} /><p>Add new line</p> 

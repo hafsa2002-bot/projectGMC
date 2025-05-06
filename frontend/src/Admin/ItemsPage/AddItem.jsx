@@ -109,10 +109,10 @@ function AddItem() {
                 <p className='text-xl font-semibold'>Product Details</p>
                 <p className='text-gray-500'>Add your product to make invoicing and cost management easier (<span className='text-red-600 font-semibold'>*</span> for required fields)</p>
             </div>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 px-3'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-8 mt-8 lg:px-3'>
                 <div className='lg:flex gap-8 w-11/12 '>
                     {/* product Name */}
-                    <div className='lg:w-1/2 w-10/12 lg:mb-0 mb-4'>
+                    <div className='lg:w-1/2 w-full lg:mb-0 mb-4'>
                         <label htmlFor="productName" className="block mb-2  font-medium text-gray-900">Product Name <span className='text-red-500'>*</span></label>
                         <input 
                             className={` bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 outline-none border-gray-300 focus:ring-blue-500 focus:border-blue-500 `   }
@@ -127,7 +127,7 @@ function AddItem() {
                         />
                     </div>
                     {/* Barcode Number */}
-                    <div className='lg:w-1/2'>
+                    <div className='lg:w-1/2 w-full'>
                         <label htmlFor="barcode" className="block mb-2 font-medium text-gray-900">Barcode Number </label>
                         <div className='w-full flex justify-between items-center gap-3'>
                             <input 
@@ -145,8 +145,8 @@ function AddItem() {
                     </div>
                 </div>
                 {/* Category */}
-                <div className=' w-11/12 flex gap-8'>
-                    <div className='relative z-10 w-1/2'>
+                <div className=' lg:w-11/12 w-11/12 flex lg:gap-8'>
+                    <div className='relative z-10 lg:w-1/2 w-full'>
                         <p className="block mb-2 font-medium text-gray-900">Category</p>
                         <div  onClick={() => setShowCategories(!showCategories)} className= "flex justify-between h-11 bg-gray-50 cursor-pointer border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  p-2.5" >
                             <p className={selectedCategory.name ? 'text-gray-900'  : 'text-gray-500'} >{selectedCategory.name || "Choose category"}</p>
@@ -179,13 +179,13 @@ function AddItem() {
                                 </div>
                             )}
                     </div>
-                    <div className='w-1/2'></div>
+                    <div className='lg:w-1/2 hidden lg:flex'></div>
                 </div>
                 {/* Batches */}
                 <BatchForm rows={batches} setRows={setBatches}  />
-                <div className='flex gap-8  w-11/12 items-center'>
+                <div className='lg:flex gap-8  w-11/12 items-center'>
                     {/* Price */}
-                    <div className='w-1/2'>
+                    <div className='lg:w-1/2  '>
                         <label htmlFor="price" className="block mb-2 font-medium text-gray-900">Price <span className='text-red-500'>*</span></label>
                         <div className='relative z-0'>
                             <input 
@@ -207,7 +207,7 @@ function AddItem() {
                         </div>
                     </div>
                     {/* Total Value */}
-                    <div className='w-1/2'>
+                    <div className='lg:w-1/2 lg:mt-0 mt-5'>
                         <label htmlFor="total" className="block mb-2  font-medium text-gray-900 ">Total Value(hidden)</label>
                         <div className='relative'>
                             <input 
@@ -225,9 +225,9 @@ function AddItem() {
                         </div>
                     </div>
                 </div>
-                <div className='flex gap-8 w-11/12 items-center '>
+                <div className='flex lg:gap-8 gap-2  w-11/12 items-center '>
                     {/* Min level */}
-                    <div className='w-1/2 flex justify-between items-center '>
+                    <div className='lg:w-1/2 w-11/12 flex justify-between items-center '>
                         <div className=' w-full'>
                             <label htmlFor="minLevel" className="block mb-2  font-medium text-gray-900 dark:text-white">Minimum qty <span className='text-red-500'>*</span></label>
                             <div className='flex '>
@@ -246,7 +246,7 @@ function AddItem() {
                         </div>
                     </div>
                     {/* min level infos */}
-                    <div className=' w-1/2 relative pt-7 right-5 '>
+                    <div className=' lg:w-1/2 w-1/12 relative pt-7 lg:right-5 '>
                         <CircleHelp
                             color='gray'
                             className='relative'
@@ -255,7 +255,7 @@ function AddItem() {
                         />
                         {
                             showMinLevelDetails && (
-                                <div className=' w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 left-0'>
+                                <div className=' w-40 absolute bg-gray-600 text-white p-2.5 rounded-md bottom-9 lg:left-0 lg:right-0 right-0'>
                                     <p className=''>The min. number of quantity before a low stock alert</p>
                                 </div>
                             )
