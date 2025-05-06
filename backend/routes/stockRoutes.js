@@ -3,7 +3,7 @@ import StoreStock from '../models/StoreStock.js'
 import Product from '../models/Product.js'
 
 const router = express.Router()
-
+/*
 async function initializeStoreStock() {
     const existingStock = await StoreStock.findOne({});
     if (!existingStock) {
@@ -11,6 +11,26 @@ async function initializeStoreStock() {
         console.log("Store stock initialized.");
     } else {
         console.log("Store stock already exists.");
+    }
+}
+    */
+async function initializeStoreStock() {
+    try {
+        const existingStock = await StoreStock.findOne({});
+        if (!existingStock) {
+            // Create initial stock data with corrected field name
+            await StoreStock.create({
+                totalItems: 0,
+                totalValue: 0,
+                totalUnpaid: 0,  // Corrected typo here
+                totalIncome: 0
+            });
+            console.log("Store stock initialized.");
+        } else {
+            console.log("Store stock already exists.");
+        }
+    } catch (err) {
+        console.error("Error initializing store stock: ", err);
     }
 }
 
