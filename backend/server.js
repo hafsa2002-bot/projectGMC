@@ -57,4 +57,8 @@ cron.schedule("0 0 * * *", async () => {
   // await updateExpiredStatus();
 });
 
+app.get('/', (req, res) => {
+  res.send('Hello from Railway!');
+});
+
 app.listen(PORT, () => console.log(`server running : http://localhost:${PORT}`))
