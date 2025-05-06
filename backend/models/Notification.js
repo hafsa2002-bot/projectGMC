@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const notificationSchema = new mongoose.Schema({
     productId: {type: mongoose.Schema.Types.ObjectId, ref: "Product", required: false },
@@ -14,4 +15,4 @@ const notificationSchema = new mongoose.Schema({
 })
 notificationSchema.index({ type: 1, productId: 1, batchId: 1 }, { unique: true, partialFilterExpression: { batchId: { $exists: true } } });
 
-module.exports = mongoose.model('Notification', notificationSchema)
+export default mongoose.model('Notification', notificationSchema)

@@ -1,4 +1,6 @@
-let mongoose = require('mongoose')
+// let mongoose = require('mongoose')
+import mongoose from 'mongoose';
+
 
 const storeSchema = new mongoose.Schema({
     address: {type: String, required: false},
@@ -8,4 +10,5 @@ const storeSchema = new mongoose.Schema({
     createdAt: {type: Date, default: Date.now}
 })
 
-module.exports = mongoose.model("Store", storeSchema)
+// module.exports = mongoose.model("Store", storeSchema)
+export default mongoose.model("Store", storeSchema)

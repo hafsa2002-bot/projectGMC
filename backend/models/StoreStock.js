@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const storeStockSchema = new mongoose.Schema({
     totalItems: {type: Number, required: true, default: 0},
@@ -69,4 +70,5 @@ storeStockSchema.statics.updateStoreStock = async function(){
     await this.findOneAndUpdate({}, {totalItems, totalValue, totalUnpaid, totalIncome, totalOutOfStock, totalLowInStock, totalExpiredProducts, totalCategories, totalProducts, lastUpdated: Date.now()}, {upsert: true})
 }
 
-module.exports = mongoose.model("StoreStock", storeStockSchema);
+// module.exports = mongoose.model("StoreStock", storeStockSchema);
+export default mongoose.model("StoreStock", storeStockSchema);

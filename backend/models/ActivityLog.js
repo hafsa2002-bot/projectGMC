@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const activityLogSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
@@ -8,4 +9,5 @@ const activityLogSchema = new mongoose.Schema({
     createdAt: {type: Date, default: Date.now}
 })
 
-module.exports = mongoose.model("ActivityLog", activityLogSchema)
+// module.exports = mongoose.model("ActivityLog", activityLogSchema)
+export default mongoose.model("ActivityLog", activityLogSchema)

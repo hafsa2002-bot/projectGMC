@@ -18,10 +18,12 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv';
 dotenv.config();
 
+console.log("Starting the server...");
+
 // connect to MongoDB
 mongoose.connect(process.env.uri)
 .then(() => console.log("MongoDB connected"))
-.catch((err) => console.log("ERROR: ", err))
+.catch((err) => console.log("MongoDB connection error: ", err))
 
 app.use(cors())
 app.use(express.json())

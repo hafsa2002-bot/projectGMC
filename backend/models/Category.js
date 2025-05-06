@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 
 const categorySchema = new mongoose.Schema({
     categoryName: {type: String, required: true},
@@ -7,4 +9,5 @@ const categorySchema = new mongoose.Schema({
     createdAt: {type: Date, default: Date.now}
 })
 
-module.exports = mongoose.model("Category", categorySchema)
+// module.exports = mongoose.model("Category", categorySchema)
+export default mongoose.model("Category", categorySchema)

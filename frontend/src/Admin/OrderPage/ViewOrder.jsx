@@ -38,8 +38,14 @@ function ViewOrder() {
             }
         )
             .then(response => {
+                console.log("Order data: ", response.data);
                 setOrder (response.data)
-                getUserDetails(response.data.userId)
+                // getUserDetails(response.data.userId)
+                if (response.data.userId) {
+                    getUserDetails(response.data.userId);
+                } else {
+                    console.log('User ID not found in order data.');
+                }
                 getStoreInfos()
                 setLoading(false)
             })
