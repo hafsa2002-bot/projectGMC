@@ -10,6 +10,7 @@ import notificationRoutes from './routes/notificationRoutes.js'
 import reportsRoutes from './routes/reportsRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import storeRoutes from './routes/storeRoutes.js'
+import StoreStock from './models/StoreStock.js'
 
 const app = express()
 // const port = 3003
