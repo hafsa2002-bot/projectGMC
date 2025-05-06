@@ -21,9 +21,22 @@ dotenv.config();
 console.log("Starting the server...");
 
 // connect to MongoDB
+/*
 mongoose.connect(process.env.uri)
 .then(() => console.log("MongoDB connected"))
 .catch((err) => console.log("MongoDB connection error: ", err))
+*/
+mongoose.connect(process.env.uri, {
+  serverSelectionTimeoutMS: 30000, // Increase server selection timeout to 30 seconds
+  socketTimeoutMS: 45000, // Increase socket timeout to 45 seconds
+})
+  .then(() => {
+      console.log("MongoDB connected");
+  })
+  .catch((err) => {
+      console.error("MongoDB connection error: ", err);
+  });
+
 
 app.use(cors())
 app.use(express.json())
