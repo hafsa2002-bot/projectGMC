@@ -18,13 +18,14 @@ function ViewProduct() {
     const token = localStorage.getItem("token");
     let userRole = null;
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
         userRole = decoded.role;
     }
     useEffect(() => {
-        axios.get(`http://localhost:3003/admin/items/view/${product_id}`)
+        axios.get(`${apiUrl}/admin/items/view/${product_id}`)
             .then(response => {
                 setProduct(response.data)
                 console.log("Product By ID: ", response.data)
@@ -71,7 +72,7 @@ function ViewProduct() {
                             <div className=''>
                                 {
                                     product.productPhoto 
-                                    ?   <img src={`http://localhost:3003${product.productPhoto}`} className='w-60 h-60 border-gray-300 border rounded-lg my-5 p-4'/>
+                                    ?   <img src={`${apiUrl}${product.productPhoto}`} className='w-60 h-60 border-gray-300 border rounded-lg my-5 p-4'/>
                                     :   <div className='relative w-60 h-60 bg-gray-300 rounded-lg text-gray-600'>
                                             <Image className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' size={60} />
                                         </div>

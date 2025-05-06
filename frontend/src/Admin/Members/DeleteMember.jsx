@@ -3,8 +3,9 @@ import React from 'react'
 import axios from 'axios'
 
 function DeleteMember({user, setDeletePopUp, members, setMembers}) {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const  deleteUser = () => {
-        axios.delete(`http://localhost:3003/delete-user/${user._id}`,
+        axios.delete(`${apiUrl}/delete-user/${user._id}`,
             {headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}` 
             }}

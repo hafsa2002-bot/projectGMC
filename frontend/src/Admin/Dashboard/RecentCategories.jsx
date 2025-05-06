@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom'
 
 function RecentCategories() {
     const [recentCategories, setRecentCategories] = useState([])
+    const apiUrl = import.meta.env.VITE_API_URL;
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/items/categories")
+        axios.get(`${apiUrl}/admin/items/categories`)
         .then(response => setRecentCategories(response.data))
         .catch(error => console.log("Error: ", error))
     }, [])

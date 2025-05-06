@@ -20,6 +20,7 @@ function OrdersOnProcess({setOrdersOnProcessLength}) {
     const token = localStorage.getItem("token");
     let userRole = null;
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -27,7 +28,7 @@ function OrdersOnProcess({setOrdersOnProcessLength}) {
     }
 
     const getOrderOnProcess = () => {
-        axios.get("http://localhost:3003/orders/status/on-process")
+        axios.get(`${apiUrl}/orders/status/on-process`)
             .then(response => {
                 setOrders(response.data)
                 // console.log("orders: ", response.data)

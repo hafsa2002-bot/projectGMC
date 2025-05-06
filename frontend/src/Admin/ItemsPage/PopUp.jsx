@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom'
 
 function PopUp({setPopUp, name, id, setShowOptions, products, setProducts}) {
     const navigate = useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     const deleteItem = () => {
-        axios.delete(`http://localhost:3003/admin/item/${id}`,
+        axios.delete(`${apiUrl}/admin/item/${id}`,
             {headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}` 
             }}

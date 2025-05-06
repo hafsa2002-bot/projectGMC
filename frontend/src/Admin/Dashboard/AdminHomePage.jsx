@@ -22,9 +22,10 @@ function AdminHomePage() {
   const token = localStorage.getItem("token");
   const today = new Date();
   const {currency} = useCart()
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const fetchData = () => {
-      axios.get("http://localhost:3003/users/data", {
+      axios.get(`${apiUrl}/users/data`, {
           headers: {
               Authorization: `Bearer ${token}`
           }
@@ -40,7 +41,7 @@ function AdminHomePage() {
   }
   
   const getStockInfo = () => {
-    axios.get("http://localhost:3003/admin/stock")
+    axios.get(`${apiUrl}/admin/stock`)
       .then(response => {
         setStockInfo(response.data)
       })

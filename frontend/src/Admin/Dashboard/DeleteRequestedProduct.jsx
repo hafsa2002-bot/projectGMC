@@ -3,8 +3,10 @@ import axios from 'axios'
 import { Info } from 'lucide-react'
 
 function DeleteRequestedProduct({setShowDelete, name, id, products, setProducts}) {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const deleteRequestedProduct = (productID) => {
-            axios.delete(`http://localhost:3003/admin/dashboard/delete-requested-product/${productID}`,
+            axios.delete(`${apiUrl}/admin/dashboard/delete-requested-product/${productID}`,
                 {headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 
                 }}

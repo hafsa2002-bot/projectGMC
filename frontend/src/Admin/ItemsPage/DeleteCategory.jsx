@@ -6,6 +6,7 @@ function DeleteCategory({categoryId, categoryName, setShowPopUp, setShowOptions,
     const [showSuccess, setShowSuccess] = useState(false)
     const [localCategoryId, setLocalCategoryId] = useState(null)
     const [localCategoryName, setLocalCategoryName] = useState("")
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         setLocalCategoryId(categoryId)
@@ -13,7 +14,7 @@ function DeleteCategory({categoryId, categoryName, setShowPopUp, setShowOptions,
     }, [categoryId, categoryName])
 
     const deleteCategory = (id) => {
-        axios.delete(`http://localhost:3003/admin/items/delete-category/${id}`,
+        axios.delete(`${apiUrl}/admin/items/delete-category/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 

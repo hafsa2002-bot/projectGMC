@@ -10,6 +10,7 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
   const [selectedButton, setSelectedButton] = useState('increase')
   const [errorMessage, setErrorMessage] = useState(false)
   const {currency} = useCart()
+  const apiUrl = import.meta.env.VITE_API_URL;
   const newQty = selectedButton === "increase"
     ? item.qty + updatedQty
     : item.qty - updatedQty
@@ -28,7 +29,7 @@ function UpdateQuantity({setUpdateQty, item, setMessage}) {
     }
     
     try{
-      const response = await axios.patch(`http://localhost:3003/admin/items/update/${item._id}`, 
+      const response = await axios.patch(`${apiUrl}/admin/items/update/${item._id}`, 
         {newQty: newQty},
         {headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}` 

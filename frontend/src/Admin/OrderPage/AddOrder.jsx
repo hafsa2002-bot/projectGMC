@@ -23,6 +23,7 @@ function AddOrder() {
     const [negativeNumberMessage, setNegativeNumberMessage] = useState(false)
     const [sucessMessage, setSucessMessage] = useState(false)
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const addNewRow = () => {
         setRows([...rows, {id: rows.length + 1, productId: null , productName: "", quantity: 0, price: 0, subtotal: 0}])
@@ -36,7 +37,7 @@ function AddOrder() {
 
     const getProductById = async (productId) => {
         try {
-            const response = await axios.get(`http://localhost:3003/admin/items/view/${productId}`);
+            const response = await axios.get(`${apiUrl}/admin/items/view/${productId}`);
             return response.data;
         } catch (error) {
             console.error("Error fetching product by ID:", error);
@@ -45,7 +46,7 @@ function AddOrder() {
     }
     // list of products
     const getListOfProducts = () => {
-        axios.get("http://localhost:3003/admin/items/list")
+        axios.get(`${apiUrl}/admin/items/list`)
         .then(response => {
             setProducts(response.data)
             setFilteredProducts(response.data)
@@ -99,7 +100,7 @@ function AddOrder() {
             status: "done"
         }
         try{
-            const response = await axios.post('http://localhost:3003/orders/addOrder', 
+            const response = await axios.post(`${apiUrl}/orders/addOrder`, 
                 orderData,
                 {
                     headers: {

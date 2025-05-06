@@ -9,9 +9,10 @@ function AddCategory({setAddCategory}) {
   const [photo, setPhoto] = useState(null);
   const [categoryExists, setCategoryExists] = useState(false)
   const [messgae, setMessage] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const getCategories = () => {
-    axios.get("http://localhost:3003/admin/items/categories")
+    axios.get(`${apiUrl}/admin/items/categories`)
       .then(response => {
         const categoryNames = response.data.map(
           category => category.categoryName
@@ -47,7 +48,7 @@ function AddCategory({setAddCategory}) {
     }else{
       try{
         console.log("Input: ", categoryName)
-        const response = await axios.post("http://localhost:3003/admin/items/addCategory", 
+        const response = await axios.post(`${apiUrl}/admin/items/addCategory`, 
           formData,
           {headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}` 

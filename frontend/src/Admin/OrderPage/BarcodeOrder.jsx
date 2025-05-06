@@ -13,6 +13,8 @@ function BarcodeOrder({onBarcodeScanned}) {
     const html5QrCodeRef = useRef(null);
     const videoRef = useRef(null);
     const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
         // Warm up camera to avoid slow loading later
         const warmUpCamera = async () => {
@@ -96,7 +98,7 @@ function BarcodeOrder({onBarcodeScanned}) {
     };
     
     const fetchProductInfo = (barcode) => {
-        axios(`http://localhost:3003/admin/items/get-product-by-barCode/${barcode}`)
+        axios(`${apiUrl}/admin/items/get-product-by-barCode/${barcode}`)
             .then((response) => {
                 // setProductInfo(response.data);
                 if (onBarcodeScanned) {

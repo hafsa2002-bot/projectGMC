@@ -5,8 +5,10 @@ import ProductsArray from './ProductsArray'
 function OutOfStockProducts() {
     const [outOfStockProducts, setOutOfStockProducts] = useState([])
     const [loading, setLoading] = useState(true)
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/items/outOfStock")
+        axios.get(`${apiUrl}/admin/items/outOfStock`)
             .then(response => {
                 setOutOfStockProducts(response.data)
                 setLoading(false)

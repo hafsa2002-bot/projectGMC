@@ -12,9 +12,10 @@ function SecuritySettings() {
 
     const token = localStorage.getItem("token");
     let userRole = null;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const fetchData = () => {
-        axios.get("http://localhost:3003/users/data", {
+        axios.get(`${apiUrl}/users/data`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -56,7 +57,7 @@ function SecuritySettings() {
 
         try {
             const response = await axios.patch(
-                'http://localhost:3003/change-password',
+                `${apiUrl}/change-password`,
                 { currentPassword: oldPassword, newPassword },
                 {
                     headers: {

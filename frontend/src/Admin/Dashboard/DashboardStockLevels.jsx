@@ -6,9 +6,11 @@ import PopUp from '../ItemsPage/PopUp'
 
 function DashboardStockLevels() {
     const [dashboardProducts, setDashboardProducts] = useState([])
+    const apiUrl = import.meta.env.VITE_API_URL;
+    
 
     useEffect(() => {
-        axios.get("http://localhost:3003/stockLevel")
+        axios.get(`${apiUrl}/stockLevel`)
             .then(response => setDashboardProducts(response.data))
             .catch(error => console.log("Error: ", error))
     }, [])

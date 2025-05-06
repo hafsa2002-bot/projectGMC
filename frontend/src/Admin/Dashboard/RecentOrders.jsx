@@ -8,9 +8,10 @@ function RecentOrders() {
     const [orders, setOrders] = useState([])
     const [number, setNumber] = useState(0)
     const [loading, setLoading] = useState(true)
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     const fetchData = async() => {
-        axios.get("http://localhost:3003/orders/getOnlineOrders")
+        axios.get(`${apiUrl}/orders/getOnlineOrders`)
             .then(response => {
                 setOrders(response.data)
                 setLoading(false)
@@ -30,7 +31,7 @@ function RecentOrders() {
 
     const updateOrderStatus = async(newStatus, orderId) => {
         try{
-            const response = await axios.patch(`http://localhost:3003/orders/update-status/${orderId}`, 
+            const response = await axios.patch(`${apiUrl}/orders/update-status/${orderId}`, 
                 {OrderStatus: newStatus},
                 {headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 

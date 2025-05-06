@@ -15,9 +15,10 @@ function Members() {
   const [deletePopUp, setDeletePopUp] = useState(false)
   const [userToDelete, setUserToDelete] = useState(null);
   const [addNewUser, setAddNewUser] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const getAllMembers = () => {
-    axios.get("http://localhost:3003/all-users")
+    axios.get(`${apiUrl}/all-users`)
     .then(response => {
       setMembers(response.data)
       setLoading(false)
@@ -28,7 +29,7 @@ function Members() {
     })
   }
   const getUserData = () => {
-    axios.get("http://localhost:3003/users/data",
+    axios.get(`${apiUrl}/users/data`,
       {headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }}
@@ -83,7 +84,7 @@ function Members() {
                           {
                             user.photo 
                             ?(
-                              <img className='w-full h-full' src={`http://localhost:3003${user.photo}`} alt='profile photo' />
+                              <img className='w-full h-full' src={`${apiUrl}${user.photo}`} alt='profile photo' />
                             ):(
                               <UserRound size={45} />
                             )

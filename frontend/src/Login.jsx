@@ -10,6 +10,7 @@ function Login() {
   const navigate = useNavigate()
   const [user, setUser] = useState({})
   const [errorMessage, setErrorMessage] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async(event) => {
     event.preventDefault()
@@ -21,7 +22,7 @@ function Login() {
     } 
 
     try{
-        const response = await axios.post("http://localhost:3003/users/login", {
+        const response = await axios.post(`${apiUrl}/users/login`, {
             email, 
             password
         })
@@ -44,7 +45,7 @@ function Login() {
     }
 }
   const fetchData = () => {
-    axios.get(`http://localhost:3003/user/${email}`)
+    axios.get(`${apiUrl}/user/${email}`)
         .then(response => setUser(response.data))
         .catch(error => console.log("Error: ", error))
   }

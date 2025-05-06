@@ -10,9 +10,10 @@ function RequestedProducts() {
     const [submitProduct, setSubmitProduct] = useState(false)
     const [productToDelete, setProductToDelete] = useState(null)
     // const [showDelete, setShowDelete] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const getRequestedProducts = () => {
-        axios.get("http://localhost:3003/admin/dashbord/requested-products")
+        axios.get(`${apiUrl}/admin/dashbord/requested-products`)
             .then(response => setRequestedProducts(response.data))
             .catch(error => console.log("Error: ", error))
     }
@@ -21,7 +22,7 @@ function RequestedProducts() {
         setSubmitProduct(true)
         if(!reqProductName.trim()) return;
         try{
-            const response = await axios.post("http://localhost:3003/admin/dashboard/add-requested-product",
+            const response = await axios.post(`${apiUrl}/admin/dashboard/add-requested-product`,
                 {reqProductName},
                 {headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 

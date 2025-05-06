@@ -9,9 +9,10 @@ function RecentActivities() {
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
   const currentDate = new Date().toLocaleDateString('en-CA');
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const fetchData = () => {
-    axios.get("http://localhost:3003/activities",
+    axios.get(`${apiUrl}/activities`,
       {headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }}

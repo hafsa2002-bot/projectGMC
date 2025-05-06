@@ -14,6 +14,7 @@ function SideBar() {
     const navigate = useNavigate()
     const token = localStorage.getItem("token");
     let userRole = null;
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -22,7 +23,7 @@ function SideBar() {
     
 
     const fetchData = () => {
-        axios.get("http://localhost:3003/users/data", {
+        axios.get(`${apiUrl}/users/data`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

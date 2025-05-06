@@ -3,8 +3,9 @@ import React from 'react'
 import axios from 'axios'
 
 function DeleteOrder({setShowOptions, setPopUp, orderId}) {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const deleteOrder = (id) => {
-        axios.delete(`http://localhost:3003/orders/delete/${id}`,
+        axios.delete(`${apiUrl}/orders/delete/${id}`,
             {headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}` 
             }}

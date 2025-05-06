@@ -14,6 +14,7 @@ function Notifications() {
     const currentDate = new Date().toLocaleDateString('en-CA');
     const token = localStorage.getItem("token");
     let userRole = null;
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -21,7 +22,7 @@ function Notifications() {
     }
 
     const fetchData = () => {
-        axios.get("http://localhost:3003/notifications")
+        axios.get(`${apiUrl}/notifications`)
             .then(response => setNotifications(response.data))
             .catch(error => console.log("Error: ", error))
     }

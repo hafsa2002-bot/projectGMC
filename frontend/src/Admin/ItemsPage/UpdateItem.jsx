@@ -35,6 +35,7 @@ function UpdateItem() {
     const [batches, setBatches] = useState([]);
     const [message, setMessage] = useState(false)
     // const [errorMessage, setErrorMessage] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
     const navigate = useNavigate()
     const datePickerRef = useRef(null);
 
@@ -81,7 +82,7 @@ function UpdateItem() {
             }
     
             const response = await axios.patch(
-                `http://localhost:3003/admin/items/updateProduct/${id}`,
+                `${apiUrl}/admin/items/updateProduct/${id}`,
                 formData,
                 {
                     headers: {
@@ -100,7 +101,7 @@ function UpdateItem() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:3003/admin/items/view/${id}`)
+        axios.get(`${apiUrl}/admin/items/view/${id}`)
             .then(response => {
                 const data = response.data
                 setProduct(data)

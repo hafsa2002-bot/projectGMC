@@ -17,9 +17,10 @@ function Nav(props) {
     const [showSearch, setShowSearch] = useState(false)
     const {cart, favorites} = useCart()
     const navigate = useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL;
     /*
     const fetchData = () => {
-        axios.get("http://localhost:3003/admin/items/categories")
+        axios.get(`${apiUrl}/admin/items/categories`)
             .then(response => setCategories(response.data))
             .catch(error => console.log("Error: ", error))
     }

@@ -10,6 +10,7 @@ function ProductItem({product}) {
     const {addToCart, addToFavorites, favorites, setFavorites, currency} = useCart()
     const [showMessage, setShowMessage] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const addToCartFunction = () => {
         if(product.qty - product.expiredQty > 0){
@@ -53,7 +54,7 @@ function ProductItem({product}) {
                         product.productPhoto 
                             ?(
                                 <div className='lg:h-64 h-56 w-full lg:p-7 p-5'>
-                                    <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} />
+                                    <img className='w-full h-full ' src={`${apiUrl}${product.productPhoto}`} />
                                 </div>
                             )
                             :(

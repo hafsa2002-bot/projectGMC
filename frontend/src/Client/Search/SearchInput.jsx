@@ -12,9 +12,10 @@ function SearchInput({setShowSearch}) {
     const [categoriesSearched, setCategoriesSearched] = useState([])
     const navigate = useNavigate()
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const getProducts = () => {
-        axios.get("http://localhost:3003/admin/items/list")
+        axios.get(`${apiUrl}/admin/items/list`)
             .then(response => setProducts(response.data))
             .catch(error => console.log("Error: ", error))
     }
@@ -26,9 +27,9 @@ function SearchInput({setShowSearch}) {
     }
 
     const getCategories = () => {
-        axios.get("http://localhost:3003/admin/items/categories")
-        .then(response => setCategories(response.data))
-        .catch(error => console.log("Error: ", error))
+        axios.get(`${apiUrl}/admin/items/categories`)
+            .then(response => setCategories(response.data))
+            .catch(error => console.log("Error: ", error))
     }
     
     const filterCategories = (name) => {
@@ -113,7 +114,7 @@ function SearchInput({setShowSearch}) {
                                                                 }}
                                                             >
                                                                 <div className='w-12 h-12 p-0.5 border border-gray-300 rounded-lg overflow-hidden'>
-                                                                    <img className='w-full h-full' src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} />
+                                                                    <img className='w-full h-full' src={`${apiUrl}${product.productPhoto}`} alt={`${product.productName}`} />
                                                                 </div>
                                                                 <div className='lg:w-10/12 w-9/12'>
                                                                     <div className='font-semibold hover:underline truncate  max-w-11/12'>{product.productName}</div>

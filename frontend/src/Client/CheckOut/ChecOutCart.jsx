@@ -8,8 +8,9 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
     const [outOfStockProducts, setOutOfStockProducts] = useState([])
     const [productById, setProductById] = useState({})
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     const chechIfOutOfStock = (productId) => {
-        axios.get(`http://localhost:3003/admin/items/view/${productId}`)
+        axios.get(`${apiUrl}/admin/items/view/${productId}`)
             .then(response => {
                 setProductById(response.data)
                 if(response.data.qty - response.data.expiredQty === 0){
@@ -34,7 +35,7 @@ function ChecOutCart({cart, totalAmount, totalQty}) {
                                     {
                                         product.productPhoto 
                                         ?(
-                                            <img className='w-full h-full ' src={`http://localhost:3003${product.productPhoto}`} alt="" />
+                                            <img className='w-full h-full ' src={`${apiUrl}${product.productPhoto}`} alt="" />
                                         ):(
                                             <div className='w-full h-full  text-gray-700 flex justify-center items-center'><ImageOff /></div>
                                         )

@@ -7,6 +7,7 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
     const [updatedCategoryName, setUpdatedCategoryName] = useState(categoryName);
     const [updatedPhoto, setUpdatedPhoto] = useState(null);
     const [errorMessage, setErrorMessage] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
     // const [message, setMessage] = useState(false)
     const navigate = useNavigate()
     const handleUpdateCategory = async () => {
@@ -19,7 +20,7 @@ function UpdateCategory({categoryId, categoryName, setUpdateCategory, setShowOpt
             return
         }
         try{
-            const response = await axios.patch(`http://localhost:3003/update/category/${categoryId}`, 
+            const response = await axios.patch(`${apiUrl}/update/category/${categoryId}`, 
                 formData,
                 {
                     headers: {

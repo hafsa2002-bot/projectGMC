@@ -3,8 +3,10 @@ import React from 'react'
 import axios from 'axios'
 
 function DeleteNotificationPopUp({notificationId, setShowDeleteNotificationPopUp, notifications, setNotifications}) {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const deleteRequestedProduct = (id) => {
-            axios.delete(`http://localhost:3003/delete-notification/${id}` )
+            axios.delete(`${apiUrl}/delete-notification/${id}` )
                 .then((response) => {
                     const deletedNotification = response.data
                     console.log("notification deleted:", deletedNotification)

@@ -16,6 +16,7 @@ function ViewOrder() {
     const navigate = useNavigate()
     const pdfRef = useRef()
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const handleGeneratePdf = async () => {
         const element = document.querySelector('#pdf-content')
@@ -30,7 +31,7 @@ function ViewOrder() {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:3003/orders/${id}`,
+        axios.get(`${apiUrl}/orders/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 
@@ -56,13 +57,13 @@ function ViewOrder() {
     }, [id])
 
     const getUserDetails = (id) => {
-        axios.get(`http://localhost:3003/get-user-byId/${id}`)
+        axios.get(`${apiUrl}/get-user-byId/${id}`)
             .then(response => setUser(response.data))
             .catch(error => console.log("Error: ", error))
     }
 
     const getStoreInfos = () => {
-        axios.get(`http://localhost:3003/store-infos`)
+        axios.get(`${apiUrl}/store-infos`)
             .then(response => setStore(response.data))
             .catch(error => console.log("Error: ", error))
     }

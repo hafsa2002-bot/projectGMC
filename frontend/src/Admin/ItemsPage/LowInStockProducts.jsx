@@ -8,8 +8,10 @@ import ProductsArray from './ProductsArray'
 function LowInStockProducts({products, setProducts}) {
     const [lowInStock, setLowInStock] = useState([])
     const [loading, setLoading] = useState(true)
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/items/lowInStock")
+        axios.get(`${apiUrl}/admin/items/lowInStock`)
             .then(response => {
                 setLowInStock(response.data)
                 setLoading(false)

@@ -6,6 +6,7 @@ import { Box, Boxes, Calendar, Clock, FileClock, FolderPlus, PackagePlus, PenLin
 function ActivityLog() {
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   function getLogDate(createdAt) {
     const createdDate = new Date(createdAt);
@@ -27,7 +28,7 @@ function ActivityLog() {
   }
 
   const getLogs = () => {
-    axios.get("http://localhost:3003/activities",
+    axios.get(`${apiUrl}/activities`,
       {headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }}

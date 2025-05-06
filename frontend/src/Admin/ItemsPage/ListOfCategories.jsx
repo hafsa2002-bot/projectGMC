@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react'
 
 function ListOfCategories({setSelectedCategory, setShowCategories}) {
     const [listOfCategories, setListOfCategories] = useState([])
+    const apiUrl = import.meta.env.VITE_API_URL;
     const getCategories = async () => {
-        axios.get("http://localhost:3003/admin/items/categories")
+        axios.get(`${apiUrl}/admin/items/categories`)
             .then(response => setListOfCategories(response.data))
             .catch(error => console.log("Error: ", error))
     }

@@ -24,16 +24,17 @@ function Items() {
     const [productName, setProductName] = useState("")
     const [filteredProducts, setFilteredProducts] = useState([])
     const [selectedOption, setSelectedOption] = useState("all-items")
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     
     const getItems = () => {
-        axios.get("http://localhost:3003/admin/items/list")
+        axios.get(`${apiUrl}/admin/items/list`)
         .then(response => setItems(response.data))
         .catch(error => console.log("Error: ", error))
     }
     
     const stockInfo = () => {
-        axios.get("http://localhost:3003/admin/stock")
+        axios.get(`${apiUrl}/admin/stock`)
         .then(response => {
             setStock(response.data)
             setLoading(false)

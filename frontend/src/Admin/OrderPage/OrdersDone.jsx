@@ -20,6 +20,7 @@ function OrdersDone({setNumberOfOrdersDone}) {
     const token = localStorage.getItem("token");
     let userRole = null;
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -27,7 +28,7 @@ function OrdersDone({setNumberOfOrdersDone}) {
     }
 
     const getOrderOnProcess = () => {
-        axios.get("http://localhost:3003/orders/status/done")
+        axios.get(`${apiUrl}/orders/status/done`)
             .then(response => {
                 setOrders(response.data)
                 setNumberOfOrdersDone(response.data.length)

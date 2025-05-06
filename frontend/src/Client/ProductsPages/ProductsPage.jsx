@@ -17,6 +17,7 @@ function ProductsPage() {
     const [loadingProducts , setLoadingProducts ] = useState(true)
     const [loadingCategories , setLoadingCategories ] = useState(true)
     const [selectedOption, setSelectedOption] = useState("default")
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     
     
@@ -36,7 +37,7 @@ function ProductsPage() {
     const fetchData = () => {
         console.log("Fetching items...")
 
-        axios.get("http://localhost:3003/admin/items/list")
+        axios.get(`${apiUrl}/admin/items/list`)
             .then(response => {
                 console.log(response.data);
                 const shuffleProducts = shuffleArray(response.data)

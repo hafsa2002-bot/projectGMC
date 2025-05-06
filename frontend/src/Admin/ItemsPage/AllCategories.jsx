@@ -24,6 +24,7 @@ function AllCategories() {
     const token = localStorage.getItem("token");
     const {currency} = useCart()
     let userRole = null;
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -36,7 +37,7 @@ function AllCategories() {
     }
     
     const categoriesWithProducts = () => {
-        axios.get("http://localhost:3003/admin/items/categories-with-Products")
+        axios.get(`${apiUrl}/admin/items/categories-with-Products`)
             .then(response => {
                 setCategories(response.data)
                 setLoading(false)
@@ -94,7 +95,7 @@ function AllCategories() {
                                                     {
                                                         (category.products.length > 0 && category.products[0].productPhoto)
                                                         ? (
-                                                            <img className='' src={`http://localhost:3003${category.products[0].productPhoto}`} alt="" />
+                                                            <img className='' src={`${apiUrl}${category.products[0].productPhoto}`} alt="" />
                                                         ):(
                                                             <div className="bg-gray-500"></div>
                                                         )
@@ -105,7 +106,7 @@ function AllCategories() {
                                                         {
                                                             (category.products.length > 1 && category.products[1].productPhoto)
                                                             ? (
-                                                                <img className='w-20 h-18 m-auto' src={`http://localhost:3003${category.products[1].productPhoto}`} alt="" />
+                                                                <img className='w-20 h-18 m-auto' src={`${apiUrl}${category.products[1].productPhoto}`} alt="" />
                                                             ):(
                                                                 <div className="bg-gray-500"></div>
                                                             )
@@ -115,7 +116,7 @@ function AllCategories() {
                                                         {
                                                             (category.products.length > 2 && category.products[2].productPhoto)
                                                             ? (
-                                                                <img className='w-20 h-18 m-auto' src={`http://localhost:3003${category.products[2].productPhoto}`} alt="" />
+                                                                <img className='w-20 h-18 m-auto' src={`${apiUrl}${category.products[2].productPhoto}`} alt="" />
                                                             ):(
                                                                 <div className="bg-gray-500"></div>
                                                             )
@@ -133,7 +134,7 @@ function AllCategories() {
                                                 category.photo
                                                 ?(
                                                     <div className='w-full h-56 overflow-hidden rounded-lg'>
-                                                        <img className='w-full h-full' src={`http://localhost:3003${category.photo}`} />
+                                                        <img className='w-full h-full' src={`${apiUrl}${category.photo}`} />
                                                     </div>
                                             
                                                 ):(

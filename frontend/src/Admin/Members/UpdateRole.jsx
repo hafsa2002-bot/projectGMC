@@ -4,8 +4,9 @@ import axios from 'axios'
 
 function UpdateRole({user, members, setMembers}) {
     const [showRoleOptions, setShowRoleOptions] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
     const updateRole = (newRole) => {
-        axios.patch(`http://localhost:3003/update-role/${user._id}`,
+        axios.patch(`${apiUrl}/update-role/${user._id}`,
             {role: newRole},
             {
                 headers: {

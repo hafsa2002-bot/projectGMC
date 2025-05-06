@@ -5,8 +5,9 @@ import { ArrowRight, PackageX } from 'lucide-react'
 
 function RecentItems() {
     const [recentItems, setRecentItems] = useState([])
+    const apiUrl = import.meta.env.VITE_API_URL;
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/items/list")
+        axios.get(`${apiUrl}/admin/items/list`)
             .then(response => setRecentItems(response.data))
             .catch(error => console.log("Error: ", error))
     }, [])
@@ -31,7 +32,7 @@ function RecentItems() {
                                     ? (
                                         <img 
                                             className='w-full h-full'
-                                            src={`http://localhost:3003${item.productPhoto}`}
+                                            src={`${apiUrl}${item.productPhoto}`}
                                         />
                                     ):(
                                         <div></div>
@@ -64,7 +65,7 @@ function RecentItems() {
                                     ? (
                                         <img 
                                             className='w-full h-full'
-                                            src={`http://localhost:3003${item.productPhoto}`}
+                                            src={`${apiUrl}${item.productPhoto}`}
                                         />
                                     ):(
                                         <div></div>

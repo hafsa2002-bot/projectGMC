@@ -22,9 +22,10 @@ function ProductDetails() {
     const [favorite, setFavorite] = useState(false)
     const [showMessage, setShowMessage] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const fetchData = () => {
-        axios.get(`http://localhost:3003/admin/items/view/${product_id}`)
+        axios.get(`${apiUrl}/admin/items/view/${product_id}`)
             .then(response => {
                 setProduct(response.data)
                 setLoading(false)
@@ -155,7 +156,7 @@ function ProductDetails() {
                         <div className="lg:flex gap-16 justify-center items-center mt-3 px-6">
                         {/* Image Section */}
                             <div className="lg:w-4/12 w-full">
-                                <img className="w-full lg:h-[75vh] lg:mb-0 mb-7 rounded-lg" src={`http://localhost:3003${product.productPhoto}`} alt={product.productName} />
+                                <img className="w-full lg:h-[75vh] lg:mb-0 mb-7 rounded-lg" src={`${apiUrl}${product.productPhoto}`} alt={product.productName} />
                             </div>
 
                             {/* Product Info Section */}

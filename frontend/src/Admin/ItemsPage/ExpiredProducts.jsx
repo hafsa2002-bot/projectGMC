@@ -7,8 +7,10 @@ import SpinnerBlue from '../SpinnerBlue'
 function ExpiredProducts() {
     const [expiredProducts, setExpiredProducts] = useState([])
     const [loading, setLoading] = useState(true)
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
-        axios.get("http://localhost:3003/admin/items/expiredItems")
+        axios.get(`${apiUrl}/admin/items/expiredItems`)
             .then(response => {
                 setExpiredProducts(response.data)
                 setLoading(false)
@@ -53,7 +55,7 @@ function ExpiredProducts() {
                                     <div className=' flex justify-center items-center realtive w-14 h-14 rounded-full border border-gray-300 overflow-hidden'>
                                         {
                                             item.productPhoto 
-                                            ?   <img className='w-full h-full' src={`http://localhost:3003${item.productPhoto}`}/>
+                                            ?   <img className='w-full h-full' src={`${apiUrl}${item.productPhoto}`}/>
                                             :   <div className= '  w-full  h-full flex justify-center items-center bg-gray-200 '><Image className=' text-gray-600 w-6 h-6 ' strokeWidth='1'  /></div>
                                         }
                                     </div>

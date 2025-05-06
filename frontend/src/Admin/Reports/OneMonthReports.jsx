@@ -15,8 +15,10 @@ import { useCart } from '../../CartContext'
 function OneMonthReports({marginRight}) {
     const [data, setData] = useState([])
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     const fetchData = () => {
-        axios.get("http://localhost:3003/reports/last-month-daily-income")
+        axios.get(`${apiUrl}/reports/last-month-daily-income`)
             .then(response => {
                 setData(response.data)
                 console.log("Data: ", response.data);

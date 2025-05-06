@@ -7,9 +7,10 @@ import { ArrowRight, Camera, Image } from 'lucide-react';
 function CategoriesSection({setLoadingCategories}) {
     const [categories, setCategories] = useState({})
     const scrollRef = useRef();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const getCategories = () => {
-        axios.get("http://localhost:3003/admin/items/categories-with-Products")
+        axios.get(`${apiUrl}/admin/items/categories-with-Products`)
             .then(response => {
                 setCategories(response.data)
                 setLoadingCategories(false)
@@ -54,7 +55,7 @@ function CategoriesSection({setLoadingCategories}) {
                                 (category.photo)
                                 ?(
                                     <img 
-                                        src={`http://localhost:3003${category.photo}`}
+                                        src={`${apiUrl}${category.photo}`}
                                         className="w-full h-full object-cover"
                                         alt={category.categoryName}
                                     />

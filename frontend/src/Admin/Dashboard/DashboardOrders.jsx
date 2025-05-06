@@ -8,9 +8,10 @@ function DashboardOrders() {
     const [orders, setOrders] = useState([])
     const [number, setNumber] = useState(0)
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     const fetchData = async() => {
-        axios.get("http://localhost:3003/orders/getOnlineOrders")
+        axios.get(`${apiUrl}/orders/getOnlineOrders`)
             .then(response => setOrders(response.data))
             .catch(error => console.log("Error fetching orders: ", error))
     }

@@ -17,13 +17,14 @@ function BusinessInfo() {
     const [showSubmitInfo, setShowSubmitInfo] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
+    const apiUrl = import.meta.env.VITE_API_URL;
     if (token) {
         const decoded = jwtDecode(token);
         userRole = decoded.role;
     }
 
     const fetchData = () => {
-        axios.get("http://localhost:3003/store-infos")
+        axios.get(`${apiUrl}/store-infos`)
             .then(response => {
                 const d = response.data
                 setStore(d)
@@ -43,7 +44,7 @@ function BusinessInfo() {
         e.preventDefault()
 
         const data = { address, city, country, currency }
-        axios.patch('http://localhost:3003/add-store-infos',
+        axios.patch(`${apiUrl}/add-store-infos`,
             data,
             {
                 headers: {

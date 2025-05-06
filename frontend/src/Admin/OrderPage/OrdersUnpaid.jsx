@@ -20,6 +20,7 @@ function OrdersUnpaid({setOrdersUnpaidLength}) {
     const token = localStorage.getItem("token");
     let userRole = null;
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     
     if (token) {
         const decoded = jwtDecode(token);
@@ -27,7 +28,7 @@ function OrdersUnpaid({setOrdersUnpaidLength}) {
     }
 
     const getOrderOnProcess = () => {
-        axios.get("http://localhost:3003/orders/payment-status/pending")
+        axios.get(`${apiUrl}/orders/payment-status/pending`)
             .then(response => {
                 setOrders(response.data)
                 setOrdersUnpaidLength(response.data.length)

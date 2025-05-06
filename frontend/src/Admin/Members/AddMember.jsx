@@ -15,6 +15,7 @@ function AddMember({setAddNewUser, members, setMembers}) {
     const [passwordError, setPasswordError] = useState(false)
     const [user, setUser] = useState({})
     const navigate = useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -37,7 +38,7 @@ function AddMember({setAddNewUser, members, setMembers}) {
         }
         console.log("role: ", role)
         try{
-            const response = await axios.post("http://localhost:3003/users/register", {
+            const response = await axios.post(`${apiUrl}/users/register`, {
                 name, email, password, role
             },{
                 headers: {
@@ -58,7 +59,7 @@ function AddMember({setAddNewUser, members, setMembers}) {
     }
 
     const fetchData = () => {
-        axios.get(`http://localhost:3003/user/${email}`)
+        axios.get(`${apiUrl}/user/${email}`)
             .then(response => setUser(response.data))
             .catch(error => console.log("Error: ", error))
     }

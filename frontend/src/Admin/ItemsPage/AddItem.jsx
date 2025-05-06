@@ -26,6 +26,7 @@ function AddItem() {
     const [errorMessage, setErrorMessage] = useState(false)
     const navigate = useNavigate()
     const datePickerRef = useRef(null);
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const handleDivClick = () => {
         if (datePickerRef.current) {
@@ -75,7 +76,7 @@ function AddItem() {
         formData.append("batches", JSON.stringify(validBatches));
 
         try{
-            const response = await fetch("http://localhost:3003/admin/items/add-item", {
+            const response = await fetch(`${apiUrl}/admin/items/add-item`, {
                 method: "POST",
                 body: formData,
                 headers: {

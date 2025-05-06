@@ -17,9 +17,10 @@ function Order() {
     const [ordersUnpaidLength, setOrdersUnpaidLength] = useState(0)
     const [orderType,setOrderType] = useState("all")
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const getStockInfo = () => {
-        axios.get("http://localhost:3003/admin/stock")
+        axios.get(`${apiUrl}/admin/stock`)
             .then(response => setStockInfo(response.data))
             .catch(error => console.log("Error: ", error))
     }

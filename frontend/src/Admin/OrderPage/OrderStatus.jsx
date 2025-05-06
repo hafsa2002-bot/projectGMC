@@ -4,9 +4,10 @@ import React, {useState} from 'react'
 
 function OrderStatus({status, orderId} ) {
     const [statusOptions, setStatusOptions] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
     const updateOrderStatus = async(newStatus) => {
         try{
-            const response = await axios.patch(`http://localhost:3003/orders/update-status/${orderId}`, 
+            const response = await axios.patch(`${apiUrl}/orders/update-status/${orderId}`, 
                 {OrderStatus: newStatus},
                 {headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}` 

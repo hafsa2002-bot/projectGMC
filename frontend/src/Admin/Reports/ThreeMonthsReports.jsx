@@ -15,8 +15,9 @@ import { useCart } from '../../CartContext'
 function ThreeMonthsReports({marginRight}) {
     const [threeMonthsData, setThreeMonthsData] = useState([])
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
     const fetchData = () => {
-        axios.get("http://localhost:3003/reports/last-three-months-weekly-income")
+        axios.get(`${apiUrl}/reports/last-three-months-weekly-income`)
             .then(response => {
                 setThreeMonthsData(response.data)
                 console.log("Data: ", response.data);

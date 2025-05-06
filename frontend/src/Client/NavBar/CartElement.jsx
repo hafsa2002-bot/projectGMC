@@ -10,9 +10,10 @@ function CartElement({product, setShowCart}) {
     const [showDeletePopUp, setShowDeletePopUp] = useState(false)
     const [productById, setProductById] = useState({})
     const [message, setMessage] = useState(false)
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const fetchData = (productId) => {
-        axios.get(`http://localhost:3003/admin/items/view/${productId}`)
+        axios.get(`${apiUrl}/admin/items/view/${productId}`)
             .then(response => setProductById(response.data))
             .catch(error => console.log("error: ", error))
     }
@@ -62,7 +63,7 @@ function CartElement({product, setShowCart}) {
                         className='w-24 h-24 rounded-lg border border-gray-300 mt-2'
                     >
                         {product.productPhoto && (
-                            <img src={`http://localhost:3003${product.productPhoto}`} alt={`${product.productName}`} className='w-full h-full' />
+                            <img src={`${apiUrl}${product.productPhoto}`} alt={`${product.productName}`} className='w-full h-full' />
                         )}
                     </Link>
                     <div className='flex flex-col justify-between w-9/12 gap-3 h-full'>

@@ -29,6 +29,7 @@ function Checkout() {
     const [outOfStockMessage, setOutOfStockMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL;
 
 
     const handleSubmit = async(event) => {
@@ -57,7 +58,7 @@ function Checkout() {
         try{
             console.log("Submitting order data:", orderData)  
             console.log("Before making the request") 
-            const response = await fetch("http://localhost:3003/orders/addOnlineOrder", {
+            const response = await fetch(`${apiUrl}/orders/addOnlineOrder`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', 

@@ -14,9 +14,10 @@ function PersonalInfo() {
     const [message, setMessage] = useState(false)
     const token = localStorage.getItem("token");
     let userRole = null;
+    const apiUrl = import.meta.env.VITE_API_URL;
 
     const fetchData = () => {
-        axios.get("http://localhost:3003/users/data", {
+        axios.get(`${apiUrl}/users/data`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -60,7 +61,7 @@ function PersonalInfo() {
         } else if (typeof photo === "string" && photo !== "") {
             formData.append("photo", photo); // send existing photo path to retain it
         }
-        axios.patch(`http://localhost:3003/update-user-info`,
+        axios.patch(`${apiUrl}/update-user-info`,
             formData,
             {
                 headers: {
@@ -81,7 +82,7 @@ function PersonalInfo() {
     const deletePicture = () => {
         const formData = new FormData();
         formData.append("photo", "");
-        axios.patch(`http://localhost:3003/update-user-info`,
+        axios.patch(`${apiUrl}/update-user-info`,
             formData,
             {
                 headers: {
@@ -112,7 +113,7 @@ function PersonalInfo() {
                                     user.photo  
                                     ?(
                                         <div className='w-20 h-20 overflow-hidden rounded-full border border-gray-300'>
-                                            <img className='w-full h-full' src={`http://localhost:3003${user.photo}`} alt="" />
+                                            <img className='w-full h-full' src={`${apiUrl}${user.photo}`} alt="" />
                                         </div>
                                     ):(
                                         <div className='w-16 h-16 rounded-full border border-gray-300 text-gray-500 bg-gray-100 flex justify-center items-center'>

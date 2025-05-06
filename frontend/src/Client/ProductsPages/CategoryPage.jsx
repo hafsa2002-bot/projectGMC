@@ -13,12 +13,13 @@ function CategoryPage() {
     const [listOfProducts, setListOfProducts] = useState({})
     const [isLoading, setIsLoading] = useState(true);
     const [selectedOption, setSelectedOption] = useState("default")
+    const apiUrl = import.meta.env.VITE_API_URL;
     
 
     useEffect(() => {
         setListOfProducts([]);
         setIsLoading(true)
-        axios.get(`http://localhost:3003/category/${category}`)
+        axios.get(`${apiUrl}/category/${category}`)
             .then(response => {
                 setListOfProducts(response.data)
                 setIsLoading(false)

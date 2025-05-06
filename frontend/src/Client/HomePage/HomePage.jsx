@@ -20,11 +20,14 @@ function HomePage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true)
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
+    console.log("API URL: ", apiUrl);
 
     const fetchData = () => {
         const categoryName = "Mobile Accessories"
+        console.log("url: ", apiUrl)
         
-        axios.get(`http://localhost:3003/admin/items/sort-best-selling`)
+        axios.get(`${apiUrl}/admin/items/sort-best-selling`)
             .then(response => {
                 setProducts(response.data)
                 setLoading(false)
@@ -140,7 +143,7 @@ function HomePage() {
                         <SwiperSlide key={product._id} className="text-center flex flex-col  items-center py-6 pb-8">
                             <Link to={`/products/${product._id}`} className="border border-stone-300 bg-white p-4 shadow-lg rounded-lg flex flex-col justify-between h-full">
                                 <img
-                                    src={`http://localhost:3003${product.productPhoto}`}
+                                    src={`${apiUrl}${product.productPhoto}`}
                                     alt={product.productName}
                                     className="w-full lg:h-60 object-cover rounded-lg mb-4 p-5"
                                 />

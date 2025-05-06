@@ -12,6 +12,7 @@ function SearchedCategories({categories}) {
     const [updateCategory, setUpdateCategory] = useState(false)
     const navigate = useNavigate()
     const {currency} = useCart()
+    const apiUrl = import.meta.env.VITE_API_URL;
   return (
     <div className='flex flex-wrap mb-32 gap-10 mt-2 w-full'>
         { (categories.length > 0)
@@ -27,7 +28,7 @@ function SearchedCategories({categories}) {
                                     {
                                         (category.products.length > 0 && category.products[0].productPhoto)
                                         ? (
-                                            <img className='' src={`http://localhost:3003${category.products[0].productPhoto}`} alt="" />
+                                            <img className='' src={`${apiUrl}${category.products[0].productPhoto}`} alt="" />
                                         ):(
                                             <div className="bg-gray-500"></div>
                                         )
@@ -38,7 +39,7 @@ function SearchedCategories({categories}) {
                                         {
                                             (category.products.length > 1 && category.products[1].productPhoto)
                                             ? (
-                                                <img className='w-20 h-18 m-auto' src={`http://localhost:3003${category.products[1].productPhoto}`} alt="" />
+                                                <img className='w-20 h-18 m-auto' src={`${apiUrl}${category.products[1].productPhoto}`} alt="" />
                                             ):(
                                                 <div className="bg-gray-500"></div>
                                             )
@@ -48,7 +49,7 @@ function SearchedCategories({categories}) {
                                         {
                                             (category.products.length > 2 && category.products[2].productPhoto)
                                             ? (
-                                                <img className='w-20 h-18 m-auto' src={`http://localhost:3003${category.products[2].productPhoto}`} alt="" />
+                                                <img className='w-20 h-18 m-auto' src={`${apiUrl}${category.products[2].productPhoto}`} alt="" />
                                             ):(
                                                 <div className="bg-gray-500"></div>
                                             )
@@ -66,7 +67,7 @@ function SearchedCategories({categories}) {
                                 category.photo
                                 ?(
                                     <div className='w-full lg:h-56 overflow-hidden rounded-lg'>
-                                        <img className='w-full h-full' src={`http://localhost:3003${category.photo}`} />
+                                        <img className='w-full h-full' src={`${apiUrl}${category.photo}`} />
                                     </div>
                             
                                 ):(

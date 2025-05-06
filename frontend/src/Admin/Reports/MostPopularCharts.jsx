@@ -5,9 +5,10 @@ import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip, Legend } fro
 function MostPopularCharts({h, w, outerRad, layout, align, verticalAlign, fontSize}) {
     const [data, setData] = useState([])
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28CFE'];
+    const apiUrl = import.meta.env.VITE_API_URL;
     // const COLORS = ['#3B82F6', '#22C55E', '#FACC15', '#F97316', '#8C6EF9'];
     const getMostPopularProducts = () => {
-        axios.get("http://localhost:3003/popular-products")
+        axios.get(`${apiUrl}/popular-products`)
             .then(response => setData(response.data))
             .catch(error => console.log("Error: ", error))
     }
