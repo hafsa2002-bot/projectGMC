@@ -16,10 +16,10 @@ function ProductItem({product}) {
         if(product.qty - product.expiredQty > 0){
             addToCart(product)
             setSuccessMessage(true);
-            setTimeout(() => setSuccessMessage(false), 3000)
+            setTimeout(() => setSuccessMessage(false), 1500)
         }else if(product.qty === 0 || product.qty-product.expiredQty <= 0){
             setShowMessage(true)
-            setTimeout(() => setShowMessage(false), 3000)
+            setTimeout(() => setShowMessage(false), 1500)
         }
     }
 

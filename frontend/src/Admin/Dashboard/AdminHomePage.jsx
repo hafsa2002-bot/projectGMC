@@ -124,7 +124,7 @@ function AdminHomePage() {
             <h1 className='text-xl font-semibold pb-3'>Most Popular Products</h1>
             <div className='hidden bg-white p-2 lg:flex justify-center rounded-lg shadow-lg border border-gray-300'>
               {/* <MostPopularCharts h={240} w={600} outerRad={90} layout="vertical" align="right" verticalAlign="middle" fontSize={12} /> */}
-              <MostPopularCharts h={240} w={600} outerRad={110} layout="vertical" align="right" verticalAlign="middle" fontSize={12} />
+              <MostPopularCharts h={240} w={600} outerRad={95} layout="vertical" align="right" verticalAlign="middle" fontSize={12} />
             </div>
             <div className='lg:hidden bg-white flex justify-center px-3 py-4 shadow-lg items-center rounded-lg border border-gray-300 '>
               <MostPopularCharts h={320} w={400} outerRad={120} layout="horizontal" align="left" verticalAlign="bottom" fontSize={14} />

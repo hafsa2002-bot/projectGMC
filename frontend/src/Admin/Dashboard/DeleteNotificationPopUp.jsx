@@ -6,14 +6,14 @@ function DeleteNotificationPopUp({notificationId, setShowDeleteNotificationPopUp
     const apiUrl = import.meta.env.VITE_API_URL;
 
     const deleteRequestedProduct = (id) => {
-            axios.delete(`${apiUrl}/delete-notification/${id}` )
-                .then((response) => {
-                    const deletedNotification = response.data
-                    console.log("notification deleted:", deletedNotification)
-                    setNotifications(notifications.filter(notif => notif._id !== notificationId))
-                })
-                .catch(error => console.log("error: ", error))
-        }
+        axios.delete(`${apiUrl}/delete-notification/${id}` )
+            .then((response) => {
+                const deletedNotification = response.data
+                console.log("notification deleted:", deletedNotification)
+                setNotifications(notifications.filter(notif => notif._id !== notificationId))
+            })
+            .catch(error => console.log("error: ", error))
+    }
   return (
     <div className='w-screen h-screen  z-50 top-0 right-0 fixed flex justify-center items-center  bg-black/50 '  >
         <div className='bg-white px-16 py-6 lg:w-1/3 w-10/12 shadow-md  rounded-md flex flex-col justify-center items-center gap-5'>

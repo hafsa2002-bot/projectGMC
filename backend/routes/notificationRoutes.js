@@ -6,6 +6,8 @@ import { logActivity } from './ActivityLogRoutes.js'
 import { protect } from "../middlewares/protect.js";
 const router = express.Router()
 
+
+
 // create new notification
 const createNotification = async (productId, notificationName) => {
     try{

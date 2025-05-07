@@ -38,6 +38,7 @@ function Checkout() {
         // const outOfStockItems = cart.filter(item => (item.qty-item.expiredQty) == 0)
         const outOfStockItems = cart.filter(item => (item.qty - item.expiredQty) < item.quantity)
         if(outOfStockItems.length > 0){
+            console.log("products out of stock : ", outOfStockItems)
             setOutOfStockMessage(true)
             return
         }
@@ -235,7 +236,7 @@ function Checkout() {
                     <button  className='bg-black font-semibold px-2.5 py-3 lg:flex hidden justify-between items-center  border mt-3  text-white text-lg rounded-lg  w-full text-center'>
                         <p className=' w-full'>Confirmer la commande</p> 
                     </button>
-                    <PhoneCheckOut cart={cart} totalAmount={totalAmount} totalQty={totalQty} />
+                    {/* <PhoneCheckOut cart={cart} totalAmount={totalAmount} totalQty={totalQty} /> */}
                 </form>
                 {/* {outOfStockMessage && (
                     <div className='text-red-500 bg-white shadow absolute top-0 p-2'>One or more items in your cart are out of stock!</div>

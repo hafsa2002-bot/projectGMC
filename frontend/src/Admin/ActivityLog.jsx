@@ -68,6 +68,16 @@ function ActivityLog() {
   useEffect(() => {
     getLogs()
   }, [])
+
+  const deleteActivity = (id) => {
+    axios.delete(`${apiUrl}/delete-activity/${id}` )
+      .then((response) => {
+          const deletedActivity = response.data
+          console.log("activity deleted:", deletedActivity)
+          setLogs(logs.filter(activity => activity._id !== id))
+      })
+      .catch(error => console.log("error: ", error))
+}
   return (
     <div>
       {
@@ -103,15 +113,22 @@ function ActivityLog() {
                               ) }
                               {log.action.toLowerCase().includes("deleted") && <Trash2 size={18} className="text-red-400" />}
                               {log.action.toLowerCase().includes("updated") && <PenLine size={18} className="text-gray-600" />}
+                              {log.action.toLowerCase().includes("canceled") && <Trash2 size={18} className="text-red-400" />}
                             </div>
 
                             <div className="bg-white lg:w-10/12 w-full rounded-xl p-5 mr-7 shadow-sm border border-gray-200 font-poppins">
                               {/* Action & Details */}
-                              <div className="mb-3">
+                              <div className="mb-3 flex justify-between">
                                 <p className="text-sm text-gray-700 leading-relaxed break-words">
                                   <span className="font-semibold text-gray-900">{log.action}</span>
                                   <span className="text-gray-600 ">{log.details && <span>  — {log.details} </span>} </span>
                                 </p>
+                                {/* <div 
+                                  className='cursor-pointer text-red-500 text-lg'
+                                  onClick={() => deleteActivity(log._id)}
+                                >
+                                  delete
+                                </div> */}
                               </div>
                               <div className="border-t border-gray-100 my-3"></div>
 

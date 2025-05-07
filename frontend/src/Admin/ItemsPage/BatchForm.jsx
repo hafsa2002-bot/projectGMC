@@ -19,7 +19,7 @@ function BatchForm({rows, setRows}) {
     <div className='lg:w-11/12 w-full '>
         <h2 className='font-semibold text-base'>Add Batches (Quantity & Expiration Date)</h2>
         {/* batch array */}
-        <div className='w-full overflow-x-scroll border border-gray-300 rounded-lg  mt-4 '>
+        <div className='w-full  overflow-x-scroll border border-gray-300 rounded-lg  mt-4 '>
             <table className='w-full '>
                 <thead className='py-2 bg-gray-50 text-sm  text-left border-b border-gray-300'>
                     <tr>

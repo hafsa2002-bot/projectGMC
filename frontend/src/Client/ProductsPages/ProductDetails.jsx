@@ -61,10 +61,10 @@ function ProductDetails() {
         if(product.qty > 0){
             addToCart(product)
             setSuccessMessage(true);
-            setTimeout(() => setSuccessMessage(false), 3000)
+            setTimeout(() => setSuccessMessage(false), 1200)
         }else if(product.qty === 0){
             setShowMessage(true)
-            setTimeout(() => setShowMessage(false), 3000)
+            setTimeout(() => setShowMessage(false), 1200)
         }
     }
 

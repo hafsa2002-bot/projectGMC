@@ -33,7 +33,7 @@ export const updateExpiredStatus = async () => {
       // expDate.setHours(0, 0, 0, 0);
 
       if (expDate <= today) {
-        console.log("product : ", product.productName, "expired")
+        // console.log("product : ", product.productName, "expired")
         batch.isExpired = true;
         batch.isExpiringSoon = false;
         expiredQty += batch.qty;
@@ -53,7 +53,7 @@ export const updateExpiredStatus = async () => {
           batch.isExpired = false;
           batch.isExpiringSoon = true;
           expiringSoonQty += batch.qty;
-          console.log("product: ", product.productName, "expring soon")
+          // console.log("product: ", product.productName, "expring soon")
           if (!batch.notifiedExpiringSoon) {
             await createNewNotification(
               "expiring soon",

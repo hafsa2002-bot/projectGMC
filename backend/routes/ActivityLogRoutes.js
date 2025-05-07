@@ -30,6 +30,21 @@ router.get("/activities", protect, async (req, res) => {
     }
 })
 
+//delete activity
+router.delete("/delete-activity/:id", async(req, res) => {
+    try{
+        const deletedActivity = await ActivityLog.findByIdAndDelete({_id: req.params.id})
+        if(!deletedActivity){
+            return res.status(404).json({error: "activity not found"})
+        }
+        console.log("deleted activity: ", deletedActivity)
+        res.json({message: "activity deleted successfully", deletedActivity})
+    }catch(error){
+        console.log("Error: ", error)
+        res.status(500).json({error: "Internal server error, failed to delete activity"})
+    }
+})
+
 // get activities by userId
 
 export { logActivity };

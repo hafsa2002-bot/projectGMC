@@ -61,7 +61,7 @@ function HomePage() {
                         <Link to="/products" className="group w-fit inline-block">
                             <div className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400  text-black  px-10 py-3 rounded-full font-bold shadow-md transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                 <div className="flex items-center justify-center gap-2">
-                                    <p className="group-hover:translate-x-[-10px] transition-transform duration-300 text-lg">
+                                    <p className="group-hover:translate-x-[-10px] transition-transform font-poppins duration-300 text-lg">
                                         Découvrir
                                     </p>
                                     <ShoppingCart 
@@ -115,9 +115,9 @@ function HomePage() {
             </section>
 
             {/* Product Carousel Section */}
-            <section className="lg:w-10/12 w-11/12 m-auto lg:my-12 mb-7 mt-20 flex flex-col justify-center">
-                <h2 className="text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-10 mb-4 drop-shadow-sm font-poppins">
-                    Produits populaires
+            <section className="lg:w-10/12 w-11/12 m-auto lg:mb-12 lg:mt-12 mb-7 mt-20 flex flex-col justify-center">
+                <h2 className="text-center font-poppins text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400 lg:text-5xl text-3xl font-extrabold uppercase tracking-wide lg:mb-7 mb-4 drop-shadow-sm ">
+                    Produits  populaires
                 </h2>
 
                 {products && products.length > 4 ? (

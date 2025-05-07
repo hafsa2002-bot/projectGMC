@@ -86,6 +86,7 @@ function SearchInput({setShowSearch}) {
                                                         <li key={index} className='py-2 font-semibold hover:bg-gray-100 hover:underline px-2 cursor-pointer' >
                                                             <div onClick={() => {
                                                                 setShowSearch(false)
+                                                                window.scrollTo(0, 0)
                                                                 navigate(`/products/category/${category.categoryName}`)
                                                             }}
                                                             >

@@ -10,6 +10,19 @@ import { checkStockAndNotify } from './notificationRoutes.js';
 
 const router = express.Router()
 
+
+function getValidBatchQty(batches) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  return batches.reduce((sum, batch) => {
+    const batchDate = batch.expirationDate ? new Date(batch.expirationDate) : null;
+    const isValid = batch.qty > 0 && (!batchDate || batchDate >= today);
+    return isValid ? sum + batch.qty : sum;
+  }, 0);
+}
+
+
 // add new order: client side
   router.post("/orders/addOnlineOrder", async (req, res) => {
     try {
@@ -29,7 +42,7 @@ const router = express.Router()
         if (!product) {
           return res.status(400).json({ error: "Product not found" });
         }
-  
+        /*
         if (product.qty - product.expiredQty <= 0) {
           return res.status(400).json({ error: `Product is expired or fully out of stock: ${item.name}` });
         }
@@ -37,6 +50,24 @@ const router = express.Router()
         if (item.quantity > product.qty - product.expiredQty) {
           return res.status(400).json({ error: `Not enough stock for product: ${item.name}` });
         }
+          */
+         ///
+        let availableQty;
+
+        if (product.batches && product.batches.length > 0) {
+          availableQty = getValidBatchQty(product.batches);
+        } else {
+          availableQty = product.qty - product.expiredQty;
+        }
+        
+        if (availableQty <= 0) {
+          return res.status(400).json({ error: `Product is expired or fully out of stock: ${item.name}` });
+        }
+        
+        if (item.quantity > availableQty) {
+          return res.status(400).json({ error: `Not enough stock for product: ${item.name}` });
+        }
+        ///
   
         const oldStock = product.qty;
   
@@ -48,11 +79,25 @@ const router = express.Router()
           let remainingQty = item.quantity;
   
           // Filter out expired batches
-const validBatches = product.batches.filter(batch => {
-    if (batch.qty <= 0) return false;
-    if (!batch.expirationDate) return true; // Allow null expiration
-    return new Date(batch.expirationDate) >= new Date(); // not expired
-  });
+          /*
+          const validBatches = product.batches.filter(batch => {
+              if (batch.qty <= 0) return false;
+              if (!batch.expirationDate) return true; // Allow null expiration
+              return new Date(batch.expirationDate) >= new Date(); // not expired
+            });
+            */
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Strip time
+            
+            const validBatches = product.batches.filter(batch => {
+              if (batch.qty <= 0) return false;
+              if (!batch.expirationDate) return true;
+              
+              const batchDate = new Date(batch.expirationDate);
+              batchDate.setHours(0, 0, 0, 0);
+            
+              return batchDate >= today;
+            });
   
   // Sort FEFO: earliest expiration first, nulls last
   const sortedBatches = validBatches.sort((a, b) => {
